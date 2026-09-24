@@ -1,0 +1,369 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { 
+  AlertTriangle, 
+  RotateCw, 
+  Inbox, 
+  WifiOff, 
+  Radio
+} from 'lucide-react';
+import { 
+  GlobalNewsItem, 
+  CategoryType, 
+  SentimentType, 
+  ViewMode, 
+  SparkBatchStatusInfo, 
+  GlobalNewsStats,
+  BatchStatusType 
+} from '../types/news';
+import { fetchNewsList, fetchSparkBatchStatus, toggleSparkStatus } from '../services/api';
+import { IntelligenceHeader } from './IntelligenceHeader';
+import { GlobalCategoryBar } from './GlobalCategoryBar';
+import { BentoView } from './views/BentoView';
+import { MatrixStreamView } from './views/MatrixStreamView';
+import { TimelineScrubber } from './views/TimelineScrubber';
+import { IntelligenceDrawer } from './IntelligenceDrawer';
+import { RunningStateView } from './RunningStateView';
+import { Pagination } from './Pagination';
+
+export const SparkNewsDashboard: React.FC = () => {
+  // 1. 过滤与查询条件状态
+  const [selectedDate, setSelectedDate] = useState<string>('2026-09-24');
+  const [category, setCategory] = useState<CategoryType>('all');
+  const [sentiment, setSentiment] = useState<SentimentType | 'all'>('all');
+  const [search, setSearch] = useState<string>('');
+  const [viewMode, setViewMode] = useState<ViewMode>('bento');
+
+  // 分页状态
+  const [page, setPage] = useState<number>(1);
+  const pageSize = viewMode === 'bento' ? 8 : 24;
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalCount, setTotalCount] = useState<number>(0);
+
+  // 2. 数据与元信息状态
+  const [newsItems, setNewsItems] = useState<GlobalNewsItem[]>([]);
+  const [stats, setStats] = useState<GlobalNewsStats | null>(null);
+  const [statusInfo, setStatusInfo] = useState<SparkBatchStatusInfo | null>(null);
+  const [selectedNews, setSelectedNews] = useState<GlobalNewsItem | null>(null);
+
+  // 3. 边界状态控制：初次加载骨架、静默刷新指示、接口错误
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
+  const [isSilentRefreshing, setIsSilentRefreshing] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  // 4. 引用持久化，防止竞态条件与内存泄漏
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const silentTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const showToast = useCallback((msg: string) => {
+    setToastMsg(msg);
+    const t = setTimeout(() => setToastMsg(null), 3200);
+    return () => clearTimeout(t);
+  }, []);
+
+  // 核心拉取函数：集成 AbortController 严格取消旧请求
+  const loadDashboardData = useCallback(async (isSilent = false) => {
+    // 若已有正在发起的请求，立即中断取消
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    if (!isSilent) {
+      setIsInitialLoading(true);
+      setErrorMessage(null);
+    } else {
+      setIsSilentRefreshing(true);
+    }
+
+    try {
+      // 并发拉取批次状态与新闻列表
+      const [batchStatusRes, newsRes] = await Promise.all([
+        fetchSparkBatchStatus(selectedDate, controller.signal),
+        fetchNewsList({
+          date: selectedDate,
+          category,
+          sentiment,
+          search,
+          page,
+          pageSize
+        }, controller.signal)
+      ]);
+
+      setStatusInfo(batchStatusRes);
+      setNewsItems(newsRes.items);
+      setTotalPages(newsRes.pagination.totalPages);
+      setTotalCount(newsRes.pagination.total);
+      setStats(newsRes.stats);
+      setErrorMessage(null);
+
+      if (isSilent) {
+        showToast('30s 定时静默拉取完成：已同步最新 Spark 批次');
+      }
+    } catch (err: any) {
+      // 若为主动取消的中断错误，则静默忽略，不污染状态
+      if (err.name === 'AbortError') {
+        return;
+      }
+      console.error('[SparkNewsDashboard] 数据拉取异常:', err);
+      // 仅在非静默刷新或当前无缓存数据时呈现错误卡片
+      if (!isSilent || newsItems.length === 0) {
+        setErrorMessage(err.message || '网络连接中断或 Spark 接口异常');
+      } else {
+        showToast('后台定时同步遇到偶发异常，继续保留当前数据');
+      }
+    } finally {
+      if (!isSilent) {
+        setIsInitialLoading(false);
+      }
+      setIsSilentRefreshing(false);
+    }
+  }, [selectedDate, category, sentiment, search, page, pageSize, newsItems.length, showToast]);
+
+  // 手动触发重试
+  const handleRetry = () => {
+    loadDashboardData(false);
+  };
+
+  // 效应：依赖变更即时拉取 + 建立 30 秒静默定时轮询 + 组件销毁时彻底清理
+  useEffect(() => {
+    // 首次/依赖变更时立即拉取
+    loadDashboardData(false);
+
+    // 清理既有定时器
+    if (silentTimerRef.current) {
+      clearInterval(silentTimerRef.current);
+    }
+
+    // 建立每 30 秒静默刷新机制 (silent = true)
+    silentTimerRef.current = setInterval(() => {
+      loadDashboardData(true);
+    }, 30000);
+
+    // 关键安全清理：组件卸载或依赖重置时清理定时器并中止在飞请求
+    return () => {
+      if (silentTimerRef.current) {
+        clearInterval(silentTimerRef.current);
+        silentTimerRef.current = null;
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
+      }
+    };
+  }, [loadDashboardData]);
+
+  // 调试状态切换 (COMPLETED <-> RUNNING)
+  const handleToggleStatus = async (targetStatus?: BatchStatusType) => {
+    try {
+      const res = await toggleSparkStatus(selectedDate, targetStatus);
+      showToast(res.message);
+      await loadDashboardData(false);
+    } catch (err: any) {
+      showToast(err.message || '切换批次状态失败');
+    }
+  };
+
+  // 快速跳转至往期归档
+  const handleViewPreviousDay = () => {
+    const dates = statusInfo?.availableDates || ['2026-09-24', '2026-09-23'];
+    const curIdx = dates.indexOf(selectedDate);
+    const prevDate = dates[curIdx + 1] || '2026-09-23';
+    setSelectedDate(prevDate);
+    setPage(1);
+    showToast(`已无损切换至往期批次 [${prevDate}]`);
+  };
+
+  // 重置筛选
+  const handleResetFilter = () => {
+    setCategory('all');
+    setSentiment('all');
+    setSearch('');
+    setPage(1);
+  };
+
+  const isCurrentBatchRunningOrPending = 
+    statusInfo && statusInfo.status !== 'COMPLETED';
+
+  return (
+    <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-obsidian-950">
+      
+      {/* 1. 顶部 Header (含情绪极性心电图与 24H 调度监控) */}
+      <IntelligenceHeader
+        statusInfo={statusInfo}
+        loading={isInitialLoading}
+        onRefresh={() => {
+          loadDashboardData(false);
+          showToast('手动同步请求已发出');
+        }}
+        onToggleStatus={handleToggleStatus}
+      />
+
+      {/* 静默刷新指示呼吸指示条 (30s 触发时不打扰正常浏览) */}
+      {isSilentRefreshing && (
+        <div className="w-full bg-cyan-950/60 border-b border-cyan-500/20 py-1 px-4 text-center">
+          <span className="inline-flex items-center gap-2 text-[11px] font-mono text-cyan-300">
+            <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
+            <span>30s 定时调度机制生效中：正在后台静默同步 Spark 最新批次...</span>
+          </span>
+        </div>
+      )}
+
+      {/* 悬浮 Toast 消息 */}
+      {toastMsg && (
+        <div className="fixed top-20 right-6 z-50 bg-obsidian-card/95 backdrop-blur-md text-cyan-300 font-mono text-xs px-4 py-2.5 rounded-xl shadow-2xl border border-cyan-500/30 animate-fade-in flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>{toastMsg}</span>
+        </div>
+      )}
+
+      {/* 主体视窗容器 */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        {/* 2. 领域分类与新奇视图控制栏 */}
+        <GlobalCategoryBar
+          selectedCategory={category}
+          onSelectCategory={(cat) => { setCategory(cat); setPage(1); }}
+          viewMode={viewMode}
+          onSelectViewMode={(mode) => { setViewMode(mode); setPage(1); }}
+          selectedSentiment={sentiment}
+          onSelectSentiment={(s) => { setSentiment(s); setPage(1); }}
+          selectedDate={selectedDate}
+          availableDates={statusInfo?.availableDates || [selectedDate]}
+          onSelectDate={(d) => { setSelectedDate(d); setPage(1); }}
+          searchValue={search}
+          onSearchChange={(val) => { setSearch(val); setPage(1); }}
+          stats={stats}
+        />
+
+        {/* 3. 边界状态处理 1: 接口错误捕获与“点击重试”按钮 */}
+        {errorMessage ? (
+          <div className="glass-card rounded-2xl p-10 text-center max-w-lg mx-auto my-12 border border-rose-500/30 shadow-glow-rose">
+            <div className="w-16 h-16 rounded-2xl bg-rose-950/60 border border-rose-500/40 flex items-center justify-center mx-auto mb-4 text-rose-400">
+              <WifiOff className="w-8 h-8" />
+            </div>
+            <h3 className="text-base font-bold text-white mb-2 font-mono flex items-center justify-center gap-1.5">
+              <AlertTriangle className="w-4 h-4 text-rose-400" />
+              <span>数据拉取异常 / 管道通信中断</span>
+            </h3>
+            <p className="text-xs text-rose-300/80 mb-6 font-mono leading-relaxed bg-black/40 p-3 rounded-lg border border-rose-900/40">
+              {errorMessage}
+            </p>
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-mono font-bold text-white bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 rounded-xl transition shadow-lg active:scale-95 border border-rose-400/30"
+            >
+              <RotateCw className="w-4 h-4" />
+              <span>点击重新尝试拉取</span>
+            </button>
+          </div>
+        ) : isCurrentBatchRunningOrPending ? (
+          /* 批次计算中状态 */
+          <RunningStateView
+            statusInfo={statusInfo}
+            onViewPreviousDay={handleViewPreviousDay}
+            previousDateStr="2026-09-23"
+          />
+        ) : isInitialLoading ? (
+          /* 3. 边界状态处理 2: 初次加载骨架屏 (Skeleton Loading) */
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+              <span>正在从 Spark 分布式算力节点初始化加载全球新闻元数据...</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="md:col-span-2 md:row-span-2 h-96 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
+              <div className="h-64 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
+              <div className="h-64 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
+              <div className="h-64 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
+              <div className="h-64 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
+              <div className="h-64 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
+            </div>
+          </div>
+        ) : newsItems.length === 0 ? (
+          /* 3. 边界状态处理 3: 当 Spark 批次为空时的“暂无资讯”空状态 */
+          <div className="glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border border-white/10 shadow-inner">
+            <div className="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4 text-slate-500">
+              <Inbox className="w-8 h-8 text-cyan-400 opacity-60" />
+            </div>
+            <h3 className="text-base font-bold text-white mb-2 font-mono">
+              当前 Spark 批次暂无资讯产物
+            </h3>
+            <p className="text-xs text-slate-400 mb-6 font-mono leading-relaxed">
+              在所选日期 [{selectedDate}] 或当前检索过滤条件下，Spark 清洗管道未产生符合条件的输出。您可切换历史批次或重置筛选条件。
+            </p>
+            <button
+              type="button"
+              onClick={handleResetFilter}
+              className="px-4 py-2 text-xs font-mono font-semibold text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 rounded-xl transition"
+            >
+              重置所有过滤与检索条件
+            </button>
+          </div>
+        ) : (
+          /* 正常呈现新闻卡片流 (支持 Bento / Matrix / Timeline 视图) */
+          <>
+            {viewMode === 'bento' && (
+              <BentoView
+                items={newsItems}
+                loading={false}
+                onSelectNews={(news) => setSelectedNews(news)}
+                onResetFilter={handleResetFilter}
+              />
+            )}
+
+            {viewMode === 'matrix' && (
+              <MatrixStreamView
+                items={newsItems}
+                loading={false}
+                onSelectNews={(news) => setSelectedNews(news)}
+              />
+            )}
+
+            {viewMode === 'timeline' && (
+              <TimelineScrubber
+                items={newsItems}
+                loading={false}
+                onSelectNews={(news) => setSelectedNews(news)}
+              />
+            )}
+
+            {/* Bento 模式下呈现分页控制器 */}
+            {viewMode === 'bento' && (
+              <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                total={totalCount}
+                pageSize={pageSize}
+                onPageChange={(p) => setPage(p)}
+              />
+            )}
+          </>
+        )}
+
+      </main>
+
+      {/* Spark NLP 深度解析侧滑抽屉 */}
+      <IntelligenceDrawer
+        news={selectedNews}
+        onClose={() => setSelectedNews(null)}
+      />
+
+      {/* 底部智库状态条 */}
+      <footer className="border-t border-white/5 py-4 mt-auto bg-obsidian-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-slate-500 gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            <span>SPARK GLOBAL INTELLIGENCE PLATFORM · 24H BATCH STREAM</span>
+          </div>
+          <div className="text-slate-400">
+            AUTO-SYNC: 30S POLLING ENGINE · ACTIVE ABORT-CONTROLLER GUARDED
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+};
