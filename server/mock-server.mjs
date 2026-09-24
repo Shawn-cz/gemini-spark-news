@@ -280,8 +280,8 @@ let batchStatusMap = {
   '2026-09-24': {
     status: 'COMPLETED',
     statusText: '已完成归档',
-    generatedTime: '2026-09-24 02:30:00 UTC',
-    nextScheduleTime: '明日 02:30:00 UTC (2026-09-25 02:30)',
+    generatedTime: '2026-09-24 08:30:00',
+    nextScheduleTime: '明日 08:30:00 (每日晨报)',
     estimatedRemainingMinutes: 0,
     progress: 100,
     currentStage: 'Gemini Spark 智能体 24H 简报生成与交叉校验完成'
@@ -335,8 +335,8 @@ app.get('/api/spark/batch-status', (req, res) => {
     statusInfo = briefing ? {
       status: 'COMPLETED',
       statusText: '已完成归档',
-      generatedTime: `${date} 02:30:00 UTC`,
-      nextScheduleTime: '明日 02:30:00 UTC',
+      generatedTime: `${date} 08:30:00`,
+      nextScheduleTime: '明日 08:30:00',
       estimatedRemainingMinutes: 0,
       progress: 100,
       currentStage: 'Gemini Spark 智能体简报归档入库'
@@ -344,7 +344,7 @@ app.get('/api/spark/batch-status', (req, res) => {
       status: 'PENDING',
       statusText: '排队调度中',
       generatedTime: '-',
-      nextScheduleTime: '明日 02:30:00 UTC',
+      nextScheduleTime: '明日 08:30:00',
       estimatedRemainingMinutes: 45,
       progress: 0,
       currentStage: '等待 Gemini Spark 简报摄入'
@@ -368,8 +368,8 @@ app.get('/api/spark/batch-status', (req, res) => {
     data: {
       queryDate: date,
       isToday: date === allDates[0],
-      scheduleInterval: '每 24 小时由 Gemini Spark 生成一次 (每天 02:00-02:30 UTC)',
-      scheduleCron: '0 2 * * *',
+      scheduleInterval: '每 24 小时由 Gemini Spark 生成一次 (每天 08:30 AM 晨报)',
+      scheduleCron: '30 8 * * *',
       availableDates: allDates,
       totalArchivedDays: allDates.length,
       ...statusInfo,

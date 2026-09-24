@@ -183,7 +183,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             <div className="min-w-0">
               <div className="text-slate-500 text-[10px] uppercase">Batch Ingestion Time</div>
               <div className="text-slate-300 font-medium truncate">
-                {isCompleted ? (statusInfo?.generatedTime || '2026-09-24 02:30 UTC') : 'COMPUTING...'}
+                {isCompleted ? (statusInfo?.generatedTime || '今日 08:30 AM') : 'COMPUTING...'}
               </div>
             </div>
           </div>
@@ -194,7 +194,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             <div className="min-w-0">
               <div className="text-slate-500 text-[10px] uppercase">Next Schedule Cycle</div>
               <div className="text-slate-300 font-medium truncate">
-                EVERY 24H (明日 02:30 UTC)
+                {statusInfo?.nextScheduleTime || '每日 08:30 AM (晨报)'}
               </div>
             </div>
           </div>

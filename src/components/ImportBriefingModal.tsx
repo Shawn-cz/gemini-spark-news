@@ -41,8 +41,8 @@ export const ImportBriefingModal: React.FC<ImportBriefingModalProps> = ({
   "batchStatus": {
     "status": "COMPLETED",
     "statusText": "已完成归档",
-    "generatedTime": "${date} 02:30:00 UTC",
-    "nextScheduleTime": "明日 02:30:00 UTC",
+    "generatedTime": "${date} 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
     "progress": 100,
     "currentStage": "Gemini 1.5 智能体多源交叉校验完成"
   },
