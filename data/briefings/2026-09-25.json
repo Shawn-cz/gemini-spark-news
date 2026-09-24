@@ -1,0 +1,29 @@
+{
+  "batchStatus": {
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-25 02:30:00 UTC",
+    "nextScheduleTime": "明日 02:30:00 UTC",
+    "progress": 100,
+    "currentStage": "Gemini Spark 智能体 24H 简报生成与交叉校验完成"
+  },
+  "items": [
+    {
+      "id": "gemini-2026-09-25-001",
+      "title": "Gemini 2.0 全球生态开发者峰会前瞻：原生工具调用与多智能体协作网络全面开放",
+      "englishTitle": "Gemini 2.0 Global Ecosystem Keynote: Native Tool Calling & Multi-Agent Swarms",
+      "source": "Google DeepMind",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "Global",
+      "impactLevel": "critical",
+      "summary": "DeepMind 与 Google Cloud 联合宣布将于明日全量上线多智能体原生协同标准，支持超长上下文记忆流与多模态感知实时响应，全球开发者生态已全面接入进行先行试点。",
+      "tags": ["Gemini", "DeepMind", "多智能体", "原生工具调用"],
+      "sentiment": "positive",
+      "sentimentScore": 0.95,
+      "nlpKeyEntities": ["Google DeepMind", "Gemini 2.0", "Multi-Agent System"],
+      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-25T01:30:00Z"
+    }
+  ]
+}

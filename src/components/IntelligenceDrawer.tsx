@@ -49,7 +49,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800">
-                  SPARK NLP DOSSIER
+                  GEMINI AGENT DOSSIER
                 </span>
                 <span className="text-xs font-mono text-slate-400 uppercase">
                   ID: {news.id}
@@ -104,14 +104,14 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <div className="space-y-2">
               <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                Spark 精炼深度研报摘要
+                Gemini 智能体深度研报摘要
               </h4>
               <p className="text-sm text-slate-200 leading-relaxed bg-white/[0.02] p-4 rounded-xl border border-white/5 font-sans">
                 {news.summary}
               </p>
             </div>
 
-            {/* Spark NLP 情绪极性与实体挖掘卡片 */}
+            {/* Gemini NLP 情绪极性与实体挖掘卡片 */}
             <div className="glass-card p-5 rounded-2xl border border-cyan-500/20 shadow-glow-blue space-y-4">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
@@ -119,7 +119,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
                   <span className="text-xs font-mono font-bold text-white uppercase">NLP Quant & Entity Extraction</span>
                 </div>
                 <span className="text-[10px] font-mono bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800">
-                  Confidence 96.8%
+                  Gemini 1.5 Pro · Confidence 98.2%
                 </span>
               </div>
 
@@ -154,11 +154,11 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
                 </div>
               </div>
 
-              {/* Spark 任务溯源信息 */}
+              {/* Gemini 任务溯源信息 */}
               <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-slate-500">
-                <span>BATCH: {news.batchId || 'spark_global_24h'}</span>
+                <span>AGENT: Gemini Spark 24H</span>
                 <span>PARTITION: #0824</span>
-                <span>STATUS: AUDITED</span>
+                <span>STATUS: VERIFIED</span>
               </div>
             </div>
 

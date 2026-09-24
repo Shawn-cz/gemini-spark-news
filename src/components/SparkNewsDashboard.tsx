@@ -99,7 +99,7 @@ export const SparkNewsDashboard: React.FC = () => {
       setErrorMessage(null);
 
       if (isSilent) {
-        showToast('30s 定时静默拉取完成：已同步最新 Spark 批次');
+        showToast('30s 定时静默拉取完成：已同步最新 Gemini Spark 批次');
       }
     } catch (err: any) {
       // 若为主动取消的中断错误，则静默忽略，不污染状态
@@ -109,7 +109,7 @@ export const SparkNewsDashboard: React.FC = () => {
       console.error('[SparkNewsDashboard] 数据拉取异常:', err);
       // 仅在非静默刷新或当前无缓存数据时呈现错误卡片
       if (!isSilent || newsItems.length === 0) {
-        setErrorMessage(err.message || '网络连接中断或 Spark 接口异常');
+        setErrorMessage(err.message || '网络连接中断或 Gemini Spark 接口异常');
       } else {
         showToast('后台定时同步遇到偶发异常，继续保留当前数据');
       }
@@ -271,7 +271,7 @@ export const SparkNewsDashboard: React.FC = () => {
           <div className="space-y-6">
             <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              <span>正在从 Spark 分布式算力节点初始化加载全球新闻元数据...</span>
+              <span>正在从 Gemini Spark 智能体管道初始化加载全球新闻元数据...</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="md:col-span-2 md:row-span-2 h-96 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
@@ -289,10 +289,10 @@ export const SparkNewsDashboard: React.FC = () => {
               <Inbox className="w-8 h-8 text-cyan-400 opacity-60" />
             </div>
             <h3 className="text-base font-bold text-white mb-2 font-mono">
-              当前 Spark 批次暂无资讯产物
+              当前 Gemini Spark 批次暂无资讯产物
             </h3>
             <p className="text-xs text-slate-400 mb-6 font-mono leading-relaxed">
-              在所选日期 [{selectedDate}] 或当前检索过滤条件下，Spark 清洗管道未产生符合条件的输出。您可切换历史批次或重置筛选条件。
+              在所选日期 [{selectedDate}] 或当前检索过滤条件下，Gemini Spark 智能体未产生符合条件的输出。您可切换历史简报或重置筛选条件。
             </p>
             <button
               type="button"
@@ -356,7 +356,7 @@ export const SparkNewsDashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-slate-500 gap-2">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-            <span>SPARK GLOBAL INTELLIGENCE PLATFORM · 24H BATCH STREAM</span>
+            <span>GEMINI SPARK GLOBAL INTELLIGENCE PLATFORM · 24H AGENT BRIEFINGS</span>
           </div>
           <div className="text-slate-400">
             AUTO-SYNC: 30S POLLING ENGINE · ACTIVE ABORT-CONTROLLER GUARDED

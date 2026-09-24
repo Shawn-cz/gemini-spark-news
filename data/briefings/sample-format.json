@@ -1,0 +1,29 @@
+{
+  "batchStatus": {
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-24 02:30:00 UTC",
+    "nextScheduleTime": "明日 02:30:00 UTC",
+    "progress": 100,
+    "currentStage": "Gemini 1.5 智能体多源交叉校验完成"
+  },
+  "items": [
+    {
+      "id": "gemini-sample-01",
+      "title": "英伟达与微创投联合设立 500 亿美元新一代具身智能算力集群加速基金",
+      "englishTitle": "NVIDIA & Tech Consortium Launch $50B Embodied AI Infrastructure Fund",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "据彭博社独家披露，英伟达携手北美前沿算力基金联合注资 500 亿美元，专门针对具身智能机器人研发构建超低延迟端到端神经渲染与物理仿真集群，预计首批计算节点将于年内上线。",
+      "tags": ["英伟达", "具身智能", "算力集群", "AI基础设施"],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": ["NVIDIA", "Embodied AI", "Jensen Huang", "Compute Cluster"],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T06:00:00Z"
+    }
+  ]
+}

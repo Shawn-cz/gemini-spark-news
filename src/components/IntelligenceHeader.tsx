@@ -62,16 +62,16 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-black tracking-wider text-white uppercase bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                  Spark Global Intelligence
+                <h1 className="text-base sm:text-lg font-black tracking-wider text-white uppercase bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
+                  Gemini Spark Intelligence
                 </h1>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 flex items-center gap-1 shadow-inner">
                   <Radio className="w-2.5 h-2.5 text-cyan-400 animate-pulse" />
-                  24H BATCH STREAM
+                  GEMINI AGENT 24H
                 </span>
               </div>
               <p className="text-xs text-slate-400 font-mono tracking-tight">
-                全球前沿 AI · 宏观金融 · 地缘政治 · 气候能源分布式计算管道
+                基于 Gemini 智能体定时全网检索、多语种提炼与全球宏观认知分析管道
               </p>
             </div>
           </div>
@@ -154,7 +154,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 ) : (
                   <span className="text-amber-400 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-                    SPARK EXECUTING...
+                    GEMINI AGENT GENERATING...
                   </span>
                 )}
               </div>

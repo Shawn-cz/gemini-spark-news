@@ -1,5 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const BRIEFINGS_DIR = path.resolve(__dirname, '../data/briefings');
 
 const app = express();
 const PORT = 3001;
@@ -230,8 +237,44 @@ function createGlobalDailyBatch(dateStr, offsetDays = 0) {
   });
 }
 
-// 可用历史归档
-const availableDates = ['2026-09-24', '2026-09-23', '2026-09-22', '2026-09-21'];
+// 动态检索 data/briefings 目录中的日期与历史归档
+function getAvailableDates() {
+  const dates = new Set(['2026-09-24', '2026-09-23', '2026-09-22', '2026-09-21']);
+  if (fs.existsSync(BRIEFINGS_DIR)) {
+    try {
+      const files = fs.readdirSync(BRIEFINGS_DIR);
+      for (const file of files) {
+        const match = file.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
+        if (match) {
+          dates.add(match[1]);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to read briefings directory:', e);
+    }
+  }
+  return Array.from(dates).sort().reverse();
+}
+
+// 动态读取指定日期的 Gemini Spark 简报
+function getBriefingForDate(date) {
+  const filePath = path.join(BRIEFINGS_DIR, `${date}.json`);
+  if (fs.existsSync(filePath)) {
+    try {
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed)) {
+        return { items: parsed, batchStatus: null };
+      }
+      if (parsed && Array.isArray(parsed.items)) {
+        return { items: parsed.items, batchStatus: parsed.batchStatus || null };
+      }
+    } catch (e) {
+      console.error(`Failed to parse briefing for date ${date}:`, e);
+    }
+  }
+  return null;
+}
 
 let batchStatusMap = {
   '2026-09-24': {
@@ -241,7 +284,7 @@ let batchStatusMap = {
     nextScheduleTime: '明日 02:30:00 UTC (2026-09-25 02:30)',
     estimatedRemainingMinutes: 0,
     progress: 100,
-    currentStage: '全球多源 NLP 分布式算力计算完成'
+    currentStage: 'Gemini Spark 智能体 24H 简报生成与交叉校验完成'
   },
   '2026-09-23': {
     status: 'COMPLETED',
@@ -250,7 +293,7 @@ let batchStatusMap = {
     nextScheduleTime: '2026-09-24 02:30:00 UTC',
     estimatedRemainingMinutes: 0,
     progress: 100,
-    currentStage: '历史天智库入库'
+    currentStage: 'Gemini 智能体历史简报归档'
   },
   '2026-09-22': {
     status: 'COMPLETED',
@@ -259,7 +302,7 @@ let batchStatusMap = {
     nextScheduleTime: '2026-09-23 02:30:00 UTC',
     estimatedRemainingMinutes: 0,
     progress: 100,
-    currentStage: '历史天智库入库'
+    currentStage: 'Gemini 智能体历史简报归档'
   },
   '2026-09-21': {
     status: 'COMPLETED',
@@ -268,7 +311,7 @@ let batchStatusMap = {
     nextScheduleTime: '2026-09-22 02:30:00 UTC',
     estimatedRemainingMinutes: 0,
     progress: 100,
-    currentStage: '历史天智库入库'
+    currentStage: 'Gemini 智能体历史简报归档'
   }
 };
 
@@ -282,17 +325,35 @@ let newsStore = {
 // 接口 1: 获取全球批次监控与情绪极性指标
 app.get('/api/spark/batch-status', (req, res) => {
   const { date = '2026-09-24' } = req.query;
-  const statusInfo = batchStatusMap[date] || {
-    status: 'PENDING',
-    statusText: '排队调度中',
-    generatedTime: '-',
-    nextScheduleTime: '2026-09-25 02:30:00 UTC',
-    estimatedRemainingMinutes: 45,
-    progress: 0,
-    currentStage: '等待全球新闻流摄入'
-  };
+  const briefing = getBriefingForDate(date);
+  const allDates = getAvailableDates();
 
-  const currentNews = statusInfo.status === 'COMPLETED' ? (newsStore[date] || []) : [];
+  let statusInfo = batchStatusMap[date];
+  if (briefing && briefing.batchStatus) {
+    statusInfo = { ...briefing.batchStatus };
+  } else if (!statusInfo) {
+    statusInfo = briefing ? {
+      status: 'COMPLETED',
+      statusText: '已完成归档',
+      generatedTime: `${date} 02:30:00 UTC`,
+      nextScheduleTime: '明日 02:30:00 UTC',
+      estimatedRemainingMinutes: 0,
+      progress: 100,
+      currentStage: 'Gemini Spark 智能体简报归档入库'
+    } : {
+      status: 'PENDING',
+      statusText: '排队调度中',
+      generatedTime: '-',
+      nextScheduleTime: '明日 02:30:00 UTC',
+      estimatedRemainingMinutes: 45,
+      progress: 0,
+      currentStage: '等待 Gemini Spark 简报摄入'
+    };
+  }
+
+  const currentNews = statusInfo.status === 'COMPLETED' 
+    ? (briefing ? briefing.items : (newsStore[date] || []))
+    : [];
   
   // 计算宏观情绪极性指标 (-100 到 +100)
   let sentimentIndex = 0;
@@ -306,11 +367,11 @@ app.get('/api/spark/batch-status', (req, res) => {
     message: 'success',
     data: {
       queryDate: date,
-      isToday: date === '2026-09-24',
-      scheduleInterval: '每 24 小时跑批一次 (每天 02:00-02:30 UTC)',
+      isToday: date === allDates[0],
+      scheduleInterval: '每 24 小时由 Gemini Spark 生成一次 (每天 02:00-02:30 UTC)',
       scheduleCron: '0 2 * * *',
-      availableDates,
-      totalArchivedDays: availableDates.length,
+      availableDates: allDates,
+      totalArchivedDays: allDates.length,
       ...statusInfo,
       batchNewsCount: currentNews.length,
       globalSentimentIndex: sentimentIndex // 全球情绪极性指标
@@ -329,13 +390,17 @@ app.get('/api/news', (req, res) => {
     pageSize = 12
   } = req.query;
 
-  const statusInfo = batchStatusMap[date];
+  const briefing = getBriefingForDate(date);
+  let statusInfo = batchStatusMap[date];
+  if (briefing && briefing.batchStatus) {
+    statusInfo = briefing.batchStatus;
+  }
   const isRunningOrPending = statusInfo && statusInfo.status !== 'COMPLETED';
 
   if (isRunningOrPending) {
     return res.json({
       code: 200,
-      message: 'Spark 批次仍在计算中',
+      message: 'Gemini Spark 简报仍在生成中',
       data: {
         items: [],
         pagination: { page: 1, pageSize: Number(pageSize), total: 0, totalPages: 0 },
@@ -353,7 +418,7 @@ app.get('/api/news', (req, res) => {
     });
   }
 
-  let rawList = [...(newsStore[date] || [])];
+  let rawList = briefing ? [...briefing.items] : [...(newsStore[date] || [])];
 
   // 全量分类统计
   const total = rawList.length;
@@ -451,7 +516,7 @@ app.post('/api/spark/toggle-status', (req, res) => {
         statusText: '计算生成中',
         estimatedRemainingMinutes: 18,
         progress: 68,
-        currentStage: '阶段 3/4: 全球多语言 NLP 情感极性与地缘实体聚类'
+        currentStage: '阶段 3/4: Gemini 1.5 全球多源交叉校验与结构化提取'
       };
     } else {
       batchStatusMap[date] = {
@@ -461,7 +526,7 @@ app.post('/api/spark/toggle-status', (req, res) => {
         generatedTime: `${date} 02:30:00 UTC`,
         estimatedRemainingMinutes: 0,
         progress: 100,
-        currentStage: '全球多源 NLP 分布式算力计算完成'
+        currentStage: 'Gemini Spark 智能体 24H 简报生成完成'
       };
     }
   } else {
@@ -472,11 +537,11 @@ app.post('/api/spark/toggle-status', (req, res) => {
 
   res.json({
     code: 200,
-    message: `已将 [${date}] 批次状态更新为: ${batchStatusMap[date].statusText}`,
+    message: `已将 [${date}] 简报状态更新为: ${batchStatusMap[date].statusText}`,
     data: batchStatusMap[date]
   });
 });
 
 app.listen(PORT, () => {
-  console.log(`[Spark Global Terminal API] Running on http://localhost:${PORT}`);
+  console.log(`[Gemini Spark Intelligence API] Running on http://localhost:${PORT}`);
 });

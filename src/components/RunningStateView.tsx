@@ -16,7 +16,7 @@ export const RunningStateView: React.FC<RunningStateViewProps> = ({
   const isRunning = statusInfo?.status === 'RUNNING';
   const remainingMinutes = statusInfo?.estimatedRemainingMinutes ?? 18;
   const progress = statusInfo?.progress ?? 68;
-  const currentStage = statusInfo?.currentStage ?? '阶段 3/4: 全球多语言 NLP 情感极性与地缘实体聚类';
+  const currentStage = statusInfo?.currentStage ?? '阶段 2/4: Gemini 深度多语种提炼与情绪实体抽取';
 
   return (
     <div className="glass-card rounded-3xl border border-cyan-500/20 shadow-2xl p-8 sm:p-12 text-center max-w-2xl mx-auto my-12 relative overflow-hidden bg-gradient-to-b from-obsidian-card via-obsidian-950 to-obsidian-950">
@@ -42,17 +42,17 @@ export const RunningStateView: React.FC<RunningStateViewProps> = ({
       {/* 标题 */}
       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800 mb-3">
         <Radio className="w-3 h-3 animate-pulse" />
-        <span>SPARK PIPELINE COMPUTING</span>
+        <span>GEMINI SPARK AGENT GENERATING</span>
       </div>
 
       <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight mb-2">
-        {isRunning ? '今日全球多元智库数据正在分布式计算中' : 'Spark 24H 任务排队就绪中'}
+        {isRunning ? '今日 Gemini Spark 简报正在自主生成中' : 'Gemini Spark 24H 任务排队就绪中'}
       </h3>
 
       {/* 详细描述 */}
       <p className="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto mb-8 font-mono leading-relaxed">
-        Spark 集群正在并行摄入来自全球四大洲路透社、彭博社、英国金融时报、Nature 等国际媒体的实时资讯流，进行文本降维、NLP 实体提取与情绪量化。
-        预计还需约 <span className="text-cyan-400 font-bold">{remainingMinutes} 分钟</span> 完成全量入库质检。
+        Gemini 智能体正在自主检索全球路透社、彭博社、金融时报等全网资讯，执行深度多语种长文本提炼、情感极性量化打分与关键实体知识抽取。
+        预计还需约 <span className="text-cyan-400 font-bold">{remainingMinutes} 分钟</span> 完成简报全量归档。
       </p>
 
       {/* 进度条与当前阶段卡片 */}

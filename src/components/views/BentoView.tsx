@@ -79,7 +79,7 @@ export const BentoView: React.FC<BentoViewProps> = ({
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
             </div>
             <p className="text-xs text-slate-400 font-mono mb-4 leading-relaxed">
-              Spark 分布式流水线全天候分析覆盖全球 24 时区算力集群、央行利率决策、关键航道与能源转型动态。
+              Gemini Spark 智能体全天候检索并提炼覆盖全球 24 时区算力集群、央行利率决策、关键航道与能源转型动态。
             </p>
 
             <div className="space-y-2 text-xs font-mono">
