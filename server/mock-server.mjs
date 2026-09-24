@@ -542,6 +542,50 @@ app.post('/api/spark/toggle-status', (req, res) => {
   });
 });
 
+// 接口 4: 保存/导入指定日期的 Gemini Spark 简报
+app.post('/api/briefings/save', (req, res) => {
+  try {
+    const { date, data } = req.body;
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return res.status(400).json({ code: 400, message: '日期格式必须为 YYYY-MM-DD' });
+    }
+    if (!data) {
+      return res.status(400).json({ code: 400, message: '简报数据不能为空' });
+    }
+
+    let parsed = data;
+    if (typeof data === 'string') {
+      let cleaned = data.trim();
+      if (cleaned.startsWith('```json')) {
+        cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleaned.startsWith('```')) {
+        cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      parsed = JSON.parse(cleaned);
+    }
+
+    if (!fs.existsSync(BRIEFINGS_DIR)) {
+      fs.mkdirSync(BRIEFINGS_DIR, { recursive: true });
+    }
+
+    const targetFile = path.join(BRIEFINGS_DIR, `${date}.json`);
+    fs.writeFileSync(targetFile, JSON.stringify(parsed, null, 2), 'utf-8');
+
+    return res.json({
+      code: 200,
+      message: `成功保存 [${date}] 简报`,
+      data: {
+        date,
+        filePath: targetFile,
+        itemCount: Array.isArray(parsed) ? parsed.length : (parsed.items?.length || 0)
+      }
+    });
+  } catch (err) {
+    console.error('Failed to save briefing:', err);
+    return res.status(500).json({ code: 500, message: `保存失败: ${err.message}` });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`[Gemini Spark Intelligence API] Running on http://localhost:${PORT}`);
 });

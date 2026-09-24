@@ -6,7 +6,8 @@ import {
   Activity, 
   SlidersHorizontal,
   Clock,
-  Radio
+  Radio,
+  Upload
 } from 'lucide-react';
 import { SparkBatchStatusInfo, BatchStatusType } from '../types/news';
 
@@ -15,13 +16,15 @@ interface IntelligenceHeaderProps {
   loading: boolean;
   onRefresh: () => void;
   onToggleStatus: (status?: BatchStatusType) => void;
+  onOpenImport?: () => void;
 }
 
 export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   statusInfo,
   loading,
   onRefresh,
-  onToggleStatus
+  onToggleStatus,
+  onOpenImport
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -114,6 +117,19 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 {isRunning ? "置为已完成" : "置为计算中"}
               </span>
             </button>
+
+            {/* 导入今日 Gemini 简报 */}
+            {onOpenImport && (
+              <button
+                type="button"
+                onClick={onOpenImport}
+                className="px-2.5 py-1.5 text-xs font-mono rounded-lg text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 transition-colors flex items-center gap-1.5 shadow-sm"
+                title="粘贴并导入 Gemini Spark 定时任务生成的输出"
+              >
+                <Upload className="w-3.5 h-3.5 text-cyan-400" />
+                <span>导入简报</span>
+              </button>
+            )}
 
             {/* 防抖刷新按钮 */}
             <button

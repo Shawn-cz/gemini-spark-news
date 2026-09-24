@@ -50,3 +50,21 @@ export async function toggleSparkStatus(
   }
   return await res.json();
 }
+
+export async function saveBriefing(
+  date: string, 
+  data: any
+): Promise<{ code: number; message: string; data?: any }> {
+  const res = await fetch(`${BASE_URL}/briefings/save`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ date, data })
+  });
+  if (!res.ok) {
+    const errJson = await res.json().catch(() => null);
+    throw new Error(errJson?.message || `保存简报失败: HTTP ${res.status}`);
+  }
+  return await res.json();
+}

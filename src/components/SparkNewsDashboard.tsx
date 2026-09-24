@@ -24,6 +24,7 @@ import { TimelineScrubber } from './views/TimelineScrubber';
 import { IntelligenceDrawer } from './IntelligenceDrawer';
 import { RunningStateView } from './RunningStateView';
 import { Pagination } from './Pagination';
+import { ImportBriefingModal } from './ImportBriefingModal';
 
 export const SparkNewsDashboard: React.FC = () => {
   // 1. 过滤与查询条件状态
@@ -50,6 +51,7 @@ export const SparkNewsDashboard: React.FC = () => {
   const [isSilentRefreshing, setIsSilentRefreshing] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState<boolean>(false);
 
   // 4. 引用持久化，防止竞态条件与内存泄漏
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -198,6 +200,7 @@ export const SparkNewsDashboard: React.FC = () => {
           showToast('手动同步请求已发出');
         }}
         onToggleStatus={handleToggleStatus}
+        onOpenImport={() => setIsImportModalOpen(true)}
       />
 
       {/* 静默刷新指示呼吸指示条 (30s 触发时不打扰正常浏览) */}
@@ -345,10 +348,23 @@ export const SparkNewsDashboard: React.FC = () => {
 
       </main>
 
-      {/* Spark NLP 深度解析侧滑抽屉 */}
+      {/* Gemini 认知档案深度解析侧滑抽屉 */}
       <IntelligenceDrawer
         news={selectedNews}
         onClose={() => setSelectedNews(null)}
+      />
+
+      {/* 快捷导入 Gemini 简报产物弹窗 */}
+      <ImportBriefingModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        currentDate={selectedDate}
+        onSuccess={(importedDate) => {
+          setSelectedDate(importedDate);
+          setPage(1);
+          loadDashboardData(false);
+          showToast(`已成功同步并归档 [${importedDate}] 简报`);
+        }}
       />
 
       {/* 底部智库状态条 */}
