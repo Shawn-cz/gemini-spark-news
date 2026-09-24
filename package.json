@@ -1,5 +1,6 @@
 {
-  "name": "spark-news-frontend",
+  "name": "gemini-spark-news-frontend",
+  "description": "基于 Gemini Spark 24H 智能体新闻简报的前端智库终端",
   "private": true,
   "version": "1.0.0",
   "type": "module",

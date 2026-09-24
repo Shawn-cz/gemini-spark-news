@@ -108,8 +108,8 @@ export const BentoView: React.FC<BentoViewProps> = ({
           </div>
 
           <div className="mt-4 pt-3 border-t border-white/5 text-[10px] font-mono text-slate-500 flex justify-between">
-            <span>PIPELINE: SPARK CLUSTER #04</span>
-            <span>ACCELERATED: ACTIVE</span>
+            <span>PIPELINE: GEMINI AGENT #01</span>
+            <span>REASONING: ACTIVE</span>
           </div>
         </div>
 

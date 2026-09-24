@@ -205,7 +205,7 @@ export const SparkNewsDashboard: React.FC = () => {
         <div className="w-full bg-cyan-950/60 border-b border-cyan-500/20 py-1 px-4 text-center">
           <span className="inline-flex items-center gap-2 text-[11px] font-mono text-cyan-300">
             <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
-            <span>30s 定时调度机制生效中：正在后台静默同步 Spark 最新批次...</span>
+            <span>30s 定时调度机制生效中：正在后台静默同步 Gemini Spark 最新批次...</span>
           </span>
         </div>
       )}
