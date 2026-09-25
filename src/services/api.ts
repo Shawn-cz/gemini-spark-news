@@ -113,7 +113,28 @@ export async function fetchSparkModels(): Promise<SparkModelsResponse> {
   return json.data;
 }
 
-export async function selectSparkModel(model: string): Promise<any> {
+export interface SparkSelectModelResponse {
+  code: number;
+  message: string;
+  data: {
+    activeModel: string;
+    model: SparkModelOption;
+  };
+}
+
+export interface SparkTriggerGenerateResponse {
+  code: number;
+  message: string;
+  data: {
+    success: boolean;
+    date: string;
+    itemCount: number;
+    model: string;
+    conflict?: boolean;
+  };
+}
+
+export async function selectSparkModel(model: string): Promise<SparkSelectModelResponse> {
   const res = await fetch(`${BASE_URL}/spark/models/select`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -126,7 +147,7 @@ export async function selectSparkModel(model: string): Promise<any> {
   return await res.json();
 }
 
-export async function triggerSparkGenerate(date?: string): Promise<any> {
+export async function triggerSparkGenerate(date?: string): Promise<SparkTriggerGenerateResponse> {
   const res = await fetch(`${BASE_URL}/spark/trigger-generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -75,12 +75,14 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
   const [activeModel, setActiveModel] = useState<string>('gemini-3.8-flash');
   const [isSwitchingModel, setIsSwitchingModel] = useState<boolean>(false);
   const [isTriggering, setIsTriggering] = useState<boolean>(false);
-  const [sparkLogs, setSparkLogs] = useState<Array<{ timestamp: string; text: string; type?: string }>>([]);
+  const [sparkLogs, setSparkLogs] = useState<Array<{ id: number; timestamp: string; text: string; type?: 'info' | 'progress' | 'success' | 'error' }>>([]);
+  const logIdCounter = useRef<number>(1);
   const logContainerRef = useRef<HTMLDivElement>(null);
 
   const addLog = (text: string, type: 'info' | 'progress' | 'success' | 'error' = 'info') => {
     const timeStr = new Date().toLocaleTimeString('zh-CN', { hour12: false });
-    setSparkLogs(prev => [...prev.slice(-49), { timestamp: timeStr, text, type }]);
+    const id = logIdCounter.current++;
+    setSparkLogs(prev => [...prev.slice(-49), { id, timestamp: timeStr, text, type }]);
   };
 
   const loadSparkModels = async () => {
@@ -98,7 +100,7 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
   };
 
   const handleSelectModel = async (modelId: string) => {
-    if (modelId === activeModel || isSwitchingModel) return;
+    if (modelId === activeModel || isSwitchingModel || isTriggering) return;
     setIsSwitchingModel(true);
     try {
       await selectSparkModel(modelId);
@@ -141,6 +143,9 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
       if (data.activeModel) {
         setActiveModel(data.activeModel);
       }
+      if (data.scheduler) {
+        setIsTriggering(Boolean(data.scheduler.isGenerating));
+      }
     } catch (e: any) {
       setLatency(null);
       setHealth({
@@ -164,6 +169,7 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
         try {
           const payload = JSON.parse(event.data);
           if (payload.type === 'PROGRESS') {
+            setIsTriggering(true);
             addLog(`[${payload.stage}] (${payload.progress}%) ${payload.message}`, 'progress');
           } else if (payload.type === 'CONNECTED') {
             addLog(`推流通道握手就绪: 客户端 #${payload.clientId}`, 'info');
@@ -177,6 +183,10 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
         } catch {
           // ignore
         }
+      };
+
+      es.onerror = () => {
+        addLog('SSE 连接中断，正在自动重连...', 'error');
       };
 
       return () => {
@@ -301,12 +311,12 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
                       key={m.id}
                       type="button"
                       onClick={() => handleSelectModel(m.id)}
-                      disabled={isSwitchingModel}
+                      disabled={isSwitchingModel || isTriggering}
                       className={`p-2.5 rounded-lg border text-left transition flex items-start justify-between ${
                         isCurrent
                           ? 'bg-cyan-950/60 border-cyan-500 text-white shadow-[0_0_10px_rgba(6,182,212,0.2)]'
                           : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:border-white/20'
-                      }`}
+                      } ${isTriggering ? 'opacity-60 cursor-not-allowed' : ''}`}
                     >
                       <div className="space-y-1 flex-1 pr-2">
                         <div className="flex items-center gap-2">
@@ -384,8 +394,8 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
                 {sparkLogs.length === 0 ? (
                   <div className="text-slate-600 italic py-1">等待推流事件中...</div>
                 ) : (
-                  sparkLogs.map((log, idx) => (
-                    <div key={idx} className="leading-tight flex items-start gap-1.5">
+                  sparkLogs.map((log) => (
+                    <div key={log.id} className="leading-tight flex items-start gap-1.5">
                       <span className="text-slate-500 shrink-0">[{log.timestamp}]</span>
                       <span className={
                         log.type === 'error' ? 'text-rose-400 font-semibold' :
