@@ -74,6 +74,14 @@ export interface HealthInfo {
   isMongoConnected: boolean;
   mongoConfigured: boolean;
   errorMessage: string | null;
+  activeModel?: string;
+  scheduler?: {
+    isGenerating: boolean;
+    currentGeneratingDate: string | null;
+    currentStageInfo: any;
+    scheduleTime: string;
+    activeModel: string;
+  };
 }
 
 export async function fetchHealthInfo(): Promise<HealthInfo> {
@@ -83,4 +91,50 @@ export async function fetchHealthInfo(): Promise<HealthInfo> {
   }
   const json = await res.json();
   return json.data;
+}
+
+export interface SparkModelOption {
+  id: string;
+  name: string;
+  description: string;
+  tier: string;
+  isDefault: boolean;
+}
+
+export interface SparkModelsResponse {
+  current: string;
+  available: SparkModelOption[];
+}
+
+export async function fetchSparkModels(): Promise<SparkModelsResponse> {
+  const res = await fetch(`${BASE_URL}/spark/models`);
+  if (!res.ok) throw new Error(`获取模型失败: HTTP ${res.status}`);
+  const json = await res.json();
+  return json.data;
+}
+
+export async function selectSparkModel(model: string): Promise<any> {
+  const res = await fetch(`${BASE_URL}/spark/models/select`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => null);
+    throw new Error(err?.message || `切换模型失败: HTTP ${res.status}`);
+  }
+  return await res.json();
+}
+
+export async function triggerSparkGenerate(date?: string): Promise<any> {
+  const res = await fetch(`${BASE_URL}/spark/trigger-generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => null);
+    throw new Error(err?.message || `触发生成失败: HTTP ${res.status}`);
+  }
+  return await res.json();
 }
