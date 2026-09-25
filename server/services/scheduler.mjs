@@ -27,6 +27,8 @@ export function getSchedulerStatus() {
   };
 }
 
+let runIdCounter = 0;
+
 /**
  * 触发批次生成工作流（带并发互斥锁与防死锁看门狗）
  */
@@ -40,6 +42,7 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
     };
   }
 
+  const currentRunId = ++runIdCounter;
   isGenerating = true;
   currentGeneratingDate = targetDate;
   currentStageInfo = {
@@ -51,7 +54,7 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
   // 120 秒看门狗定时器，防止异常死锁
   if (watchdogTimer) clearTimeout(watchdogTimer);
   watchdogTimer = setTimeout(() => {
-    if (isGenerating) {
+    if (isGenerating && runIdCounter === currentRunId) {
       console.warn(`[Scheduler] ⚠️ 监测到生成流程超过 120s 未释放，触发看门狗强制解锁`);
       isGenerating = false;
       currentGeneratingDate = null;
@@ -67,9 +70,16 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
     console.log(`[Scheduler] 🚀 启动 [${targetDate}] Gemini Spark 生产流 (模型: ${getActiveModel()})`);
 
     const result = await generateDailyBriefing(targetDate, async (stageData) => {
-      currentStageInfo = stageData;
-      broadcastSSEMessage(stageData);
+      if (runIdCounter === currentRunId) {
+        currentStageInfo = stageData;
+        broadcastSSEMessage(stageData);
+      }
     });
+
+    if (runIdCounter !== currentRunId) {
+      console.warn(`[Scheduler] ⚠️ 任务 [${targetDate}] 运行过期被放弃保存`);
+      return { success: false, expired: true };
+    }
 
     // 双写持久化至 MongoDB 与 本地文件
     await saveBriefing(targetDate, {
@@ -96,19 +106,23 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
     };
   } catch (err) {
     console.error(`[Scheduler] ❌ 生成失败:`, err);
-    broadcastSSEMessage({
-      type: 'ERROR',
-      message: `生成流程发生异常: ${err.message}`,
-      timestamp: new Date().toISOString()
-    });
+    if (runIdCounter === currentRunId) {
+      broadcastSSEMessage({
+        type: 'ERROR',
+        message: `生成流程发生异常: ${err.message}`,
+        timestamp: new Date().toISOString()
+      });
+    }
     throw err;
   } finally {
-    if (watchdogTimer) {
-      clearTimeout(watchdogTimer);
-      watchdogTimer = null;
+    if (runIdCounter === currentRunId) {
+      if (watchdogTimer) {
+        clearTimeout(watchdogTimer);
+        watchdogTimer = null;
+      }
+      isGenerating = false;
+      currentGeneratingDate = null;
     }
-    isGenerating = false;
-    currentGeneratingDate = null;
   }
 }
 

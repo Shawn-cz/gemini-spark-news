@@ -74,6 +74,8 @@ test('Scheduler - 能够触发生成并在完成时释放互斥锁并持久化�
   } finally {
     if (originalContent !== null) {
       fs.writeFileSync(briefingFile, originalContent, 'utf-8');
+    } else if (fs.existsSync(briefingFile)) {
+      fs.unlinkSync(briefingFile);
     }
   }
 });
