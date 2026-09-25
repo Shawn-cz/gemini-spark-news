@@ -120,26 +120,26 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
 
         {/* 左上角：领域与影响等级徽标 */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
-          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${catMeta.badge}`}>
+          <span className={`card-category-badge card-cat-${news.category} inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${catMeta.badge}`}>
             <CatIcon className="w-3 h-3 flex-shrink-0" />
             <span className="whitespace-nowrap">{catMeta.label}</span>
           </span>
 
-          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${impactMeta.style}`}>
+          <span className={`card-impact-badge card-impact-${news.impactLevel} inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${impactMeta.style}`}>
             <ImpactIcon className="w-3 h-3 animate-pulse flex-shrink-0" />
             <span className="whitespace-nowrap">{impactMeta.label}</span>
           </span>
         </div>
 
         {/* 右上角：全球情绪极性微量尺 */}
-        <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-mono text-[11px] whitespace-nowrap flex-shrink-0">
+        <div className="card-score-badge absolute top-3 right-3 bg-black/70 backdrop-blur-md border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-mono text-[11px] whitespace-nowrap flex-shrink-0">
           <span className="text-slate-400 text-[10px] whitespace-nowrap">NLP SCORE:</span>
           <span className={`font-bold whitespace-nowrap ${scoreColor}`}>{scoreFormatted}</span>
         </div>
 
         {/* 底部浮层：媒体源、国别与时钟 */}
         <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-slate-300 font-mono">
-          <div className="flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/5">
+          <div className="card-source-pill flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/5">
             <span className="font-bold text-white tracking-wide">{news.source}</span>
             {news.sourceCountry && (
               <span className="text-[10px] px-1 py-0.2 rounded bg-white/10 text-slate-300 font-mono">
@@ -148,7 +148,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-1 text-[11px] text-slate-400 bg-black/60 px-2 py-1 rounded-md backdrop-blur-md border border-white/5">
+          <div className="card-date-pill flex items-center gap-1 text-[11px] text-slate-400 bg-black/60 px-2 py-1 rounded-md backdrop-blur-md border border-white/5">
             <Calendar className="w-3 h-3 text-cyan-400" />
             <span>{formatPublishTime(news.publishTime)}</span>
           </div>
@@ -159,7 +159,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
       <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between relative z-10 bg-inherit -mt-px">
         <div>
           {/* 中文主标题 (严格限制两行省略，防长文本撑破屏幕) */}
-          <h3 className={`font-bold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug mb-1.5 line-clamp-2 break-words ${
+          <h3 className={`card-title font-bold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug mb-1.5 line-clamp-2 break-words ${
             isHero ? 'text-base sm:text-lg' : 'text-sm'
           }`}>
             {news.title}
@@ -167,25 +167,25 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
 
           {/* 英文副标题 (国际化原源) */}
           {news.englishTitle && (
-            <p className="text-[11px] font-mono text-slate-400/90 line-clamp-1 italic mb-2.5 tracking-tight">
+            <p className="card-subtitle text-[11px] font-mono text-slate-400/90 line-clamp-1 italic mb-2.5 tracking-tight">
               {news.englishTitle}
             </p>
           )}
 
           {/* 摘要 */}
-          <p className={`text-xs text-slate-400 leading-relaxed ${isHero ? 'line-clamp-3 mb-4' : 'line-clamp-2 mb-3'}`}>
+          <p className={`card-summary text-xs text-slate-400 leading-relaxed ${isHero ? 'line-clamp-3 mb-4' : 'line-clamp-2 mb-3'}`}>
             {news.summary}
           </p>
         </div>
 
         {/* 底部实体标签与展开触发指引 */}
-        <div className="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+        <div className="card-footer-divider pt-3 border-t border-white/5 flex items-center justify-between gap-2">
           {/* Spark NLP 实体标签 */}
           <div className="flex items-center gap-1.5 flex-wrap overflow-hidden">
             {(news.nlpKeyEntities || news.tags).slice(0, 3).map((entity, i) => (
               <span
                 key={i}
-                className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-white/[0.04] border border-white/5 truncate max-w-[110px]"
+                className="card-entity-tag px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-white/[0.04] border border-white/5 truncate max-w-[110px]"
               >
                 #{entity}
               </span>
@@ -193,7 +193,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
           </div>
 
           {/* 查看研报微链接 */}
-          <div className="text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
+          <div className="card-action-link text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
             <span className="whitespace-nowrap">深度解析</span>
             <ExternalLink className="w-3 h-3 flex-shrink-0" />
           </div>

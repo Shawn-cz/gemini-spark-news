@@ -535,6 +535,7 @@ html, body {
 
 [data-theme="light"] .glass-card {
   background: #ffffff !important;
+  background-image: none !important;
   border: 2px solid #000000 !important;
   box-shadow: 4px 4px 0px #000000 !important;
   border-radius: 10px !important;
@@ -548,6 +549,164 @@ html, body {
 [data-theme="light"] .glass-card-hover:active {
   transform: translate(2px, 2px) !important;
   box-shadow: 2px 2px 0px #000000 !important;
+}
+
+/* ========================================================
+   Global News Card - Neo-Brutalist Light Mode
+   ======================================================== */
+[data-theme="light"] .card-media-frame {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* 1. Category Badge (实体贴纸质感) */
+[data-theme="light"] .card-category-badge {
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  background-color: #e2e8f0 !important;
+}
+[data-theme="light"] .card-category-badge svg,
+[data-theme="light"] .card-category-badge span {
+  color: #000000 !important;
+}
+[data-theme="light"] .card-cat-ai {
+  background-color: #38bdf8 !important;
+}
+[data-theme="light"] .card-cat-finance {
+  background-color: #4ade80 !important;
+}
+[data-theme="light"] .card-cat-geopolitics {
+  background-color: #fbbf24 !important;
+}
+[data-theme="light"] .card-cat-climate {
+  background-color: #818cf8 !important;
+}
+
+/* 2. Impact Level Badge (实体印章质感) */
+[data-theme="light"] .card-impact-badge {
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+[data-theme="light"] .card-impact-critical {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+[data-theme="light"] .card-impact-critical svg,
+[data-theme="light"] .card-impact-critical span {
+  color: #991b1b !important;
+}
+[data-theme="light"] .card-impact-high {
+  background-color: #fef3c7 !important;
+  color: #b45309 !important;
+}
+[data-theme="light"] .card-impact-high svg,
+[data-theme="light"] .card-impact-high span {
+  color: #b45309 !important;
+}
+[data-theme="light"] .card-impact-medium {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+[data-theme="light"] .card-impact-medium svg,
+[data-theme="light"] .card-impact-medium span {
+  color: #0369a1 !important;
+}
+
+/* 3. Sentiment & Source & Date Pills (白底瓷感) */
+[data-theme="light"] .card-score-badge,
+[data-theme="light"] .card-source-pill,
+[data-theme="light"] .card-date-pill {
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .card-score-badge span:first-child {
+  color: #475569 !important;
+}
+[data-theme="light"] .card-score-badge .text-emerald-400 {
+  color: #059669 !important;
+}
+[data-theme="light"] .card-score-badge .text-rose-400 {
+  color: #e11d48 !important;
+}
+[data-theme="light"] .card-score-badge .text-slate-400 {
+  color: #475569 !important;
+}
+[data-theme="light"] .card-source-pill span {
+  color: #000000 !important;
+}
+[data-theme="light"] .card-source-pill .card-source-country,
+[data-theme="light"] .card-source-pill .bg-white\/10 {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+[data-theme="light"] .card-date-pill span {
+  color: #000000 !important;
+}
+[data-theme="light"] .card-date-pill svg {
+  color: #000000 !important;
+}
+
+/* 4. Title, Subtitle & Summary */
+[data-theme="light"] .card-title {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+[data-theme="light"] .group:hover .card-title {
+  color: #0284c7 !important;
+}
+[data-theme="light"] .card-subtitle {
+  color: #334155 !important;
+}
+[data-theme="light"] .card-summary {
+  color: #1f2937 !important;
+}
+
+/* 5. Footer Divider (机械工程虚线) */
+[data-theme="light"] .card-footer-divider {
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 6. NLP Entity Tag (打孔贴纸风) */
+[data-theme="light"] .card-entity-tag {
+  background-color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+[data-theme="light"] .card-entity-tag:hover {
+  transform: translate(-0.5px, -0.5px) !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  background-color: #fef3c7 !important;
+}
+
+/* 7. Action Link (实体标签风) */
+[data-theme="light"] .card-action-link {
+  color: #000000 !important;
+  font-weight: 900 !important;
+  background-color: #fbbf24 !important;
+  border: 1.5px solid #000000 !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+[data-theme="light"] .group:hover .card-action-link {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+  background-color: #f59e0b !important;
+}
+[data-theme="light"] .card-action-link span,
+[data-theme="light"] .card-action-link svg {
+  color: #000000 !important;
 }
 
 [data-theme="light"] .from-obsidian-950 {
@@ -1106,6 +1265,7 @@ html, body {
 
 [data-theme="dopamine"] .glass-card {
   background: #ffffff !important;
+  background-image: none !important;
   border: 2.5px solid #000000 !important;
   box-shadow: 4px 4px 0px #ff007f !important;
   border-radius: 10px !important;
@@ -1119,6 +1279,141 @@ html, body {
 [data-theme="dopamine"] .glass-card-hover:active {
   transform: translate(2px, 2px) !important;
   box-shadow: 2px 2px 0px #ff007f !important;
+}
+
+/* ========================================================
+   Global News Card - Neo-Brutalist Pop Dopamine Mode
+   ======================================================== */
+[data-theme="dopamine"] .card-media-frame {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* 1. Category Badge (电光粉贴纸) */
+[data-theme="dopamine"] .card-category-badge {
+  background-color: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+[data-theme="dopamine"] .card-category-badge svg,
+[data-theme="dopamine"] .card-category-badge span {
+  color: #ffffff !important;
+}
+
+/* 2. Impact Level Badge (荧光黄贴纸) */
+[data-theme="dopamine"] .card-impact-badge {
+  background-color: #ffee00 !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+[data-theme="dopamine"] .card-impact-badge svg,
+[data-theme="dopamine"] .card-impact-badge span {
+  color: #000000 !important;
+}
+
+/* 3. Sentiment & Source & Date Pills */
+[data-theme="dopamine"] .card-score-badge {
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+[data-theme="dopamine"] .card-score-badge span:first-child {
+  color: #64748b !important;
+}
+[data-theme="dopamine"] .card-score-badge .text-emerald-400 {
+  color: #059669 !important;
+}
+[data-theme="dopamine"] .card-score-badge .text-rose-400 {
+  color: #e11d48 !important;
+}
+[data-theme="dopamine"] .card-score-badge .text-slate-400 {
+  color: #475569 !important;
+}
+
+[data-theme="dopamine"] .card-source-pill,
+[data-theme="dopamine"] .card-date-pill {
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+[data-theme="dopamine"] .card-source-pill span {
+  color: #000000 !important;
+}
+[data-theme="dopamine"] .card-source-pill .card-source-country,
+[data-theme="dopamine"] .card-source-pill .bg-white\/10 {
+  background-color: #fce7f3 !important;
+  color: #be185d !important;
+  border: 1px solid #fbcfe8 !important;
+}
+[data-theme="dopamine"] .card-date-pill span {
+  color: #000000 !important;
+}
+[data-theme="dopamine"] .card-date-pill svg {
+  color: #ff007f !important;
+}
+
+/* 4. Title, Subtitle & Summary */
+[data-theme="dopamine"] .card-title {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+[data-theme="dopamine"] .group:hover .card-title {
+  color: #ff007f !important;
+}
+[data-theme="dopamine"] .card-subtitle {
+  color: #64748b !important;
+}
+[data-theme="dopamine"] .card-summary {
+  color: #1e1b4b !important;
+}
+
+/* 5. Footer Divider (实体实线) */
+[data-theme="dopamine"] .card-footer-divider {
+  border-top: 2px solid #000000 !important;
+}
+
+/* 6. NLP Entity Tag (电青色贴纸) */
+[data-theme="dopamine"] .card-entity-tag {
+  background-color: #00f0ff !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+[data-theme="dopamine"] .card-entity-tag:hover {
+  transform: translate(-0.5px, -0.5px) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  background-color: #67e8f9 !important;
+}
+
+/* 7. Action Link (热粉色实体块) */
+[data-theme="dopamine"] .card-action-link {
+  color: #ffffff !important;
+  background-color: #ff007f !important;
+  border: 1.5px solid #000000 !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  font-weight: 900 !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+[data-theme="dopamine"] .group:hover .card-action-link {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  background-color: #e00070 !important;
+}
+[data-theme="dopamine"] .card-action-link span,
+[data-theme="dopamine"] .card-action-link svg {
+  color: #ffffff !important;
 }
 
 [data-theme="dopamine"] .from-obsidian-950 {
