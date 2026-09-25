@@ -26,18 +26,18 @@ export const ThemeSwitcher: React.FC = () => {
     {
       key: 'light',
       label: '淡色',
-      sub: '晨曦极简',
+      sub: '档案羊皮纸',
       icon: Sun,
-      activeClass: 'bg-white text-blue-600 border border-blue-200 shadow-md shadow-slate-200/60 font-semibold',
+      activeClass: 'bg-black text-white border-2 border-black shadow-[2px_2px_0px_#000000] font-bold',
       dotColor: 'bg-amber-400',
     },
     {
       key: 'dopamine',
       label: '多巴胺',
-      sub: '活力甜彩',
+      sub: '高能波普',
       icon: Sparkles,
-      activeClass: 'bg-gradient-to-r from-pink-500 via-rose-500 to-amber-400 text-white border border-pink-300 shadow-lg shadow-pink-500/25 font-bold',
-      dotColor: 'bg-pink-400',
+      activeClass: 'bg-[#ff007f] text-white border-2 border-black shadow-[2px_2px_0px_#000000] font-bold',
+      dotColor: 'bg-yellow-300',
     },
   ];
 
@@ -51,6 +51,13 @@ export const ThemeSwitcher: React.FC = () => {
         const isSelected = theme === t.key;
         const Icon = t.icon;
 
+        const inactiveClass =
+          theme === 'light'
+            ? 'text-slate-800 hover:text-black hover:bg-black/5 border border-transparent'
+            : theme === 'dopamine'
+            ? 'text-slate-900 hover:text-black hover:bg-black/5 border border-transparent'
+            : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent';
+
         return (
           <button
             key={t.key}
@@ -62,7 +69,7 @@ export const ThemeSwitcher: React.FC = () => {
             className={`relative flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg text-xs font-mono transition-all duration-300 whitespace-nowrap flex-shrink-0 cursor-pointer ${
               isSelected
                 ? t.activeClass
-                : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
+                : inactiveClass
             }`}
           >
             <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected && t.key === 'dopamine' ? 'animate-bounce-gentle' : ''}`} />
