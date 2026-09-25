@@ -69,14 +69,14 @@ export const MatrixStreamView: React.FC<MatrixStreamViewProps> = ({
           <div key={lane.category} className="space-y-3.5 flex flex-col">
             
             {/* 泳道标题栏 */}
-            <div className={`p-3 rounded-xl border flex items-center justify-between glass-card ${lane.badge}`}>
+            <div className={`matrix-lane-header p-3 rounded-xl border flex items-center justify-between glass-card ${lane.badge}`}>
               <div className="flex items-center gap-2">
-                <Icon className={`w-4 h-4 ${lane.color}`} />
-                <span className="text-xs font-bold font-mono tracking-tight text-white">
+                <Icon className={`matrix-lane-icon w-4 h-4 ${lane.color}`} />
+                <span className="matrix-lane-title text-xs font-bold font-mono tracking-tight text-white">
                   {lane.title}
                 </span>
               </div>
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-white/10 text-white">
+              <span className="matrix-lane-count text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-white/10 text-white">
                 {laneItems.length}
               </span>
             </div>

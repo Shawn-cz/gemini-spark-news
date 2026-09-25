@@ -190,7 +190,7 @@ git commit -m "feat(category-bar): implement brutalist sticker tabs and typewrit
 Run: `npm run build`
 Expected: 编译通过。
 
-- [ ] **Step 6: 提交 Task 5 修改**
+- [x] **Step 6: 提交 Task 5 修改**
 ```bash
 git add src/components/GlobalNewsCard.tsx src/index.css
 git commit -m "feat(cards): implement tactile neo-brutalist news card with sticker badges"
@@ -205,23 +205,23 @@ git commit -m "feat(cards): implement tactile neo-brutalist news card with stick
 - Modify: `src/index.css`
 - Test: `npm run build`
 
-- [ ] **Step 1: 弹窗外壳重塑为物理调查卷宗 (Physical Dossier)**
+- [x] **Step 1: 弹窗外壳重塑为物理调查卷宗 (Physical Dossier)**
 - 羊皮纸模式下：弹窗底色为暖柔白 `#fffdfa`，外框强化为 `3px solid #000000`，右下带巨大实体硬阴影 `10px 10px 0 #000000`
 - 多巴胺模式下：外框 `3px solid #000000`，右下带 `10px 10px 0 #ff007f` 实体粉影
 
-- [ ] **Step 2: 顶部栏与状态印章升级**
+- [x] **Step 2: 顶部栏与状态印章升级**
 - 顶部栏增加实体工业钢印与档案编码展示风格
 - 收藏与分享按钮采用机械小按键质感（黑框加硬阴影）
 
-- [ ] **Step 3: 双栏内容区排版适配**
+- [x] **Step 3: 双栏内容区排版适配**
 - 左栏视觉媒体采用工业相框封边
 - 右栏核心认知与洞见模块采用便利贴/备忘录纸感衬底，实体标签采用打孔贴纸样式
 
-- [ ] **Step 4: 运行构建测试验证**
+- [x] **Step 4: 运行构建测试验证**
 Run: `npm run build`
 Expected: 编译通过。
 
-- [ ] **Step 5: 提交 Task 6 修改**
+- [x] **Step 5: 提交 Task 6 修改**
 ```bash
 git add src/components/IntelligenceDrawer.tsx src/index.css
 git commit -m "feat(drawer): transform intelligence drawer into physical archival dossier"
@@ -237,24 +237,25 @@ git commit -m "feat(drawer): transform intelligence drawer into physical archiva
 - Verify: `src/components/views/*`
 - Test: `npm run build`
 
-- [ ] **Step 1: 运行全量 TypeScript 与生产环境打包**
+- [x] **Step 1: 运行全量 TypeScript 与生产环境打包**
 Run: `npm run build`
 Expected: 0 warnings/errors, build succeeds cleanly.
 
-- [ ] **Step 2: 验证暗夜黑曜石主题隔离**
+- [x] **Step 2: 验证暗夜黑曜石主题隔离**
 切换至暗夜主题：确认玻璃拟态、冷青发光完全正常，绝无黑色硬边框或非预期实体阴影残留。
 
-- [ ] **Step 3: 验证淡色（P2 经典档案羊皮纸）全量表现**
+- [x] **Step 3: 验证淡色（P2 经典档案羊皮纸）全量表现**
 切换至淡色主题：确认背景呈现温润深邃的暖黄羊皮纸色（`#f4ebd9`），所有卡片、仪表盘、分类栏均呈现清晰纯黑实体边框与 0 模糊硬阴影，悬停浮起手感利落。
 
-- [ ] **Step 4: 验证多巴胺（高能波普艺术）全量表现**
+- [x] **Step 4: 验证多巴胺（高能波普艺术）全量表现**
 切换至多巴胺主题：确认电光热粉硬投影、波普撞色贴纸与微旋转悬停动效表现正常。
 
-- [ ] **Step 5: 验证三种视图 (Bento, Matrix, Timeline) 兼容性**
+- [x] **Step 5: 验证三种视图 (Bento, Matrix, Timeline) 兼容性**
 分别切换 Bento 瀑布流、Matrix 多列矩阵流与 Timeline 时间轴，确认各视图下卡片样式在三套主题下均完美呈现。
 
-- [ ] **Step 6: 提交最终全量验收记录**
+- [x] **Step 6: 提交最终全量验收记录**
 ```bash
 git add -A
 git commit -m "chore: complete neo-brutalist themes verification and visual regression"
 ```
+

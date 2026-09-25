@@ -22,10 +22,10 @@ export const Pagination: React.FC<PaginationProps> = ({
   const endIdx = Math.min(currentPage * pageSize, total);
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-8 pt-6 border-t border-white/10 font-mono text-xs">
+    <div className="pagination-container flex flex-col sm:flex-row items-center justify-between gap-3 mt-8 pt-6 border-t border-white/10 font-mono text-xs">
       
       {/* 统计信息 */}
-      <div className="text-slate-400">
+      <div className="pagination-stat text-slate-400">
         DISPLAYING <span className="font-bold text-cyan-400">{startIdx}-{endIdx}</span> OF{' '}
         <span className="font-bold text-white">{total}</span> GLOBAL INTELLIGENCE ITEMS
       </div>
@@ -36,7 +36,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           type="button"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="p-1.5 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition"
+          className="pagination-arrow-btn p-1.5 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition"
           title="上一页"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -48,9 +48,9 @@ export const Pagination: React.FC<PaginationProps> = ({
               key={pageNum}
               type="button"
               onClick={() => onPageChange(pageNum)}
-              className={`min-w-8 h-8 px-2 rounded-lg text-xs font-mono font-semibold transition ${
+              className={`pagination-page-btn min-w-8 h-8 px-2 rounded-lg text-xs font-mono font-semibold transition ${
                 pageNum === currentPage
-                  ? 'bg-cyan-500 text-obsidian-950 font-bold shadow-glow-blue'
+                  ? 'pagination-page-active bg-cyan-500 text-obsidian-950 font-bold shadow-glow-blue'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
@@ -63,7 +63,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           type="button"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
-          className="p-1.5 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition"
+          className="pagination-arrow-btn p-1.5 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition"
           title="下一页"
         >
           <ChevronRight className="w-4 h-4" />

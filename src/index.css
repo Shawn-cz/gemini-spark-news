@@ -1045,6 +1045,216 @@ html, body {
   box-shadow: 1px 1px 0 #000000 !important;
 }
 
+/* ========================================================
+   Sub-Views & Pagination - Neo-Brutalist Light Mode
+   ======================================================== */
+/* 1. Matrix Stream View */
+[data-theme="light"] .matrix-lane-header {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="light"] .matrix-lane-title {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .matrix-lane-count {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+  border-radius: 9999px !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .matrix-lane-header .text-cyan-400 {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .matrix-lane-header .text-emerald-400 {
+  color: #059669 !important;
+}
+
+[data-theme="light"] .matrix-lane-header .text-amber-400 {
+  color: #d97706 !important;
+}
+
+[data-theme="light"] .matrix-lane-header .text-indigo-400 {
+  color: #4f46e5 !important;
+}
+
+/* 2. Timeline Scrubber */
+[data-theme="light"] .timeline-scrubber-card {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  border-radius: 12px !important;
+}
+
+[data-theme="light"] .timeline-clock-icon {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .timeline-title {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .timeline-subtitle {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .timeline-presets-container {
+  background: #f1f5f9 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  border-radius: 8px !important;
+  padding: 3px !important;
+}
+
+[data-theme="light"] .timeline-preset-btn {
+  color: #475569 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="light"] .timeline-preset-btn:hover:not(.timeline-preset-btn-active) {
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: #000000 !important;
+}
+
+[data-theme="light"] .timeline-preset-btn-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .timeline-cutoff-text {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .timeline-slider {
+  accent-color: #000000 !important;
+  background-color: #e2e8f0 !important;
+  border: 1px solid #000000 !important;
+}
+
+[data-theme="light"] .timeline-axis {
+  border-left: 2px dashed #000000 !important;
+}
+
+[data-theme="light"] .timeline-node-dot {
+  background-color: #fbbf24 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+}
+
+[data-theme="light"] .timeline-tag {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .timeline-tag svg {
+  color: #000000 !important;
+}
+
+/* 3. Bento View Radar Widget */
+[data-theme="light"] .bento-radar-widget {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  border-radius: 10px !important;
+}
+
+[data-theme="light"] .bento-radar-title {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .bento-radar-title svg {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .bento-radar-pulse {
+  background-color: #0284c7 !important;
+}
+
+[data-theme="light"] .bento-radar-desc {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .bento-radar-item {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  border-radius: 6px !important;
+}
+
+[data-theme="light"] .bento-radar-item span:first-child {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .bento-radar-footer {
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.3) !important;
+  color: #64748b !important;
+}
+
+/* 4. Pagination */
+[data-theme="light"] .pagination-container {
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.35) !important;
+}
+
+[data-theme="light"] .pagination-stat {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .pagination-stat span {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .pagination-arrow-btn {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+}
+
+[data-theme="light"] .pagination-arrow-btn:hover:not(:disabled) {
+  background: #f1f5f9 !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+[data-theme="light"] .pagination-page-btn {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+}
+
+[data-theme="light"] .pagination-page-btn:hover:not(.pagination-page-active) {
+  background: #f1f5f9 !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+[data-theme="light"] .pagination-page-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 900 !important;
+}
+
 
 /* ========================================================
    2. 全站多巴胺色主题 (Dopamine / 高能波普艺术与新野兽派)
@@ -2012,6 +2222,216 @@ html, body {
 [data-theme="dopamine"] .dossier-done-btn:active {
   transform: translate(1px, 1px) !important;
   box-shadow: 1px 1px 0 #000000 !important;
+}
+
+/* ========================================================
+   Sub-Views & Pagination - Neo-Brutalist Pop Dopamine Mode
+   ======================================================== */
+/* 1. Matrix Stream View */
+[data-theme="dopamine"] .matrix-lane-header {
+  background-color: #ffffff !important;
+  border: 2.5px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="dopamine"] .matrix-lane-title {
+  color: #1e1b4b !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="dopamine"] .matrix-lane-count {
+  background-color: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+  border-radius: 9999px !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .matrix-lane-header .text-cyan-400 {
+  color: #0891b2 !important;
+}
+
+[data-theme="dopamine"] .matrix-lane-header .text-emerald-400 {
+  color: #059669 !important;
+}
+
+[data-theme="dopamine"] .matrix-lane-header .text-amber-400 {
+  color: #d97706 !important;
+}
+
+[data-theme="dopamine"] .matrix-lane-header .text-indigo-400 {
+  color: #7c3aed !important;
+}
+
+/* 2. Timeline Scrubber */
+[data-theme="dopamine"] .timeline-scrubber-card {
+  background: #ffffff !important;
+  border: 2.5px solid #000000 !important;
+  box-shadow: 4px 4px 0px #ff007f !important;
+  border-radius: 12px !important;
+}
+
+[data-theme="dopamine"] .timeline-clock-icon {
+  color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .timeline-title {
+  color: #1e1b4b !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="dopamine"] .timeline-subtitle {
+  color: #64748b !important;
+}
+
+[data-theme="dopamine"] .timeline-presets-container {
+  background: #fff0f5 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  border-radius: 8px !important;
+  padding: 3px !important;
+}
+
+[data-theme="dopamine"] .timeline-preset-btn {
+  color: #475569 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .timeline-preset-btn:hover:not(.timeline-preset-btn-active) {
+  background: rgba(255, 0, 127, 0.1) !important;
+  color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .timeline-preset-btn-active {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .timeline-cutoff-text {
+  color: #ff007f !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="dopamine"] .timeline-slider {
+  accent-color: #ff007f !important;
+  background-color: #fce7f3 !important;
+  border: 1px solid #000000 !important;
+}
+
+[data-theme="dopamine"] .timeline-axis {
+  border-left: 2px solid #000000 !important;
+}
+
+[data-theme="dopamine"] .timeline-node-dot {
+  background-color: #ff007f !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .timeline-tag {
+  color: #ff007f !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .timeline-tag svg {
+  color: #ff007f !important;
+}
+
+/* 3. Bento View Radar Widget */
+[data-theme="dopamine"] .bento-radar-widget {
+  background: #ffffff !important;
+  border: 2.5px solid #000000 !important;
+  box-shadow: 4px 4px 0px #ff007f !important;
+  border-radius: 10px !important;
+}
+
+[data-theme="dopamine"] .bento-radar-title {
+  color: #ff007f !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="dopamine"] .bento-radar-title svg {
+  color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .bento-radar-pulse {
+  background-color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .bento-radar-desc {
+  color: #64748b !important;
+}
+
+[data-theme="dopamine"] .bento-radar-item {
+  background-color: #fff0f5 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+  border-radius: 6px !important;
+}
+
+[data-theme="dopamine"] .bento-radar-item span:first-child {
+  color: #1e1b4b !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .bento-radar-footer {
+  border-top: 1.5px dashed rgba(255, 0, 127, 0.35) !important;
+  color: #64748b !important;
+}
+
+/* 4. Pagination */
+[data-theme="dopamine"] .pagination-container {
+  border-top: 2px solid #000000 !important;
+}
+
+[data-theme="dopamine"] .pagination-stat {
+  color: #64748b !important;
+}
+
+[data-theme="dopamine"] .pagination-stat span {
+  color: #1e1b4b !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .pagination-arrow-btn {
+  background: #ffffff !important;
+  color: #1e1b4b !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .pagination-arrow-btn:hover:not(:disabled) {
+  background: #fff0f5 !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .pagination-page-btn {
+  background: #ffffff !important;
+  color: #1e1b4b !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .pagination-page-btn:hover:not(.pagination-page-active) {
+  background: #fff0f5 !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .pagination-page-active {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 900 !important;
 }
 
 
