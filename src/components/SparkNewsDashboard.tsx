@@ -131,46 +131,72 @@ export const SparkNewsDashboard: React.FC = () => {
     loadDashboardData(false);
   };
 
-  // 效应：依赖变更即时拉取 + 建立 30 秒静默定时轮询 + 组件销毁时彻底清理
+  // 效应：依赖变更即时拉取 + 智能事件驱动唤醒 (COMPLETED 状态下 0 轮询休眠) + 组件销毁时彻底清理
   useEffect(() => {
-    // 首次/依赖变更时立即拉取
+    // 首次/查询依赖变更时立即拉取
     loadDashboardData(false);
 
     // 清理既有定时器
     if (silentTimerRef.current) {
       clearInterval(silentTimerRef.current);
+      silentTimerRef.current = null;
     }
 
-    // 建立每秒递减的 30 秒静默刷新机制 (silent = true)
-    setSilentCountdown(30);
-    silentTimerRef.current = setInterval(() => {
-      setSilentCountdown((prev) => {
-        if (prev <= 1) {
-          loadDashboardData(true);
-          return 30;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    // 关键优化：只有在当前批次处于“计算中/排队中”时，才启动 30s 倒计时轮询直到生成完毕
+    const isGenerating = statusInfo?.status === 'RUNNING' || statusInfo?.status === 'PENDING';
+    if (isGenerating) {
+      setSilentCountdown(30);
+      silentTimerRef.current = setInterval(() => {
+        setSilentCountdown((prev) => {
+          if (prev <= 1) {
+            loadDashboardData(true);
+            return 30;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } else {
+      // 批次已完成 (COMPLETED)：彻底关闭定时器，0 轮询零开销
+      setSilentCountdown(0);
+    }
 
-    // 关键安全清理：组件卸载或依赖重置时清理定时器并中止在飞请求
+    // 事件唤醒 1：用户从其他应用/网页切回当前大屏标签页时，自动静默同步一次
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadDashboardData(true);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // 事件唤醒 2：每分钟轻量检测本地系统自然日跨天 (针对通宵开机不关电脑的用户)
+    const dayCheckTimer = setInterval(() => {
+      const todayStr = new Date().toISOString().slice(0, 10);
+      if (todayStr > selectedDate) {
+        setSelectedDate(todayStr);
+        setPage(1);
+        showToast(`检测到系统时间跨天 [${todayStr}]，已自动切换至最新晨报批次`);
+      }
+    }, 60000);
+
+    // 关键安全清理：组件卸载或依赖重置时清理所有定时器并中止在飞请求
     return () => {
       if (silentTimerRef.current) {
         clearInterval(silentTimerRef.current);
         silentTimerRef.current = null;
       }
+      clearInterval(dayCheckTimer);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
         abortControllerRef.current = null;
       }
     };
-  }, [loadDashboardData]);
+  }, [loadDashboardData, statusInfo?.status, selectedDate, showToast]);
 
   // DevTools 调试动作
   const handleTriggerSilentSync = () => {
-    setSilentCountdown(30);
     loadDashboardData(true);
-    showToast('DevTools: 手动强制触发 30s 静默刷新管道');
+    showToast('DevTools: 手动强制触发静默同步管道');
   };
 
   const handleInjectNews = (mockItem: GlobalNewsItem) => {
@@ -238,12 +264,12 @@ export const SparkNewsDashboard: React.FC = () => {
         onOpenDevTools={() => setIsDevToolsOpen(true)}
       />
 
-      {/* 静默刷新指示呼吸指示条 (30s 触发时不打扰正常浏览) */}
+      {/* 静默刷新指示呼吸指示条 (触发时不打扰正常浏览) */}
       {isSilentRefreshing && (
         <div className="w-full bg-cyan-950/60 border-b border-cyan-500/20 py-1 px-4 text-center">
           <span className="inline-flex items-center gap-2 text-[11px] font-mono text-cyan-300">
             <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
-            <span>30s 定时调度机制生效中：正在后台静默同步 Gemini Spark 最新批次...</span>
+            <span>智能事件驱动机制生效中：正在后台静默同步最新 Gemini Spark 批次...</span>
           </span>
         </div>
       )}
@@ -423,7 +449,7 @@ export const SparkNewsDashboard: React.FC = () => {
             <span>GEMINI SPARK GLOBAL INTELLIGENCE PLATFORM · 24H AGENT BRIEFINGS</span>
           </div>
           <div className="text-slate-400">
-            AUTO-SYNC: 30S POLLING ENGINE · ACTIVE ABORT-CONTROLLER GUARDED
+            EVENT-DRIVEN SYNC: ZERO-IDLE POLLING · ABORT-CONTROLLER GUARDED
           </div>
         </div>
       </footer>

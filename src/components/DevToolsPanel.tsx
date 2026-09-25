@@ -252,28 +252,40 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
             </div>
           </div>
 
-          {/* 3. 30 秒静默轮询仪表盘 */}
+          {/* 3. 智能事件驱动同步引擎仪表盘 */}
           <div className="p-4 rounded-xl bg-obsidian-card border border-white/10 space-y-2.5">
             <div className="flex items-center justify-between border-b border-white/10 pb-2">
               <span className="font-bold text-white flex items-center gap-1.5 uppercase text-[11px]">
                 <Radio className="w-4 h-4 text-indigo-400" />
-                30s 定时静默轮询引擎
+                智能事件驱动同步引擎
               </span>
-              <span className="text-[10px] text-cyan-400 animate-pulse">
-                POLLING ACTIVE
+              <span className={`text-[10px] font-bold ${currentStatus === 'RUNNING' ? 'text-amber-400 animate-pulse' : 'text-emerald-400'}`}>
+                {currentStatus === 'RUNNING' ? 'POLLING (30s)' : 'ZERO-IDLE (已休眠)'}
               </span>
             </div>
-            <div className="flex items-center justify-between text-slate-400">
-              <span>距离下次自动静默拉取:</span>
-              <span className="text-sm font-bold text-cyan-300">{silentCountdown} 秒</span>
-            </div>
+            {currentStatus === 'RUNNING' ? (
+              <div className="flex items-center justify-between text-slate-400">
+                <span>生成中 · 倒计时感知:</span>
+                <span className="text-sm font-bold text-amber-300">{silentCountdown} 秒</span>
+              </div>
+            ) : (
+              <div className="space-y-1 text-slate-400 text-[11px]">
+                <div className="flex items-center justify-between">
+                  <span>当前轮询策略:</span>
+                  <span className="text-emerald-400 font-semibold">0 轮询休眠中 (省流零开销)</span>
+                </div>
+                <p className="text-[10px] text-slate-500">
+                  ⚡ 唤醒机制: 切回本标签页、系统时间跨天或手动点击同步时按需感知
+                </p>
+              </div>
+            )}
             <button
               type="button"
               onClick={onTriggerSilentSync}
               className="w-full py-2 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-700 text-indigo-200 font-semibold flex items-center justify-center gap-2 transition active:scale-95"
             >
               <RotateCw className="w-3.5 h-3.5 animate-spin" />
-              <span>立即触发静默同步 (Abort 竞态检验)</span>
+              <span>立即手动触发静默同步 (Abort 竞态检验)</span>
             </button>
           </div>
 
