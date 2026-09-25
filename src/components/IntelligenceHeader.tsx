@@ -161,20 +161,22 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Status</div>
               <div className="metric-value font-semibold truncate whitespace-nowrap">
                 {isCompleted ? (
-                  <span className="text-emerald-400 flex items-center gap-1 whitespace-nowrap">
-                    <span className="metric-dot w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
-                    24H COMPLETED
-                  </span>
+                  <div className="flex items-center gap-1 whitespace-nowrap min-h-[28px]">
+                    <span className="text-emerald-400 flex items-center gap-1 whitespace-nowrap">
+                      <span className="metric-dot w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                      24H COMPLETED
+                    </span>
+                  </div>
                 ) : (
-                  <div className="space-y-1">
+                  <div className="space-y-1 min-h-[28px] justify-center flex flex-col">
                     <span className="text-amber-400 flex items-center gap-1 whitespace-nowrap">
                       <span className="metric-dot w-2 h-2 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
-                      {statusInfo?.progress ? `GENERATING ${statusInfo.progress}%` : 'GENERATING...'}
+                      {typeof statusInfo?.progress === 'number' ? `GENERATING ${statusInfo.progress}%` : 'GENERATING...'}
                     </span>
                     <div className="w-20 bg-slate-800 rounded-full h-1 overflow-hidden">
                       <div
                         className="h-full bg-amber-400 rounded-full transition-all duration-300"
-                        style={{ width: `${statusInfo?.progress || 15}%` }}
+                        style={{ width: `${typeof statusInfo?.progress === 'number' ? Math.min(100, Math.max(0, statusInfo.progress)) : 15}%` }}
                       />
                     </div>
                   </div>

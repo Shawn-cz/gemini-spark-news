@@ -168,14 +168,16 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
       es.onmessage = (event) => {
         try {
           const payload = JSON.parse(event.data);
-          if (payload.type === 'PROGRESS') {
+          const isCompleted = payload.type === 'COMPLETED' || payload.stage === 'COMPLETED';
+
+          if (isCompleted) {
+            addLog(`✅ 批次简报生产闭环达成: ${payload.message || '归档完成'}`, 'success');
+            setIsTriggering(false);
+          } else if (payload.type === 'PROGRESS') {
             setIsTriggering(true);
             addLog(`[${payload.stage}] (${payload.progress}%) ${payload.message}`, 'progress');
           } else if (payload.type === 'CONNECTED') {
             addLog(`推流通道握手就绪: 客户端 #${payload.clientId}`, 'info');
-          } else if (payload.type === 'COMPLETED') {
-            addLog(`✅ 批次简报生产闭环达成: ${payload.message || '归档完成'}`, 'success');
-            setIsTriggering(false);
           } else if (payload.type === 'ERROR') {
             addLog(`❌ 调度异常: ${payload.message}`, 'error');
             setIsTriggering(false);

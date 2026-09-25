@@ -193,30 +193,63 @@ export const SparkNewsDashboard: React.FC = () => {
     };
   }, [loadDashboardData, statusInfo?.status, selectedDate, showToast]);
 
+  // 4.1 保持对高频变更函数的持久引用，防止 SSE 长连接因筛选/分页变更频繁重建
+  const loadDashboardDataRef = useRef(loadDashboardData);
+  useEffect(() => {
+    loadDashboardDataRef.current = loadDashboardData;
+  }, [loadDashboardData]);
+
+  const showToastRef = useRef(showToast);
+  useEffect(() => {
+    showToastRef.current = showToast;
+  }, [showToast]);
+
   // 5. 原生 SSE 推流监听：接收后端 Gemini Spark 智能体 5 阶段实时进度与完成自动感知
   useEffect(() => {
     let es: EventSource | null = null;
+
+    const buildFallbackStatus = (
+      date: string, 
+      status: BatchStatusType, 
+      statusText: string, 
+      progress: number, 
+      currentStage: string
+    ): SparkBatchStatusInfo => ({
+      queryDate: date,
+      isToday: date === new Date().toISOString().slice(0, 10),
+      scheduleInterval: '每日 08:30:00 (每日晨报)',
+      scheduleCron: '0 8 * * *',
+      status,
+      statusText,
+      generatedTime: status === 'COMPLETED' ? `${date} 08:30:00` : '',
+      nextScheduleTime: '明日 08:30:00 (每日晨报)',
+      estimatedRemainingMinutes: status === 'COMPLETED' ? 0 : 2,
+      progress,
+      currentStage,
+      availableDates: [date],
+      totalArchivedDays: 1,
+      batchNewsCount: 10,
+      globalSentimentIndex: 28
+    });
+
     try {
       es = new EventSource('/api/spark/stream');
       es.onmessage = (event) => {
         try {
           const payload = JSON.parse(event.data);
-          if (payload.type === 'PROGRESS') {
+          const isCompleted = payload.type === 'COMPLETED' || payload.stage === 'COMPLETED';
+
+          if (isCompleted) {
             setStatusInfo((prev) => {
-              if (!prev) return null;
+              const base = prev || buildFallbackStatus(
+                payload.date || selectedDate, 
+                'COMPLETED', 
+                '已完成归档', 
+                100, 
+                'Gemini Spark 智能体 24H 简报生成完成'
+              );
               return {
-                ...prev,
-                status: 'RUNNING',
-                statusText: '智能体生成中',
-                progress: typeof payload.progress === 'number' ? payload.progress : prev.progress,
-                currentStage: `阶段 ${payload.stage}: ${payload.message}`
-              };
-            });
-          } else if (payload.type === 'COMPLETED') {
-            setStatusInfo((prev) => {
-              if (!prev) return null;
-              return {
-                ...prev,
+                ...base,
                 status: 'COMPLETED',
                 statusText: '已完成归档',
                 progress: 100,
@@ -224,12 +257,35 @@ export const SparkNewsDashboard: React.FC = () => {
               };
             });
             // 收到 COMPLETED 时，平滑无感重新拉取最新数据
-            loadDashboardData(true);
-            showToast('⚡ Gemini Spark 今日简报生产完毕，大屏已自动同步');
+            loadDashboardDataRef.current(true);
+            showToastRef.current('⚡ Gemini Spark 今日简报生产完毕，大屏已自动同步');
+          } else if (payload.type === 'PROGRESS') {
+            setStatusInfo((prev) => {
+              const base = prev || buildFallbackStatus(
+                selectedDate, 
+                'RUNNING', 
+                '智能体生成中', 
+                0, 
+                ''
+              );
+              return {
+                ...base,
+                status: 'RUNNING',
+                statusText: '智能体生成中',
+                progress: typeof payload.progress === 'number' ? payload.progress : base.progress,
+                currentStage: `阶段 ${payload.stage}: ${payload.message}`
+              };
+            });
+          } else if (payload.type === 'ERROR') {
+            showToastRef.current(`❌ 智能体推流调度异常: ${payload.message}`);
           }
         } catch {
           // ignore parse error
         }
+      };
+
+      es.onerror = () => {
+        // EventSource 内部会自动按指数退避尝试重连
       };
     } catch (e) {
       console.warn('[SSE] EventSource 初始化失败:', e);
@@ -240,7 +296,7 @@ export const SparkNewsDashboard: React.FC = () => {
         es.close();
       }
     };
-  }, [loadDashboardData, showToast]);
+  }, [selectedDate]);
 
   // DevTools 调试动作
   const handleTriggerSilentSync = () => {

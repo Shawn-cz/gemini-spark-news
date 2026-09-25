@@ -95,6 +95,17 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
       }
     });
 
+    // 广播批次生成完成事件
+    broadcastSSEMessage({
+      type: 'COMPLETED',
+      stage: 'COMPLETED',
+      progress: 100,
+      date: targetDate,
+      itemCount: result.items.length,
+      model: result.model,
+      message: `Gemini Spark (${result.model}) 24H 简报生成与落盘归档完成`
+    });
+
     console.log(`[Scheduler] ✅ [${targetDate}] 生产流执行完毕，持久化双写成功！`);
 
     return {
