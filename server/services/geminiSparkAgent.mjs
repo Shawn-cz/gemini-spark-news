@@ -131,22 +131,25 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s 超时保护
+    let response;
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.3,
-          responseMimeType: 'application/json'
-        },
-        tools: [{ googleSearch: {} }] // 开启 Google Search Grounding 联网感知
-      }),
-      signal: controller.signal
-    });
-
-    clearTimeout(timeoutId);
+    try {
+      response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.3,
+            responseMimeType: 'application/json'
+          },
+          tools: [{ googleSearch: {} }] // 开启 Google Search Grounding 联网感知
+        }),
+        signal: controller.signal
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
       const errText = await response.text();
@@ -191,7 +194,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
 /**
  * 契约规范校准器（确保符合 8~12 篇、1 篇 critical、1~2 篇 climate）
  */
-function ensureBriefingContract(items, targetDate) {
+export function ensureBriefingContract(items, targetDate) {
   let list = Array.isArray(items) ? [...items] : [];
   
   if (list.length < 8) {
@@ -201,10 +204,10 @@ function ensureBriefingContract(items, targetDate) {
     list = list.slice(0, 12);
   }
 
-  // 确保有且仅有 1 篇 critical
+  // 确保有且仅有 1 篇 critical (使用不可变更新)
   let criticalCount = list.filter(i => i.impactLevel === 'critical').length;
   if (criticalCount === 0 && list.length > 0) {
-    list[0].impactLevel = 'critical';
+    list[0] = { ...list[0], impactLevel: 'critical' };
   } else if (criticalCount > 1) {
     let seen = false;
     list = list.map(item => {
@@ -222,7 +225,7 @@ function ensureBriefingContract(items, targetDate) {
   // 确保气候领域 1~2 篇
   const climateCount = list.filter(i => i.category === 'climate').length;
   if (climateCount === 0 && list.length > 1) {
-    list[list.length - 1].category = 'climate';
+    list[list.length - 1] = { ...list[list.length - 1], category: 'climate' };
   } else if (climateCount > 2) {
     let c = 0;
     list = list.map(item => {
@@ -238,6 +241,9 @@ function ensureBriefingContract(items, targetDate) {
   return list.map((item, idx) => ({
     ...item,
     id: item.id || `gemini-${targetDate}-${String(idx + 1).padStart(3, '0')}`,
+    title: item.title || '全球科技战略要闻',
+    summary: item.summary || '暂无详细摘要',
+    category: item.category || 'ai',
     batchDate: targetDate,
     publishTime: item.publishTime || `${targetDate}T06:30:00.000Z`,
     sentiment: ['positive', 'neutral', 'negative'].includes(item.sentiment) ? item.sentiment : 'neutral',
