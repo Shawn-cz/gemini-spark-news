@@ -112,18 +112,18 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
 
       {/* 中央主视区：全球智库沉浸式认知档案 (双栏黄金对称设计，完美聚焦中央视野) */}
       <div 
-        className="relative w-full max-w-5xl max-h-[92vh] bg-obsidian-950 border border-white/15 rounded-3xl shadow-2xl flex flex-col overflow-hidden z-10 font-sans"
+        className="dossier-modal-window relative w-full max-w-5xl max-h-[92vh] bg-obsidian-950 border border-white/15 rounded-3xl shadow-2xl flex flex-col overflow-hidden z-10 font-sans"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* 1. 顶部标题栏 */}
-        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-obsidian-900/80 backdrop-blur-md">
+        <div className="dossier-header-bar px-6 py-4 border-b border-white/10 flex items-center justify-between bg-obsidian-900/80 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-800/80 flex items-center gap-1.5 shadow-inner">
+            <span className="dossier-agent-badge px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-800/80 flex items-center gap-1.5 shadow-inner">
               <Cpu className="w-3.5 h-3.5 text-cyan-400" />
               <span>GEMINI AGENT DOSSIER</span>
             </span>
-            <span className="text-xs font-mono text-slate-500 uppercase hidden sm:inline">
+            <span className="dossier-id-code text-xs font-mono text-slate-500 uppercase hidden sm:inline">
               档案编号: <strong className="text-slate-400 font-semibold">{news.id}</strong>
             </span>
           </div>
@@ -132,7 +132,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <button
               type="button"
               onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`p-2 rounded-xl transition border ${
+              className={`dossier-action-btn p-2 rounded-xl transition border ${
                 isBookmarked 
                   ? 'bg-amber-950/80 text-amber-400 border-amber-700/60' 
                   : 'bg-white/5 text-slate-400 hover:text-white border-white/5'
@@ -145,7 +145,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <button
               type="button"
               onClick={handleCopyLink}
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/5 relative"
+              className="dossier-action-btn p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/5 relative"
               title="分享此研报链接"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
@@ -154,7 +154,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5 ml-1"
+              className="dossier-close-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5 ml-1"
               title="关闭 (Esc)"
             >
               <X className="w-5 h-5" />
@@ -169,7 +169,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
           <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
             <div className="space-y-4">
               {/* 视觉封面卡片 */}
-              <div className="relative w-full h-52 sm:h-64 rounded-2xl overflow-hidden bg-slate-900 border border-white/10 shadow-lg group">
+              <div className="dossier-media-card relative w-full h-52 sm:h-64 rounded-2xl overflow-hidden bg-slate-900 border border-white/10 shadow-lg group">
                 {news.coverUrl && !imgError ? (
                   <img
                     src={news.coverUrl}
@@ -202,7 +202,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
               </div>
 
               {/* 信源权威凭证矩阵卡 */}
-              <div className="p-4 rounded-2xl bg-obsidian-card border border-white/10 space-y-2.5 text-xs font-mono">
+              <div className="dossier-meta-card p-4 rounded-2xl bg-obsidian-card border border-white/10 space-y-2.5 text-xs font-mono">
                 <div className="flex items-center justify-between border-b border-white/5 pb-2">
                   <span className="text-slate-400 flex items-center gap-1.5">
                     <Globe2 className="w-4 h-4 text-cyan-400" />
@@ -246,7 +246,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
                 href={`https://www.google.com/search?q=${encodeURIComponent(news.englishTitle || news.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-4 rounded-xl text-xs font-mono font-semibold text-slate-300 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 transition flex items-center justify-center gap-2 group shadow-sm"
+                className="dossier-external-link w-full py-3 px-4 rounded-xl text-xs font-mono font-semibold text-slate-300 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 transition flex items-center justify-center gap-2 group shadow-sm"
               >
                 <span>查阅全球外媒报道原件 (Cross-Check)</span>
                 <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-cyan-400" />
@@ -259,11 +259,11 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             
             {/* 标题系统 */}
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-white leading-snug tracking-tight mb-2">
+              <h2 className="dossier-title text-xl sm:text-2xl font-black text-white leading-snug tracking-tight mb-2">
                 {news.title}
               </h2>
               {news.englishTitle && (
-                <p className="text-xs sm:text-sm font-mono text-cyan-400/90 italic leading-relaxed">
+                <p className="dossier-subtitle text-xs sm:text-sm font-mono text-cyan-400/90 italic leading-relaxed">
                   {news.englishTitle}
                 </p>
               )}
@@ -280,13 +280,13 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
                   多语种交叉提炼 · 核心摘要
                 </span>
               </div>
-              <div className="text-sm leading-relaxed text-slate-200 font-sans bg-white/[0.03] p-5 rounded-2xl border border-white/10 shadow-inner">
+              <div className="dossier-summary-card text-sm leading-relaxed text-slate-200 font-sans bg-white/[0.03] p-5 rounded-2xl border border-white/10 shadow-inner">
                 {news.summary}
               </div>
             </div>
 
             {/* Gemini NLP 认知与实体抽取实验室 */}
-            <div className="glass-card p-5 rounded-2xl border border-cyan-500/30 shadow-glow-blue space-y-4">
+            <div className="dossier-nlp-card glass-card p-5 rounded-2xl border border-cyan-500/30 shadow-glow-blue space-y-4">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
                   <Cpu className="w-4 h-4 text-cyan-400 animate-pulse" />
@@ -325,7 +325,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
                   {(news.nlpKeyEntities || news.tags).map((entity, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 rounded-lg text-xs font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:border-cyan-400/40 transition cursor-default shadow-sm"
+                      className="dossier-entity-badge px-2.5 py-1 rounded-lg text-xs font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:border-cyan-400/40 transition cursor-default shadow-sm"
                     >
                       #{entity}
                     </span>
@@ -346,7 +346,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
         </div>
 
         {/* 3. 底部操作栏 */}
-        <div className="px-6 py-4 border-t border-white/10 bg-obsidian-900/80 backdrop-blur-md flex items-center justify-between">
+        <div className="dossier-footer-bar px-6 py-4 border-t border-white/10 bg-obsidian-900/80 backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
             <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
             <span className="hidden sm:inline">数据已通过全球权威分布式信源交叉比对与校验</span>
@@ -356,7 +356,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-2 rounded-xl text-xs font-mono font-bold text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 transition shadow-lg shadow-cyan-500/20 active:scale-95 border border-cyan-400/30"
+            className="dossier-done-btn px-6 py-2 rounded-xl text-xs font-mono font-bold text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 transition shadow-lg shadow-cyan-500/20 active:scale-95 border border-cyan-400/30"
           >
             完成查阅 (Done)
           </button>

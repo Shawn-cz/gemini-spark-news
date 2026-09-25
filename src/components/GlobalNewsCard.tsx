@@ -142,7 +142,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
           <div className="card-source-pill flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/5">
             <span className="font-bold text-white tracking-wide">{news.source}</span>
             {news.sourceCountry && (
-              <span className="text-[10px] px-1 py-0.2 rounded bg-white/10 text-slate-300 font-mono">
+              <span className="card-source-country text-[10px] px-1 py-0.2 rounded bg-white/10 text-slate-300 font-mono">
                 {news.sourceCountry}
               </span>
             )}
