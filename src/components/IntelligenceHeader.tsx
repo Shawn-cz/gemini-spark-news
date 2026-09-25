@@ -55,10 +55,10 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
     <header className="bg-obsidian-950/90 border-b border-white/10 sticky top-0 z-30 backdrop-blur-xl shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
         
-        {/* 第一行：Logo、全球情绪脉搏仪、操作区 */}
+        {/* 第一行：Logo、品牌标识、操作区 (两端分布，永不重叠) */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
           
-          {/* Logo 区域 */}
+          {/* Logo 与智库品牌标识 */}
           <div className="flex items-center space-x-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-lg shadow-cyan-500/20 flex-shrink-0">
               <div className="w-full h-full bg-obsidian-950 rounded-[11px] flex items-center justify-center text-cyan-400">
@@ -66,44 +66,18 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               </div>
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+              <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
                 <h1 className="text-base sm:text-lg font-black tracking-wider text-white uppercase bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent whitespace-nowrap">
                   Gemini Spark Intelligence
                 </h1>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 flex items-center gap-1 shadow-inner whitespace-nowrap flex-shrink-0">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 flex items-center gap-1 shadow-inner whitespace-nowrap flex-shrink-0">
                   <Radio className="w-2.5 h-2.5 text-cyan-400 animate-pulse flex-shrink-0" />
                   GEMINI AGENT 24H
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono tracking-tight truncate max-w-xs sm:max-w-md xl:max-w-lg 2xl:max-w-xl">
+              <p className="text-xs text-slate-400 font-mono tracking-tight truncate max-w-sm sm:max-w-md xl:max-w-xl">
                 基于 Gemini 智能体定时全网检索、多语种提炼与全球宏观认知分析管道
               </p>
-            </div>
-          </div>
-
-          {/* 中间：全球舆情心电图 (Global Sentiment Pulse) */}
-          <div className="hidden xl:flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-obsidian-card/90 border border-white/10 shadow-inner flex-shrink-0 whitespace-nowrap">
-            <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400 whitespace-nowrap flex-shrink-0">
-              <Activity className="w-3.5 h-3.5 text-cyan-400 animate-pulse flex-shrink-0" />
-              <span className="whitespace-nowrap">全球宏观情绪极性:</span>
-            </div>
-            <div className="flex items-center gap-1.5 whitespace-nowrap flex-shrink-0">
-              <span className={`text-xs font-mono font-bold whitespace-nowrap ${pulse.color}`}>
-                {sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`}
-              </span>
-              <span className="text-xs text-slate-300 font-medium whitespace-nowrap">
-                {pulse.label}
-                <span className="hidden 2xl:inline text-slate-400 text-[11px] font-mono ml-1">
-                  ({pulse.en})
-                </span>
-              </span>
-            </div>
-            {/* 微型极性进度条 */}
-            <div className="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden flex-shrink-0">
-              <div
-                className={`h-full rounded-full ${pulse.bar}`}
-                style={{ width: `${Math.min(100, Math.max(10, Math.abs(sentimentScore)))}%` }}
-              ></div>
             </div>
           </div>
 
@@ -169,8 +143,8 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
         </div>
 
-        {/* 第二行：24H 批次调度状态监控栏 */}
-        <div className="mt-3 pt-3 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-mono">
+        {/* 第二行：24H 批次调度与宏观认知监控栏 (5大关键情报指标卡) */}
+        <div className="mt-3 pt-3 border-t border-white/5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-xs font-mono">
           
           {/* 指标 1: 批次状态 */}
           <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
@@ -185,19 +159,43 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 {isCompleted ? (
                   <span className="text-emerald-400 flex items-center gap-1 whitespace-nowrap">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
-                    24H BATCH COMPLETED
+                    24H COMPLETED
                   </span>
                 ) : (
                   <span className="text-amber-400 flex items-center gap-1 whitespace-nowrap">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
-                    GEMINI AGENT GENERATING...
+                    GENERATING...
                   </span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* 指标 2: 产出时间 */}
+          {/* 指标 2: 全球宏观情绪极性心电图 */}
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
+            <Activity className="w-4 h-4 text-cyan-400 animate-pulse flex-shrink-0" />
+            <div className="min-w-0 flex-1">
+              <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap flex items-center justify-between">
+                <span>Sentiment Pulse</span>
+                <span className={`font-bold ${pulse.color}`}>
+                  {sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-1 mt-0.5">
+                <span className="text-slate-300 font-medium truncate text-[11px] whitespace-nowrap">
+                  {pulse.label}
+                </span>
+                <div className="w-10 bg-slate-800 rounded-full h-1 overflow-hidden flex-shrink-0">
+                  <div
+                    className={`h-full rounded-full ${pulse.bar}`}
+                    style={{ width: `${Math.min(100, Math.max(10, Math.abs(sentimentScore)))}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 指标 3: 产出时间 */}
           <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             <Clock className="w-4 h-4 text-cyan-400 flex-shrink-0" />
             <div className="min-w-0">
@@ -208,7 +206,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
           </div>
 
-          {/* 指标 3: 下次调度 */}
+          {/* 指标 4: 下次调度 */}
           <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             <Radio className="w-4 h-4 text-indigo-400 flex-shrink-0" />
             <div className="min-w-0">
@@ -219,13 +217,13 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
           </div>
 
-          {/* 指标 4: 归档资讯篇数 */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
+          {/* 指标 5: 归档资讯篇数 */}
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0 col-span-2 sm:col-span-1">
             <Activity className="w-4 h-4 text-blue-400 flex-shrink-0" />
             <div className="min-w-0">
               <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap">Global Entities Audited</div>
               <div className="text-slate-300 font-semibold truncate whitespace-nowrap">
-                {isCompleted ? `${statusInfo?.batchNewsCount ?? 0} 篇全球深度情报` : 'PROCESSING'}
+                {isCompleted ? `${statusInfo?.batchNewsCount ?? 0} 篇深度情报` : 'PROCESSING'}
               </div>
             </div>
           </div>
