@@ -254,6 +254,229 @@ html, body {
   color: #0284c7 !important;
 }
 
+/* ========================================================
+   Global Category Bar & Filters - Neo-Brutalist Light
+   ======================================================== */
+/* 1. Category Pill Tabs */
+[data-theme="light"] .category-pill-btn {
+  border-radius: 8px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, color 0.15s ease !important;
+}
+
+[data-theme="light"] .category-pill-unselected {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="light"] .category-pill-unselected:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  background: #f8fafc !important;
+  color: #000000 !important;
+}
+
+[data-theme="light"] .category-pill-unselected:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="light"] .category-pill-unselected .category-pill-icon {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .category-pill-unselected .category-pill-count {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .category-pill-selected {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  font-weight: 900 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="light"] .category-pill-selected:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+[data-theme="light"] .category-pill-selected:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="light"] .category-pill-selected .category-pill-icon {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .category-pill-selected .category-pill-count {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* 2. View Mode Switcher (Bento / Matrix / Timeline) */
+[data-theme="light"] .viewmode-container {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  border-radius: 10px !important;
+}
+
+[data-theme="light"] .viewmode-btn {
+  color: #475569 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="light"] .viewmode-btn:hover:not(.viewmode-btn-active) {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: #000000 !important;
+}
+
+[data-theme="light"] .viewmode-btn-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .viewmode-btn-active svg {
+  color: #ffffff !important;
+}
+
+/* 3. Second Row Filters: Date, Sentiment & Search Input */
+[data-theme="light"] .filter-date-label {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .filter-date-label .filter-date-icon {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .filter-date-container {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="light"] .filter-date-btn {
+  color: #334155 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="light"] .filter-date-btn:hover:not(.filter-date-btn-active) {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: #000000 !important;
+}
+
+[data-theme="light"] .filter-date-btn-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="light"] .filter-sentiment-container {
+  border-left-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  border-radius: 6px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:hover:not(.filter-sentiment-btn-active) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn-active span {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-all {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-positive {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-neutral {
+  color: #334155 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-negative {
+  color: #e11d48 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-count {
+  color: #64748b !important;
+}
+
+/* 4. Typewriter Search Input */
+[data-theme="light"] .category-search-input {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  border-radius: 8px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease !important;
+}
+
+[data-theme="light"] .category-search-input:focus {
+  border-color: #000000 !important;
+  box-shadow: 3.5px 3.5px 0px #000000 !important;
+  outline: none !important;
+}
+
+[data-theme="light"] .category-search-input::placeholder {
+  color: #64748b !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+[data-theme="light"] .category-search-icon {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .category-search-clear {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
 [data-theme="light"] .bg-obsidian-950 {
   background-color: #f4ebd9 !important;
 }
@@ -600,6 +823,229 @@ html, body {
 }
 [data-theme="dopamine"] .header-brand-badge .animate-pulse {
   color: #ff007f !important;
+}
+
+/* ========================================================
+   Global Category Bar & Filters - Neo-Brutalist Pop (Dopamine)
+   ======================================================== */
+/* 1. Category Pill Tabs */
+[data-theme="dopamine"] .category-pill-btn {
+  border-radius: 8px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, color 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .category-pill-unselected {
+  background: #ffffff !important;
+  color: #1e1b4b !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="dopamine"] .category-pill-unselected:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #ff007f !important;
+  background: #fff0f5 !important;
+  color: #000000 !important;
+}
+
+[data-theme="dopamine"] .category-pill-unselected:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .category-pill-unselected .category-pill-icon {
+  color: #1e1b4b !important;
+}
+
+[data-theme="dopamine"] .category-pill-unselected .category-pill-count {
+  background: #fce7f3 !important;
+  color: #be185d !important;
+  border: 1px solid #fbcfe8 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .category-pill-selected {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+  font-weight: 900 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="dopamine"] .category-pill-selected:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3.5px 3.5px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .category-pill-selected:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .category-pill-selected .category-pill-icon {
+  color: #ffffff !important;
+}
+
+[data-theme="dopamine"] .category-pill-selected .category-pill-count {
+  background: #ffffff !important;
+  color: #ff007f !important;
+  border: 1px solid #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* 2. View Mode Switcher (Bento / Matrix / Timeline) */
+[data-theme="dopamine"] .viewmode-container {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  border-radius: 10px !important;
+}
+
+[data-theme="dopamine"] .viewmode-btn {
+  color: #475569 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .viewmode-btn:hover:not(.viewmode-btn-active) {
+  background: rgba(255, 0, 127, 0.08) !important;
+  color: #000000 !important;
+}
+
+[data-theme="dopamine"] .viewmode-btn-active {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .viewmode-btn-active svg {
+  color: #ffffff !important;
+}
+
+/* 3. Second Row Filters: Date, Sentiment & Search Input */
+[data-theme="dopamine"] .filter-date-label {
+  color: #1e1b4b !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .filter-date-label .filter-date-icon {
+  color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .filter-date-container {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="dopamine"] .filter-date-btn {
+  color: #334155 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .filter-date-btn:hover:not(.filter-date-btn-active) {
+  background: rgba(255, 0, 127, 0.08) !important;
+  color: #000000 !important;
+}
+
+[data-theme="dopamine"] .filter-date-btn-active {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-container {
+  border-left-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+  border-radius: 6px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:hover:not(.filter-sentiment-btn-active) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn-active {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn-active span {
+  color: #ffffff !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-all {
+  color: #1e1b4b !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-positive {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-neutral {
+  color: #334155 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-negative {
+  color: #e11d48 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-count {
+  color: #64748b !important;
+}
+
+/* 4. Typewriter Search Input */
+[data-theme="dopamine"] .category-search-input {
+  background-color: #ffffff !important;
+  color: #1e1b4b !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  border-radius: 8px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .category-search-input:focus {
+  border-color: #000000 !important;
+  box-shadow: 3.5px 3.5px 0px #ff007f !important;
+  outline: none !important;
+}
+
+[data-theme="dopamine"] .category-search-input::placeholder {
+  color: #a78bfa !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+[data-theme="dopamine"] .category-search-icon {
+  color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .category-search-clear {
+  color: #ff007f !important;
+  font-weight: 900 !important;
 }
 
 [data-theme="dopamine"] .bg-obsidian-950 {

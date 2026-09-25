@@ -79,15 +79,15 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 key={cat.key}
                 type="button"
                 onClick={() => onSelectCategory(cat.key)}
-                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                className={`category-pill-btn inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                   isSelected
-                    ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-glow-blue font-semibold'
-                    : 'bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5'
+                    ? 'category-pill-selected bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-glow-blue font-semibold'
+                    : 'category-pill-unselected bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
+                <Icon className={`category-pill-icon w-3.5 h-3.5 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
                 <span>{cat.label}</span>
-                <span className={`px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
+                <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
                   isSelected ? 'bg-cyan-400/20 text-cyan-200' : 'bg-white/5 text-slate-500'
                 }`}>
                   {cat.count}
@@ -98,7 +98,7 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
         </div>
 
         {/* 3 种新奇视图模式切换 */}
-        <div className="inline-flex bg-obsidian-card p-1 rounded-xl border border-white/10 self-start lg:self-auto shadow-inner">
+        <div className="viewmode-container inline-flex bg-obsidian-card p-1 rounded-xl border border-white/10 self-start lg:self-auto shadow-inner">
           {viewModes.map((vm) => {
             const isSelected = viewMode === vm.key;
             const Icon = vm.icon;
@@ -107,9 +107,9 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 key={vm.key}
                 type="button"
                 onClick={() => onSelectViewMode(vm.key)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                className={`viewmode-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   isSelected
-                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
+                    ? 'viewmode-btn-active bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -127,12 +127,12 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
         
         <div className="flex items-center gap-3 flex-wrap">
           {/* 历史日期切换 */}
-          <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
-            <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="filter-date-label flex items-center gap-1.5 text-xs font-mono text-slate-400">
+            <Calendar className="filter-date-icon w-3.5 h-3.5 text-cyan-400" />
             <span>批次日期:</span>
           </div>
 
-          <div className="inline-flex bg-obsidian-950 p-0.5 rounded-lg border border-white/5">
+          <div className="filter-date-container inline-flex bg-obsidian-950 p-0.5 rounded-lg border border-white/5">
             {availableDates.map((date, idx) => {
               const isSelected = selectedDate === date;
               const isToday = idx === 0;
@@ -141,9 +141,9 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                   key={date}
                   type="button"
                   onClick={() => onSelectDate(date)}
-                  className={`px-2.5 py-1 rounded-md text-xs font-mono transition-all ${
+                  className={`filter-date-btn px-2.5 py-1 rounded-md text-xs font-mono transition-all ${
                     isSelected
-                      ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
+                      ? 'filter-date-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
@@ -157,7 +157,7 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
           </div>
 
           {/* 情绪滤镜 */}
-          <div className="hidden sm:flex items-center gap-1 pl-2 border-l border-white/10">
+          <div className="filter-sentiment-container hidden sm:flex items-center gap-1 pl-2 border-l border-white/10">
             {sentiments.map((s) => {
               const isSelected = selectedSentiment === s.key;
               return (
@@ -165,14 +165,14 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                   key={s.key}
                   type="button"
                   onClick={() => onSelectSentiment(s.key)}
-                  className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
+                  className={`filter-sentiment-btn px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                     isSelected
-                      ? 'bg-white/10 text-white font-bold'
+                      ? 'filter-sentiment-btn-active bg-white/10 text-white font-bold'
                       : 'text-slate-400 hover:text-slate-300'
                   }`}
                 >
-                  <span className={s.color}>{s.label}</span>
-                  <span className="ml-1 font-mono text-[10px] text-slate-500">({s.count})</span>
+                  <span className={`filter-sentiment-label filter-sentiment-${s.key} ${s.color}`}>{s.label}</span>
+                  <span className="ml-1 font-mono text-[10px] text-slate-500 filter-sentiment-count">({s.count})</span>
                 </button>
               );
             })}
@@ -181,19 +181,19 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
 
         {/* 全球多语种检索框 */}
         <div className="relative w-full md:w-64">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="category-search-icon w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="检索全球实体、机构或标签..."
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 text-xs bg-obsidian-950/80 border border-white/10 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-500 text-slate-200 placeholder-slate-500 transition font-mono"
+            className="category-search-input w-full pl-8 pr-3 py-1.5 text-xs bg-obsidian-950/80 border border-white/10 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-500 text-slate-200 placeholder-slate-500 transition font-mono"
           />
           {searchValue && (
             <button
               type="button"
               onClick={() => onSearchChange('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-200"
+              className="category-search-clear absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-200"
             >
               ×
             </button>

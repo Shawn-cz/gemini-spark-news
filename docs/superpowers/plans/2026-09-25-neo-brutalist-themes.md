@@ -140,23 +140,23 @@ git commit -m "feat(header): upgrade IntelligenceHeader and 5-metric dashboard t
 - Modify: `src/index.css`
 - Test: `npm run build`
 
-- [ ] **Step 1: 重构分类 Tab 切换按钮为实体贴纸形式**
+- [x] **Step 1: 重构分类 Tab 切换按钮为实体贴纸形式**
 在 `GlobalCategoryBar.tsx` 中为分类选项注入野兽派贴纸状态：
 - 羊皮纸选中态：纯黑底白字 `border-2 border-black shadow-[2px_2px_0px_#000]`，未选中态：白底黑字 `border-1.5 border-black shadow-[2px_2px_0px_#000]`
 - 多巴胺选中态：高能波普色（电光粉、柠檬黄、电青交替贴纸），未选中态白底黑框
 
-- [ ] **Step 2: 重构检索输入框为等宽打字机风格**
+- [x] **Step 2: 重构检索输入框为等宽打字机风格**
 - 羊皮纸模式下：输入框具备 `2px solid #000000` 黑框，`2px 2px 0 #000` 实体硬投影，占位符为高清晰等宽文字
 - 多巴胺模式下：获焦时触发 `3px 3px 0 #ff007f` 实体硬阴影
 
-- [ ] **Step 3: 重构视图切换开关 (Bento / Matrix / Timeline)**
+- [x] **Step 3: 重构视图切换开关 (Bento / Matrix / Timeline)**
 - 按钮采用机械档位开关风格，带清晰实体黑线框与硬投影
 
-- [ ] **Step 4: 运行构建测试验证**
+- [x] **Step 4: 运行构建测试验证**
 Run: `npm run build`
 Expected: 编译通过。
 
-- [ ] **Step 5: 提交 Task 4 修改**
+- [x] **Step 5: 提交 Task 4 修改**
 ```bash
 git add src/components/GlobalCategoryBar.tsx src/index.css
 git commit -m "feat(category-bar): implement brutalist sticker tabs and typewriter search input"
