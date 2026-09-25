@@ -61,7 +61,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
           
           {/* Logo 与智库品牌标识 */}
           <div className="flex items-center space-x-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-lg shadow-cyan-500/20 flex-shrink-0">
+            <div className="header-logo-icon w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-lg shadow-cyan-500/20 flex-shrink-0">
               <div className="w-full h-full bg-obsidian-950 rounded-[11px] flex items-center justify-center text-cyan-400">
                 <Globe className="w-5 h-5 animate-spin-slow" />
               </div>
@@ -71,7 +71,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 <h1 className="text-base sm:text-lg font-black tracking-wider text-white uppercase bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent whitespace-nowrap">
                   Gemini Spark Intelligence
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 flex items-center gap-1 shadow-inner whitespace-nowrap flex-shrink-0">
+                <span className="header-brand-badge px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 flex items-center gap-1 shadow-inner whitespace-nowrap flex-shrink-0">
                   <Radio className="w-2.5 h-2.5 text-cyan-400 animate-pulse flex-shrink-0" />
                   GEMINI AGENT 24H
                 </span>
@@ -92,7 +92,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               <button
                 type="button"
                 onClick={onOpenDevTools}
-                className="px-3 py-1.5 text-xs font-mono rounded-lg text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800 transition-colors flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
+                className="header-action-btn header-btn-devtools px-3 py-1.5 text-xs font-mono rounded-lg text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800 transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
                 title="打开全栈开发者调试套件 (DevTools)"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
@@ -105,7 +105,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               <button
                 type="button"
                 onClick={() => onToggleStatus()}
-                className="px-3 py-1.5 text-xs font-mono rounded-lg text-slate-300 bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-1.5 border border-white/10 whitespace-nowrap flex-shrink-0"
+                className="header-action-btn header-btn-devtools px-3 py-1.5 text-xs font-mono rounded-lg text-slate-300 bg-white/5 hover:bg-white/10 transition-all flex items-center gap-1.5 border border-white/10 whitespace-nowrap flex-shrink-0"
                 title="切换当前批次状态 (演示计算中与已完成)"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
@@ -121,7 +121,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               <button
                 type="button"
                 onClick={onOpenImport}
-                className="px-3 py-1.5 text-xs font-mono rounded-lg text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 transition-colors flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
+                className="header-action-btn header-btn-import px-3 py-1.5 text-xs font-mono rounded-lg text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
                 title="粘贴并导入 Gemini Spark 定时任务生成的输出"
               >
                 <Upload className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
@@ -134,7 +134,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               type="button"
               onClick={handleManualRefresh}
               disabled={isRefreshing || loading}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white shadow-lg transition-all active:scale-95 border border-cyan-400/30 whitespace-nowrap flex-shrink-0 ${
+              className={`header-action-btn header-btn-sync inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white shadow-lg transition-all border border-cyan-400/30 whitespace-nowrap flex-shrink-0 ${
                 isRefreshing || loading
                   ? 'bg-slate-800 text-slate-400 cursor-not-allowed border-slate-700'
                   : 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-cyan-500/20'
@@ -148,26 +148,26 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
         </div>
 
         {/* 第二行：24H 批次调度与宏观认知监控栏 (5大关键情报指标卡) */}
-        <div className="mt-3 pt-3 border-t border-white/5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-xs font-mono">
+        <div className="header-metric-grid mt-3 pt-3 border-t border-white/5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-xs font-mono">
           
           {/* 指标 1: 批次状态 */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
+          <div className="header-metric-card flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             {isCompleted ? (
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
             ) : (
               <Clock className="w-4 h-4 text-amber-400 animate-spin flex-shrink-0" />
             )}
             <div className="min-w-0">
-              <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Status</div>
-              <div className="font-semibold truncate whitespace-nowrap">
+              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Status</div>
+              <div className="metric-value font-semibold truncate whitespace-nowrap">
                 {isCompleted ? (
                   <span className="text-emerald-400 flex items-center gap-1 whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                    <span className="metric-dot w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
                     24H COMPLETED
                   </span>
                 ) : (
                   <span className="text-amber-400 flex items-center gap-1 whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
+                    <span className="metric-dot w-2 h-2 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
                     GENERATING...
                   </span>
                 )}
@@ -176,17 +176,17 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
           </div>
 
           {/* 指标 2: 全球宏观情绪极性心电图 */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
+          <div className="header-metric-card flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             <Activity className="w-4 h-4 text-cyan-400 animate-pulse flex-shrink-0" />
             <div className="min-w-0 flex-1">
-              <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap flex items-center justify-between">
+              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap flex items-center justify-between">
                 <span>Sentiment Pulse</span>
                 <span className={`font-bold ${pulse.color}`}>
                   {sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-1 mt-0.5">
-                <span className="text-slate-300 font-medium truncate text-[11px] whitespace-nowrap">
+                <span className="metric-value text-slate-300 font-medium truncate text-[11px] whitespace-nowrap">
                   {pulse.label}
                 </span>
                 <div className="w-10 bg-slate-800 rounded-full h-1 overflow-hidden flex-shrink-0">
@@ -200,33 +200,33 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
           </div>
 
           {/* 指标 3: 产出时间 */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
+          <div className="header-metric-card flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             <Clock className="w-4 h-4 text-cyan-400 flex-shrink-0" />
             <div className="min-w-0">
-              <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Ingestion Time</div>
-              <div className="text-slate-300 font-medium truncate whitespace-nowrap">
+              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Ingestion Time</div>
+              <div className="metric-value text-slate-300 font-medium truncate whitespace-nowrap">
                 {isCompleted ? (statusInfo?.generatedTime || '今日 08:30 AM') : 'COMPUTING...'}
               </div>
             </div>
           </div>
 
           {/* 指标 4: 下次调度 */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
+          <div className="header-metric-card flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             <Radio className="w-4 h-4 text-indigo-400 flex-shrink-0" />
             <div className="min-w-0">
-              <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap">Next Schedule Cycle</div>
-              <div className="text-slate-300 font-medium truncate whitespace-nowrap">
+              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Next Schedule Cycle</div>
+              <div className="metric-value text-slate-300 font-medium truncate whitespace-nowrap">
                 {statusInfo?.nextScheduleTime || '每日 08:30 AM (晨报)'}
               </div>
             </div>
           </div>
 
           {/* 指标 5: 归档资讯篇数 */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0 col-span-2 sm:col-span-1">
+          <div className="header-metric-card flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0 col-span-2 sm:col-span-1">
             <Activity className="w-4 h-4 text-blue-400 flex-shrink-0" />
             <div className="min-w-0">
-              <div className="text-slate-500 text-[10px] uppercase whitespace-nowrap">Global Entities Audited</div>
-              <div className="text-slate-300 font-semibold truncate whitespace-nowrap">
+              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Global Entities Audited</div>
+              <div className="metric-value text-slate-300 font-semibold truncate whitespace-nowrap">
                 {isCompleted ? `${statusInfo?.batchNewsCount ?? 0} 篇深度情报` : 'PROCESSING'}
               </div>
             </div>

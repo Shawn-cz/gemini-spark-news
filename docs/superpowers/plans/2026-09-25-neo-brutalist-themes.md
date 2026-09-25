@@ -105,27 +105,27 @@ git commit -m "feat(theme): refactor ThemeSwitcher with neo-brutalist tactile ae
 - Modify: `src/index.css`
 - Test: `npm run build`
 
-- [ ] **Step 1: 升级 Header 容器与标题边框**
+- [x] **Step 1: 升级 Header 容器与标题边框**
 在 `src/index.css` 中为 `[data-theme="light"] header` 添加：
 - `background-color: #fbf6ec !important;`
 - `border-bottom: 2px solid #000000 !important;`
 - `box-shadow: 0 4px 0px #000000 !important;`
 - `[data-theme="dopamine"] header` 添加 `border-bottom: 2.5px solid #000000 !important; box-shadow: 0 4px 0px #ff007f !important;`
 
-- [ ] **Step 2: 升级 5-Metric 宏观仪表盘卡片样式**
+- [x] **Step 2: 升级 5-Metric 宏观仪表盘卡片样式**
 在 `src/index.css` 中为 Header 第二行的指标卡添加样式类映射：
 - 羊皮纸模式下，指标卡具有：纯白底板、`1.5px solid #000` 黑色细边框、`2px 2px 0 #000` 实体硬投影、黑色高对比度字体；
 - 多巴胺模式下，指标卡具有：纯白底板、`2px solid #000` 黑边框、波普粉/黄/青微硬投影。
 
-- [ ] **Step 3: 升级同步按钮与操作按钮实体质感**
+- [x] **Step 3: 升级同步按钮与操作按钮实体质感**
 - 羊皮纸模式下同步按钮为纯白或黑金配色，`2px solid #000`，`3px 3px 0 #000` 投影，按下时 `translate(1px, 1px)`；
 - 多巴胺模式下为高能热粉/柠檬黄色块按钮。
 
-- [ ] **Step 4: 运行构建测试验证**
+- [x] **Step 4: 运行构建测试验证**
 Run: `npm run build`
 Expected: 编译通过。
 
-- [ ] **Step 5: 提交 Task 3 修改**
+- [x] **Step 5: 提交 Task 3 修改**
 ```bash
 git add src/components/IntelligenceHeader.tsx src/index.css
 git commit -m "feat(header): upgrade IntelligenceHeader and 5-metric dashboard to neo-brutalist style"

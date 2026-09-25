@@ -100,16 +100,158 @@ html, body {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
+/* ========================================================
+   Header & 5-Metric Dashboard - Neo-Brutalist Light
+   ======================================================== */
 [data-theme="light"] header {
-  background-color: rgba(244, 235, 217, 0.92) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.15) !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04) !important;
+  background-color: #fbf6ec !important;
+  border-bottom: 2px solid #000000 !important;
+  box-shadow: 0 4px 0px #000000 !important;
 }
 
 [data-theme="light"] header h1 {
-  background: linear-gradient(to right, #0f172a, #0284c7, #2563eb) !important;
-  -webkit-background-clip: text !important;
-  color: transparent !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: initial !important;
+  -webkit-background-clip: initial !important;
+  background: none !important;
+}
+
+[data-theme="light"] header .header-metric-grid {
+  border-top: 1.5px dashed rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-theme="light"] .header-metric-card {
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  border-radius: 8px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+[data-theme="light"] .header-metric-card:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+[data-theme="light"] .header-metric-card .metric-label,
+[data-theme="light"] .header-metric-card .text-slate-500 {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .header-metric-card .metric-value,
+[data-theme="light"] .header-metric-card .text-slate-300 {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .header-metric-card .text-emerald-400 {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .header-metric-card .text-amber-400 {
+  color: #d97706 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .header-metric-card .text-cyan-400 {
+  color: #0284c7 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .header-metric-card .text-indigo-400 {
+  color: #4f46e5 !important;
+}
+
+[data-theme="light"] .header-metric-card .text-blue-400 {
+  color: #2563eb !important;
+}
+
+[data-theme="light"] .header-metric-card .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .header-metric-card .metric-dot,
+[data-theme="light"] .header-metric-card .w-2.h-2.rounded-full {
+  opacity: 1 !important;
+  border: 1px solid #000000 !important;
+}
+[data-theme="light"] .header-metric-card .bg-emerald-400 {
+  background-color: #10b981 !important;
+}
+[data-theme="light"] .header-metric-card .bg-amber-400 {
+  background-color: #f59e0b !important;
+}
+
+/* Header Action Buttons - Neo-Brutalist Tactile Feel */
+[data-theme="light"] .header-action-btn {
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+[data-theme="light"] .header-action-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+[data-theme="light"] .header-action-btn:active:not(:disabled) {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="light"] .header-btn-devtools {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+}
+[data-theme="light"] .header-btn-devtools:hover:not(:disabled) {
+  background-color: #fde68a !important;
+}
+
+[data-theme="light"] .header-btn-import {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+[data-theme="light"] .header-btn-import:hover:not(:disabled) {
+  background-color: #bae6fd !important;
+}
+
+[data-theme="light"] .header-btn-sync {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-theme="light"] .header-btn-sync:hover:not(:disabled) {
+  background: #1e293b !important;
+}
+[data-theme="light"] .header-btn-sync:disabled {
+  background: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  cursor: not-allowed !important;
+}
+
+[data-theme="light"] .header-logo-icon {
+  background: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  padding: 0 !important;
+}
+[data-theme="light"] .header-logo-icon > div {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="light"] .header-brand-badge {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+}
+[data-theme="light"] .header-brand-badge .animate-pulse {
+  color: #0284c7 !important;
 }
 
 [data-theme="light"] .bg-obsidian-950 {
@@ -307,16 +449,157 @@ html, body {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
+/* ========================================================
+   Header & 5-Metric Dashboard - Neo-Brutalist Pop (Dopamine)
+   ======================================================== */
 [data-theme="dopamine"] header {
-  background-color: rgba(255, 240, 245, 0.9) !important;
-  border-bottom: 2px solid rgba(244, 63, 94, 0.2) !important;
-  box-shadow: 0 4px 25px -2px rgba(244, 63, 94, 0.08) !important;
+  background-color: #ffffff !important;
+  border-bottom: 2.5px solid #000000 !important;
+  box-shadow: 0 4px 0px #ff007f !important;
 }
 
 [data-theme="dopamine"] header h1 {
   background: linear-gradient(to right, #ec4899, #8b5cf6, #f59e0b) !important;
   -webkit-background-clip: text !important;
   color: transparent !important;
+}
+
+[data-theme="dopamine"] header .header-metric-grid {
+  border-top: 1.5px dashed rgba(255, 0, 127, 0.35) !important;
+}
+
+[data-theme="dopamine"] .header-metric-card {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  border-radius: 8px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .header-metric-card:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3px 3px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .metric-label,
+[data-theme="dopamine"] .header-metric-card .text-slate-500 {
+  color: #64748b !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .metric-value,
+[data-theme="dopamine"] .header-metric-card .text-slate-300 {
+  color: #1e1b4b !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .text-emerald-400 {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .text-amber-400 {
+  color: #d97706 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .text-cyan-400 {
+  color: #0891b2 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .text-indigo-400 {
+  color: #7c3aed !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .text-blue-400 {
+  color: #2563eb !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .bg-slate-800 {
+  background-color: #fce7f3 !important;
+  border: 1px solid #fbcfe8 !important;
+}
+
+[data-theme="dopamine"] .header-metric-card .metric-dot,
+[data-theme="dopamine"] .header-metric-card .w-2.h-2.rounded-full {
+  opacity: 1 !important;
+  border: 1px solid #000000 !important;
+}
+[data-theme="dopamine"] .header-metric-card .bg-emerald-400 {
+  background-color: #10b981 !important;
+}
+[data-theme="dopamine"] .header-metric-card .bg-amber-400 {
+  background-color: #f59e0b !important;
+}
+
+/* Header Action Buttons - Neo-Brutalist Tactile Feel */
+[data-theme="dopamine"] .header-action-btn {
+  border: 2px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .header-action-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3.5px 3.5px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .header-action-btn:active:not(:disabled) {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .header-btn-devtools {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+}
+[data-theme="dopamine"] .header-btn-devtools:hover:not(:disabled) {
+  background-color: #fde68a !important;
+}
+
+[data-theme="dopamine"] .header-btn-import {
+  background-color: #fce7f3 !important;
+  color: #be185d !important;
+}
+[data-theme="dopamine"] .header-btn-import:hover:not(:disabled) {
+  background-color: #fbcfe8 !important;
+}
+
+[data-theme="dopamine"] .header-btn-sync {
+  background: #ff007f !important;
+  color: #ffffff !important;
+}
+[data-theme="dopamine"] .header-btn-sync:hover:not(:disabled) {
+  background: #e00070 !important;
+}
+[data-theme="dopamine"] .header-btn-sync:disabled {
+  background: #fce7f3 !important;
+  color: #f472b6 !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+  cursor: not-allowed !important;
+}
+
+[data-theme="dopamine"] .header-logo-icon {
+  background: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+  padding: 0 !important;
+}
+[data-theme="dopamine"] .header-logo-icon > div {
+  background: #ffffff !important;
+  color: #ff007f !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="dopamine"] .header-brand-badge {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+}
+[data-theme="dopamine"] .header-brand-badge .animate-pulse {
+  color: #ff007f !important;
 }
 
 [data-theme="dopamine"] .bg-obsidian-950 {
