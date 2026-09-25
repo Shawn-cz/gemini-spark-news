@@ -99,13 +99,13 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
       }`}
     >
       {/* 顶部媒体流展示 (Hero 模式大图，普通卡片紧凑图) */}
-      <div className={`relative w-full bg-slate-900 overflow-hidden ${isHero ? 'h-64 sm:h-72' : 'h-40'}`}>
+      <div className={`relative w-full bg-slate-900 card-media-frame ${isHero ? 'h-64 sm:h-72' : 'h-40'}`}>
         {news.coverUrl && !imgError ? (
           <img
             src={news.coverUrl}
             alt={news.title}
             onError={() => setImgError(true)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100 will-change-transform"
             loading="lazy"
           />
         ) : (
@@ -115,8 +115,8 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
           </div>
         )}
 
-        {/* 顶部环境渐变蒙层 */}
-        <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-black/60 pointer-events-none"></div>
+        {/* 顶部环境渐变蒙层 (向下延伸 2px，彻底阻断任何缩放底边缘漏色) */}
+        <div className="absolute inset-0 -bottom-1 bg-gradient-to-t from-obsidian-950 via-transparent to-black/60 pointer-events-none"></div>
 
         {/* 左上角：领域与影响等级徽标 */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
@@ -155,8 +155,8 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
         </div>
       </div>
 
-      {/* 卡片主体内容 */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+      {/* 卡片主体内容 (建立独立 z-10 层级与负外边距无缝覆盖，杜绝底层图层穿透) */}
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between relative z-10 bg-inherit -mt-px">
         <div>
           {/* 中文主标题 (严格限制两行省略，防长文本撑破屏幕) */}
           <h3 className={`font-bold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug mb-1.5 line-clamp-2 break-words ${

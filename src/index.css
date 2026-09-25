@@ -36,6 +36,16 @@
   box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), 0 0 20px -4px rgba(56, 189, 248, 0.15);
 }
 
+/* 媒体图片防像素溢出与 GPU 渲染层隔离，彻底防止缩放时亚像素漏边 */
+.card-media-frame {
+  isolation: isolate;
+  contain: paint;
+  transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  overflow: hidden;
+}
+
+
 /* 自定义深色滚动条 */
 ::-webkit-scrollbar {
   width: 6px;
