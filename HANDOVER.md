@@ -1,7 +1,7 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-09-25 22:16 (UTC+8)
-- **当前 Git 主线**: `master` (提交哈希 `5cbe4d3`，工作区干净，无未提交更改)
+- **交接归档时间**: 2026-09-25 22:35 (UTC+8)
+- **当前 Git 主线**: `master` (提交哈希 `c9c82ba`，工作区干净，无未提交更改)
 - **系统运行状态**: 
   - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常)
   - 后端 API 服务: `http://localhost:3001` (Express + SSE 实时推流 + MongoDB Atlas 双模持久化正常)
@@ -10,6 +10,7 @@
   - 4 套单元与接口集成测试全部通过 (19/19 passing)
   - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过
   - 全套 9 张 Retina 高清无头截图自动化回归测试套件 100% 通过
+- **专项待办事项**: 包含 1 项已归档待命的淡色主题深底色按钮文字低对比度不可读修复预案（见第七章 Issue #UI-001）
 
 ---
 
@@ -281,3 +282,120 @@ e:/antigravity项目/资讯前端/
     ├── scheduler.test.mjs                     # 调度器与并发互斥锁单元测试
     └── apiEndpoints.test.mjs                  # 服务端 API 端点集成测试
 ```
+
+---
+
+## 七、 【专项待办事项 / UI 缺陷修复】淡色主题深底色按钮文字低对比度不可读修复预案 (Issue #UI-001)
+
+> [!IMPORTANT]
+> **当前状态**：`[ ] 待开动 (PENDING - 遵照用户明确要求：形成待办清单与详细修复预案，暂不修改代码，待后续会话指示后开动)`
+> **缺陷级别**：高 (P1 - 视觉与可读性阻碍，严重违反 WCAG 2.1 AA/AAA 4.5:1 / 7:1 对比度标准)
+> **复现环境**：P2 经典档案羊皮纸淡色主题 (`[data-theme="light"]`)，所有视图模式
+
+---
+
+### 1. 缺陷现象描述与证据溯源
+- **用户截图定位**：用户在测试羊皮纸（Light 模式）大屏时，红框标注了 3 处按钮内部文字过深、几乎完全无法辨识的严重视觉问题（对应用户截图文件 `media_1790346088474.png`）。
+- **具体三处不可读元素**：
+  1. **【顶部全站色彩切换胶囊】**：[`src/components/ThemeSwitcher.tsx`](src/components/ThemeSwitcher.tsx)
+     - **激活态按钮**：当前选中的“淡色”按钮。
+     - **视觉表现**：实体黑色底胶囊背景（`#000000`），但其中的太阳图标 `<Sun>` 以及文字 `"淡色"` 均呈现为深墨蓝色（`#0f172a`），仅右侧黄色小圆点微弱可见，字色与底色几乎融为一体，肉眼辨识极为困难。
+  2. **【顶部右侧操作栏】**：[`src/components/IntelligenceHeader.tsx:137`](src/components/IntelligenceHeader.tsx#L137)
+     - **操作按钮**：`header-btn-sync`（“同步批次”按钮）。
+     - **视觉表现**：按钮背景在淡色主题下为纯黑底（`#000000`），但内部旋转刷新图标 `<RotateCw>` 与文字 `"同步批次"` 被强制覆盖为深墨蓝色（`#0f172a`），造成“黑底黑字”的不可读现象。
+  3. **【三视图模式切换栏】**：[`src/components/GlobalCategoryBar.tsx:110`](src/components/GlobalCategoryBar.tsx#L110)
+     - **激活态按钮**：`.viewmode-btn-active`（默认选中的“Bento 智库看板”视图）。
+     - **视觉表现**：按钮背景为纯黑底（`#000000`），虽小方格图标由于有 `svg` 专用规则呈现为白色，但内部的文字 `"Bento 智库看板"` 依然呈现为暗黑色（`#0f172a`），严重影响受众辨识当前激活的视图。
+
+---
+
+### 2. 深度根因排查（Root Cause Analysis）
+
+通过 Chrome DevTools 协议（CDP）层叠样式匹配测试，精准定位出**唯一核心根因与特异性竞争**：
+
+1. **底层全局覆盖规则污染 (The Smoking Gun)**：
+   - 在 [`src/index.css:492-495`](src/index.css#L492-L495)：
+     ```css
+     [data-theme="light"] .text-white,
+     [data-theme="light"] .text-slate-100 {
+       color: #0f172a !important;
+     }
+     ```
+   - **设计初衷**：在暗夜主题中，大量文字使用了 Tailwind 的 `.text-white`；为了在淡色羊皮纸主题下快速将暗夜白字映射为深色墨字，引入了该全局覆盖规则。
+   - **灾难性副作用**：
+     - 在新野兽派（Neo-Brutalism）风格中，为了体现硬件机械按键的实体触感，部分重要按钮（如激活胶囊、同步按钮、激活视图）采用了**纯黑实体底色（`bg-black` 或 `background: #000000 !important`）搭配白字（`text-white`）**；
+     - 上述组件在 JSX 中声明了 `.text-white` 类名；
+     - 浏览器的 CSS 样式层叠在计算 `[data-theme="light"] .text-white` 时，由于其包含 `!important` 且由于在 `src/index.css` 中书写位置靠后（第 492 行），**强势压制了前面定义的 `.header-btn-sync { color: #ffffff !important; }`（第 223 行）以及 `.viewmode-btn-active { color: #ffffff !important; }`（第 349 行）**；
+     - 最终导致黑底按钮内部所有的文本及继承前景色（`currentColor`）的图标全部被染成接近纯黑的深墨色 `#0f172a`，造成“黑底黑字”灾难。
+
+---
+
+### 3. 精准代码定位一览表
+
+| 序号 | 页面模块 | 源码文件及行号 | 关联元素与类名 | 缺陷具体诱因 |
+| :--- | :--- | :--- | :--- | :--- |
+| **01** | 全站主题切换胶囊 | [`src/components/ThemeSwitcher.tsx:31`](src/components/ThemeSwitcher.tsx#L31) | `.theme-capsule-container button[aria-checked="true"]` | `activeClass` 包含 `text-white`，被 `index.css:492` 强制染成 `#0f172a` |
+| **02** | 顶部同步批次操作 | [`src/components/IntelligenceHeader.tsx:137`](src/components/IntelligenceHeader.tsx#L137) | `button.header-btn-sync:not(:disabled)` | 类名包含 `text-white`，`index.css:492` 压制了 `index.css:223` 的 `color: #fff` |
+| **03** | Bento 三视图切换 | [`src/components/GlobalCategoryBar.tsx:112`](src/components/GlobalCategoryBar.tsx#L112) | `button.viewmode-btn-active` | 类名包含 `text-white`，`index.css:492` 压制了 `index.css:349` 的 `color: #fff` |
+
+---
+
+### 4. 修复实施预案（待指示后开动）
+
+后续开动时，只需在 [`src/index.css`](src/index.css) 的 `[data-theme="light"]` 区域底部（第 496 行之后，或专门高优先级覆盖区），注入高特异性白字白图标强制守护规则：
+
+```css
+/* ========================================================
+   FIX(Issue #UI-001): 档案羊皮纸淡色主题黑底实体按钮白字白图标高对比度守护
+   覆盖 index.css:492 的 [data-theme="light"] .text-white 误伤
+   ======================================================== */
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"],
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] span,
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] svg,
+[data-theme="light"] .header-btn-sync:not(:disabled),
+[data-theme="light"] .header-btn-sync:not(:disabled) span,
+[data-theme="light"] .header-btn-sync:not(:disabled) svg,
+[data-theme="light"] .viewmode-btn-active,
+[data-theme="light"] .viewmode-btn-active span,
+[data-theme="light"] .viewmode-btn-active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* 针对 ThemeSwitcher 中的 Sun 太阳图标强制白描边 */
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] svg path,
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] svg circle {
+  stroke: #ffffff !important;
+}
+```
+
+#### 关键约束与安全防护：
+1. **严格限定作用域**：必须带有 `[data-theme="light"]` 前缀，严禁污染暗夜黑曜石主题（`dark`）与波普多巴胺主题（`dopamine`）；
+2. **无需修改 React 组件结构**：纯 CSS 修复，零副作用，不增加组件重新渲染负担；
+3. **WCAG 标准达标**：修复后纯黑背景（`#000000`）搭配纯白文字（`#ffffff`），对比度达到极限 **21:1**，完美满足 WCAG AAA 顶级无障碍可读标准。
+
+---
+
+### 5. 验证闭环与验收准则 (Definition of Done)
+
+待开动修复后，必须通过以下 4 步严格验收验证：
+1. **构建编译测试**：
+   ```bash
+   npm run build
+   ```
+   输出 0 error 0 warning，TypeScript 严格检查 100% 通过。
+2. **自动化主题截图生成与肉眼复核**：
+   ```bash
+   node scripts/verify-themes.mjs
+   ```
+   检查生成的 [`screenshots/light-parchment-bento.png`](screenshots/light-parchment-bento.png)：
+   - 验证顶部主题胶囊中“淡色”按钮文字与太阳图标为纯白高亮；
+   - 验证“同步批次”按钮文字与旋转图标为纯白高亮；
+   - 验证“Bento 智库看板”按钮文字与小方格图标为纯白高亮。
+3. **主题切换防回归测试**：
+   在浏览器中交替切换“暗夜” -> “淡色” -> “多巴胺” -> “淡色”，确认三大主题在各种交互状态下均无文字变色或闪烁异常。
+4. **E2E 管道全链路回归**：
+   ```bash
+   node scripts/verify-spark-pipeline.mjs
+   ```
+   确保 7 阶段自动化集成测试 100% 绿色通过。
