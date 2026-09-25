@@ -1,7 +1,13 @@
 import { SparkNewsDashboard } from './components/SparkNewsDashboard';
+import { ThemeProvider } from './context/ThemeContext';
 
 export function App() {
-  return <SparkNewsDashboard />;
+  return (
+    <ThemeProvider>
+      <SparkNewsDashboard />
+    </ThemeProvider>
+  );
 }
 
 export default App;
+

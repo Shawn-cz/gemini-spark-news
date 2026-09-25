@@ -10,6 +10,7 @@ import {
   Upload
 } from 'lucide-react';
 import { SparkBatchStatusInfo, BatchStatusType } from '../types/news';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 interface IntelligenceHeaderProps {
   statusInfo: SparkBatchStatusInfo | null;
@@ -81,8 +82,11 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
           </div>
 
-          {/* 右侧：状态切换与防抖同步按钮 */}
+          {/* 右侧：全站主题切换胶囊、状态切换与防抖同步按钮 */}
           <div className="flex items-center gap-2 sm:gap-2.5 self-end lg:self-auto flex-shrink-0 whitespace-nowrap">
+            {/* 全站色彩主题切换胶囊 */}
+            <ThemeSwitcher />
+
             {/* 调试面板 */}
             {onOpenDevTools ? (
               <button
