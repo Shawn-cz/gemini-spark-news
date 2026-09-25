@@ -120,21 +120,21 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
 
         {/* 左上角：领域与影响等级徽标 */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
-          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border backdrop-blur-md ${catMeta.badge}`}>
-            <CatIcon className="w-3 h-3" />
-            <span>{catMeta.label}</span>
+          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${catMeta.badge}`}>
+            <CatIcon className="w-3 h-3 flex-shrink-0" />
+            <span className="whitespace-nowrap">{catMeta.label}</span>
           </span>
 
-          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border backdrop-blur-md ${impactMeta.style}`}>
-            <ImpactIcon className="w-3 h-3 animate-pulse" />
-            <span>{impactMeta.label}</span>
+          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${impactMeta.style}`}>
+            <ImpactIcon className="w-3 h-3 animate-pulse flex-shrink-0" />
+            <span className="whitespace-nowrap">{impactMeta.label}</span>
           </span>
         </div>
 
         {/* 右上角：全球情绪极性微量尺 */}
-        <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-mono text-[11px]">
-          <span className="text-slate-400 text-[10px]">NLP SCORE:</span>
-          <span className={`font-bold ${scoreColor}`}>{scoreFormatted}</span>
+        <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-mono text-[11px] whitespace-nowrap flex-shrink-0">
+          <span className="text-slate-400 text-[10px] whitespace-nowrap">NLP SCORE:</span>
+          <span className={`font-bold whitespace-nowrap ${scoreColor}`}>{scoreFormatted}</span>
         </div>
 
         {/* 底部浮层：媒体源、国别与时钟 */}
@@ -193,9 +193,9 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
           </div>
 
           {/* 查看研报微链接 */}
-          <div className="text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0">
-            <span>深度解析</span>
-            <ExternalLink className="w-3 h-3" />
+          <div className="text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
+            <span className="whitespace-nowrap">深度解析</span>
+            <ExternalLink className="w-3 h-3 flex-shrink-0" />
           </div>
         </div>
 
