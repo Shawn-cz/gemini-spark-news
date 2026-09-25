@@ -104,7 +104,7 @@ export const SparkNewsDashboard: React.FC = () => {
       setErrorMessage(null);
 
       if (isSilent) {
-        showToast('30s 定时静默拉取完成：已同步最新 Gemini Spark 批次');
+        showToast('批次数据同步完成：已载入最新 Gemini Spark 情报');
       }
     } catch (err: any) {
       // 若为主动取消的中断错误，则静默忽略，不污染状态
@@ -192,6 +192,55 @@ export const SparkNewsDashboard: React.FC = () => {
       }
     };
   }, [loadDashboardData, statusInfo?.status, selectedDate, showToast]);
+
+  // 5. 原生 SSE 推流监听：接收后端 Gemini Spark 智能体 5 阶段实时进度与完成自动感知
+  useEffect(() => {
+    let es: EventSource | null = null;
+    try {
+      es = new EventSource('/api/spark/stream');
+      es.onmessage = (event) => {
+        try {
+          const payload = JSON.parse(event.data);
+          if (payload.type === 'PROGRESS') {
+            setStatusInfo((prev) => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                status: 'RUNNING',
+                statusText: '智能体生成中',
+                progress: typeof payload.progress === 'number' ? payload.progress : prev.progress,
+                currentStage: `阶段 ${payload.stage}: ${payload.message}`
+              };
+            });
+          } else if (payload.type === 'COMPLETED') {
+            setStatusInfo((prev) => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                status: 'COMPLETED',
+                statusText: '已完成归档',
+                progress: 100,
+                currentStage: payload.message || 'Gemini Spark 简报生成完成'
+              };
+            });
+            // 收到 COMPLETED 时，平滑无感重新拉取最新数据
+            loadDashboardData(true);
+            showToast('⚡ Gemini Spark 今日简报生产完毕，大屏已自动同步');
+          }
+        } catch {
+          // ignore parse error
+        }
+      };
+    } catch (e) {
+      console.warn('[SSE] EventSource 初始化失败:', e);
+    }
+
+    return () => {
+      if (es) {
+        es.close();
+      }
+    };
+  }, [loadDashboardData, showToast]);
 
   // DevTools 调试动作
   const handleTriggerSilentSync = () => {
