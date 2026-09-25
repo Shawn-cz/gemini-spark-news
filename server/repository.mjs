@@ -541,7 +541,7 @@ export async function toggleBatchStatus(date = '2026-09-24', targetStatus) {
     statusText: '计算生成中',
     estimatedRemainingMinutes: 18,
     progress: 68,
-    currentStage: '阶段 3/4: Gemini 1.5 全球多源交叉校验与结构化提取'
+    currentStage: '阶段 3/4: Gemini Spark 全球多源交叉校验与结构化提炼'
   } : {
     status: 'COMPLETED',
     statusText: '已完成归档',

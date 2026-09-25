@@ -161,15 +161,25 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Status</div>
               <div className="metric-value font-semibold truncate whitespace-nowrap">
                 {isCompleted ? (
-                  <span className="text-emerald-400 flex items-center gap-1 whitespace-nowrap">
-                    <span className="metric-dot w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
-                    24H COMPLETED
-                  </span>
+                  <div className="flex items-center gap-1 whitespace-nowrap min-h-[28px]">
+                    <span className="text-emerald-400 flex items-center gap-1 whitespace-nowrap">
+                      <span className="metric-dot w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                      24H COMPLETED
+                    </span>
+                  </div>
                 ) : (
-                  <span className="text-amber-400 flex items-center gap-1 whitespace-nowrap">
-                    <span className="metric-dot w-2 h-2 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
-                    GENERATING...
-                  </span>
+                  <div className="space-y-1 min-h-[28px] justify-center flex flex-col">
+                    <span className="text-amber-400 flex items-center gap-1 whitespace-nowrap">
+                      <span className="metric-dot w-2 h-2 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
+                      {typeof statusInfo?.progress === 'number' ? `GENERATING ${statusInfo.progress}%` : 'GENERATING...'}
+                    </span>
+                    <div className="w-20 bg-slate-800 rounded-full h-1 overflow-hidden">
+                      <div
+                        className="h-full bg-amber-400 rounded-full transition-all duration-300"
+                        style={{ width: `${typeof statusInfo?.progress === 'number' ? Math.min(100, Math.max(0, statusInfo.progress)) : 15}%` }}
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -199,13 +209,18 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
           </div>
 
-          {/* 指标 3: 产出时间 */}
+          {/* 指标 3: 产出时间 / 实时推流阶段 */}
           <div className="header-metric-card flex items-center gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/5 min-w-0">
             <Clock className="w-4 h-4 text-cyan-400 flex-shrink-0" />
             <div className="min-w-0">
-              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">Batch Ingestion Time</div>
-              <div className="metric-value text-slate-300 font-medium truncate whitespace-nowrap">
-                {isCompleted ? (statusInfo?.generatedTime || '今日 08:30 AM') : 'COMPUTING...'}
+              <div className="metric-label text-slate-500 text-[10px] uppercase whitespace-nowrap">
+                {isCompleted ? 'Batch Ingestion Time' : 'Current Stage'}
+              </div>
+              <div 
+                className="metric-value text-slate-300 font-medium truncate whitespace-nowrap"
+                title={statusInfo?.currentStage || undefined}
+              >
+                {isCompleted ? (statusInfo?.generatedTime || '今日 08:30 AM') : (statusInfo?.currentStage || 'COMPUTING...')}
               </div>
             </div>
           </div>

@@ -9,6 +9,20 @@ import {
   saveBriefing,
   toggleBatchStatus
 } from './repository.mjs';
+import {
+  getActiveModel,
+  setActiveModel,
+  getAvailableModels
+} from './services/geminiSparkAgent.mjs';
+import {
+  addSSEClient,
+  removeSSEClient
+} from './services/sseManager.mjs';
+import {
+  triggerGenerationPipeline,
+  getSchedulerStatus,
+  startDailyScheduler
+} from './services/scheduler.mjs';
 
 dotenv.config();
 
@@ -23,7 +37,11 @@ app.get('/api/health', (req, res) => {
   res.json({
     code: 200,
     message: 'ok',
-    data: getDataSourceInfo()
+    data: {
+      ...getDataSourceInfo(),
+      scheduler: getSchedulerStatus(),
+      activeModel: getActiveModel()
+    }
   });
 });
 
@@ -97,9 +115,81 @@ app.post('/api/briefings/save', async (req, res) => {
   }
 });
 
-// 启动服务：先尝试连通数据库（无连接串时自动平滑降级，不阻塞服务启动）
-initDatabase().finally(() => {
-  app.listen(PORT, () => {
-    console.log(`[Gemini Spark Intelligence API] Running on http://localhost:${PORT}`);
+// 接口 5: 获取可用 Gemini 模型列表与当前激活模型
+app.get('/api/spark/models', (req, res) => {
+  res.json({
+    code: 200,
+    message: 'success',
+    data: {
+      current: getActiveModel(),
+      available: getAvailableModels()
+    }
   });
 });
+
+// 接口 6: 热切换当前使用的 Gemini 模型
+app.post('/api/spark/models/select', (req, res) => {
+  try {
+    const { model } = req.body || {};
+    if (!model) {
+      return res.status(400).json({ code: 400, message: '缺少 model 参数' });
+    }
+    const result = setActiveModel(model);
+    res.json({
+      code: 200,
+      message: `模型已热切换为: ${model}`,
+      data: result
+    });
+  } catch (err) {
+    res.status(400).json({ code: 400, message: err.message });
+  }
+});
+
+// 接口 7: 手动触发 Gemini Spark 生产流
+app.post('/api/spark/trigger-generate', async (req, res) => {
+  try {
+    const { date = new Date().toISOString().slice(0, 10) } = req.body || {};
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return res.status(400).json({ code: 400, message: '日期格式错误，必须为 YYYY-MM-DD' });
+    }
+    const result = await triggerGenerationPipeline(date);
+    if (result.conflict) {
+      return res.status(409).json({ code: 409, message: result.message, data: result });
+    }
+    res.json({
+      code: 200,
+      message: `[${date}] 简报生成成功`,
+      data: result
+    });
+  } catch (err) {
+    res.status(500).json({ code: 500, message: `生成失败: ${err.message}` });
+  }
+});
+
+// 接口 8: 原生 SSE 实时流推流端点
+app.get('/api/spark/stream', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.flushHeaders?.();
+
+  const clientId = addSSEClient(res);
+  console.log(`[SSE] 客户端 #${clientId} 已挂载推流通道`);
+
+  req.on('close', () => {
+    removeSSEClient(clientId);
+    console.log(`[SSE] 客户端 #${clientId} 断开连接`);
+  });
+});
+
+export { app };
+
+if (process.env.NODE_ENV !== 'test') {
+  initDatabase().finally(() => {
+    startDailyScheduler();
+    app.listen(PORT, () => {
+      console.log(`[Gemini Spark Intelligence API] Running on http://localhost:${PORT}`);
+    });
+  });
+}

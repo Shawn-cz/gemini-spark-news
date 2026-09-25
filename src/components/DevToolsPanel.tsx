@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, 
   Database, 
@@ -11,9 +11,21 @@ import {
   Flame, 
   CheckCircle2, 
   Radio, 
-  ShieldCheck 
+  ShieldCheck,
+  Sparkles,
+  Cpu,
+  Terminal,
+  Play,
+  Trash2
 } from 'lucide-react';
-import { fetchHealthInfo, HealthInfo } from '../services/api';
+import { 
+  fetchHealthInfo, 
+  HealthInfo, 
+  fetchSparkModels, 
+  selectSparkModel, 
+  triggerSparkGenerate, 
+  SparkModelOption 
+} from '../services/api';
 import { BatchStatusType, GlobalNewsItem } from '../types/news';
 
 interface DevToolsPanelProps {
@@ -43,6 +55,84 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
   const [latency, setLatency] = useState<number | null>(null);
   const [isChecking, setIsChecking] = useState<boolean>(false);
 
+  // Gemini Spark 智能体状态
+  const [models, setModels] = useState<SparkModelOption[]>([
+    {
+      id: 'gemini-3.8-flash',
+      name: 'Gemini 3.8 Flash',
+      description: '主力工作马 · 1M 上下文 · 亚秒级联网感知与多语种结构化提炼',
+      tier: 'DEFAULT_WORKHORSE',
+      isDefault: true
+    },
+    {
+      id: 'gemini-3.1-pro',
+      name: 'Gemini 3.1 Pro',
+      description: '深度推理候选 · 复杂因果分析与学术级推演',
+      tier: 'DEEP_REASONING',
+      isDefault: false
+    }
+  ]);
+  const [activeModel, setActiveModel] = useState<string>('gemini-3.8-flash');
+  const [isSwitchingModel, setIsSwitchingModel] = useState<boolean>(false);
+  const [isTriggering, setIsTriggering] = useState<boolean>(false);
+  const [sparkLogs, setSparkLogs] = useState<Array<{ id: number; timestamp: string; text: string; type?: 'info' | 'progress' | 'success' | 'error' }>>([]);
+  const logIdCounter = useRef<number>(1);
+  const logContainerRef = useRef<HTMLDivElement>(null);
+
+  const addLog = (text: string, type: 'info' | 'progress' | 'success' | 'error' = 'info') => {
+    const timeStr = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+    const id = logIdCounter.current++;
+    setSparkLogs(prev => [...prev.slice(-49), { id, timestamp: timeStr, text, type }]);
+  };
+
+  const loadSparkModels = async () => {
+    try {
+      const data = await fetchSparkModels();
+      if (data?.available?.length) {
+        setModels(data.available);
+      }
+      if (data?.current) {
+        setActiveModel(data.current);
+      }
+    } catch (e: any) {
+      console.warn('[DevTools] 获取模型失败:', e.message);
+    }
+  };
+
+  const handleSelectModel = async (modelId: string) => {
+    if (modelId === activeModel || isSwitchingModel || isTriggering) return;
+    setIsSwitchingModel(true);
+    try {
+      await selectSparkModel(modelId);
+      setActiveModel(modelId);
+      addLog(`模型已成功热切换为 [${modelId}]`, 'info');
+    } catch (err: any) {
+      addLog(`模型切换失败: ${err.message}`, 'error');
+    } finally {
+      setIsSwitchingModel(false);
+    }
+  };
+
+  const handleTriggerGenerate = async () => {
+    if (isTriggering) return;
+    setIsTriggering(true);
+    const todayStr = new Date().toISOString().slice(0, 10);
+    addLog(`🚀 发起生产流指令: 目标日期 [${todayStr}], 激活模型 [${activeModel}]`, 'info');
+    try {
+      const res = await triggerSparkGenerate(todayStr);
+      addLog(`生产任务已响应: ${res.message || '执行成功'}`, 'success');
+    } catch (err: any) {
+      addLog(`触发生成失败: ${err.message}`, 'error');
+      setIsTriggering(false);
+    }
+  };
+
+  useEffect(() => {
+    if (logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
+    }
+  }, [sparkLogs]);
+
   const checkHealth = async () => {
     setIsChecking(true);
     const start = performance.now();
@@ -50,6 +140,12 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
       const data = await fetchHealthInfo();
       setLatency(Math.round(performance.now() - start));
       setHealth(data);
+      if (data.activeModel) {
+        setActiveModel(data.activeModel);
+      }
+      if (data.scheduler) {
+        setIsTriggering(Boolean(data.scheduler.isGenerating));
+      }
     } catch (e: any) {
       setLatency(null);
       setHealth({
@@ -66,6 +162,38 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
   useEffect(() => {
     if (isOpen) {
       checkHealth();
+      loadSparkModels();
+
+      const es = new EventSource('/api/spark/stream');
+      es.onmessage = (event) => {
+        try {
+          const payload = JSON.parse(event.data);
+          const isCompleted = payload.type === 'COMPLETED' || payload.stage === 'COMPLETED';
+
+          if (isCompleted) {
+            addLog(`✅ 批次简报生产闭环达成: ${payload.message || '归档完成'}`, 'success');
+            setIsTriggering(false);
+          } else if (payload.type === 'PROGRESS') {
+            setIsTriggering(true);
+            addLog(`[${payload.stage}] (${payload.progress}%) ${payload.message}`, 'progress');
+          } else if (payload.type === 'CONNECTED') {
+            addLog(`推流通道握手就绪: 客户端 #${payload.clientId}`, 'info');
+          } else if (payload.type === 'ERROR') {
+            addLog(`❌ 调度异常: ${payload.message}`, 'error');
+            setIsTriggering(false);
+          }
+        } catch {
+          // ignore
+        }
+      };
+
+      es.onerror = () => {
+        addLog('SSE 连接中断，正在自动重连...', 'error');
+      };
+
+      return () => {
+        es.close();
+      };
     }
   }, [isOpen]);
 
@@ -159,6 +287,132 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
         {/* 调试功能区 */}
         <div className="p-5 space-y-5 flex-1 overflow-y-auto">
           
+          {/* 0. Gemini Spark 智能体控制舱 (Autonomous Agent Core) */}
+          <div className="p-4 rounded-xl bg-obsidian-card border border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.15)] space-y-3">
+            <div className="flex items-center justify-between border-b border-cyan-500/20 pb-2">
+              <span className="font-bold text-white flex items-center gap-1.5 uppercase text-[11px]">
+                <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+                Gemini Spark 智能体控制舱
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-700">
+                ACTIVE: {activeModel}
+              </span>
+            </div>
+
+            {/* 模型热切换卡片列表 */}
+            <div className="space-y-1.5">
+              <div className="text-[10px] text-slate-400 flex items-center justify-between">
+                <span>官方认证模型切换 (Hot Swap):</span>
+                {isSwitchingModel && <span className="text-cyan-400 animate-pulse">正在热切换...</span>}
+              </div>
+              <div className="grid grid-cols-1 gap-2">
+                {models.map((m) => {
+                  const isCurrent = m.id === activeModel;
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => handleSelectModel(m.id)}
+                      disabled={isSwitchingModel || isTriggering}
+                      className={`p-2.5 rounded-lg border text-left transition flex items-start justify-between ${
+                        isCurrent
+                          ? 'bg-cyan-950/60 border-cyan-500 text-white shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+                          : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:border-white/20'
+                      } ${isTriggering ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    >
+                      <div className="space-y-1 flex-1 pr-2">
+                        <div className="flex items-center gap-2">
+                          <Cpu className={`w-3.5 h-3.5 ${isCurrent ? 'text-cyan-400' : 'text-slate-500'}`} />
+                          <span className="font-bold text-xs">{m.name}</span>
+                          {m.isDefault ? (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+                              推荐工作马
+                            </span>
+                          ) : (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-bold">
+                              深度推演
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-slate-400 leading-tight">
+                          {m.description}
+                        </p>
+                      </div>
+                      <div className="pt-0.5">
+                        <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                          isCurrent ? 'border-cyan-400 bg-cyan-400/20' : 'border-slate-600'
+                        }`}>
+                          {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 立即调度生产流按钮 */}
+            <button
+              type="button"
+              onClick={handleTriggerGenerate}
+              disabled={isTriggering}
+              className="w-full py-2.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-cyan-900/40 active:scale-98 disabled:opacity-50"
+            >
+              {isTriggering ? (
+                <>
+                  <RotateCw className="w-4 h-4 animate-spin text-cyan-200" />
+                  <span>智能体生产中 (5 阶段推流)...</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4 fill-current text-cyan-200" />
+                  <span>立即调度 Gemini Spark 生产流</span>
+                </>
+              )}
+            </button>
+
+            {/* 实时 SSE 日志终端 */}
+            <div className="space-y-1.5 pt-1">
+              <div className="flex items-center justify-between text-[10px] text-slate-400">
+                <span className="flex items-center gap-1">
+                  <Terminal className="w-3 h-3 text-emerald-400" />
+                  实时推流监视终端 (SSE Stream Monitor)
+                </span>
+                {sparkLogs.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSparkLogs([])}
+                    className="text-slate-500 hover:text-slate-300 flex items-center gap-0.5 text-[9px]"
+                  >
+                    <Trash2 className="w-2.5 h-2.5" />
+                    <span>清空</span>
+                  </button>
+                )}
+              </div>
+              <div 
+                ref={logContainerRef}
+                className="bg-black/80 rounded-lg p-2 font-mono text-[10px] text-slate-300 max-h-32 overflow-y-auto space-y-1 border border-white/10"
+              >
+                {sparkLogs.length === 0 ? (
+                  <div className="text-slate-600 italic py-1">等待推流事件中...</div>
+                ) : (
+                  sparkLogs.map((log) => (
+                    <div key={log.id} className="leading-tight flex items-start gap-1.5">
+                      <span className="text-slate-500 shrink-0">[{log.timestamp}]</span>
+                      <span className={
+                        log.type === 'error' ? 'text-rose-400 font-semibold' :
+                        log.type === 'success' ? 'text-emerald-400 font-semibold' :
+                        log.type === 'progress' ? 'text-cyan-300' : 'text-slate-300'
+                      }>
+                        {log.text}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* 1. 底层数据源状态探针 */}
           <div className="p-4 rounded-xl bg-obsidian-card border border-white/10 space-y-2.5">
             <div className="flex items-center justify-between border-b border-white/10 pb-2">
