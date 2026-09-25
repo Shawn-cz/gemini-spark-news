@@ -1,6 +1,6 @@
 # MVP 1: Gemini Spark 智能体数据生产与实时推流系统实施计划
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 构建真实的 Google Gemini 定时自主智能体（Gemini Spark Autonomous Agent）全闭环生产流，支持 08:30 自动调度、动态模型热切换（`gemini-3.8-flash` / `gemini-3.1-pro`）、5 阶段 SSE 实时推流、双模容灾及 MongoDB Atlas / 本地文件双写持久化。
 
@@ -16,7 +16,7 @@
 - Create: `server/services/geminiSparkAgent.mjs`
 - Test: `tests/geminiSparkAgent.test.mjs`
 
-- [ ] **Step 1: 编写智能体调用与模型管理的失败测试**
+- [x] **Step 1: 编写智能体调用与模型管理的失败测试**
 
 Create `tests/geminiSparkAgent.test.mjs`:
 ```javascript
@@ -74,12 +74,12 @@ test('GeminiSparkAgent - 双模容灾生成合法智库简报 (8~12篇，包含1
 });
 ```
 
-- [ ] **Step 2: 运行测试以验证失败**
+- [x] **Step 2: 运行测试以验证失败**
 
 Run: `node tests/geminiSparkAgent.test.mjs`
 Expected: FAIL with `Cannot find module '../server/services/geminiSparkAgent.mjs'`
 
-- [ ] **Step 3: 实现智能体与模型管理器核心服务**
+- [x] **Step 3: 实现智能体与模型管理器核心服务**
 
 Create `server/services/geminiSparkAgent.mjs`:
 ```javascript
@@ -354,12 +354,12 @@ async function generateFallbackBriefing(targetDate, currentModel, report) {
 }
 ```
 
-- [ ] **Step 4: 运行测试以验证通过**
+- [x] **Step 4: 运行测试以验证通过**
 
 Run: `node tests/geminiSparkAgent.test.mjs`
 Expected: PASS with all 5 assertions passing.
 
-- [ ] **Step 5: Git 提交**
+- [x] **Step 5: Git 提交**
 
 ```bash
 git add server/services/geminiSparkAgent.mjs tests/geminiSparkAgent.test.mjs
@@ -374,7 +374,7 @@ git commit -m "feat(spark): implement GeminiSparkAgent with model switcher and d
 - Create: `server/services/sseManager.mjs`
 - Test: `tests/sseManager.test.mjs`
 
-- [ ] **Step 1: 编写 SSE 管理器的单元测试**
+- [x] **Step 1: 编写 SSE 管理器的单元测试**
 
 Create `tests/sseManager.test.mjs`:
 ```javascript
@@ -426,12 +426,12 @@ test('SSEManager - 广播推流时向所有客户端写入正确 SSE 格式', ()
 });
 ```
 
-- [ ] **Step 2: 运行测试以验证失败**
+- [x] **Step 2: 运行测试以验证失败**
 
 Run: `node tests/sseManager.test.mjs`
 Expected: FAIL with `Cannot find module '../server/services/sseManager.mjs'`
 
-- [ ] **Step 3: 实现 SSE 管理器服务**
+- [x] **Step 3: 实现 SSE 管理器服务**
 
 Create `server/services/sseManager.mjs`:
 ```javascript
@@ -500,12 +500,12 @@ function ensureHeartbeat() {
 }
 ```
 
-- [ ] **Step 4: 运行测试以验证通过**
+- [x] **Step 4: 运行测试以验证通过**
 
 Run: `node tests/sseManager.test.mjs`
 Expected: PASS with 2 tests passing.
 
-- [ ] **Step 5: Git 提交**
+- [x] **Step 5: Git 提交**
 
 ```bash
 git add server/services/sseManager.mjs tests/sseManager.test.mjs
@@ -520,7 +520,7 @@ git commit -m "feat(spark): implement SSEManager for real-time stage progress st
 - Create: `server/services/scheduler.mjs`
 - Test: `tests/scheduler.test.mjs`
 
-- [ ] **Step 1: 编写调度引擎与并发互斥锁的测试**
+- [x] **Step 1: 编写调度引擎与并发互斥锁的测试**
 
 Create `tests/scheduler.test.mjs`:
 ```javascript
@@ -547,12 +547,12 @@ test('Scheduler - 能够触发生成并在完成时释放互斥锁', async () =>
 });
 ```
 
-- [ ] **Step 2: 运行测试以验证失败**
+- [x] **Step 2: 运行测试以验证失败**
 
 Run: `node tests/scheduler.test.mjs`
 Expected: FAIL with `Cannot find module '../server/services/scheduler.mjs'`
 
-- [ ] **Step 3: 实现调度器与并发互斥保护**
+- [x] **Step 3: 实现调度器与并发互斥保护**
 
 Create `server/services/scheduler.mjs`:
 ```javascript
@@ -697,12 +697,12 @@ export function startDailyScheduler() {
 }
 ```
 
-- [ ] **Step 4: 运行测试以验证通过**
+- [x] **Step 4: 运行测试以验证通过**
 
 Run: `node tests/scheduler.test.mjs`
 Expected: PASS with 2 tests passing.
 
-- [ ] **Step 5: Git 提交**
+- [x] **Step 5: Git 提交**
 
 ```bash
 git add server/services/scheduler.mjs tests/scheduler.test.mjs
@@ -718,7 +718,7 @@ git commit -m "feat(spark): implement Scheduler with cron time checking and gene
 - Modify: `server/repository.mjs:540-555`
 - Test: `tests/apiEndpoints.test.mjs`
 
-- [ ] **Step 1: 编写 API 端点集成测试**
+- [x] **Step 1: 编写 API 端点集成测试**
 
 Create `tests/apiEndpoints.test.mjs`:
 ```javascript
@@ -762,7 +762,7 @@ test('API Endpoints - 校验即时触发接口 POST /api/spark/trigger-generate'
 });
 ```
 
-- [ ] **Step 2: 在 `server/repository.mjs` 中更新旧文案**
+- [x] **Step 2: 在 `server/repository.mjs` 中更新旧文案**
 
 Replace line 544 in `server/repository.mjs`:
 Change:
@@ -774,7 +774,7 @@ To:
 currentStage: '阶段 3/4: Gemini Spark 全球多源交叉校验与结构化提炼'
 ```
 
-- [ ] **Step 3: 在 `server/mock-server.mjs` 中挂载新端点与调度器**
+- [x] **Step 3: 在 `server/mock-server.mjs` 中挂载新端点与调度器**
 
 Modify `server/mock-server.mjs`:
 ```javascript
@@ -968,12 +968,12 @@ initDatabase().finally(() => {
 });
 ```
 
-- [ ] **Step 4: 运行测试以验证通过**
+- [x] **Step 4: 运行测试以验证通过**
 
 Run: `node tests/apiEndpoints.test.mjs`
 Expected: PASS with all tests passing.
 
-- [ ] **Step 5: Git 提交**
+- [x] **Step 5: Git 提交**
 
 ```bash
 git add server/mock-server.mjs server/repository.mjs tests/apiEndpoints.test.mjs
@@ -989,7 +989,7 @@ git commit -m "feat(server): expose model switcher, SSE stream, and generation t
 - Modify: `src/components/DevToolsPanel.tsx`
 - Test: `npm run build`
 
-- [ ] **Step 1: 在 `src/services/api.ts` 中补充 Spark 接口方法与模型类型定义**
+- [x] **Step 1: 在 `src/services/api.ts` 中补充 Spark 接口方法与模型类型定义**
 
 Modify `src/services/api.ts`:
 Add:
@@ -1041,7 +1041,7 @@ export async function triggerSparkGenerate(date?: string): Promise<any> {
 }
 ```
 
-- [ ] **Step 2: 在 `src/components/DevToolsPanel.tsx` 中嵌入 Gemini Spark 智能体控制卡**
+- [x] **Step 2: 在 `src/components/DevToolsPanel.tsx` 中嵌入 Gemini Spark 智能体控制卡**
 
 Modify `src/components/DevToolsPanel.tsx`:
 - Import `fetchSparkModels`, `selectSparkModel`, `triggerSparkGenerate`, `SparkModelOption`.
@@ -1051,12 +1051,12 @@ Modify `src/components/DevToolsPanel.tsx`:
   - "立即调度 Gemini Spark 生成今日简报" button.
   - Real-time terminal log viewer for SSE event updates.
 
-- [ ] **Step 3: 运行 TypeScript 与构建编译**
+- [x] **Step 3: 运行 TypeScript 与构建编译**
 
 Run: `npm run build`
 Expected: 0 errors.
 
-- [ ] **Step 4: Git 提交**
+- [x] **Step 4: Git 提交**
 
 ```bash
 git add src/services/api.ts src/components/DevToolsPanel.tsx
@@ -1072,7 +1072,7 @@ git commit -m "feat(devtools): integrate Gemini Spark agent model hot-switcher a
 - Modify: `src/components/IntelligenceHeader.tsx`
 - Test: `npm run build`
 
-- [ ] **Step 1: 在 `src/components/SparkNewsDashboard.tsx` 挂载 EventSource 监听**
+- [x] **Step 1: 在 `src/components/SparkNewsDashboard.tsx` 挂载 EventSource 监听**
 
 Modify `src/components/SparkNewsDashboard.tsx`:
 - Establish `new EventSource('/api/spark/stream')` in a `useEffect`.
@@ -1082,19 +1082,19 @@ Modify `src/components/SparkNewsDashboard.tsx`:
   - Seamlessly refetch `loadNews(true)` and update batch status to `COMPLETED`.
 - Clean up `eventSource.close()` on unmount.
 
-- [ ] **Step 2: 在 `src/components/IntelligenceHeader.tsx` 展示实时脉冲动态进度**
+- [x] **Step 2: 在 `src/components/IntelligenceHeader.tsx` 展示实时脉冲动态进度**
 
 Modify `src/components/IntelligenceHeader.tsx`:
 - When status is `RUNNING` or progress is between 1 and 99:
   - Show animated pulse indicator: `[STAGE] 40% - 正在联网检索...`
   - Render a subtle progress indicator underneath the batch status badge.
 
-- [ ] **Step 3: 运行 TypeScript 与构建编译**
+- [x] **Step 3: 运行 TypeScript 与构建编译**
 
 Run: `npm run build`
 Expected: 0 errors.
 
-- [ ] **Step 4: Git 提交**
+- [x] **Step 4: Git 提交**
 
 ```bash
 git add src/components/SparkNewsDashboard.tsx src/components/IntelligenceHeader.tsx
@@ -1109,7 +1109,7 @@ git commit -m "feat(frontend): connect SSE real-time stream for autonomous stage
 - Create: `scripts/verify-spark-pipeline.mjs`
 - Test: `npm run build`
 
-- [ ] **Step 1: 编写全自动化 E2E 验证脚本**
+- [x] **Step 1: 编写全自动化 E2E 验证脚本**
 
 Create `scripts/verify-spark-pipeline.mjs`:
 ```javascript
@@ -1162,17 +1162,17 @@ main().catch(err => {
 });
 ```
 
-- [ ] **Step 2: 运行 E2E 验证脚本**
+- [x] **Step 2: 运行 E2E 验证脚本**
 
 Run: `node scripts/verify-spark-pipeline.mjs`
 Expected: PASS with 100% success.
 
-- [ ] **Step 3: 运行生产构建测试**
+- [x] **Step 3: 运行生产构建测试**
 
 Run: `npm run build`
 Expected: PASS with 0 errors.
 
-- [ ] **Step 4: Git 提交**
+- [x] **Step 4: Git 提交**
 
 ```bash
 git add scripts/verify-spark-pipeline.mjs
