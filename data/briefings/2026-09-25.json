@@ -1,14 +1,4 @@
 {
-  "batchStatus": {
-    "status": "COMPLETED",
-    "statusText": "已完成归档",
-    "generatedTime": "2026-09-25 08:30:00",
-    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
-    "progress": 100,
-    "currentStage": "Gemini Spark 智能体 24H 简报生成与交叉校验完成",
-    "globalSentimentIndex": 26,
-    "batchNewsCount": 12
-  },
   "items": [
     {
       "title": "OpenAI 与 Anthropic 新一代前沿模型评测曝光：自主智能体推理跃迁与安全红线对决，多国跨部门监管机构联合下发高风险算法披露问询函以防范系统性代码自主失控与越权漏洞隐患",
@@ -132,7 +122,7 @@
       "sourceCountry": "US",
       "category": "finance",
       "region": "North America",
-      "impactLevel": "critical",
+      "impactLevel": "high",
       "summary": "华尔街日报指出，鉴于美国劳动力市场韧性与核心服务业通胀黏性，美联储决策层在年内降息节奏上分歧显现，全球主权债券收益率曲线倒挂程度进一步收窄，跨境套息资金加速再平衡。",
       "tags": [
         "美联储",
@@ -219,7 +209,7 @@
       "sourceCountry": "UK",
       "category": "geopolitics",
       "region": "Middle East",
-      "impactLevel": "critical",
+      "impactLevel": "high",
       "summary": "路透社海事追踪数据显示，好望角绕航使得远东至欧洲往返航行周期平均增加 12~14 天，航运公司额外燃油附加费及战争险保费上调，给欧洲制造业核心零部件的准时化生产（JIT）带来严峻挑战。",
       "tags": [
         "红海局势",
@@ -357,5 +347,14 @@
       "batchDate": "2026-09-25",
       "batchId": "spark_global_24h_20260925"
     }
-  ]
+  ],
+  "batchStatus": {
+    "date": "2026-09-25",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-25 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.1-pro) 24H 简报生成与交叉校验完成"
+  }
 }
