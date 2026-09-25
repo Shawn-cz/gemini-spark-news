@@ -37,61 +37,61 @@ flowchart TD
 
 ---
 
-### ⏳ MVP 2：Mongoose 建模、前端效果契约与调试套件（进行中 / 本轮重点）
+### ✅ MVP 2：Mongoose 建模、前端效果契约与调试套件（已全部完成）
 > **核心目标**：
 > 1. 在您还未部署 MongoDB 云实例前，先把后端的**数据持久层骨架与抽象接口（Repository / ODM 层）** 搭建完毕，实现“有 DB 走云端，无 DB 走文件”，零报错零风险；
 > 2. **建立前端视觉与效果契约**，确保无论后端来自数据库还是文件，界面渲染与动效规范 100% 坚固一致；
 > 3. **内置前端开发者调试工具箱 (DevTools)**，支持一键模拟各种网络与业务极端状态。
 
 #### 2.A 后端数据建模与双模架构
-- [ ] **2.1 依赖安装与环境变量规范**
-  - [ ] 安装 `mongoose` 与 `dotenv`；
-  - [ ] 创建 `.env.example`，配置 `PORT=3001`、`MONGO_URI=`（留空或注释）；
-  - [ ] 配置 `.gitignore` 确保真实的 `.env` 永远不被 Git 提交。
-- [ ] **2.2 Mongoose Schema 建模与数据契约设计**
-  - [ ] 编写 `server/models/NewsItem.mjs`（标题、外媒源、分类、影响等级、情绪分、NER 实体数组、复合索引）；
-  - [ ] 编写 `server/models/BatchStatus.mjs`（日期、状态、全球情绪指数、当前阶段、更新时间戳）。
-- [ ] **2.3 双模数据访问仓储层设计 (`server/repository.mjs`)**
-  - [ ] 抽象统一的数据访问接口：`getNewsList()`, `getBatchStatus()`, `saveBriefing()`, `getAvailableDates()`；
-  - [ ] 实现自动判断机制：检测到有效的 `MONGO_URI` 时连接数据库；若未配置或连接失败，**自动且平滑降级至本地 `data/briefings/` 静态引擎**。
-- [ ] **2.4 历史数据种子工具 (`scripts/seed-mongo.mjs`)**
-  - [ ] 编写种子填充脚本，支持一键将本地现有的多日智库历史样本批量写入 MongoDB。
+- [x] **2.1 依赖安装与环境变量规范**
+  - [x] 安装 `mongoose` 与 `dotenv`；
+  - [x] 创建 `.env.example`，配置 `PORT=3001`、`MONGO_URI=`（留空或注释）；
+  - [x] 配置 `.gitignore` 确保真实的 `.env` 永远不被 Git 提交。
+- [x] **2.2 Mongoose Schema 建模与数据契约设计**
+  - [x] 编写 `server/models/NewsItem.mjs`（标题、外媒源、分类、影响等级、情绪分、NER 实体数组、复合索引）；
+  - [x] 编写 `server/models/BatchStatus.mjs`（日期、状态、全球情绪指数、当前阶段、更新时间戳）。
+- [x] **2.3 双模数据访问仓储层设计 (`server/repository.mjs`)**
+  - [x] 抽象统一的数据访问接口：`getNewsList()`, `getBatchStatus()`, `saveBriefing()`, `getAvailableDates()`；
+  - [x] 实现自动判断机制：检测到有效的 `MONGO_URI` 时连接数据库；若未配置或连接失败，**自动且平滑降级至本地 `data/briefings/` 静态引擎**。
+- [x] **2.4 历史数据种子工具 (`scripts/seed-mongo.mjs`)**
+  - [x] 编写种子填充脚本，支持一键将本地现有的多日智库历史样本批量写入 MongoDB。
 
 #### 2.B 前端效果契约 (Frontend Visual Effect Contracts)
-- [ ] **2.5 数据字段与视觉映射契约 (Field-to-Visual Contracts)**
-  - [ ] **色彩与领域契约**：
+- [x] **2.5 数据字段与视觉映射契约 (Field-to-Visual Contracts)**
+  - [x] **色彩与领域契约**：
     - `ai` $\to$ 霓虹青 (Cyan-400 / Cyan Glow)
     - `finance` $\to$ 靛青与金 (Indigo-400 / Amber-400)
     - `geopolitics` $\to$ 警戒紫红与深橙 (Purple-400 / Rose-400)
     - `climate` $\to$ 翡翠绿与薄荷 (Emerald-400 / Teal-400)
-  - [ ] **影响等级与 Bento 布局契约**：
+  - [x] **影响等级与 Bento 布局契约**：
     - 当且仅当 `impactLevel === 'critical'` 时，自动升格为双列宽幅 Hero 大卡，带有动态边框脉冲；
     - 确保在缺少 critical 数据时，Bento 栅格自适应排列，绝不留白破损。
-  - [ ] **情绪极性心电图契约 (Sentiment Pulse)**：
+  - [x] **情绪极性心电图契约 (Sentiment Pulse)**：
     - `sentimentScore` (-1.0 ~ +1.0) 精确映射至 -100 ~ +100；
     - 动态根据极性分驱动心电图背景灯、百分比数值色彩（`>+30` 显著积极绿、`0~+30` 谨慎乐观青、`-30~0` 中性灰、`<-30` 避险红）。
-  - [ ] **排版截断防御契约**：
+  - [x] **排版截断防御契约**：
     - 标题强制 `line-clamp-2 break-words`，第 2 行末尾必须精确截断展示 `...`；
     - 卡片摘要限制 3 行，侧滑抽屉展示完整长文本与 Markdown 链接。
-  - [ ] **三大边界状态契约**：
+  - [x] **三大边界状态契约**：
     - 初次加载骨架屏（Skeleton Shimmer 动效，避免布局跳跃）；
     - 接口错误捕获（红调告警卡片 + 重试交互）；
     - 空数据状态（空态插画 + 重置过滤引导）。
 
 #### 2.C 前端调试套件与开发者控制面板 (DevTools Panel)
-- [ ] **2.6 前端内置调试面板 (DevTools Suite)**
-  - [ ] **数据源运行模式指示器**：
+- [x] **2.6 前端内置调试面板 (DevTools Suite)**
+  - [x] **数据源运行模式指示器**：
     - 实时显示当前数据来自 `MONGODB_ATLAS (云数据库)` 还是 `LOCAL_FALLBACK (本地文件)`；
     - 显示 API 请求耗时与连接健康度；
-  - [ ] **状态机一键切换器**：
+  - [x] **状态机一键切换器**：
     - 一键将界面置为：`COMPLETED` (已完成正常展示)、`RUNNING` (雷达计算扫描态)、`ERROR` (接口 500 异常态)、`EMPTY` (空批次态)；
-  - [ ] **30 秒轮询监控仪表**：
+  - [x] **30 秒轮询监控仪表**：
     - 实时显示下次静默拉取倒计时秒数（`Next Sync in 28s`）；
     - 提供【立即静默同步】按钮，实时观察 `AbortController` 拦截动效；
-  - [ ] **极端数据注入器 (Mock Injector)**：
+  - [x] **极端数据注入器 (Mock Injector)**：
     - 一键注入一条 100 字超长标题新闻，实时肉眼检验两行省略契约；
     - 一键注入一条 `critical` 重大突发新闻，实时检验 Bento 重排动效；
-  - [ ] **网络延迟模拟器 (Network Throttler)**：
+  - [x] **网络延迟模拟器 (Network Throttler)**：
     - 支持在调试面板勾选“模拟 2 秒网络慢速”，方便肉眼调试骨架屏。
 
 ---

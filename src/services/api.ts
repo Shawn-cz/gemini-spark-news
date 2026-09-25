@@ -68,3 +68,19 @@ export async function saveBriefing(
   }
   return await res.json();
 }
+
+export interface HealthInfo {
+  mode: 'MONGODB_ATLAS' | 'LOCAL_FALLBACK';
+  isMongoConnected: boolean;
+  mongoConfigured: boolean;
+  errorMessage: string | null;
+}
+
+export async function fetchHealthInfo(): Promise<HealthInfo> {
+  const res = await fetch(`${BASE_URL}/health`);
+  if (!res.ok) {
+    throw new Error(`健康探针获取失败: HTTP ${res.status}`);
+  }
+  const json = await res.json();
+  return json.data;
+}

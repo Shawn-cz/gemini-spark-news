@@ -25,6 +25,7 @@ import { IntelligenceDrawer } from './IntelligenceDrawer';
 import { RunningStateView } from './RunningStateView';
 import { Pagination } from './Pagination';
 import { ImportBriefingModal } from './ImportBriefingModal';
+import { DevToolsPanel } from './DevToolsPanel';
 
 export const SparkNewsDashboard: React.FC = () => {
   // 1. 过滤与查询条件状态
@@ -52,6 +53,8 @@ export const SparkNewsDashboard: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState<boolean>(false);
+  const [isDevToolsOpen, setIsDevToolsOpen] = useState<boolean>(false);
+  const [silentCountdown, setSilentCountdown] = useState<number>(30);
 
   // 4. 引用持久化，防止竞态条件与内存泄漏
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -138,10 +141,17 @@ export const SparkNewsDashboard: React.FC = () => {
       clearInterval(silentTimerRef.current);
     }
 
-    // 建立每 30 秒静默刷新机制 (silent = true)
+    // 建立每秒递减的 30 秒静默刷新机制 (silent = true)
+    setSilentCountdown(30);
     silentTimerRef.current = setInterval(() => {
-      loadDashboardData(true);
-    }, 30000);
+      setSilentCountdown((prev) => {
+        if (prev <= 1) {
+          loadDashboardData(true);
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
     // 关键安全清理：组件卸载或依赖重置时清理定时器并中止在飞请求
     return () => {
@@ -155,6 +165,30 @@ export const SparkNewsDashboard: React.FC = () => {
       }
     };
   }, [loadDashboardData]);
+
+  // DevTools 调试动作
+  const handleTriggerSilentSync = () => {
+    setSilentCountdown(30);
+    loadDashboardData(true);
+    showToast('DevTools: 手动强制触发 30s 静默刷新管道');
+  };
+
+  const handleInjectNews = (mockItem: GlobalNewsItem) => {
+    setNewsItems((prev) => [mockItem, ...prev]);
+    setTotalCount((prev) => prev + 1);
+    showToast(`DevTools: 成功注入测试新闻 [${mockItem.category.toUpperCase()}]`);
+  };
+
+  const handleSimulateError = (msg: string) => {
+    setErrorMessage(msg);
+    showToast('DevTools: 已模拟管道中断错误边界状态');
+  };
+
+  const handleSimulateEmpty = () => {
+    setNewsItems([]);
+    setTotalCount(0);
+    showToast('DevTools: 已清空当前列表模拟空状态 (Empty State)');
+  };
 
   // 调试状态切换 (COMPLETED <-> RUNNING)
   const handleToggleStatus = async (targetStatus?: BatchStatusType) => {
@@ -201,6 +235,7 @@ export const SparkNewsDashboard: React.FC = () => {
         }}
         onToggleStatus={handleToggleStatus}
         onOpenImport={() => setIsImportModalOpen(true)}
+        onOpenDevTools={() => setIsDevToolsOpen(true)}
       />
 
       {/* 静默刷新指示呼吸指示条 (30s 触发时不打扰正常浏览) */}
@@ -365,6 +400,19 @@ export const SparkNewsDashboard: React.FC = () => {
           loadDashboardData(false);
           showToast(`已成功同步并归档 [${importedDate}] 简报`);
         }}
+      />
+
+      {/* 全栈开发者调试面板 (DevTools Panel) */}
+      <DevToolsPanel
+        isOpen={isDevToolsOpen}
+        onClose={() => setIsDevToolsOpen(false)}
+        onToggleStatus={handleToggleStatus}
+        onTriggerSilentSync={handleTriggerSilentSync}
+        onInjectNews={handleInjectNews}
+        onSimulateError={handleSimulateError}
+        onSimulateEmpty={handleSimulateEmpty}
+        currentStatus={statusInfo?.status}
+        silentCountdown={silentCountdown}
       />
 
       {/* 底部智库状态条 */}

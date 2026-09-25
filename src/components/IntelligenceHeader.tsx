@@ -17,6 +17,7 @@ interface IntelligenceHeaderProps {
   onRefresh: () => void;
   onToggleStatus: (status?: BatchStatusType) => void;
   onOpenImport?: () => void;
+  onOpenDevTools?: () => void;
 }
 
 export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
@@ -24,7 +25,8 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   loading,
   onRefresh,
   onToggleStatus,
-  onOpenImport
+  onOpenImport,
+  onOpenDevTools
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -104,19 +106,34 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
           {/* 右侧：状态切换与防抖同步按钮 */}
           <div className="flex items-center gap-2.5 self-end lg:self-auto">
-            {/* 调试模拟状态 */}
-            <button
-              type="button"
-              onClick={() => onToggleStatus()}
-              className="px-2.5 py-1.5 text-xs font-mono rounded-lg text-slate-300 bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-1.5 border border-white/10"
-              title="切换当前批次状态 (演示计算中与已完成)"
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
-              <span className="hidden sm:inline text-slate-400">调试:</span>
-              <span className={isRunning ? "text-amber-400 font-bold" : "text-emerald-400 font-bold"}>
-                {isRunning ? "置为已完成" : "置为计算中"}
-              </span>
-            </button>
+            {/* 调试面板 */}
+            {onOpenDevTools ? (
+              <button
+                type="button"
+                onClick={onOpenDevTools}
+                className="px-2.5 py-1.5 text-xs font-mono rounded-lg text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800 transition-colors flex items-center gap-1.5 shadow-sm"
+                title="打开全栈开发者调试套件 (DevTools)"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden sm:inline">DevTools</span>
+                <span className={isRunning ? "text-amber-400 font-bold" : "text-emerald-400 font-bold"}>
+                  {isRunning ? "计算中" : "已归档"}
+                </span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onToggleStatus()}
+                className="px-2.5 py-1.5 text-xs font-mono rounded-lg text-slate-300 bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-1.5 border border-white/10"
+                title="切换当前批次状态 (演示计算中与已完成)"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+                <span className="hidden sm:inline text-slate-400">调试:</span>
+                <span className={isRunning ? "text-amber-400 font-bold" : "text-emerald-400 font-bold"}>
+                  {isRunning ? "置为已完成" : "置为计算中"}
+                </span>
+              </button>
+            )}
 
             {/* 导入今日 Gemini 简报 */}
             {onOpenImport && (
