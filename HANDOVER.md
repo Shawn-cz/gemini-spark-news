@@ -1,160 +1,204 @@
-# 📋 Gemini Spark 智库看板 · 阶段交接与进度备忘录 (Session Handover)
+# Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-> **项目名称**：Gemini Spark 24H 智能体新闻智库看板 (Gemini Spark Intelligence Terminal)  
-> **更新时间**：2026-09-24 18:30  
-> **当前阶段**：MVP 1 全部验收交付完成；MVP 2（Mongoose 建模与双模架构、前端效果契约与调试套件）准备就绪，待启动。  
-> **Git 状态**：`master` 分支，`working tree clean`  
-
----
-
-## 一、当前系统运行现状与核心成果
-
-### 1. 服务运行端口与地址
-- **前端看板**：`http://localhost:5173`（Vite 6 + React 18 + Tailwind CSS，暗黑黑曜石玻璃拟态主题）
-- **后端 API 服务**：`http://localhost:3001`（Express 原生轻量服务，支持动态文件摄入与批次管理）
-- **本地构建状态**：执行 `npm run build`（`tsc -b && vite build`）通过，耗时仅 3.95s，**0 警告、0 错误**。
-
-### 2. 已落地交付的核心功能（MVP 1 全部完成）
-- **新奇多维大屏交互**：
-  - **Bento 智库看板**（重大突发 Hero 大卡 + 全球宏观热力雷达）；
-  - **四象限垂直流**（AI算力、宏观金融、地缘经贸、气候能源 4 泳道并列对比）；
-  - **24H 时空轨迹轴**（00:00~24:00 时间滑块，支持按亚太/欧洲/美洲交易时段回放）；
-  - **Gemini NLP 认知档案抽屉**（模型血缘 `Gemini 1.5 Pro`、置信度 `98.2%`、命名实体 NER 词云、情绪连续极性量尺）。
-- **工业级前端防御契约**：
-  - **30 秒后台静默轮询机制**（呼吸指示灯，静默拉取不打扰当前交互）；
-  - **AbortController 异步竞态消除**（切换分类或日期时立刻中断未决旧请求，防串台与内存泄漏）；
-  - **长标题截断防御**（`line-clamp-2 break-words` 保证超长标题严格在第 2 行末尾截断显示 `...`）；
-  - **三大边界状态健全处理**（骨架屏 Shimmer、接口 500 告警卡片带点击重试、空批次友好重置引导）。
-- **数据热接入与大屏快捷录入**：
-  - 本地动态简报扫描引擎（`data/briefings/*.json`）；
-  - 大屏右上角 **【📥 导入简报】** 交互弹窗，支持一键粘贴 Gemini 输出（自动清洗 ````json```` 代码块并秒级上屏）。
-
-### 3. 最新业务规则对齐（已全链路生效）
-- **条数配额优化**：单日生成 **8-12 条** 新闻；其中 `climate`（气候能源）严格限制 **1-2 条**，剩余 **7-10 条** 重点分配给 `ai`、`finance`、`geopolitics`。
-- **调度时间对齐**：全面改为 **每日 08:30 AM (每日晨报模式)**，隔夜欧美市场动态一览无余，调度 Cron 已设置为 `30 8 * * *`。
+- **交接归档时间**: 2026-09-25 17:26 (UTC+8)
+- **当前 Git 分支**: `master` (工作区干净，无未提交更改，最近提交 `3873a68`)
+- **系统运行状态**: 
+  - 前端开发服务: `http://localhost:5173` (Vite HMR 实时热重载正常)
+  - 后端 API / Mock: `http://localhost:3001` (已连通 MongoDB Atlas 云数据库，双模自适应正常)
+- **生产构建验证**: `npm run build` 成功通过 (0 errors / 0 warnings，耗时约 5s)
 
 ---
 
-## 二、最新 Gemini Spark 提示词模板 (Prompt)
+## 一、项目核心定位与背景认知 (Critical Context)
 
-您在 Gemini 网页端定时任务（Schedules）中配置的最新 Prompt 如下（可随时直接取用）：
+### 1. 概念校准：什么是 Gemini Spark？
+- **绝非 Apache Spark**：本项目中的“Spark”绝非传统的 Apache Spark 大数据处理集群或分布式 JVM 计算框架，亦非传统爬虫中间件；
+- **真实定位**：**Google Gemini 定时自主智能体（Gemini Spark Autonomous Agent）**；
+- **业务流程**：用户在 Google Gemini 中配置的每日定时任务，自主全网检索全球权威外媒（Reuters, Bloomberg, FT, Nature, WSJ 等），完成跨语种深度长文本提炼、宏观情绪极性量化打分（-1.0 ~ +1.0）与命名实体识别（NER），输出结构化每日全球简报（JSON 格式）。前端看板负责将海量研报转化为高可读性、宏观决策级的交互式大屏。
 
-```text
-你是一个全球宏观与前沿科技战略智库首席分析师。请针对过去 24 小时全球发生的重大事件，全网检索权威信源（Reuters, Bloomberg, FT, Nature, WSJ 等），严格按以下 JSON 格式输出一份结构化的每日深度新闻简报。
+### 2. 2026 年 9 月官方模型体系与选型规范
+- **默认主力模型**: **`gemini-3.8-flash`**（Google 2026 年 9 月最新主力模型，专为 Agent 自动化工作流与低延迟检索提炼优化，1M Token 上下文）；
+- **高阶推理模型**: **`gemini-3.1-pro`**（当前 Google 官方真实可用的旗舰深度推理模型，用于高难度多步复杂推理与地缘博弈推演；注意：**官方目前并无 3.8 Pro，严禁杜撰**）；
+- **轻量通量模型**: **`gemini-3.5-flash-lite`**（超高通量、低成本补充选项）；
+- **模型热切换机制**: 支持在后台/DevTools 动态切换激活模型，默认预置 3.8 Flash 与 3.1 Pro。
 
-【输出要求】
-1. 只输出合法、纯净的 JSON 数据，代码块使用 ```json ... ``` 包裹，不要输出任何开场白或前言。
-2. 覆盖四大领域：ai（前沿算力）、finance（宏观金融）、geopolitics（地缘经贸）、climate（气候能源）。
-3. 严格生成 8-12 条高质量全球要闻：
-   - 【配额限制】climate（气候能源）类严格控制在 1-2 条；
-   - 【重点倾斜】剩余全部条目（约 7-10 条）分配给 ai、finance、geopolitics 三大领域；
-   - 挑选 1 条影响最深远的全球突发事件设为 "impactLevel": "critical"（用于 Hero 大卡展示），其余为 "high" 或 "medium"。
-4. 情感极性评分 sentimentScore 介于 -1.0 到 +1.0 之间。
-5. 命名实体 nlpKeyEntities 提取 3-5 个核心词。
+---
 
-【JSON 输出格式】
-{
-  "batchStatus": {
-    "status": "COMPLETED",
-    "statusText": "已完成归档",
-    "generatedTime": "今天日期 08:30:00",
-    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
-    "progress": 100,
-    "currentStage": "Gemini 1.5 智能体多源交叉校验完成"
-  },
-  "items": [
-    {
-      "id": "gemini-今天日期-001",
-      "title": "中文核心标题（30-50字，UI 自动适配两行截断）",
-      "englishTitle": "Foreign Media English Headline",
-      "source": "Reuters",
-      "sourceCountry": "US",
-      "category": "ai",
-      "region": "North America",
-      "impactLevel": "critical",
-      "summary": "150-200 字深度研报摘要，包含核心事实、因果推演与宏观影响。",
-      "tags": ["AI算力", "大模型"],
-      "sentiment": "positive",
-      "sentimentScore": 0.85,
-      "nlpKeyEntities": ["OpenAI", "Anthropic", "NVIDIA"],
-      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
-      "publishTime": "今天日期T08:00:00Z"
-    }
-  ]
-}
+## 二、当前已交付的核心成果与架构 (Delivered Architecture)
+
+### 1. 全站新野兽派与波普双主题视觉体系 (Teenage Engineering Neo-Brutalism & Pop Art)
+已彻底打破传统浅色界面的苍白无力，全面建立三大主题系统：
+1. **暗夜黑曜石主题 (`dark` / 默认)**：
+   - 保持极客深邃黑曜石（`#030712`）、半透明毛玻璃质感、冷青微发光边框（`border-cyan-500/20`）与星云粒子底纹；
+   - **绝对隔离**：所有野兽派与波普规则均限定在 `[data-theme="..."]` 作用域下，暗夜模式 100% 保持原有质感，零污染。
+2. **P2 经典档案羊皮纸淡色主题 (`light`)**：
+   - **底色**：纯正深沉的暖黄羊皮纸色（`#f4ebd9`），搭配 24px 工程微网格底纹；
+   - **线条与投影**：全站统一 `2px/2.5px solid #000000` 黑色几何外框，搭配零羽化实体硬阴影 `4px 4px 0 #000000`（0px blur）；
+   - **机械按键触感**：悬停向上浮起 `translate(-3px, -3px)` 且阴影扩大至 `7px 7px 0 #000`；点击下凹 `translate(2px, 2px)` 且阴影缩减至 `2px 2px 0 #000`；
+   - **印章贴纸徽章**：AI天蓝（`#38bdf8`）、金融草绿（`#4ade80`）、地缘琥珀黄（`#fbbf24`）、能源电紫（`#818cf8`）、预警绯红（`#fee2e2` / `#991b1b`）；
+   - **等宽打字机检索**：`category-search-input` 采用等宽字体族，获焦触发 `3.5px 3.5px 0 #000` 实体粉影；
+   - **物理调查卷宗弹窗**：`3px solid #000` 粗框 + `10px 10px 0 #000` 实体大投影，条形码、机密序列号与黄色便利贴核心摘要衬底（`#fefce8`）。
+3. **高能波普多巴胺主题 (`dopamine`)**：
+   - 蜜桃粉底色（`#fff0f5`）、`2.5px solid #000` 刚性边框、电光热粉实体硬阴影 `4px 4px 0 #ff007f`；
+   - 悬停带有 `-0.5deg` 俏皮微倾斜；电光热粉（`#ff007f`）、荧光柠檬黄（`#ffee00`）、电青（`#00f0ff`）三色波普撞色。
+
+### 2. 界面视图与交互全量覆盖
+- **Bento 智库看板 (`BentoView.tsx`)**：Hero 极重大头条大卡 + 热力雷达 Widget 实体框适配；
+- **四象限矩阵流 (`MatrixStreamView.tsx`)**：4 大领域泳道标题栏白底黑框、高饱和计数圆标与多列卡片排列；
+- **24H 时空轨迹 (`TimelineScrubber.tsx`)**：实体机械时间滑尺控制卡、工程虚线时间轴中轴、亮黄色实体圆点锚点；
+- **分页控制器 (`Pagination.tsx`)**：实体按键、页码下沉与激活色；
+- **全站主题切换胶囊 (`ThemeSwitcher.tsx`)**：三大模式分段切换，持久化存储于 `localStorage('gemini_spark_theme')`。
+
+### 3. 底层渲染与防漏边保障 (GPU Layer Seam Fix)
+- 卡片媒体区采用 `isolation: isolate; contain: paint; transform: translateZ(0); -webkit-mask-image: -webkit-radial-gradient(white, black)`；
+- 渐变蒙层向下微延伸 2px（`-bottom-1`），卡片主体采用独立 `z-10` 层级配合 `-mt-px` 紧密咬合，彻底杜绝 Windows 125%/150% 等高缩放比下图片缩放时底色漏白。
+
+### 4. 自动化回归测试资产
+- 位于 `scripts/verify-themes.mjs`，通过 Chromium 2x Retina 高清无头截图验证，资产存放于 `screenshots/`：
+  - `dark-obsidian-bento.png`
+  - `light-parchment-bento.png`
+  - `light-parchment-drawer.png`
+  - `light-parchment-matrix.png`
+  - `light-parchment-timeline.png`
+  - `dopamine-pop-bento.png`
+  - `dopamine-pop-drawer.png`
+  - `dopamine-pop-matrix.png`
+  - `dopamine-pop-timeline.png`
+
+---
+
+## 三、目标拆解：上线正常、安全稳定运行的三大 MVP 路线图
+
+以**“全站公网安全稳定上线正常运行”**为终极目标，已拆解为三大递进式 MVP：
+
+```mermaid
+flowchart LR
+    MVP1["MVP 1: 真实 Gemini Spark 生产闭环\n(智能体引擎 + 08:30定时 + SSE实时推流)"] --> MVP2["MVP 2: 生产安全与稳定性加固\n(密钥隔离 + 限流防刷 + 守护自愈)"] --> MVP3["MVP 3: 云端公网部署与正式交付\n(托管发布 + 域名HTTPS + 线上验收)"]
+```
+
+### 📦 MVP 1：真实 Gemini Spark 智能体生产闭环（接下来第一优先级）
+1. **任务 1.1: 智能体调用与模型切换引擎 (`server/services/geminiSparkAgent.mjs`)**：
+   - 接入 Google GenAI 官方接口（启用 Google Search Grounding）；
+   - 默认采用 `gemini-3.8-flash`，候选支持 `gemini-3.1-pro`；
+   - 强制 Prompt 契约：8~12 篇配额（气候严格 1~2 篇，其余分配 AI/金融/地缘），输出 JSON 校验，挑选 1 条置顶 Hero；
+   - 双模自适应保底：无 Key 或网络受限时无缝切换至高保真本地语料生成，100% 保障接口不崩溃；
+   - 提供 `GET /api/spark/models` 与 `POST /api/spark/models/select` 后台模型热切接口。
+2. **任务 1.2: 自动化定时调度器与一键即时触发 (`server/services/scheduler.mjs`)**：
+   - 每日固定 `08:30:00` 自动触发批次生成；
+   - 暴露 `POST /api/spark/trigger-generate`，支持在 DevTools/Header 一键即时生成；
+   - 引入并发互斥锁（Generation Mutex），生成中拦截重复触发，带超时强制解锁防死锁。
+3. **任务 1.3: 原生 SSE 实时流推流管道 (`/api/spark/stream`)**：
+   - 广播生成阶段（15% 智能体唤醒 -> 40% 联网检索 -> 70% 深度提炼 -> 90% 极性打分 -> 100% 入库）；
+   - 前端接收 `COMPLETED` 事件后自动静默拉取最新批次，实现无感知动态推流。
+4. **任务 1.4: 智能双写落盘与 MongoDB Atlas 持久化**：
+   - 生成数据同时写入 MongoDB Atlas 云集群与本地 `data/briefings/YYYY-MM-DD.json` 备份。
+
+---
+
+### 🛡️ MVP 2：生产级安全防护与稳定性加固（上线前必须完成）
+1. **任务 2.1: 密钥与敏感配置物理隔离**：
+   - 规范 `.env.production`，确保 `GEMINI_API_KEY` 与 `MONGO_URI` 仅留存服务端，绝不打包进前端客户端 JS；
+   - 为管理接口（批次触发、数据导入）增加基于 Header 的 `x-admin-key` 鉴权保护。
+2. **任务 2.2: 生产环境 API 防护与限流防刷**：
+   - 引入 `helmet` 保护 HTTP 响应头安全；
+   - 引入 `express-rate-limit` 防止恶意高频攻击后端接口；
+   - 严格限定生产环境 CORS 跨域域名白名单。
+3. **任务 2.3: 进程守护与容灾自愈**：
+   - 编写生产环境守护配置（PM2 `ecosystem.config.cjs` 或轻量 `Dockerfile`），保证异常秒级拉起；
+   - 强化 MongoDB Atlas 偶发网络断线平滑重连与自动回退。
+4. **任务 2.4: 前端生产构建优化与缓存控制**：
+   - 验证生产环境打包体积，确保 Gzip / Brotli 压缩就绪，静态文件缓存配置合理。
+
+---
+
+### 🌐 MVP 3：云端公网部署与正式上线交付
+1. **任务 3.1: 基础设施与部署选型**：
+   - 前端：采用 Vercel / Cloudflare Pages 静态边缘托管（或 Nginx 反向代理）；
+   - 后端 API：部署于云服务器或 Railway / Render 平台 Node.js 容器环境。
+2. **任务 3.2: 生产环境网络连通与 MongoDB Atlas 白名单**：
+   - 将云服务器/部署节点的公网 IP 纳入 MongoDB Atlas Network Access 白名单。
+3. **任务 3.3: 自定义域名绑定与全站 HTTPS/SSL 自动化证书**。
+4. **任务 3.4: 全流程线上实测与交付验收**：
+   - 验证三套主题在移动端/桌面端线上访问；
+   - 验证线上首次自动化触发生成与无感推流。
+
+---
+
+## 四、本地开发与环境配置指南
+
+### 1. 常用命令速查
+```bash
+# 启动本地开发服务 (同时启动后端 API 3001 与前端 Vite 5173)
+npm run dev
+
+# 执行全量生产构建测试 (TypeScript 类型检查 + Vite 打包)
+npm run build
+
+# 运行自动化主题截图回归测试
+node scripts/verify-themes.mjs
+
+# 向 MongoDB Atlas 注入测试种子数据
+npm run db:seed
+```
+
+### 2. 环境变量配置 (`.env`)
+```bash
+# 服务端口
+PORT=3001
+
+# MongoDB Atlas 云数据库连接串
+MONGO_URI=mongodb+srv://aloisiamassanelli_db_user:SRXK7EC1lMW16rQI@cluster0.ryzx3s0.mongodb.net/gemini_news?retryWrites=true&w=majority
+
+# Gemini 智能体 API 密钥与模型配置 (MVP 1 将引入)
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.8-flash
+SCHEDULE_TIME=08:30
 ```
 
 ---
 
-## 三、下次继续推进的计划与 To-Do 事项
+## 五、关键文件与模块索引目录
 
-在用户回来后，我们将直接按照 [docs/fullstack_mvp_roadmap.md](file:///e:/antigravity项目/资讯前端/docs/fullstack_mvp_roadmap.md) 开始推进 **MVP 2**：
-
-### ⏳ MVP 2 即刻待办清单（无需提前部署 MongoDB，双模解耦）
-1. **任务 2.1：依赖与环境规范**
-   - 安装 `mongoose` 与 `dotenv`；
-   - 建立 `.env.example`，在 `.gitignore` 中确保真实 `.env` 不泄露。
-2. **任务 2.2：Mongoose Schema 建模**
-   - 编写 `server/models/NewsItem.mjs` 与 `server/models/BatchStatus.mjs`（严格约束枚举、数值区间、复合索引）。
-3. **任务 2.3：双模数据访问仓储层设计 (`server/repository.mjs`)**
-   - 封装 `getNewsList()`, `saveBriefing()`, `getBatchStatus()` 统一接口；
-   - 实现**自动探测机制**：有 `MONGO_URI` 时走云数据库；无配置时**平滑降级走本地 `data/briefings/` 静态文件**，保证系统永远不崩。
-4. **任务 2.4：历史数据种子工具 (`scripts/seed-mongo.mjs`)**
-   - 准备一键导入脚本，方便未来 Atlas 集群创建后一键把多日历史数据灌入云数据库。
-5. **任务 2.5 & 2.6：前端视觉契约加固与内置 DevTools 调试面板**
-   - 大屏右上角内置开发者浮层：一键切换数据源模式、一键模拟计算中雷达/500异常、30s 倒计时器、极端长标题与突发 Hero 注入器。
-
----
-
-## 四、核心工程目录结构速查
-
-```text
-e:\antigravity项目\资讯前端\
+```
+e:/antigravity项目/资讯前端/
 ├── data/
-│   └── briefings/                       # 本地简报存放目录（断网备份与开发调试）
-│       ├── README.md                    # 格式与配额规范（8-12条，气候1-2条）
-│       ├── sample-format.json           # 示例 schema
-│       └── 2026-09-25.json              # 动态测试简报样本
+│   └── briefings/                       # Gemini Spark 每日生成的结构化研报 JSON 目录
+│       ├── README.md                    # 数据契约与配额规范（8~12篇，气候限1~2篇）
+│       └── 2026-09-25.json              # 当前 12 篇全字段测试研报
 ├── docs/
-│   └── fullstack_mvp_roadmap.md         # 5大 MVP 阶段分解与详细 To-Do List
+│   └── superpowers/
+│       ├── specs/                       # 视觉与系统设计规范
+│       │   └── 2026-09-25-neo-brutalist-themes-design.md
+│       └── plans/                       # 实施计划与执行清单
+│           └── 2026-09-25-neo-brutalist-themes.md
+├── screenshots/                         # 全套 9 张 Retina 高清主题回归测试截图
+├── scripts/
+│   └── verify-themes.mjs                # Puppeteer E2E 截图自动化回归测试套件
 ├── server/
-│   └── mock-server.mjs                  # Express API 引擎（3001端口，含动态加载与保存端点）
-├── src/
-│   ├── components/
-│   │   ├── views/
-│   │   │   ├── BentoView.tsx            # Bento 看板（Hero 大卡与全球热力雷达）
-│   │   │   ├── MatrixStreamView.tsx     # 四象限多领域泳道
-│   │   │   └── TimelineScrubber.tsx     # 24H 时空轨迹时间滑块
-│   │   ├── GlobalCategoryBar.tsx        # 4大领域筛选、视图切换、历史归档日期选择
-│   │   ├── GlobalNewsCard.tsx           # 黑曜石玻璃拟态卡片（两行省略截断防御）
-│   │   ├── ImportBriefingModal.tsx      # 一键导入简报弹窗（带 Prompt 复制）
-│   │   ├── IntelligenceDrawer.tsx       # Gemini 认知抽屉（NLP量化与 NER 档案）
-│   │   ├── IntelligenceHeader.tsx       # 顶部全局监控头、情绪心电图与 08:30 状态
-│   │   ├── Pagination.tsx               # 暗调分页
-│   │   ├── RunningStateView.tsx         # 任务生成中雷达动画与前日降级
-│   │   └── SparkNewsDashboard.tsx       # 主容器（30s轮询/AbortController/三大边界）
-│   ├── services/
-│   │   └── api.ts                       # 前端 API 封装层（含 AbortSignal 与 saveBriefing）
-│   ├── types/
-│   │   └── news.ts                      # 全球化 4 大领域与多维量化 TypeScript 类型定义
-│   ├── App.tsx                          # 根组件
-│   ├── main.tsx                         # 应用入口
-│   └── index.css                        # Tailwind 基础与玻璃拟态微发光样式
-├── index.html                           # 页面入口
-├── package.json                         # 项目脚本与依赖
-├── tailwind.config.js                   # 暗黑黑曜石调色板
-├── tsconfig.json                        # TypeScript 配置
-├── vite.config.ts                       # Vite 配置
-├── .gitignore                           # Git 忽略配置
-├── completed_checklist.md               # 已完成交付核对表
-└── HANDOVER.md                          # 本交接备忘录文件
+│   ├── mock-server.mjs                  # Express API 核心服务入口 (3001)
+│   ├── repository.mjs                   # 数据仓库层 (支持 Atlas 云端与本地双模 Fallback)
+│   ├── corpus.mjs                       # 本地智能降级语料生成引擎
+│   └── models/
+│       ├── BatchStatus.mjs              # Mongoose 批次状态模型
+│       └── NewsItem.mjs                 # Mongoose 新闻研报模型
+└── src/
+    ├── context/
+    │   └── ThemeContext.tsx             # 全站主题 Context (dark / light / dopamine)
+    ├── components/
+    │   ├── ThemeSwitcher.tsx            # 顶部导航栏主题切换胶囊 (新野兽派/波普微交互)
+    │   ├── IntelligenceHeader.tsx       # 顶部导视栏与 5 维微型机械仪表盘
+    │   ├── GlobalCategoryBar.tsx        # 领域分类贴纸 Tab、打字机检索框与视图切换
+    │   ├── GlobalNewsCard.tsx           # 实体情报卡片 (防漏光、印章贴纸、机械虚线)
+    │   ├── IntelligenceDrawer.tsx       # 全球智库机密调查卷宗弹窗 (双栏黄色便签纸排版)
+    │   ├── DevToolsPanel.tsx            # 全栈开发者调试控制台
+    │   └── views/
+    │       ├── BentoView.tsx            # Bento 智库看板
+    │       ├── MatrixStreamView.tsx     # 四象限矩阵流
+    │       └── TimelineScrubber.tsx     # 24H 时空轨迹时间轴
+    └── index.css                        # 全站新野兽派与波普双主题核心样式库 (严格隔离)
 ```
 
 ---
 
-## 五、恢复开发时的操作指南
-
-当您回来后，在对话中只需发送：
-> **“继续”** 或 **“开始 MVP 2”**
-
-我们将立刻无缝衔接，启动 **MVP 2（任务 2.1：依赖安装与 Mongoose 建模）** 的推进！祝您休息愉快！
+**交接总结**:
+本交接文件已将项目截至当前（2026-09-25 17:26）的所有技术演进、已完成的里程碑、设计决策、模型调查事实以及通往“公网安全上线稳定运行”的清晰 3 个 MVP 阶段完整归档。接手人员或后续对话可直接依据本文件从 **MVP 1（真实数据生产闭环）** 顺畅无缝推进！
