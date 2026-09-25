@@ -149,6 +149,9 @@ app.post('/api/spark/models/select', (req, res) => {
 app.post('/api/spark/trigger-generate', async (req, res) => {
   try {
     const { date = new Date().toISOString().slice(0, 10) } = req.body || {};
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return res.status(400).json({ code: 400, message: '日期格式错误，必须为 YYYY-MM-DD' });
+    }
     const result = await triggerGenerationPipeline(date);
     if (result.conflict) {
       return res.status(409).json({ code: 409, message: result.message, data: result });
@@ -168,6 +171,7 @@ app.get('/api/spark/stream', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
   res.flushHeaders?.();
 
   const clientId = addSSEClient(res);
