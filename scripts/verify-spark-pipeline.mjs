@@ -18,9 +18,13 @@ async function main() {
   // 1. 建立 SSE 实时监听通道
   console.log('\n[Step 1] 挂载原生 SSE 实时推流通道 (GET /api/spark/stream)...');
   const sseEvents = [];
-  let sseConnected = false;
+  let sseReq = null;
+  let resolveConnected = null;
+  const connectedPromise = new Promise((resolve) => {
+    resolveConnected = resolve;
+  });
 
-  const sseReq = http.get(`${BASE_URL}/api/spark/stream`, (res) => {
+  sseReq = http.get(`${BASE_URL}/api/spark/stream`, (res) => {
     assert.equal(res.statusCode, 200, 'SSE 端点应返回 200');
     assert.ok(res.headers['content-type']?.includes('text/event-stream'), 'Content-Type 必须为 text/event-stream');
 
@@ -34,7 +38,7 @@ async function main() {
             const payload = JSON.parse(line.slice(6));
             sseEvents.push(payload);
             if (payload.type === 'CONNECTED') {
-              sseConnected = true;
+              resolveConnected?.(true);
             }
           } catch {
             // 忽略非 JSON 数据
@@ -44,10 +48,14 @@ async function main() {
     });
   });
 
+  // 防御性监听 error 事件，防止 destroy 抛出未捕获异常
+  sseReq.on('error', () => {});
+
   try {
-    // 等待 SSE 建立握手
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    assert.ok(sseConnected, 'SSE 握手应成功并收到 CONNECTED 事件');
+    // 事件驱动等待 SSE 握手就绪 (最多等待 3000ms)
+    const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(false), 3000));
+    const isHandshakeReady = await Promise.race([connectedPromise, timeoutPromise]);
+    assert.ok(isHandshakeReady, 'SSE 握手应成功并收到 CONNECTED 事件');
     console.log('   ✅ SSE 通道握手成功，推流事件监听已就绪！');
 
     // 2. 验证模型查询接口
@@ -171,7 +179,7 @@ async function main() {
       });
       console.log('   [Cleanup] 默认模型已复位为 gemini-3.8-flash');
     } catch {}
-    sseReq.destroy();
+    sseReq?.destroy();
   }
 }
 
