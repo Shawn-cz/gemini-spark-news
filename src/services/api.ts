@@ -117,7 +117,7 @@ export interface SparkSelectModelResponse {
   code: number;
   message: string;
   data: {
-    activeModel: string;
+    success: boolean;
     model: SparkModelOption;
   };
 }
