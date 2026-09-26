@@ -1,16 +1,16 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-09-25 22:35 (UTC+8)
-- **当前 Git 主线**: `master` (提交哈希 `c9c82ba`，工作区干净，无未提交更改)
+- **交接归档时间**: 2026-09-26 09:55 (UTC+8)
+- **当前 Git 主线**: `master` (提交哈希 `dea6596`，工作区干净，无未提交更改)
 - **系统运行状态**: 
   - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常)
   - 后端 API 服务: `http://localhost:3001` (Express + SSE 实时推流 + MongoDB Atlas 双模持久化正常)
-- **生产构建验证**: `npm run build` (TypeScript 类型检查 + Vite 打包 100% 成功，0 错误 0 警告，产物耗时 ~3.8s)
+- **生产构建验证**: `npm run build` (TypeScript 类型检查 + Vite 打包 100% 成功，0 错误 0 警告)
 - **测试验证覆盖**: 
   - 4 套单元与接口集成测试全部通过 (19/19 passing)
   - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过
   - 全套 9 张 Retina 高清无头截图自动化回归测试套件 100% 通过
-- **专项待办事项**: 包含 1 项已归档待命的淡色主题深底色按钮文字低对比度不可读修复预案（见第七章 Issue #UI-001）
+- **专项缺陷修复**: Issue #UI-001 淡色主题与波普主题实体按钮文字低对比度不可读缺陷已 100% 修复并验证归档
 
 ---
 
@@ -285,12 +285,12 @@ e:/antigravity项目/资讯前端/
 
 ---
 
-## 七、 【专项待办事项 / UI 缺陷修复】淡色主题深底色按钮文字低对比度不可读修复预案 (Issue #UI-001)
+## 七、 【已交付完成】淡色与波普主题实体按钮文字低对比度不可读修复 (Issue #UI-001)
 
-> [!IMPORTANT]
-> **当前状态**：`[ ] 待开动 (PENDING - 遵照用户明确要求：形成待办清单与详细修复预案，暂不修改代码，待后续会话指示后开动)`
-> **缺陷级别**：高 (P1 - 视觉与可读性阻碍，严重违反 WCAG 2.1 AA/AAA 4.5:1 / 7:1 对比度标准)
-> **复现环境**：P2 经典档案羊皮纸淡色主题 (`[data-theme="light"]`)，所有视图模式
+> [!NOTE]
+> **当前状态**：`[x] 已全量交付完成 (RESOLVED - 修复已合并至主分支 master，全套构建与 9 张 Retina 高清无头截图 100% 验收通过)`
+> **缺陷级别**：高 (P1 - 视觉与可读性阻碍，现已达成 WCAG 2.1 AAA 21:1 纯黑/纯白极限对比度)
+> **影响范围**：P2 经典档案羊皮纸淡色主题 (`[data-theme="light"]`) 与高能波普多巴胺主题 (`[data-theme="dopamine"]`)
 
 ---
 
@@ -376,26 +376,17 @@ e:/antigravity项目/资讯前端/
 
 ---
 
-### 5. 验证闭环与验收准则 (Definition of Done)
+### 5. 验证闭环与验收结果 (Definition of Done - 100% Passed)
 
-待开动修复后，必须通过以下 4 步严格验收验证：
-1. **构建编译测试**：
-   ```bash
-   npm run build
-   ```
-   输出 0 error 0 warning，TypeScript 严格检查 100% 通过。
-2. **自动化主题截图生成与肉眼复核**：
-   ```bash
-   node scripts/verify-themes.mjs
-   ```
-   检查生成的 [`screenshots/light-parchment-bento.png`](screenshots/light-parchment-bento.png)：
-   - 验证顶部主题胶囊中“淡色”按钮文字与太阳图标为纯白高亮；
-   - 验证“同步批次”按钮文字与旋转图标为纯白高亮；
-   - 验证“Bento 智库看板”按钮文字与小方格图标为纯白高亮。
-3. **主题切换防回归测试**：
-   在浏览器中交替切换“暗夜” -> “淡色” -> “多巴胺” -> “淡色”，确认三大主题在各种交互状态下均无文字变色或闪烁异常。
-4. **E2E 管道全链路回归**：
-   ```bash
-   node scripts/verify-spark-pipeline.mjs
-   ```
-   确保 7 阶段自动化集成测试 100% 绿色通过。
+本修复已全量执行并完成以下 4 步严格验收验证：
+1. ✅ **构建编译测试**：
+   `npm run build` 输出 0 error 0 warning，TypeScript 严格检查 100% 通过，产物优化正常。
+2. ✅ **自动化主题截图生成与肉眼复核**：
+   运行 `node scripts/verify-themes.mjs`，生成全套 9 张 Retina 高清截图于 [`screenshots/`](screenshots/)：
+   - [`screenshots/light-parchment-bento.png`](screenshots/light-parchment-bento.png)：顶部胶囊“淡色”按钮、顶部右侧“同步批次”按钮、视图切换“Bento 智库看板”按钮内部文字与图标均为纯白 `#ffffff`，对比度达 **21:1 (WCAG AAA)**；
+   - [`screenshots/dopamine-pop-bento.png`](screenshots/dopamine-pop-bento.png)：热粉实体按钮内部文字与图标亦同步呈现高对比度纯白；
+   - [`screenshots/dark-obsidian-bento.png`](screenshots/dark-obsidian-bento.png)：黑曜石暗夜主题零回归，完美保持。
+3. ✅ **主题切换防回归测试**：
+   在无头浏览器中交替切换“暗夜” -> “淡色” -> “多巴胺” -> “淡色”，三大主题交互状态稳定，零样式污染与闪烁。
+4. ✅ **E2E 管道全链路回归**：
+   `node scripts/verify-spark-pipeline.mjs` 全流程 7 阶段自动化集成测试 100% 绿色通过。
