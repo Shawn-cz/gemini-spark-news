@@ -80,7 +80,7 @@ async function run() {
     const page = await browser.newPage();
 
     console.log('Navigating to http://localhost:5173...');
-    await page.goto('http://localhost:5173', { waitUntil: 'networkidle0', timeout: 30000 });
+    await page.goto('http://localhost:5173', { waitUntil: 'domcontentloaded', timeout: 30000 });
 
     console.log('Waiting for articles to load...');
     await waitForReady(page);

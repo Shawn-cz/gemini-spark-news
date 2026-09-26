@@ -494,6 +494,56 @@ html, body {
   color: #0f172a !important;
 }
 
+/* ========================================================
+   FIX(Issue #UI-001): 档案羊皮纸淡色主题黑底实体按钮白字白图标高对比度守护
+   覆盖 index.css:492 的 [data-theme="light"] .text-white 误伤
+   ======================================================== */
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] span:not(.rounded-full) {
+  color: #ffffff !important;
+}
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="light"] .theme-capsule-container button[aria-checked="true"] svg * {
+  stroke: #ffffff !important;
+}
+
+[data-theme="light"] .header-btn-sync:not(:disabled) {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-theme="light"] .header-btn-sync:not(:disabled) span {
+  color: #ffffff !important;
+}
+[data-theme="light"] .header-btn-sync:not(:disabled) svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="light"] .header-btn-sync:not(:disabled) svg * {
+  stroke: #ffffff !important;
+}
+
+[data-theme="light"] .viewmode-btn-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-theme="light"] .viewmode-btn-active span {
+  color: #ffffff !important;
+}
+[data-theme="light"] .viewmode-btn-active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="light"] .viewmode-btn-active svg * {
+  stroke: #ffffff !important;
+}
+
 [data-theme="light"] .text-slate-200 {
   color: #1e293b !important;
 }
@@ -1682,6 +1732,56 @@ html, body {
 [data-theme="dopamine"] .text-white,
 [data-theme="dopamine"] .text-slate-100 {
   color: #1e1b4b !important;
+}
+
+/* ========================================================
+   FIX(Issue #UI-001): 多巴胺波普主题高亮按钮白字白图标高对比度守护
+   覆盖 index.css:1732 的 [data-theme="dopamine"] .text-white 误伤
+   ======================================================== */
+[data-theme="dopamine"] .theme-capsule-container button[aria-checked="true"] {
+  background-color: #ff007f !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+[data-theme="dopamine"] .theme-capsule-container button[aria-checked="true"] span:not(.rounded-full) {
+  color: #ffffff !important;
+}
+[data-theme="dopamine"] .theme-capsule-container button[aria-checked="true"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="dopamine"] .theme-capsule-container button[aria-checked="true"] svg * {
+  stroke: #ffffff !important;
+}
+
+[data-theme="dopamine"] .header-btn-sync:not(:disabled) {
+  background: #ff007f !important;
+  color: #ffffff !important;
+}
+[data-theme="dopamine"] .header-btn-sync:not(:disabled) span {
+  color: #ffffff !important;
+}
+[data-theme="dopamine"] .header-btn-sync:not(:disabled) svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="dopamine"] .header-btn-sync:not(:disabled) svg * {
+  stroke: #ffffff !important;
+}
+
+[data-theme="dopamine"] .viewmode-btn-active {
+  background: #ff007f !important;
+  color: #ffffff !important;
+}
+[data-theme="dopamine"] .viewmode-btn-active span {
+  color: #ffffff !important;
+}
+[data-theme="dopamine"] .viewmode-btn-active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="dopamine"] .viewmode-btn-active svg * {
+  stroke: #ffffff !important;
 }
 
 [data-theme="dopamine"] .text-slate-200 {
