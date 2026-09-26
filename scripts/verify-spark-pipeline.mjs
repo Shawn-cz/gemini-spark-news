@@ -1,19 +1,74 @@
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import { getEffectiveAdminKey } from '../server/middleware/adminAuth.mjs';
 
 const BASE_URL = 'http://localhost:3001';
 
 async function main() {
   console.log('===========================================================');
-  console.log('🧪 开始执行 Gemini Spark 生产流全链路 E2E 闭环验证...');
+  console.log('🧪 开始执行 Gemini Spark 生产流全链路 E2E 闭环验证 (含安全加固)...');
   console.log('===========================================================');
 
-  // 0. 状态初始化：确保从默认模型 gemini-3.8-flash 开始
-  await fetch(`${BASE_URL}/api/spark/models/select`, {
+  const adminKey = getEffectiveAdminKey();
+  const authHeaders = {
+    'Content-Type': 'application/json',
+    'X-Admin-Key': adminKey
+  };
+
+  // 检测 3001 端口服务，若未启动则动态挂载内置网关实例
+  let localServer = null;
+  try {
+    const probe = await fetch(`${BASE_URL}/api/health`);
+    if (!probe.ok) throw new Error('probe failed');
+  } catch {
+    console.log('\n[Init] 未检测到独立运行的 3001 端口服务，正在自动挂载网关实例...');
+    const { app } = await import('../server/mock-server.mjs');
+    const { initDatabase } = await import('../server/repository.mjs');
+    await initDatabase();
+    localServer = http.createServer(app);
+    await new Promise(r => localServer.listen(3001, r));
+    console.log('   ✅ 内置网关服务已挂载在 http://localhost:3001');
+  }
+
+  // 0. 安全防护与鉴权拦截验证 (Security & Auth Verification)
+  console.log('\n[Step 0] 校验 Helmet 安全标头与核心接口 X-Admin-Key 鉴权守卫...');
+  const healthRes = await fetch(`${BASE_URL}/api/health`);
+  assert.equal(healthRes.status, 200);
+  assert.equal(healthRes.headers.get('x-content-type-options'), 'nosniff', '必须包含 nosniff 标头');
+  assert.equal(healthRes.headers.get('x-frame-options'), 'DENY', '必须包含 x-frame-options: DENY 标头');
+  console.log('   ✅ Helmet 安全标头验证通过 (nosniff & x-frame-options: DENY)');
+
+  // 0.1 校验无凭证拦截
+  const unauthSelect = await fetch(`${BASE_URL}/api/spark/models/select`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'gemini-3.1-pro' })
+  });
+  assert.equal(unauthSelect.status, 401, '未授权调用模型切换必须返回 401');
+
+  const unauthTrigger = await fetch(`${BASE_URL}/api/spark/trigger-generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date: '2026-09-25' })
+  });
+  assert.equal(unauthTrigger.status, 401, '未授权调用流水线生成必须返回 401');
+
+  // 0.2 校验错误秘钥拦截
+  const wrongKeyRes = await fetch(`${BASE_URL}/api/spark/models/select`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': 'invalid-secret-key' },
+    body: JSON.stringify({ model: 'gemini-3.1-pro' })
+  });
+  assert.equal(wrongKeyRes.status, 401, '错误秘钥调用模型切换必须返回 401');
+  console.log('   ✅ 管理接口鉴权守卫生效：无凭证及非法凭证均被拦截并返回 HTTP 401');
+
+  // 0.3 状态初始化：携带合法秘钥确保从默认模型 gemini-3.8-flash 开始
+  const initSelectRes = await fetch(`${BASE_URL}/api/spark/models/select`, {
+    method: 'POST',
+    headers: authHeaders,
     body: JSON.stringify({ model: 'gemini-3.8-flash' })
   });
+  assert.equal(initSelectRes.status, 200, '携带有效秘钥初始化模型应返回 200');
 
   // 1. 建立 SSE 实时监听通道
   console.log('\n[Step 1] 挂载原生 SSE 实时推流通道 (GET /api/spark/stream)...');
@@ -74,10 +129,10 @@ async function main() {
     // 3. 验证模型热切换与非法模型防御
     console.log('\n[Step 3] 校验模型热切换与非法模型防御 (POST /api/spark/models/select)...');
     
-    // 3.1 尝试设置捏造的不存在模型 (如 gemini-3.8-pro)
+    // 3.1 尝试设置捏造的不存在模型 (如 gemini-3.8-pro) - 携带秘钥通过鉴权后由模型校验拦截
     const rejectRes = await fetch(`${BASE_URL}/api/spark/models/select`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders,
       body: JSON.stringify({ model: 'gemini-3.8-pro' })
     });
     assert.equal(rejectRes.status, 400, '设置不存在的模型必须返回 400');
@@ -86,7 +141,7 @@ async function main() {
     // 3.2 热切换至候选模型 gemini-3.1-pro
     const switchProRes = await fetch(`${BASE_URL}/api/spark/models/select`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders,
       body: JSON.stringify({ model: 'gemini-3.1-pro' })
     });
     assert.equal(switchProRes.status, 200);
@@ -101,7 +156,7 @@ async function main() {
     // 4.1 发起生成请求
     const triggerPromise = fetch(`${BASE_URL}/api/spark/trigger-generate`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders,
       body: JSON.stringify({ date: testDate })
     });
 
@@ -112,7 +167,7 @@ async function main() {
     console.log('   测试并发防重互斥锁：触发并发请求...');
     const conflictRes = await fetch(`${BASE_URL}/api/spark/trigger-generate`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders,
       body: JSON.stringify({ date: testDate })
     });
     assert.equal(conflictRes.status, 409, '并发触发必须被互斥锁拦截并返回 409 Conflict');
@@ -174,12 +229,16 @@ async function main() {
     try {
       await fetch(`${BASE_URL}/api/spark/models/select`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify({ model: 'gemini-3.8-flash' })
       });
       console.log('   [Cleanup] 默认模型已复位为 gemini-3.8-flash');
     } catch {}
     sseReq?.destroy();
+    if (localServer) {
+      localServer.close();
+      console.log('   [Cleanup] 内置网关服务已安全关闭');
+    }
   }
 }
 
