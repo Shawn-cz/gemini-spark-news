@@ -88,22 +88,29 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
 
   // 运维管理秘钥配置状态
   const [adminKey, setAdminKeyInput] = useState<string>(() => getAdminKey());
+  const [persistedKey, setPersistedKey] = useState<string>(() => getAdminKey());
   const [showKey, setShowKey] = useState<boolean>(false);
   const [keySaveMsg, setKeySaveMsg] = useState<string>('');
+  const keySaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSaveKey = () => {
-    setAdminKey(adminKey);
-    setKeySaveMsg(adminKey.trim() ? '秘钥已保存并生效' : '秘钥已清空');
-    addLog(adminKey.trim() ? '已更新运维管理秘钥 (X-Admin-Key)' : '已清空运维管理秘钥', 'info');
-    setTimeout(() => setKeySaveMsg(''), 2500);
+    const trimmed = adminKey.trim();
+    setAdminKey(trimmed);
+    setPersistedKey(trimmed);
+    setKeySaveMsg(trimmed ? '秘钥已保存并生效' : '秘钥已清空');
+    addLog(trimmed ? '已更新运维管理秘钥 (X-Admin-Key)' : '已清空运维管理秘钥', 'info');
+    if (keySaveTimerRef.current) clearTimeout(keySaveTimerRef.current);
+    keySaveTimerRef.current = setTimeout(() => setKeySaveMsg(''), 2500);
   };
 
   const handleClearKey = () => {
     setAdminKeyInput('');
     setAdminKey('');
+    setPersistedKey('');
     setKeySaveMsg('秘钥已清空');
     addLog('已清空运维管理秘钥 (X-Admin-Key)', 'info');
-    setTimeout(() => setKeySaveMsg(''), 2500);
+    if (keySaveTimerRef.current) clearTimeout(keySaveTimerRef.current);
+    keySaveTimerRef.current = setTimeout(() => setKeySaveMsg(''), 2500);
   };
 
   const addLog = (text: string, type: 'info' | 'progress' | 'success' | 'error' = 'info') => {
@@ -167,6 +174,12 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
       logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [sparkLogs]);
+
+  useEffect(() => {
+    return () => {
+      if (keySaveTimerRef.current) clearTimeout(keySaveTimerRef.current);
+    };
+  }, []);
 
   const checkHealth = async () => {
     setIsChecking(true);
@@ -413,17 +426,24 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
                   <Key className="w-3.5 h-3.5 text-amber-400" />
                   <span>🔑 运维管理秘钥配置 (X-Admin-Key)</span>
                 </span>
-                {adminKey.trim() ? (
-                  <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    已配置秘钥
-                  </span>
-                ) : (
-                  <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-950 text-amber-300 border border-amber-800 flex items-center gap-1">
-                    <ShieldAlert className="w-3 h-3 text-amber-400" />
-                    未配置秘钥 (操作受限)
-                  </span>
-                )}
+                <div className="flex items-center gap-1.5">
+                  {persistedKey ? (
+                    <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      已配置秘钥
+                    </span>
+                  ) : (
+                    <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-950 text-amber-300 border border-amber-800 flex items-center gap-1">
+                      <ShieldAlert className="w-3 h-3 text-amber-400" />
+                      未配置秘钥 (操作受限)
+                    </span>
+                  )}
+                  {adminKey.trim() !== persistedKey && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded font-mono text-cyan-300 bg-cyan-950/80 border border-cyan-800 animate-pulse">
+                      待保存
+                    </span>
+                  )}
+                </div>
               </div>
 
               <p className="text-[10px] text-slate-400">
