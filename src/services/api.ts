@@ -2,6 +2,34 @@ import { NewsQueryParams, NewsResponseData, SparkBatchStatusInfo, BatchStatusTyp
 
 const BASE_URL = '/api';
 
+const ADMIN_KEY_STORAGE_KEY = 'gemini_spark_admin_key';
+
+export function getAdminKey(): string {
+  try {
+    return localStorage.getItem(ADMIN_KEY_STORAGE_KEY) || '';
+  } catch {
+    return '';
+  }
+}
+
+export function setAdminKey(key: string): void {
+  try {
+    if (key && key.trim()) {
+      localStorage.setItem(ADMIN_KEY_STORAGE_KEY, key.trim());
+    } else {
+      localStorage.removeItem(ADMIN_KEY_STORAGE_KEY);
+    }
+  } catch {
+    // ignore storage error
+  }
+}
+
+function getAuthHeaders(): Record<string, string> {
+  const key = getAdminKey();
+  return key ? { 'X-Admin-Key': key } : {};
+}
+
+
 export async function fetchNewsList(
   params: NewsQueryParams = {}, 
   signal?: AbortSignal
@@ -137,7 +165,10 @@ export interface SparkTriggerGenerateResponse {
 export async function selectSparkModel(model: string): Promise<SparkSelectModelResponse> {
   const res = await fetch(`${BASE_URL}/spark/models/select`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      ...getAuthHeaders()
+    },
     body: JSON.stringify({ model })
   });
   if (!res.ok) {
@@ -150,7 +181,10 @@ export async function selectSparkModel(model: string): Promise<SparkSelectModelR
 export async function triggerSparkGenerate(date?: string): Promise<SparkTriggerGenerateResponse> {
   const res = await fetch(`${BASE_URL}/spark/trigger-generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      ...getAuthHeaders()
+    },
     body: JSON.stringify({ date })
   });
   if (!res.ok) {

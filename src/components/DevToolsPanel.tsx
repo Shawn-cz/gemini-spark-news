@@ -16,7 +16,12 @@ import {
   Cpu,
   Terminal,
   Play,
-  Trash2
+  Trash2,
+  Key,
+  Eye,
+  EyeOff,
+  Save,
+  ShieldAlert
 } from 'lucide-react';
 import { 
   fetchHealthInfo, 
@@ -24,7 +29,9 @@ import {
   fetchSparkModels, 
   selectSparkModel, 
   triggerSparkGenerate, 
-  SparkModelOption 
+  SparkModelOption,
+  getAdminKey,
+  setAdminKey
 } from '../services/api';
 import { BatchStatusType, GlobalNewsItem } from '../types/news';
 
@@ -79,6 +86,26 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
   const logIdCounter = useRef<number>(1);
   const logContainerRef = useRef<HTMLDivElement>(null);
 
+  // 运维管理秘钥配置状态
+  const [adminKey, setAdminKeyInput] = useState<string>(() => getAdminKey());
+  const [showKey, setShowKey] = useState<boolean>(false);
+  const [keySaveMsg, setKeySaveMsg] = useState<string>('');
+
+  const handleSaveKey = () => {
+    setAdminKey(adminKey);
+    setKeySaveMsg(adminKey.trim() ? '秘钥已保存并生效' : '秘钥已清空');
+    addLog(adminKey.trim() ? '已更新运维管理秘钥 (X-Admin-Key)' : '已清空运维管理秘钥', 'info');
+    setTimeout(() => setKeySaveMsg(''), 2500);
+  };
+
+  const handleClearKey = () => {
+    setAdminKeyInput('');
+    setAdminKey('');
+    setKeySaveMsg('秘钥已清空');
+    addLog('已清空运维管理秘钥 (X-Admin-Key)', 'info');
+    setTimeout(() => setKeySaveMsg(''), 2500);
+  };
+
   const addLog = (text: string, type: 'info' | 'progress' | 'success' | 'error' = 'info') => {
     const timeStr = new Date().toLocaleTimeString('zh-CN', { hour12: false });
     const id = logIdCounter.current++;
@@ -107,7 +134,11 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
       setActiveModel(modelId);
       addLog(`模型已成功热切换为 [${modelId}]`, 'info');
     } catch (err: any) {
-      addLog(`模型切换失败: ${err.message}`, 'error');
+      if (err.message?.includes('401') || err.message?.includes('未授权')) {
+        addLog(`鉴权失败 (HTTP 401): 敏感管理操作需要有效秘钥，请在下方配置正确的 X-Admin-Key`, 'error');
+      } else {
+        addLog(`模型切换失败: ${err.message}`, 'error');
+      }
     } finally {
       setIsSwitchingModel(false);
     }
@@ -122,7 +153,11 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
       const res = await triggerSparkGenerate(todayStr);
       addLog(`生产任务已响应: ${res.message || '执行成功'}`, 'success');
     } catch (err: any) {
-      addLog(`触发生成失败: ${err.message}`, 'error');
+      if (err.message?.includes('401') || err.message?.includes('未授权')) {
+        addLog(`鉴权失败 (HTTP 401): 敏感管理操作需要有效秘钥，请在下方配置正确的 X-Admin-Key`, 'error');
+      } else {
+        addLog(`触发生成失败: ${err.message}`, 'error');
+      }
       setIsTriggering(false);
     }
   };
@@ -370,6 +405,74 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
                 </>
               )}
             </button>
+
+            {/* 运维管理秘钥配置 (X-Admin-Key) */}
+            <div className="p-3 rounded-lg bg-black/40 border border-cyan-500/20 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
+                  <Key className="w-3.5 h-3.5 text-amber-400" />
+                  <span>🔑 运维管理秘钥配置 (X-Admin-Key)</span>
+                </span>
+                {adminKey.trim() ? (
+                  <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    已配置秘钥
+                  </span>
+                ) : (
+                  <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-950 text-amber-300 border border-amber-800 flex items-center gap-1">
+                    <ShieldAlert className="w-3 h-3 text-amber-400" />
+                    未配置秘钥 (操作受限)
+                  </span>
+                )}
+              </div>
+
+              <p className="text-[10px] text-slate-400">
+                用于触发模型热切换与即时流水线调度。
+              </p>
+
+              <div className="flex items-center gap-1.5">
+                <div className="relative flex-1">
+                  <input
+                    type={showKey ? 'text' : 'password'}
+                    value={adminKey}
+                    onChange={(e) => setAdminKeyInput(e.target.value)}
+                    placeholder="输入 X-Admin-Key 凭证"
+                    className="w-full bg-obsidian-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 pr-8 font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowKey(!showKey)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                    title={showKey ? '隐藏秘钥' : '显示秘钥'}
+                  >
+                    {showKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSaveKey}
+                  className="px-3 py-1.5 rounded-lg bg-cyan-700 hover:bg-cyan-600 text-white font-bold flex items-center gap-1 transition text-[10px] shrink-0 active:scale-95"
+                >
+                  <Save className="w-3 h-3" />
+                  <span>保存秘钥</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearKey}
+                  disabled={!adminKey}
+                  className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-rose-400 transition text-[10px] shrink-0 disabled:opacity-40"
+                >
+                  清除
+                </button>
+              </div>
+
+              {keySaveMsg && (
+                <div className="text-[10px] text-emerald-400 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                  <span>{keySaveMsg}</span>
+                </div>
+              )}
+            </div>
 
             {/* 实时 SSE 日志终端 */}
             <div className="space-y-1.5 pt-1">
