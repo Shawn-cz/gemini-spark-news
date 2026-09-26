@@ -16,7 +16,8 @@ RUN npm ci --omit=dev
 COPY server ./server
 COPY data ./data
 COPY --from=builder /app/dist ./dist
-RUN mkdir -p logs data/briefings
+RUN mkdir -p logs data/briefings && chown -R node:node /app
 
+USER node
 EXPOSE 3001
 CMD ["node", "server/mock-server.mjs"]

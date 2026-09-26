@@ -3,4 +3,4 @@ dist
 logs
 screenshots
 .git
-.env
+.env*
