@@ -13,7 +13,8 @@ import {
   getBatchStatus,
   getNewsList,
   saveBriefing,
-  toggleBatchStatus
+  toggleBatchStatus,
+  getAvailableBriefingDates
 } from './repository.mjs';
 import {
   getActiveModel,
@@ -86,6 +87,21 @@ app.get('/api/spark/batch-status', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/spark/batch-status error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 1.5: 获取系统内所有可用简报日期列表
+app.get('/api/spark/available-dates', async (req, res) => {
+  try {
+    const data = await getAvailableBriefingDates();
+    res.json({
+      code: 200,
+      message: 'success',
+      data
+    });
+  } catch (err) {
+    console.error('[API] /api/spark/available-dates error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });
