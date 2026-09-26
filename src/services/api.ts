@@ -1,4 +1,10 @@
-import { NewsQueryParams, NewsResponseData, SparkBatchStatusInfo, BatchStatusType } from '../types/news';
+import {
+  NewsQueryParams,
+  NewsResponseData,
+  SparkBatchStatusInfo,
+  BatchStatusType,
+  AvailableDatesData
+} from '../types/news';
 
 const BASE_URL = '/api';
 
@@ -45,6 +51,18 @@ export async function fetchNewsList(
   const res = await fetch(`${BASE_URL}/news?${query.toString()}`, { signal });
   if (!res.ok) {
     throw new Error(`获取全球资讯失败: HTTP ${res.status} ${res.statusText}`);
+  }
+  const json = await res.json();
+  return json.data;
+}
+
+/**
+ * 获取系统所有已归档可用的简报日期列表
+ */
+export async function fetchAvailableDates(signal?: AbortSignal): Promise<AvailableDatesData> {
+  const res = await fetch(`${BASE_URL}/spark/available-dates`, { signal });
+  if (!res.ok) {
+    throw new Error(`获取可用日期失败: HTTP ${res.status}`);
   }
   const json = await res.json();
   return json.data;

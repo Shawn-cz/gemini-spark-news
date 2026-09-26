@@ -83,3 +83,10 @@ export interface NewsResponseData {
   batchStatus: SparkBatchStatusInfo;
   stats: GlobalNewsStats;
 }
+
+export interface AvailableDatesData {
+  dates: string[];
+  latestDate: string;
+  totalDates: number;
+}
+
