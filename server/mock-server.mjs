@@ -35,6 +35,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  frameguard: { action: 'deny' },
+  hidePoweredBy: true
+}));
+
 const allowedOrigins = process.env.CORS_ORIGIN 
   ? process.env.CORS_ORIGIN.split(',').map(s => s.trim())
   : ['http://localhost:5173', 'http://127.0.0.1:5173'];
@@ -42,18 +49,13 @@ app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
       callback(null, true);
+    } else if (process.env.NODE_ENV !== 'production') {
+      callback(null, true); // 开发/测试环境放行 fallback
     } else {
-      callback(null, true); // Allow dev fallback or origin
+      callback(new Error(`CORS blocked: origin ${origin} not allowed`));
     }
   },
   credentials: true
-}));
-
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false,
-  frameguard: { action: 'deny' },
-  hidePoweredBy: true
 }));
 
 app.use(express.json());
@@ -210,16 +212,29 @@ app.get('/api/spark/stream', (req, res) => {
   });
 });
 
+// 针对未匹配的 /api/* 路由统一返回规范 JSON 404
+app.all('/api/*', (req, res) => {
+  res.status(404).json({
+    code: 404,
+    message: `API 接口不存在: ${req.method} ${req.originalUrl || req.url}`,
+    timestamp: new Date().toISOString()
+  });
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distDir = path.resolve(__dirname, '..', 'dist');
 
-if (process.env.NODE_ENV === 'production' && fs.existsSync(distDir)) {
-  app.use(express.static(distDir));
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) return next();
-    res.sendFile(path.join(distDir, 'index.html'));
-  });
+if (process.env.NODE_ENV === 'production') {
+  if (fs.existsSync(distDir)) {
+    app.use(express.static(distDir));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api')) return next();
+      res.sendFile(path.join(distDir, 'index.html'));
+    });
+  } else {
+    console.warn('[GATEWAY WARNING] 生产环境已就绪，但未检测到前端构建产物 dist/ 目录！');
+  }
 }
 
 export { app };
