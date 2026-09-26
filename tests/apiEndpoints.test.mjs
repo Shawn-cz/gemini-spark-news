@@ -8,6 +8,8 @@ import { fileURLToPath } from 'url';
 // 确保在导入 mock-server 之前设置 NODE_ENV=test，防止独立监听端口
 process.env.NODE_ENV = 'test';
 const { app } = await import('../server/mock-server.mjs');
+const { getEffectiveAdminKey } = await import('../server/middleware/adminAuth.mjs');
+const adminKey = getEffectiveAdminKey();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +49,10 @@ test('API Endpoints - POST /api/spark/models/select 热切换模型并拒绝非�
   // 1. 成功切换到 gemini-3.1-pro
   const switchRes = await fetch(`${baseUrl}/api/spark/models/select`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Key': adminKey
+    },
     body: JSON.stringify({ model: 'gemini-3.1-pro' })
   });
   assert.equal(switchRes.status, 200);
@@ -63,7 +68,10 @@ test('API Endpoints - POST /api/spark/models/select 热切换模型并拒绝非�
   // 2. 拒绝不支持的非法模型 (返回 400)
   const invalidRes = await fetch(`${baseUrl}/api/spark/models/select`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Key': adminKey
+    },
     body: JSON.stringify({ model: 'unknown-future-model' })
   });
   assert.equal(invalidRes.status, 400);
@@ -74,7 +82,10 @@ test('API Endpoints - POST /api/spark/models/select 热切换模型并拒绝非�
   // 3. 拒绝缺少 model 参数的请求 (返回 400)
   const missingRes = await fetch(`${baseUrl}/api/spark/models/select`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Key': adminKey
+    },
     body: JSON.stringify({})
   });
   assert.equal(missingRes.status, 400);
@@ -82,7 +93,10 @@ test('API Endpoints - POST /api/spark/models/select 热切换模型并拒绝非�
   // 4. 切回默认模型 gemini-3.8-flash
   const resetRes = await fetch(`${baseUrl}/api/spark/models/select`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Key': adminKey
+    },
     body: JSON.stringify({ model: 'gemini-3.8-flash' })
   });
   assert.equal(resetRes.status, 200);
@@ -96,7 +110,10 @@ test('API Endpoints - POST /api/spark/trigger-generate 触发生成工作流并�
   try {
     const res = await fetch(`${baseUrl}/api/spark/trigger-generate`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Key': adminKey
+      },
       body: JSON.stringify({ date: targetDate })
     });
 

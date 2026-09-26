@@ -1,6 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import { apiRateLimiter, adminRateLimiter } from './middleware/rateLimiter.mjs';
+import { adminAuthGuard } from './middleware/adminAuth.mjs';
 import {
   initDatabase,
   getDataSourceInfo,
@@ -29,8 +35,29 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+const allowedOrigins = process.env.CORS_ORIGIN 
+  ? process.env.CORS_ORIGIN.split(',').map(s => s.trim())
+  : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow dev fallback or origin
+    }
+  },
+  credentials: true
+}));
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  frameguard: { action: 'deny' },
+  hidePoweredBy: true
+}));
+
 app.use(express.json());
+app.use('/api', apiRateLimiter);
 
 // 接口 0: 健康检查与底层数据源探针
 app.get('/api/health', (req, res) => {
@@ -128,7 +155,7 @@ app.get('/api/spark/models', (req, res) => {
 });
 
 // 接口 6: 热切换当前使用的 Gemini 模型
-app.post('/api/spark/models/select', (req, res) => {
+app.post('/api/spark/models/select', adminRateLimiter, adminAuthGuard, (req, res) => {
   try {
     const { model } = req.body || {};
     if (!model) {
@@ -146,7 +173,7 @@ app.post('/api/spark/models/select', (req, res) => {
 });
 
 // 接口 7: 手动触发 Gemini Spark 生产流
-app.post('/api/spark/trigger-generate', async (req, res) => {
+app.post('/api/spark/trigger-generate', adminRateLimiter, adminAuthGuard, async (req, res) => {
   try {
     const { date = new Date().toISOString().slice(0, 10) } = req.body || {};
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -183,9 +210,23 @@ app.get('/api/spark/stream', (req, res) => {
   });
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distDir = path.resolve(__dirname, '..', 'dist');
+
+if (process.env.NODE_ENV === 'production' && fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(distDir, 'index.html'));
+  });
+}
+
 export { app };
 
-if (process.env.NODE_ENV !== 'test') {
+const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === __filename;
+
+if (isDirectRun && process.env.NODE_ENV !== 'test') {
   initDatabase().finally(() => {
     startDailyScheduler();
     app.listen(PORT, () => {
