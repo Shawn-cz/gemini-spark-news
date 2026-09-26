@@ -174,6 +174,67 @@ export async function getAvailableDates() {
 }
 
 /**
+ * 聚合可用简报日期列表（支持 MongoDB Atlas 与 本地文件/内存双模降级）
+ * 返回严格降序排列且无重复的日期数组
+ */
+export async function getAvailableBriefingDates() {
+  const dateSet = new Set();
+
+  // 1. 如果已连通 MongoDB，尝试从数据库聚合
+  if (isMongoConnected) {
+    try {
+      const dbDates = await NewsItemModel.distinct('batchDate');
+      if (Array.isArray(dbDates)) {
+        dbDates.forEach(d => {
+          if (typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
+            dateSet.add(d);
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('[Repository] 从 MongoDB 获取 batchDate 失败，继续读取本地文件:', err.message);
+    }
+  }
+
+  // 2. 读取本地物理磁盘 data/briefings 目录中的 YYYY-MM-DD.json
+  try {
+    if (fs.existsSync(BRIEFINGS_DIR)) {
+      const files = fs.readdirSync(BRIEFINGS_DIR);
+      files.forEach(file => {
+        const match = file.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
+        if (match) {
+          dateSet.add(match[1]);
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('[Repository] 读取 BRIEFINGS_DIR 异常:', err.message);
+  }
+
+  // 3. 读取内存降级存储中的日期
+  Object.keys(memoryNewsStore).forEach(d => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+      dateSet.add(d);
+    }
+  });
+
+  // 4. 排序：严格时间降序 (从最新到最早)
+  const sortedDates = Array.from(dateSet).sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
+
+  // 兜底保护：若全空则提供今天
+  if (sortedDates.length === 0) {
+    const today = new Date().toISOString().slice(0, 10);
+    sortedDates.push(today);
+  }
+
+  return {
+    dates: sortedDates,
+    latestDate: sortedDates[0],
+    totalDates: sortedDates.length
+  };
+}
+
+/**
  * 获取指定日期的批次监控状态
  */
 export async function getBatchStatus(date = '2026-09-24') {
