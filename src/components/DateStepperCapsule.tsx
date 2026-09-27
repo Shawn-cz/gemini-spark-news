@@ -24,7 +24,8 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
   // 计算当前日期索引 (availableDates 严格降序：索引 0 为最新)
   const currentIndex = availableDates.indexOf(currentDate);
   const isLatest = currentIndex === 0 || (availableDates.length > 0 && currentDate >= availableDates[0]);
-  const isEarliest = currentIndex !== -1 && currentIndex === availableDates.length - 1;
+  const isEarliest = (currentIndex !== -1 && currentIndex === availableDates.length - 1) ||
+    (availableDates.length > 0 && currentDate <= availableDates[availableDates.length - 1]);
 
   // 步进按钮禁用状态
   const canGoPrevious = !isLoading && !isEarliest && availableDates.length > 1; // 往更早的一天
@@ -32,16 +33,28 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
 
   const handlePrevious = () => {
     if (!canGoPrevious) return;
-    const nextIdx = currentIndex === -1 ? 1 : currentIndex + 1;
-    if (nextIdx < availableDates.length) {
+    let nextIdx: number;
+    if (currentIndex === -1) {
+      nextIdx = availableDates.findIndex(d => d < currentDate);
+      if (nextIdx === -1) nextIdx = availableDates.length - 1;
+    } else {
+      nextIdx = currentIndex + 1;
+    }
+    if (nextIdx >= 0 && nextIdx < availableDates.length) {
       onDateChange(availableDates[nextIdx]);
     }
   };
 
   const handleNext = () => {
     if (!canGoNext) return;
-    const nextIdx = currentIndex === -1 ? 0 : currentIndex - 1;
-    if (nextIdx >= 0) {
+    let nextIdx: number;
+    if (currentIndex === -1) {
+      const revIdx = [...availableDates].reverse().findIndex(d => d > currentDate);
+      nextIdx = revIdx === -1 ? 0 : availableDates.length - 1 - revIdx;
+    } else {
+      nextIdx = currentIndex - 1;
+    }
+    if (nextIdx >= 0 && nextIdx < availableDates.length) {
       onDateChange(availableDates[nextIdx]);
     }
   };
@@ -101,17 +114,19 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           disabled={isLoading}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
           className="px-2.5 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 hover:bg-white/10 rounded transition-colors cursor-pointer text-white"
           title="点击展开选择历史简报日期"
         >
           <Calendar className="w-3.5 h-3.5 text-cyan-400" />
           <span>{currentDate}</span>
           {isLatest ? (
-            <span className="text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.2 rounded uppercase tracking-tighter">
+            <span className="text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
               最新
             </span>
           ) : (
-            <span className="text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.2 rounded uppercase tracking-tighter">
+            <span className="text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter">
               归档
             </span>
           )}
@@ -179,7 +194,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
       )}
 
       {/* 实时新批次漂浮轻提示 (当用户回溯历史，且后台生成完毕最新批次时呈现) */}
-      {hasNewerBatchAvailable && onJumpToLatest && (
+      {!isOpen && hasNewerBatchAvailable && onJumpToLatest && (
         <div className="absolute top-full right-0 mt-2 z-40 whitespace-nowrap">
           <button
             type="button"
