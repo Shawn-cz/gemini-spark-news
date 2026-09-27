@@ -21,9 +21,11 @@ import {
   setActiveModel,
   getAvailableModels
 } from './services/geminiSparkAgent.mjs';
+import crypto from 'crypto';
 import {
   addSSEClient,
-  removeSSEClient
+  removeSSEClient,
+  broadcastSSEMessage
 } from './services/sseManager.mjs';
 import {
   triggerGenerationPipeline,
@@ -157,6 +159,127 @@ app.post('/api/briefings/save', async (req, res) => {
   } catch (err) {
     console.error('[API] /api/briefings/save error:', err);
     res.status(500).json({ code: 500, message: `保存失败: ${err.message}` });
+  }
+});
+
+/**
+ * 广播 SSE 事件辅助函数
+ */
+function broadcastSSEEvent(type, payload) {
+  broadcastSSEMessage({
+    type,
+    ...(typeof payload === 'object' ? payload : { data: payload })
+  });
+}
+
+/**
+ * 智能提取并清洗 Gemini 产出的文本或对象
+ */
+function extractAndParseBriefingPayload(body) {
+  if (!body) throw new Error('请求体不能为空');
+
+  // 1. 如果直接传入合法的简报对象且包含 items
+  if (typeof body === 'object' && Array.isArray(body.items)) {
+    return body;
+  }
+
+  // 2. 如果包含 rawContent 或 body 本身是字符串
+  let text = typeof body === 'string' ? body : (body.rawContent || body.content || '');
+  if (!text || typeof text !== 'string') {
+    throw new Error('未提供有效的 JSON 对象或文本内容');
+  }
+
+  // 3. 提取 ```json 代码块
+  const jsonBlockRegex = /```(?:json)?\s*([\s\S]*?)\s*```/i;
+  const match = text.match(jsonBlockRegex);
+  const targetJsonStr = match ? match[1].trim() : text.trim();
+
+  // 4. 解析 JSON
+  try {
+    const parsed = JSON.parse(targetJsonStr);
+    if (!parsed || typeof parsed !== 'object') {
+      throw new Error('解析结果不是有效的 JSON 对象');
+    }
+    return parsed;
+  } catch (err) {
+    throw new Error(`JSON 解析失败: ${err.message}`);
+  }
+}
+
+// 接口 4.5: 专为 Gemini Spark 定时智能体设计的外部 Webhook 自动摄取端点
+app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
+  // 双模鉴权：支持 Header 'X-Admin-Key' 与 Query '?key='
+  const clientKey = req.headers['x-admin-key'] || req.query.key;
+  const configuredKey = process.env.ADMIN_KEY;
+
+  if (!configuredKey || typeof configuredKey !== 'string') {
+    return res.status(500).json({ code: 500, message: '服务器未配置 ADMIN_KEY' });
+  }
+
+  if (!clientKey || typeof clientKey !== 'string') {
+    return res.status(401).json({ code: 401, message: '缺少鉴权密钥 (X-Admin-Key 或 ?key=)' });
+  }
+
+  const clientBuffer = Buffer.from(clientKey.trim());
+  const serverBuffer = Buffer.from(configuredKey.trim());
+
+  if (clientBuffer.length !== serverBuffer.length || !crypto.timingSafeEqual(clientBuffer, serverBuffer)) {
+    return res.status(401).json({ code: 401, message: '鉴权密钥无效' });
+  }
+
+  try {
+    const parsedData = extractAndParseBriefingPayload(req.body);
+
+    if (!Array.isArray(parsedData.items) || parsedData.items.length === 0) {
+      return res.status(400).json({ code: 400, message: '简报数据必须包含至少一条 items 资讯' });
+    }
+
+    // 自动推导批次归档日期
+    let targetDate = req.body?.date || parsedData.date;
+    if (!targetDate && parsedData.batchStatus?.generatedTime) {
+      const match = parsedData.batchStatus.generatedTime.match(/^\d{4}-\d{2}-\d{2}/);
+      if (match) targetDate = match[0];
+    }
+    if (!targetDate && parsedData.items[0]?.publishTime) {
+      const match = parsedData.items[0].publishTime.match(/^\d{4}-\d{2}-\d{2}/);
+      if (match) targetDate = match[0];
+    }
+    if (!targetDate) {
+      targetDate = new Date().toISOString().slice(0, 10);
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+      return res.status(400).json({ code: 400, message: `日期格式错误: ${targetDate}，必须为 YYYY-MM-DD` });
+    }
+
+    // 持久化落盘 (自动写入 MongoDB Atlas 及本地双写保底)
+    const saveResult = await saveBriefing(targetDate, parsedData);
+
+    // 通过 SSE 向全网在线客户端广播更新事件
+    broadcastSSEEvent('COMPLETED', {
+      type: 'COMPLETED',
+      stage: 'COMPLETED',
+      progress: 100,
+      message: `Gemini Spark [${targetDate}] 最新简报已成功摄取入库`,
+      data: {
+        date: targetDate,
+        total: parsedData.items.length,
+        source: 'webhook'
+      }
+    });
+
+    res.json({
+      code: 200,
+      message: `[${targetDate}] Gemini Spark 简报摄取成功并已广播`,
+      data: {
+        date: targetDate,
+        total: parsedData.items.length,
+        saveResult
+      }
+    });
+  } catch (err) {
+    console.error('[Webhook] Ingest error:', err);
+    res.status(400).json({ code: 400, message: err.message });
   }
 });
 
