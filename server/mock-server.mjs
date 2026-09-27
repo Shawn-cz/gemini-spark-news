@@ -64,15 +64,28 @@ app.use(express.json());
 app.use(express.text({ type: ['text/plain', 'text/markdown'], limit: '2mb' }));
 app.use('/api', apiRateLimiter);
 
-// 接口 0: 健康检查与底层数据源探针
+// 接口 0: 健康检查与云原生容器探针 (PaaS Liveness & Readiness Probe)
 app.get('/api/health', (req, res) => {
+  const schedulerStatus = getSchedulerStatus();
+  const activeModel = getActiveModel();
+  const dataSource = getDataSourceInfo();
   res.json({
     code: 200,
-    message: 'ok',
+    status: 'UP',
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    activeModel,
+    scheduler: {
+      status: schedulerStatus.isGenerating ? 'generating' : 'idle',
+      lastBatchDate: schedulerStatus.currentBatchDate,
+      nextScheduleTime: '08:30 (每日晨报)'
+    },
     data: {
-      ...getDataSourceInfo(),
-      scheduler: getSchedulerStatus(),
-      activeModel: getActiveModel()
+      ...dataSource,
+      scheduler: schedulerStatus,
+      activeModel
     }
   });
 });
@@ -390,8 +403,8 @@ const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === __filen
 if (isDirectRun && process.env.NODE_ENV !== 'test') {
   initDatabase().finally(() => {
     startDailyScheduler();
-    app.listen(PORT, () => {
-      console.log(`[Gemini Spark Intelligence API] Running on http://localhost:${PORT}`);
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`[Gemini Spark Intelligence API] Running on http://0.0.0.0:${PORT} (env: ${process.env.NODE_ENV || 'development'})`);
     });
   });
 }

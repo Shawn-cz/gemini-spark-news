@@ -164,12 +164,22 @@ test('API Endpoints - GET /api/spark/stream 建立 SSE 连接并接收初始 CON
   });
 });
 
-test('API Endpoints - GET /api/health 返回补充的调度器与激活模型字段', async () => {
+test('API Endpoints - GET /api/health 返回完整容器健康探针与调度状态', async () => {
   const res = await fetch(`${baseUrl}/api/health`);
   assert.equal(res.status, 200);
 
   const json = await res.json();
   assert.equal(json.code, 200);
+  assert.equal(json.status, 'UP');
+  assert.equal(json.version, '1.0.0');
+  assert.ok(typeof json.environment === 'string');
+  assert.ok(typeof json.uptime === 'number');
+  assert.ok(json.timestamp);
+  assert.ok(json.activeModel);
+  assert.ok(json.scheduler);
+  assert.ok(['generating', 'idle'].includes(json.scheduler.status));
+
+  // 兼顾已有契约
   assert.ok(json.data.mode);
   assert.ok(json.data.activeModel);
   assert.ok(json.data.scheduler);
