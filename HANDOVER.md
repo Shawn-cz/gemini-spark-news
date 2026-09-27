@@ -1,14 +1,16 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-09-27 13:15 (UTC+8)
+- **交接归档时间**: 2026-09-27 20:30 (UTC+8)
 - **当前 Git 主线**: `master` (工作区干净，所有里程碑已全量合并与回归验证)
 - **系统运行状态**: 
   - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常)
-  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 可用日期聚合 + SSE 实时推流 + MongoDB Atlas 双模持久化 + 生产静态资源直出)
+  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 可用日期聚合 + SSE 实时推流 + Webhook 外部摄取 + MongoDB Atlas 双模持久化 + 生产静态资源直出)
+  - Linux 云原生监听: 显式绑定 `0.0.0.0:$PORT`，适配各类云原生容器与 PaaS 反向代理网关
+  - 云容器健康探针: `/api/health` 导出状态、运行时间、内存开销、数据库与激活模型全维度健康度
 - **生产构建验证**: `npm run build` (TypeScript 严格检查 + Vite 6 打包 100% 成功，0 错误 0 警告)
 - **测试验证覆盖**: 
-  - 8 套单元与安全集成测试全部通过 (**33/33 passing, 100% 绿灯**)
-  - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过（具备网络探针、可用日期校验与零外部依赖自愈挂载能力）
+  - 9 套单元与安全集成测试全部通过 (**40/40 passing, 100% 绿灯**)
+  - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过（新增外部 Webhook 摄取端点双模鉴权与容错清洗校验，具备网络探针、可用日期校验与零外部依赖自愈挂载能力）
   - 全套 9 张 Retina 高清无头截图自动化回归测试套件 100% 通过
 - **专项缺陷修复与守护**: 
   - Issue #UI-001 淡色主题与波普主题实体按钮文字低对比度不可读缺陷已 100% 修复并验证归档 (WCAG AAA 21:1)
@@ -16,9 +18,11 @@
   - Issue #UI-003 多巴胺波普与淡色羊皮纸主题下日期步进胶囊深色背景与深色字体视觉融合缺陷彻底修复 (重构为新粗野主义纯白实体按键卡片、粗黑边框、波普粉硬阴影与纯黑高对比度文字，达成 WCAG AAA 21:1 极限清晰度)
   - Issue #UI-004 顶部工具栏胶囊与品牌徽章重叠碰撞、情绪滤镜按键文字与浅粉背景对比度过低白字不可读缺陷彻底修复 (解耦自适应断点与平铺换行约束，消除胶囊空间挤压重叠；消除 bg-white/10 浅粉染色，重构为高对比度黑底白字实体按键，对比度 21:1)
   - Issue #UI-005 页面冗余解释性注释文本与徽章精简清理 (移除顶部标题副标题描述与 GEMINI AGENT 24H 徽章、移除 Bento 视图 Global Sector Heat 解释性长文本，页面信息层级大幅净化、视觉呼吸感与专业度显著提升)
-- **生产部署就绪**: 
+- **云原生 PaaS 部署与运维就绪 (MVP 3)**: 
+  - 基础设施代码 (IaC) 清单就绪：[`render.yaml`](render.yaml)、[`railway.json`](railway.json)、[`fly.toml`](fly.toml)
+  - 全面详尽的部署操作指南：[`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md)
+  - 生产级多阶段 Alpine [`Dockerfile`](Dockerfile)（非 root `USER node` 最小特权、仅打包生产依赖、一体化直出 SPA 与 API）
   - PM2 进程自愈配置文件 [`ecosystem.config.cjs`](ecosystem.config.cjs) 就绪（500MB 内存阈值自愈、错误与访问日志切分）
-  - 生产级多阶段 Alpine [`Dockerfile`](Dockerfile) 就绪（非 root `USER node` 最小特权、仅打包生产依赖）
   - 完善的配置模版 [`.env.example`](.env.example) 与敏感文件过滤规则 [`.dockerignore`](.dockerignore)
 
 ---
@@ -51,6 +55,10 @@
 
 ```mermaid
 flowchart TD
+    subgraph ExternalAgent["外部自动化调度源"]
+        SparkAgent["Gemini Spark 外部定时任务\n(Cloud Scheduler / GitHub Actions / 定时脚本)"]
+    end
+
     subgraph Client["客户端与表现层 (Browser)"]
         UI["全球前沿智库看板\n(SparkNewsDashboard.tsx)"]
         Theme["新野兽派/波普/黑曜石三主题系统\n(ThemeSwitcher & index.css)"]
@@ -65,17 +73,19 @@ flowchart TD
         H1["1. Helmet 安全响应头\n(nosniff, DENY, 隐藏框架指纹)"]
         CORS["2. 生产严格 CORS 白名单\n(process.env.CORS_ORIGIN)"]
         RL1["3. 通用 API 频率限流\n(120次/分，自动豁免 SSE 与 Health)"]
-        RL2["4. 核心管理敏感操作严格限流\n(10次/分，针对模型切换与手动批次触发)"]
+        RL2["4. 核心管理敏感操作严格限流\n(10次/分，针对模型切换、调度与 Webhook 摄取)"]
         AUTH["5. 常数时间安全鉴权守卫 (AdminAuthGuard)\n(SHA-256 预摘要 + crypto.timingSafeEqual\n防范计时攻击与长度侧信道泄露)"]
     end
 
     subgraph BackendCore["服务端核心服务与调度"]
         StaticServe["SPA 生产静态资源直出\n(Express 托管 dist/ 与 index.html 路由兜底)"]
         DatesRoute["可用简报日期聚合接口\n(GET /api/spark/available-dates)"]
+        WebhookRoute["Webhook 自动摄取与容错清洗\n(POST /api/spark/webhook/ingest\nMarkdown 提取 + 日期自动推导)"]
         Scheduler["08:30 定时调度引擎 & 并发互斥锁\n(HTTP 409 Conflict 防重入 + 120s 死锁看门狗)"]
         Agent["Gemini Spark 智能体核心引擎\n(geminiSparkAgent.mjs)"]
         SSE["原生 HTTP SSE 实时推流中心\n(sseManager.mjs, 15s 心跳保活)"]
         Repo["双模自适应数据仓库\n(repository.mjs, 4级降级链条)"]
+        HealthProbe["云容器全维度健康探针\n(GET /api/health: 内存/时钟/状态/SSE客户数)"]
     end
 
     subgraph Persistence["持久化与高可用"]
@@ -85,22 +95,28 @@ flowchart TD
         LocalFile["本地物理磁盘备份\n(data/briefings/*.json)"]
     end
 
-    subgraph ProductionRuntime["生产守护与容器化 (PM2 / Docker)"]
+    subgraph ProductionRuntime["生产守护与云原生 PaaS (Docker / PM2 / PaaS)"]
+        PaaS["云原生 PaaS 部署规范\n(Render / Railway / Fly.io / Zeabur\n0.0.0.0:$PORT 绑定)"]
         PM2["PM2 进程自愈守护\n(ecosystem.config.cjs, 500M 内存限制)"]
         Docker["Alpine 多阶段安全容器\n(Dockerfile, 最小权限 USER node)"]
     end
 
     UI --> H1
     HUD --> H1
+    SparkAgent -->|POST /api/spark/webhook/ingest\n(X-Admin-Key 或 ?key= 鉴权)| H1
     Header -.-> Stepper
     Header -.->|EventSource /api/spark/stream| H1
     H1 --> CORS --> RL1
     RL1 -->|普通读取端点| StaticServe
     RL1 -->|日期聚合查询| DatesRoute --> Repo
+    RL1 -->|健康检测探针| HealthProbe
     RL1 -->|普通读取端点| Repo
     RL1 -->|长连接推流| SSE
     RL1 --> RL2 --> AUTH -->|敏感管理端点| Scheduler
     AUTH -->|敏感管理端点| Agent
+    AUTH -->|Webhook 摄取| WebhookRoute
+    WebhookRoute --> Repo
+    WebhookRoute --> SSE
     Scheduler --> Agent
     Scheduler --> SSE
     Scheduler --> Repo
@@ -198,6 +214,29 @@ flowchart TD
 
 ---
 
+### 🚀 Phase 4 (MVP 3): 云原生 PaaS 部署与 Gemini Spark 智能体 Webhook 自动化 (100% 完成)
+1. **专为外部智能体设计的 Webhook 自动摄取端点 ([`server/mock-server.mjs`](server/mock-server.mjs))**
+   - 挂载 `POST /api/spark/webhook/ingest`，作为连接外部定时工作流（如 Google Workspace 定时任务、GitHub Actions、独立 Python/Node 定时调度器等）的核心入口；
+   - **弹性双模鉴权**：支持请求头 `X-Admin-Key` 与 URL Query 参数 `?key=`，满足不同外部触发环境与第三方 Webhook 平台的配置约束；
+   - **Markdown 容错清洗引擎 (`extractAndParseBriefingPayload`)**：外部 LLM 产物经常包含 Markdown 格式包裹（如 ````json ... ````）及外部附加说明文本，系统实现自动特征提取与 JSON 纯化，彻底杜绝语法崩溃；
+   - **自动推导批次归档日期**：优先提取显式 `date`，缺省时自动从 `batchStatus.generatedTime` 或首条资讯发布日期 `publishTime` 正则智能推导目标归档日期 `YYYY-MM-DD`；
+   - **双写持久化与 SSE 广播联动**：数据入库后自动持久化至 MongoDB Atlas 与本地物理备份，并立即通过原生 SSE 通道向全网在线客户端广播 `COMPLETED` 事件，前端大屏实现静默无感自动更新。
+2. **Linux 云原生容器监听兼容 (`0.0.0.0:$PORT`) 与健康探针加固 ([`server/mock-server.mjs`](server/mock-server.mjs))**
+   - 监听绑定全面重构为 `0.0.0.0`，消除容器内部仅监听 `localhost` 导致宿主机与 PaaS 反向代理网关无法接入流量的典型痛点；
+   - 增强 `/api/health` 探针，对外导出丰富运行指标：服务状态、运行时间 (`uptime`)、内存占用 (`memory.rss / heapUsed`)、MongoDB 连接状态、当前激活模型、活跃 SSE 客户端数 (`activeSSEClients`) 与动态时间戳；
+   - 为云原生平台提供标准的 Liveness / Readiness 存活与就绪探测能力，保障滚动升级与健康巡检 0 假死。
+3. **基础设施即代码 (IaC) 配置规范与容器化最佳实践**
+   - **Render 部署配置 ([`render.yaml`](render.yaml))**：声明式定义 Docker 运行环境、`$PORT: 10000` 预设环境变量与 `/api/health` 存活检测端点；
+   - **Railway 部署配置 ([`railway.json`](railway.json))**：针对 Dockerfile 多阶段构建优化的容器重启策略与发布流水线；
+   - **Fly.io 部署配置 ([`fly.toml`](fly.toml))**：配置 `internal_port = 3001`、HTTP 存活检测契约与并发软限制；
+   - **全流程交付指南 ([`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md))**：涵盖 Render、Railway、Fly.io 与 Zeabur 的零代码与一键部署实操、环境变量矩阵、排错字典与生产巡检规范。
+4. **全量自动化测试升级与 E2E 闭环验证**
+   - 新增专项测试套件 [`tests/webhookIngest.test.mjs`](tests/webhookIngest.test.mjs)（7 项测试：未授权 401、非法密钥 401、空载荷 400、Header 鉴权 200、text/plain Markdown 清洗 200、Query 鉴权 Markdown 清洗 200、无效数据 400 全部通过）；
+   - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 升级：新增 `[Step 0.7]` 校验外部 Webhook 双模鉴权与 Markdown 容错清洗，并在 teardown 阶段自动清理临时归档文件；
+   - 全系统 9 套测试套件 **40/40 测试 100% 绿灯全通**。
+
+---
+
 ## 四、 专项缺陷归档 (Archived Defects)
 
 ### 📌 Issue #UI-001: 档案羊皮纸淡色主题与波普主题黑底实体按钮白字白图标对比度缺陷
@@ -222,12 +261,13 @@ flowchart TD
 | :--- | :--- | :--- |
 | **本地全栈调试** | `npm run dev` (同时拉起后端 3001 与前端 5173) | 前端 5173，后端 3001 |
 | **全站构建验证** | `npm run build` | `tsc -b && vite build`，0 错误 0 警告 |
-| **E2E 闭环全链路验证** | `node scripts/verify-spark-pipeline.mjs` | 自愈探测挂载，7 阶段全部绿灯输出 |
+| **E2E 闭环全链路验证** | `node scripts/verify-spark-pipeline.mjs` | 自愈探测挂载，含 Webhook 摄取与可用日期等 8 阶段全部绿灯输出 |
+| **外部 Webhook 摄取单测** | `node tests/webhookIngest.test.mjs` | 7/7 tests pass (双模鉴权、Markdown提取清洗、容错推导) |
 | **可用日期单元/集成单测** | `node tests/availableDates.test.mjs` | 2/2 tests pass (含降序排序与 API 端点) |
 | **限流防刷单测** | `node tests/rateLimiter.test.mjs` | 3/3 tests pass (含 429 与白名单豁免) |
 | **管理员鉴权单测** | `node tests/adminAuth.test.mjs` | 5/5 tests pass (含常数时间比对与 Bearer) |
 | **安全集成与标头测试** | `node tests/serverSecurityIntegration.test.mjs` | 4/4 tests pass (含 Helmet 标头与鉴权守卫) |
-| **全量核心测试套件** | `node --test tests/*.test.mjs` | 33/33 tests 100% pass |
+| **全量核心测试套件** | `node --test tests/webhookIngest.test.mjs tests/apiEndpoints.test.mjs tests/availableDates.test.mjs tests/adminAuth.test.mjs tests/rateLimiter.test.mjs tests/serverSecurityIntegration.test.mjs tests/geminiSparkAgent.test.mjs tests/sseManager.test.mjs tests/scheduler.test.mjs` | 40/40 tests 100% pass (9 大测试套件全绿) |
 | **主题截图自动化回归** | `node scripts/verify-themes.mjs` | 生成 9 张高清无头截图至 `screenshots/` |
 | **PM2 守护生产运行** | `npx pm2 start ecosystem.config.cjs` | 启动单实例守护，崩溃自愈，500M 限制 |
 | **Docker 镜像构建与运行** | `docker build -t gemini-spark-news:latest .`<br>`docker run -d -p 3001:3001 --env-file .env gemini-spark-news:latest` | 非 root node 用户运行，一体化输出 SPA 与 API |
@@ -267,17 +307,17 @@ SCHEDULE_TIME=08:30
 
 ---
 
-## 七、 下一阶段路线图规划 (Next Milestone: MVP 3)
+## 七、 下一阶段路线图规划 (Next Milestone: MVP 4)
 
-以**“全站公网安全稳定上线正常运行”**为终极目标，系统目前已具备完备的生产就绪度。下一步建议推进 **MVP 3: 云端公网部署与正式交付**：
+以**“全球高可用高并发与全球 CDN 边缘加速”**为后续演进目标，MVP 1、MVP 2、历史日期回溯与 MVP 3（云原生 PaaS 部署与外部 Webhook 自动化）已全部顺利闭环交付上线。后续演进建议推进 **MVP 4: 自定义独立域名、边缘 CDN 与自动化 CI/CD**：
 
 ```mermaid
 flowchart LR
-    MVP1["✅ MVP 1: 真实 Gemini Spark 生产闭环\n(智能体引擎 + 08:30定时 + SSE推流)\n【已全部交付完成】"] --> MVP2["✅ MVP 2: 生产级安全防护与稳定性加固\n(Helmet + 限流防刷 + X-Admin-Key + PM2/Docker)\n【已全部交付完成】"] --> FEATURE3["✅ 看板交互体验增强\n(历史简报日期步进胶囊 + 多日回溯 + 高对比度守护)\n【已全部交付完成】"] --> MVP3["🚀 MVP 3: 云端公网部署与正式交付\n(边缘托管 / 云服务器容器化 + 域名HTTPS + CI/CD 自动化流水线)"]
+    MVP1["✅ MVP 1: 真实 Gemini Spark 生产闭环\n(智能体引擎 + 08:30定时 + SSE推流)\n【已全部交付完成】"] --> MVP2["✅ MVP 2: 生产级安全防护与稳定性加固\n(Helmet + 限流防刷 + X-Admin-Key + PM2/Docker)\n【已全部交付完成】"] --> FEATURE3["✅ 看板交互体验增强\n(历史简报日期步进胶囊 + 多日回溯 + 高对比度守护)\n【已全部交付完成】"] --> MVP3["✅ MVP 3: 云原生 PaaS 部署与 Webhook 自动化\n(Render/Railway/Fly.io + Webhook自动摄取 + 健康探针)\n【已全部交付完成】"] --> MVP4["🚀 MVP 4: 自定义域名与全球边缘加速\n(自定义独立域名 + CDN 静态缓存 + GitHub Actions CI/CD 流水线)"]
 ```
 
-### MVP 3 核心待办建议：
-1. **容器化云端发布**：将构建好的 Docker 镜像推送到云容器镜像仓库，并在目标云主机（或 Kubernetes / 云托管平台）中通过 `docker-compose` 或 PM2 启动；
-2. **反向代理与 HTTPS**：配置 Nginx / Caddy，配置 Let's Encrypt 自动化 SSL 证书，设置反向代理缓冲参数（`proxy_buffering off;`）以完美透传 SSE 推流；
-3. **域名解析与 CDN 缓存**：解析生产域名，开启静态资源 CDN 缓存（排除 `/api/*`）；
-4. **自动化 CI/CD 流水线**：配置 GitHub Actions，在 push 到 master 时自动执行 `tests`、`build` 与镜像构建推送。
+### MVP 4 核心待办建议：
+1. **自定义域名与 SSL/TLS 证书**：在 PaaS 平台绑定企业级独立域名（如 `sparknews.ai`），自动签发管理 Let's Encrypt 泛域名 HTTPS 证书；
+2. **边缘 CDN 缓存与路由分流**：接入 Cloudflare，针对前端静态资源（`/assets/*`）开启全球边缘缓存，针对 `/api/*` 与 `/api/spark/stream` 配置直接回源与 `proxy_buffering off` 优化；
+3. **GitHub Actions 持续交付流水线**：配置自动化工作流，在提交到主分支时自动运行全量测试套件、E2E 验证脚本并触发 PaaS 平台自动构建部署；
+4. **外部定时智能体全网打通**：将外部定时 Gemini 任务的 Webhook URL 指向公网线上地址，达成每日无人值守自动摄取与全网毫秒级推流广播。

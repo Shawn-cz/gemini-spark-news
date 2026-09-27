@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
 import { getEffectiveAdminKey } from '../server/middleware/adminAuth.mjs';
+
+// 调高测试环境下的敏感操作限流阈值，确保完整链路连续操作不被频率拦截
+process.env.RATE_LIMIT_ADMIN = '100';
 
 const BASE_URL = 'http://localhost:3001';
 
@@ -10,6 +15,7 @@ async function main() {
   console.log('===========================================================');
 
   const adminKey = getEffectiveAdminKey();
+  const ADMIN_KEY = adminKey;
   const authHeaders = {
     'Content-Type': 'application/json',
     'X-Admin-Key': adminKey
@@ -80,6 +86,93 @@ async function main() {
   assert.strictEqual(datesBody.data.latestDate, datesBody.data.dates[0], 'latestDate 必须是 dates[0]');
   assert.strictEqual(datesBody.data.totalDates, datesBody.data.dates.length, 'totalDates 必须与 dates 长度一致');
   console.log(`   ✅ 可用日期接口校验通过: 共 ${datesBody.data.totalDates} 个批次, 最新批次为 [${datesBody.data.latestDate}]`);
+
+  console.log('\n[Step 0.7] 校验外部 Gemini Spark 自动化 Webhook 摄取端点 (POST /api/spark/webhook/ingest)...');
+  
+  // 0.7.1 未授权拦截测试
+  const unauthWebhookRes = await fetch(`${BASE_URL}/api/spark/webhook/ingest`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: [] })
+  });
+  assert.strictEqual(unauthWebhookRes.status, 401, '未授权 Webhook 请求必须返回 401');
+  
+  // 0.7.2 携带 Header 鉴权与纯净 JSON 摄取
+  const webhookDate1 = '2026-09-28';
+  const pureJsonPayload = {
+    date: webhookDate1,
+    batchStatus: {
+      status: 'COMPLETED',
+      generatedTime: `${webhookDate1} 08:30:00`,
+      progress: 100
+    },
+    items: [
+      {
+        id: `webhook-${webhookDate1}-01`,
+        title: '全球前沿 AI 算力与智能体架构新突破 (E2E 自动验证)',
+        category: 'ai',
+        impactLevel: 'critical',
+        summary: 'E2E 流水线自动摄取测试简报内容。',
+        sentiment: 'positive',
+        sentimentScore: 0.95,
+        tags: ['AI', 'Pipeline'],
+        nlpKeyEntities: ['Gemini', 'E2E']
+      }
+    ]
+  };
+  const headerWebhookRes = await fetch(`${BASE_URL}/api/spark/webhook/ingest`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Key': ADMIN_KEY
+    },
+    body: JSON.stringify(pureJsonPayload)
+  });
+  assert.strictEqual(headerWebhookRes.status, 200, 'Header 鉴权 Webhook 应返回 200');
+  const headerWebhookBody = await headerWebhookRes.json();
+  assert.strictEqual(headerWebhookBody.code, 200);
+  assert.strictEqual(headerWebhookBody.data.date, webhookDate1);
+  assert.strictEqual(headerWebhookBody.data.total, 1);
+  
+  // 0.7.3 携带 Query 鉴权与 Markdown ```json 包裹的容错清洗摄取
+  const webhookDate2 = '2026-09-29';
+  const markdownPayload = `
+这里是来自外部 Gemini Spark 定时任务的分析简报：
+\`\`\`json
+{
+  "batchStatus": {
+    "status": "COMPLETED",
+    "generatedTime": "${webhookDate2} 08:30:00",
+    "progress": 100
+  },
+  "items": [
+    {
+      "id": "item-${webhookDate2}-01",
+      "title": "全球宏观金融与地缘避险流动性分析 (Markdown 提取验证)",
+      "category": "finance",
+      "impactLevel": "high",
+      "summary": "金融流动性研报摘要。",
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "tags": ["Finance"],
+      "nlpKeyEntities": ["Fed"]
+    }
+  ]
+}
+\`\`\`
+简报生成完成。
+`;
+  const queryWebhookRes = await fetch(`${BASE_URL}/api/spark/webhook/ingest?key=${ADMIN_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rawContent: markdownPayload })
+  });
+  assert.strictEqual(queryWebhookRes.status, 200, 'Query 鉴权与 Markdown 清洗 Webhook 应返回 200');
+  const queryWebhookBody = await queryWebhookRes.json();
+  assert.strictEqual(queryWebhookBody.code, 200);
+  assert.strictEqual(queryWebhookBody.data.date, webhookDate2);
+  assert.strictEqual(queryWebhookBody.data.total, 1);
+  console.log('   ✅ Webhook 自动摄取端点校验通过：Header/Query 双模鉴权与 Markdown 容错清洗均正常工作！');
 
   // 1. 建立 SSE 实时监听通道
   console.log('\n[Step 1] 挂载原生 SSE 实时推流通道 (GET /api/spark/stream)...');
@@ -249,6 +342,18 @@ async function main() {
     if (localServer) {
       localServer.close();
       console.log('   [Cleanup] 内置网关服务已安全关闭');
+    }
+
+    // 清理 Webhook 测试产生的临时归档文件
+    const testFiles = ['2026-09-28.json', '2026-09-29.json'];
+    for (const file of testFiles) {
+      const filePath = path.resolve(process.cwd(), 'data', 'briefings', file);
+      if (fs.existsSync(filePath)) {
+        try {
+          fs.unlinkSync(filePath);
+          console.log(`   [Cleanup] 已清理测试简报文件: ${file}`);
+        } catch {}
+      }
     }
   }
 }

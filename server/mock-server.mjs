@@ -6,7 +6,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { apiRateLimiter, adminRateLimiter } from './middleware/rateLimiter.mjs';
-import { adminAuthGuard, safeCompare } from './middleware/adminAuth.mjs';
+import { adminAuthGuard, safeCompare, getEffectiveAdminKey } from './middleware/adminAuth.mjs';
 import {
   initDatabase,
   getDataSourceInfo,
@@ -223,7 +223,7 @@ function extractAndParseBriefingPayload(body) {
 app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
   // 双模鉴权：支持 Header 'X-Admin-Key' 与 Query '?key='
   const clientKey = req.headers['x-admin-key'] || req.query.key;
-  const configuredKey = process.env.ADMIN_KEY;
+  const configuredKey = getEffectiveAdminKey();
 
   if (!configuredKey || typeof configuredKey !== 'string') {
     return res.status(500).json({ code: 500, message: '服务器未配置 ADMIN_KEY' });
