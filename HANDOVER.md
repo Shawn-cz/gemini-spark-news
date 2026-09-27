@@ -1,17 +1,18 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-09-26 11:55 (UTC+8)
+- **交接归档时间**: 2026-09-27 13:15 (UTC+8)
 - **当前 Git 主线**: `master` (工作区干净，所有里程碑已全量合并与回归验证)
 - **系统运行状态**: 
   - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常)
-  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + SSE 实时推流 + MongoDB Atlas 双模持久化 + 生产静态资源直出)
+  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 可用日期聚合 + SSE 实时推流 + MongoDB Atlas 双模持久化 + 生产静态资源直出)
 - **生产构建验证**: `npm run build` (TypeScript 严格检查 + Vite 6 打包 100% 成功，0 错误 0 警告)
 - **测试验证覆盖**: 
-  - 7 套单元与安全集成测试全部通过 (**28/28 passing, 100% 绿灯**)
-  - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过（具备网络探针与零外部依赖自愈挂载能力）
+  - 8 套单元与安全集成测试全部通过 (**33/33 passing, 100% 绿灯**)
+  - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过（具备网络探针、可用日期校验与零外部依赖自愈挂载能力）
   - 全套 9 张 Retina 高清无头截图自动化回归测试套件 100% 通过
-- **专项缺陷修复**: 
+- **专项缺陷修复与守护**: 
   - Issue #UI-001 淡色主题与波普主题实体按钮文字低对比度不可读缺陷已 100% 修复并验证归档 (WCAG AAA 21:1)
+  - Issue #UI-002 日期步进胶囊黑底白字高对比度强守护与淡色羊皮纸下拉浮层已 100% 修复归档 (WCAG AAA 21:1)
 - **生产部署就绪**: 
   - PM2 进程自愈配置文件 [`ecosystem.config.cjs`](ecosystem.config.cjs) 就绪（500MB 内存阈值自愈、错误与访问日志切分）
   - 生产级多阶段 Alpine [`Dockerfile`](Dockerfile) 就绪（非 root `USER node` 最小特权、仅打包生产依赖）
@@ -51,6 +52,7 @@ flowchart TD
         UI["全球前沿智库看板\n(SparkNewsDashboard.tsx)"]
         Theme["新野兽派/波普/黑曜石三主题系统\n(ThemeSwitcher & index.css)"]
         Header["实时 5 维脉冲指标栏\n(IntelligenceHeader.tsx)"]
+        Stepper["实体机械按键日期胶囊\n(DateStepperCapsule.tsx)\n[◀ 前一日 / 📅 日期与下拉 / 后一日 ▶]"]
         Views["三大多维视图\n(BentoView / MatrixStreamView / TimelineScrubber)"]
         Modal["物理调查卷宗机密弹窗\n(IntelligenceDrawer.tsx)"]
         HUD["极客 HUD 控制舱\n(DevToolsPanel.tsx)\n[包含 X-Admin-Key 密码箱]"]
@@ -66,10 +68,11 @@ flowchart TD
 
     subgraph BackendCore["服务端核心服务与调度"]
         StaticServe["SPA 生产静态资源直出\n(Express 托管 dist/ 与 index.html 路由兜底)"]
+        DatesRoute["可用简报日期聚合接口\n(GET /api/spark/available-dates)"]
         Scheduler["08:30 定时调度引擎 & 并发互斥锁\n(HTTP 409 Conflict 防重入 + 120s 死锁看门狗)"]
         Agent["Gemini Spark 智能体核心引擎\n(geminiSparkAgent.mjs)"]
         SSE["原生 HTTP SSE 实时推流中心\n(sseManager.mjs, 15s 心跳保活)"]
-        Repo["双模自适应数据仓库\n(repository.mjs)"]
+        Repo["双模自适应数据仓库\n(repository.mjs, 4级降级链条)"]
     end
 
     subgraph Persistence["持久化与高可用"]
@@ -86,9 +89,11 @@ flowchart TD
 
     UI --> H1
     HUD --> H1
+    Header -.-> Stepper
     Header -.->|EventSource /api/spark/stream| H1
     H1 --> CORS --> RL1
     RL1 -->|普通读取端点| StaticServe
+    RL1 -->|日期聚合查询| DatesRoute --> Repo
     RL1 -->|普通读取端点| Repo
     RL1 -->|长连接推流| SSE
     RL1 --> RL2 --> AUTH -->|敏感管理端点| Scheduler
@@ -145,65 +150,66 @@ flowchart TD
 
 ---
 
-### 🛡️ Phase 2 (MVP 2): 生产级安全防护与稳定性加固实施 (100% 完成)
-
+### 🛡️ Phase 2 (MVP 2): 生产级安全防护与稳定性加固实施
 1. **依赖与分级限流防刷中间件 ([`server/middleware/rateLimiter.mjs`](server/middleware/rateLimiter.mjs))**
-   - 引入 `helmet` 与 `express-rate-limit`；
-   - **分级限流策略**：
-     - `apiRateLimiter`: 全局 API 读取端点限制 120 次/分钟；
-     - `adminRateLimiter`: 敏感管理写操作端点限制 10 次/分钟；
-   - **长连接与保活白名单豁免**：在 `skip` 过滤函数中深度集成 `fullPath` 前缀感知，自动豁免 `/api/spark/stream`（SSE 24h 长推流）与 `/api/health`（容器与负载均衡高频保活探针）；
-   - 429 响应统一采用动态 ISO 时间戳工厂函数与结构化 JSON 返回。
+   - 全局 API 读取端点限制 120 次/分钟；敏感管理写操作端点限制 10 次/分钟；
+   - `skip` 过滤函数深度集成 `fullPath` 前缀感知，自动豁免 `/api/spark/stream` 与 `/api/health` 探针。
 2. **核心管理接口常数时间鉴权守卫 ([`server/middleware/adminAuth.mjs`](server/middleware/adminAuth.mjs))**
-   - 敏感写操作（`POST /api/spark/models/select`、`POST /api/spark/trigger-generate`）强制接入 `adminAuthGuard`；
-   - **双协议头支持**：优先提取 `X-Admin-Key` 请求头，同时全面兼容 RFC 6750 标准 `Authorization: Bearer <key>`（支持大小写不敏感与自动 trim）；
-   - **常数时间安全比对 (Timing-Safe Equality)**：
-     ```javascript
-     const hashA = crypto.createHash('sha256').update(a).digest();
-     const hashB = crypto.createHash('sha256').update(b).digest();
-     return crypto.timingSafeEqual(hashA, hashB);
-     ```
-     彻底阻断依赖字符串长度或字符比对提前返回的计时侧信道攻击；
-   - 凭证缺失或非法统一返回标准 HTTP 401 JSON。
+   - 支持 `X-Admin-Key` 与 RFC 6750 `Authorization: Bearer <key>`；
+   - **SHA-256 预哈希定长映射 + `crypto.timingSafeEqual`** 彻底杜绝计时侧信道攻击与长度泄露。
 3. **服务端网关加固与一体化静态直出 ([`server/mock-server.mjs`](server/mock-server.mjs))**
-   - **中间件编排次序**：`Helmet` -> `CORS` -> `JSON Body Parser` -> `Global Rate Limiter` -> `Admin Rate Limiter & Auth Guard` -> `Static Serve / Routes`；
-   - **Helmet 响应头防护**：配置 `frameguard: { action: 'deny' }`、`X-Content-Type-Options: nosniff`，隐蔽 `X-Powered-By`；
-   - **严格生产 CORS 策略**：读取 `process.env.CORS_ORIGIN` 逗号分隔白名单，生产环境下非白名单源抛出拦截阻断；
-   - **生产一体化静态资源直出**：在 `NODE_ENV === 'production'` 且 `dist/` 存在时，由 Express 直接托管静态资源，非 `/api/*` 请求通过 SPA 路由回退直出 `dist/index.html`，未匹配的 `/api/*` 返回清晰的 404 JSON；
-   - **测试环境安全隔离**：`isDirectRun` 检测保证单元测试通过 `import { app }` 加载时不会意外霸占 3001 端口。
+   - Helmet 前置挂载 (`nosniff`, `frameguard: DENY`, 隐藏指纹)；生产严格 CORS 白名单；生产一体化直出 `dist/` 与 SPA 路由回退。
 4. **前端 API 注入与 DevTools 秘钥交互升级 ([`src/services/api.ts`](src/services/api.ts), [`src/components/DevToolsPanel.tsx`](src/components/DevToolsPanel.tsx))**
-   - **最小权限凭证隔离**：仅在调用 `selectSparkModel` 与 `triggerSparkGenerate` 敏感端点时自动注入 `X-Admin-Key`，绝不泄露给普通 GET 端点；
-   - **DevTools HUD 秘钥管理卡片**：
-     - 提供密码遮罩输入框与眼球显隐切换 (`Eye` / `EyeOff`)；
-     - 本地持久化保存与清除（`localStorage: gemini_spark_admin_key`）；
-     - 双态状态徽章（已配置绿色微光 / 未配置琥珀警告）与输入变更“待保存”脉冲感知；
-     - 401 拦截友好指引：遇到未授权拦截时在控制舱以红色警告标红并引导管理员配置秘钥；
-     - `useEffect` 严格清理 transient 提示计时器，杜绝内存泄漏。
+   - 仅对敏感端点注入秘钥；DevTools 提供密码眼显隐遮罩、双态徽章、未保存提示与 401 友好指引；严格清理定时器。
 5. **生产容器化与进程自愈配置 ([`Dockerfile`](Dockerfile), [`ecosystem.config.cjs`](ecosystem.config.cjs), [`.dockerignore`](.dockerignore), [`.env.example`](.env.example))**
-   - **PM2 守护配置 (`ecosystem.config.cjs`)**：
-     - 实例名 `gemini-spark-service`，自动重启 `autorestart: true`；
-     - `max_memory_restart: '500M'` 内存防泄漏限制；
-     - 规范的错误日志与标准输出日志落盘路径 (`logs/pm2-error.log`, `logs/pm2-out.log`)。
-   - **生产级 Alpine 多阶段 Dockerfile (`Dockerfile`)**：
-     - Stage 1 (`builder`): 全依赖安装与 `npm run build` 打包；
-     - Stage 2 (`runner`): 基于 `node:20-alpine`，仅安装生产运行依赖 (`npm ci --omit=dev`)，从 Stage 1 拷入 `dist/`；
-     - **非 root 降权保障**：创建必要目录后执行 `chown -R node:node /app`，使用 `USER node` 最小特权身份运行服务，防止容器逃逸提权。
-   - **防泄密隔离**：`.dockerignore` 严格声明 `.env*`、`.git`、`node_modules`、`logs` 等排除规则。
-6. **E2E 闭环自动化与全量回归测试 ([`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs), `tests/*.test.mjs`)**
-   - 升级 `scripts/verify-spark-pipeline.mjs`，内置探针自愈机制（无需事先手动启动 3001 服务，脚本自动探测挂载与安全关闭）；
-   - 覆盖 Helmet 头核验、无凭证 401 拦截、错秘钥 401 拦截、合法秘钥放行、409 并发互斥拦截、5 阶段推流完整捕获与 12 篇数据契约校验；
-   - **全量 28 项自动化测试 100% 绿灯全通**。
+   - PM2 500M 内存限制与自愈守护；Alpine 多阶段 Dockerfile，**非 root `USER node` 最小特权运行**。
+
+---
+
+### 📅 Phase 3: 历史简报日期步进选择器与多日回溯系统 (100% 完成)
+1. **服务端多层级可用日期聚合 ([`server/repository.mjs`](server/repository.mjs))**
+   - 实现 `getAvailableBriefingDates()`：
+     1. MongoDB Atlas `NewsItemModel.distinct('batchDate')` 查询；
+     2. 本地 `data/briefings/*.json` 文件名正则扫描；
+     3. 内存降级语料集合去重合并；
+     4. 严格校验 `^\d{4}-\d{2}-\d{2}$`，按时间戳降序排序（最新在前），提供当日兜底；
+   - 导出结构：`{ dates: string[], latestDate: string, totalDates: number }`。
+2. **网关端点挂载 ([`server/mock-server.mjs`](server/mock-server.mjs))**
+   - 挂载 `GET /api/spark/available-dates`，受全局限流保护，返回标准 JSON 结构。
+3. **前端客户端与类型扩展 ([`src/types/news.ts`](src/types/news.ts), [`src/services/api.ts`](src/services/api.ts))**
+   - 定义 `AvailableDatesData` 接口；
+   - 导出 `fetchAvailableDates(signal?: AbortSignal)`，具备请求取消与异常校验。
+4. **Neo-Brutalism 实体机械按键胶囊 ([`src/components/DateStepperCapsule.tsx`](src/components/DateStepperCapsule.tsx))**
+   - 机械触感按键：左箭头 `◀` (更早历史日)、中间日期徽标与展开下拉菜单、右箭头 `▶` (更新日期)；
+   - 边界自愈步进算法：首尾日期自适应置灰禁用；当处于未归档外部日期时自动寻找最邻近有效归档切入；
+   - 下拉历史归档列表：显示所有归档批次，最新项带 `[LATEST]` 标，当前激活项高亮显示 Check 图标；
+   - 交互卫生：点击外部自动收起 (`mousedown`)，按 `Escape` 键自动收起；
+   - 浮动新批次轻提示：回溯历史时若今日新批次生成完毕，气泡呼吸动效提示“⚡ 今日最新研报已就绪 · 点击查看”，点击瞬间切回最新批次。
+5. **看板调度与工具栏集成 ([`src/components/IntelligenceHeader.tsx`](src/components/IntelligenceHeader.tsx), [`src/components/SparkNewsDashboard.tsx`](src/components/SparkNewsDashboard.tsx))**
+   - 胶囊挂载于右侧操作区，与“同步批次”无缝对齐；
+   - 首次加载自动自适应切换至最新可用批次，消除硬编码旧日期历史包袱；
+   - 日期变更自动复位页码 `page = 1`；结合 `AbortController` 杜绝快速切换时慢请求覆盖快请求的竞态 bug。
+6. **E2E 闭环脚本全量升级与回归 ([`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs))**
+   - 插入 `[Step 0.5]` 严格校验可用日期接口契约与排序；
+   - 全系统 8 套测试套件 **33/33 测试 100% 绿灯全通**。
 
 ---
 
 ## 四、 专项缺陷归档 (Archived Defects)
 
 ### 📌 Issue #UI-001: 档案羊皮纸淡色主题与波普主题黑底实体按钮白字白图标对比度缺陷
+- **缺陷现象**: 在淡色主题下，全站色彩切换胶囊激活态、顶部“同步批次”按钮、三视图“Bento 智库看板”按钮出现“黑底黑字”现象，肉眼无法辨识文字与图标。
+- **根因分析**: `index.css:492` 的全局规则 `[data-theme="light"] .text-white { color: #0f172a !important; }` 误伤了新野兽派纯黑底色硬件按键。
+- **修复方案**: 注入高特异性白字白图标守护规则，强制设定 `color: #ffffff !important; stroke: #ffffff !important;`。
+- **验收结果**: 纯黑底色搭配纯白文字图标，对比度达到极限 **21:1 (WCAG AAA 顶级标准)**。
 
-- **缺陷现象**: 在淡色主题（P2 羊皮纸色）下，顶部全站色彩切换胶囊激活态“淡色”按钮、顶部右侧“同步批次”按钮、三视图模式切换栏“Bento 智库看板”激活按钮出现“黑底黑字”现象，肉眼无法辨识文字与图标。
-- **根因分析**: [`src/index.css:492-495`](src/index.css#L492-L495) 的 `[data-theme="light"] .text-white { color: #0f172a !important; }` 全局覆盖规则由于包含 `!important` 且位置靠后，意外误伤了新野兽派硬件按键故意采用的纯黑实体底色（`bg-black`）搭配白字（`text-white`）设计。
-- **修复方案**: 在 `src/index.css` 底部注入高特异性白字白图标守护规则，针对黑底实体按钮内部元素强制设定 `color: #ffffff !important; stroke: #ffffff !important;`。
-- **验收结果**: 纯黑底色搭配纯白文字图标，对比度达到极限 **21:1 (WCAG AAA 顶级标准)**，9 张高清 Retina 截图与主题切换回归测试 100% 验证通过。
+### 📌 Issue #UI-002: 日期步进胶囊黑底白字高对比度强守护与淡色羊皮纸下拉浮层缺陷
+- **缺陷现象**: 新增的 `DateStepperCapsule` 实体黑胶囊外壳在淡色主题下内部文字（`currentDate`）与箭头同样被 `index.css:492` 误伤为墨黑字 `#0f172a`（对比度仅 1.2:1）；下拉菜单背景深黑在淡色模式下产生暗底深字。
+- **修复方案**: 
+  1. 在 `DateStepperCapsule.tsx` 补充特征类名 `.date-stepper-capsule`、`.date-stepper-dropdown`、`.date-dropdown-header`、`.date-dropdown-item`；
+  2. 在 `src/index.css` 注入高对比度强守护规则，确保黑底白字 21:1 极限对比度，并通过 `:not(.badge-status)` 保留“最新/归档”微光标签色彩；
+  3. 下拉浮层在淡色模式重构为经典羊皮纸色背景（`#f4ebd9`）与 `#0f172a` 高清晰黑字（对比度 14.7:1），多巴胺主题配置粉红实体硬阴影（`#ff007f`）。
+- **验收结果**: 淡色、多巴胺与黑曜石三大主题下胶囊文字与下拉项清晰锐利，**WCAG AAA 21:1 验收 100% 达标**。
 
 ---
 
@@ -211,13 +217,14 @@ flowchart TD
 
 | 操作目标 | 终端命令 | 预期结果与说明 |
 | :--- | :--- | :--- |
-| **本地全栈调试** | `npm run dev` (前端) + `npm run server` (后端) | 前端 5173，后端 3001 |
+| **本地全栈调试** | `npm run dev` (同时拉起后端 3001 与前端 5173) | 前端 5173，后端 3001 |
 | **全站构建验证** | `npm run build` | `tsc -b && vite build`，0 错误 0 警告 |
 | **E2E 闭环全链路验证** | `node scripts/verify-spark-pipeline.mjs` | 自愈探测挂载，7 阶段全部绿灯输出 |
+| **可用日期单元/集成单测** | `node tests/availableDates.test.mjs` | 2/2 tests pass (含降序排序与 API 端点) |
 | **限流防刷单测** | `node tests/rateLimiter.test.mjs` | 3/3 tests pass (含 429 与白名单豁免) |
 | **管理员鉴权单测** | `node tests/adminAuth.test.mjs` | 5/5 tests pass (含常数时间比对与 Bearer) |
 | **安全集成与标头测试** | `node tests/serverSecurityIntegration.test.mjs` | 4/4 tests pass (含 Helmet 标头与鉴权守卫) |
-| **全量核心测试套件** | `node tests/geminiSparkAgent.test.mjs && node tests/sseManager.test.mjs && node tests/scheduler.test.mjs && node tests/apiEndpoints.test.mjs` | 16/16 tests pass |
+| **全量核心测试套件** | `node --test tests/*.test.mjs` | 33/33 tests 100% pass |
 | **主题截图自动化回归** | `node scripts/verify-themes.mjs` | 生成 9 张高清无头截图至 `screenshots/` |
 | **PM2 守护生产运行** | `npx pm2 start ecosystem.config.cjs` | 启动单实例守护，崩溃自愈，500M 限制 |
 | **Docker 镜像构建与运行** | `docker build -t gemini-spark-news:latest .`<br>`docker run -d -p 3001:3001 --env-file .env gemini-spark-news:latest` | 非 root node 用户运行，一体化输出 SPA 与 API |
@@ -259,11 +266,11 @@ SCHEDULE_TIME=08:30
 
 ## 七、 下一阶段路线图规划 (Next Milestone: MVP 3)
 
-以**“全站公网安全稳定上线正常运行”**为终极目标，系统目前已完全具备生产发布条件。下一步建议推进 **MVP 3: 云端公网部署与正式交付**：
+以**“全站公网安全稳定上线正常运行”**为终极目标，系统目前已具备完备的生产就绪度。下一步建议推进 **MVP 3: 云端公网部署与正式交付**：
 
 ```mermaid
 flowchart LR
-    MVP1["✅ MVP 1: 真实 Gemini Spark 生产闭环\n(智能体引擎 + 08:30定时 + SSE推流)\n【已全部交付完成】"] --> MVP2["✅ MVP 2: 生产级安全防护与稳定性加固\n(Helmet + 限流防刷 + X-Admin-Key + PM2/Docker)\n【已全部交付完成】"] --> MVP3["🚀 MVP 3: 云端公网部署与正式交付\n(边缘托管 / 云服务器容器化 + 域名HTTPS + CI/CD 自动化流水线)"]
+    MVP1["✅ MVP 1: 真实 Gemini Spark 生产闭环\n(智能体引擎 + 08:30定时 + SSE推流)\n【已全部交付完成】"] --> MVP2["✅ MVP 2: 生产级安全防护与稳定性加固\n(Helmet + 限流防刷 + X-Admin-Key + PM2/Docker)\n【已全部交付完成】"] --> FEATURE3["✅ 看板交互体验增强\n(历史简报日期步进胶囊 + 多日回溯 + 高对比度守护)\n【已全部交付完成】"] --> MVP3["🚀 MVP 3: 云端公网部署与正式交付\n(边缘托管 / 云服务器容器化 + 域名HTTPS + CI/CD 自动化流水线)"]
 ```
 
 ### MVP 3 核心待办建议：
