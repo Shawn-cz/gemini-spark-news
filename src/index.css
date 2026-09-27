@@ -544,6 +544,86 @@ html, body {
   stroke: #ffffff !important;
 }
 
+/* ========================================================
+   FIX(Issue #UI-002): 日期步进胶囊黑底白字高对比度守护与淡色羊皮纸浮层
+   ======================================================== */
+[data-theme="light"] .date-stepper-capsule {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+[data-theme="light"] .date-stepper-capsule button {
+  color: #ffffff !important;
+}
+[data-theme="light"] .date-stepper-capsule span:not(.badge-status) {
+  color: #ffffff !important;
+}
+[data-theme="light"] .date-stepper-capsule svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+[data-theme="light"] .date-stepper-capsule svg * {
+  stroke: #ffffff !important;
+}
+[data-theme="light"] .date-stepper-capsule button:disabled {
+  opacity: 0.35 !important;
+}
+[data-theme="light"] .date-stepper-capsule button:disabled span,
+[data-theme="light"] .date-stepper-capsule button:disabled svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme="light"] .date-stepper-dropdown {
+  background-color: #f4ebd9 !important;
+  color: #0f172a !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+  color: #475569 !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-header span {
+  color: #475569 !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item {
+  color: #0f172a !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item span {
+  color: #0f172a !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item svg {
+  color: #0f172a !important;
+  stroke: #0f172a !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item.is-selected {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item.is-selected span {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .date-stepper-dropdown .date-dropdown-item.is-selected svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* 多巴胺主题实体投影与边框 */
+[data-theme="dopamine"] .date-stepper-capsule {
+  box-shadow: 2px 2px 0px #ff007f !important;
+  border-color: #ff007f !important;
+}
+[data-theme="dopamine"] .date-stepper-dropdown {
+  box-shadow: 4px 4px 0px #ff007f !important;
+  border-color: #ff007f !important;
+}
+
 [data-theme="light"] .text-slate-200 {
   color: #1e293b !important;
 }

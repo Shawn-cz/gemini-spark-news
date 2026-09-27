@@ -71,7 +71,7 @@ async function main() {
   assert.equal(initSelectRes.status, 200, '携带有效秘钥初始化模型应返回 200');
 
   console.log('\n[Step 0.5] 校验可用简报日期聚合接口 (GET /api/spark/available-dates)...');
-  const datesRes = await fetch('http://localhost:3001/api/spark/available-dates');
+  const datesRes = await fetch(`${BASE_URL}/api/spark/available-dates`);
   assert.strictEqual(datesRes.status, 200);
   const datesBody = await datesRes.json();
   assert.strictEqual(datesBody.code, 200);

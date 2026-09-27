@@ -92,7 +92,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
   return (
     <div ref={containerRef} className="relative inline-flex items-center select-none font-mono">
       {/* 实体胶囊主外壳 */}
-      <div className="flex items-center bg-black/90 dark:bg-black/90 text-white rounded-lg p-0.5 border-2 border-black dark:border-cyan-500/40 shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_rgba(6,182,212,0.3)]">
+      <div className="date-stepper-capsule flex items-center bg-black/90 dark:bg-black/90 text-white rounded-lg p-0.5 border-2 border-black dark:border-cyan-500/40 shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_rgba(6,182,212,0.3)]">
         {/* 左箭头：前一日 (更早) */}
         <button
           type="button"
@@ -122,11 +122,11 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           <Calendar className="w-3.5 h-3.5 text-cyan-400" />
           <span>{currentDate}</span>
           {isLatest ? (
-            <span className="text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+            <span className="badge-status text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
               最新
             </span>
           ) : (
-            <span className="text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter">
+            <span className="badge-status text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter">
               归档
             </span>
           )}
@@ -151,8 +151,8 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
 
       {/* 下拉历史日期选择列表浮层 */}
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-56 max-h-64 overflow-y-auto bg-slate-900 dark:bg-slate-900 text-white border-2 border-black dark:border-cyan-500/50 rounded-lg shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_rgba(6,182,212,0.4)] z-50 p-1.5 flex flex-col gap-1">
-          <div className="px-2 py-1 text-[11px] font-bold text-slate-400 dark:text-cyan-400/80 border-b border-white/10 flex items-center justify-between">
+        <div className="date-stepper-dropdown absolute top-full right-0 mt-2 w-56 max-h-64 overflow-y-auto bg-slate-900 dark:bg-slate-900 text-white border-2 border-black dark:border-cyan-500/50 rounded-lg shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_rgba(6,182,212,0.4)] z-50 p-1.5 flex flex-col gap-1">
+          <div className="date-dropdown-header px-2 py-1 text-[11px] font-bold text-slate-400 dark:text-cyan-400/80 border-b border-white/10 flex items-center justify-between">
             <span>历史简报归档库</span>
             <span className="text-[10px] opacity-75">{availableDates.length} 批次</span>
           </div>
@@ -169,9 +169,9 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
                   onDateChange(date);
                   setIsOpen(false);
                 }}
-                className={`w-full text-left px-2.5 py-1.5 rounded text-xs flex items-center justify-between transition-colors font-mono cursor-pointer ${
+                className={`date-dropdown-item w-full text-left px-2.5 py-1.5 rounded text-xs flex items-center justify-between transition-colors font-mono cursor-pointer ${
                   isSelected
-                    ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
+                    ? 'is-selected bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
                     : 'hover:bg-white/10 text-slate-200'
                 }`}
               >
