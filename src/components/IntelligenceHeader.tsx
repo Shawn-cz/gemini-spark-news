@@ -9,32 +9,41 @@ import {
   Radio,
   Upload
 } from 'lucide-react';
-import { SparkBatchStatusInfo, BatchStatusType } from '../types/news';
+import { SparkBatchStatusInfo } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { DateStepperCapsule } from './DateStepperCapsule';
 
-interface IntelligenceHeaderProps {
+export interface IntelligenceHeaderProps {
   statusInfo: SparkBatchStatusInfo | null;
-  loading: boolean;
-  onRefresh: () => void;
-  onToggleStatus: (status?: BatchStatusType) => void;
-  onOpenImport?: () => void;
-  onOpenDevTools?: () => void;
+  onManualSync: () => void;
+  isSyncing: boolean;
+  onOpenImportModal: () => void;
+  onOpenDevTools: () => void;
+  currentDate: string;
+  availableDates: string[];
+  onDateChange: (date: string) => void;
+  hasNewerBatchAvailable?: boolean;
+  onJumpToLatest?: () => void;
 }
 
 export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   statusInfo,
-  loading,
-  onRefresh,
-  onToggleStatus,
-  onOpenImport,
-  onOpenDevTools
+  onManualSync,
+  isSyncing,
+  onOpenImportModal,
+  onOpenDevTools,
+  currentDate,
+  availableDates,
+  onDateChange,
+  hasNewerBatchAvailable = false,
+  onJumpToLatest
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleManualRefresh = () => {
-    if (isRefreshing || loading) return;
+    if (isRefreshing || isSyncing) return;
     setIsRefreshing(true);
-    onRefresh();
+    onManualSync();
     setTimeout(() => setIsRefreshing(false), 800);
   };
 
@@ -88,7 +97,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             <ThemeSwitcher />
 
             {/* 调试面板 */}
-            {onOpenDevTools ? (
+            {onOpenDevTools && (
               <button
                 type="button"
                 onClick={onOpenDevTools}
@@ -101,26 +110,13 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                   [{isRunning ? "计算中" : "已归档"}]
                 </span>
               </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => onToggleStatus()}
-                className="header-action-btn header-btn-devtools px-3 py-1.5 text-xs font-mono rounded-lg text-slate-300 bg-white/5 hover:bg-white/10 transition-all flex items-center gap-1.5 border border-white/10 whitespace-nowrap flex-shrink-0"
-                title="切换当前批次状态 (演示计算中与已完成)"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                <span className="text-slate-400 whitespace-nowrap">调试:</span>
-                <span className={`whitespace-nowrap font-bold ${isRunning ? "text-amber-400" : "text-emerald-400"}`}>
-                  {isRunning ? "置为已完成" : "置为计算中"}
-                </span>
-              </button>
             )}
 
             {/* 导入今日 Gemini 简报 */}
-            {onOpenImport && (
+            {onOpenImportModal && (
               <button
                 type="button"
-                onClick={onOpenImport}
+                onClick={onOpenImportModal}
                 className="header-action-btn header-btn-import px-3 py-1.5 text-xs font-mono rounded-lg text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
                 title="粘贴并导入 Gemini Spark 定时任务生成的输出"
               >
@@ -129,19 +125,29 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               </button>
             )}
 
+            {/* 历史日期步进选择胶囊 */}
+            <DateStepperCapsule
+              currentDate={currentDate}
+              availableDates={availableDates}
+              onDateChange={onDateChange}
+              isLoading={isSyncing}
+              hasNewerBatchAvailable={hasNewerBatchAvailable}
+              onJumpToLatest={onJumpToLatest}
+            />
+
             {/* 防抖刷新按钮 */}
             <button
               type="button"
               onClick={handleManualRefresh}
-              disabled={isRefreshing || loading}
+              disabled={isRefreshing || isSyncing}
               className={`header-action-btn header-btn-sync inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white shadow-lg transition-all border border-cyan-400/30 whitespace-nowrap flex-shrink-0 ${
-                isRefreshing || loading
+                isRefreshing || isSyncing
                   ? 'bg-slate-800 text-slate-400 cursor-not-allowed border-slate-700'
                   : 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-cyan-500/20'
               }`}
             >
-              <RotateCw className={`w-3.5 h-3.5 flex-shrink-0 ${isRefreshing || loading ? 'animate-spin' : ''}`} />
-              <span className="font-mono whitespace-nowrap">{isRefreshing ? 'SYNCHRONIZING...' : '同步批次'}</span>
+              <RotateCw className={`w-3.5 h-3.5 flex-shrink-0 ${isRefreshing || isSyncing ? 'animate-spin' : ''}`} />
+              <span className="font-mono whitespace-nowrap">{isRefreshing || isSyncing ? 'SYNCHRONIZING...' : '同步批次'}</span>
             </button>
           </div>
 

@@ -15,7 +15,7 @@ import {
   GlobalNewsStats,
   BatchStatusType 
 } from '../types/news';
-import { fetchNewsList, fetchSparkBatchStatus, toggleSparkStatus } from '../services/api';
+import { fetchNewsList, fetchSparkBatchStatus, toggleSparkStatus, fetchAvailableDates } from '../services/api';
 import { IntelligenceHeader } from './IntelligenceHeader';
 import { GlobalCategoryBar } from './GlobalCategoryBar';
 import { BentoView } from './views/BentoView';
@@ -30,6 +30,8 @@ import { DevToolsPanel } from './DevToolsPanel';
 export const SparkNewsDashboard: React.FC = () => {
   // 1. 过滤与查询条件状态
   const [selectedDate, setSelectedDate] = useState<string>('2026-09-24');
+  const [availableDates, setAvailableDates] = useState<string[]>([]);
+  const [hasNewerBatchAvailable, setHasNewerBatchAvailable] = useState<boolean>(false);
   const [category, setCategory] = useState<CategoryType>('all');
   const [sentiment, setSentiment] = useState<SentimentType | 'all'>('all');
   const [search, setSearch] = useState<string>('');
@@ -130,6 +132,42 @@ export const SparkNewsDashboard: React.FC = () => {
   const handleRetry = () => {
     loadDashboardData(false);
   };
+
+  // 日期步进切换与跳转至最新批次
+  const handleDateChange = useCallback((newDate: string) => {
+    if (newDate === selectedDate) return;
+    setSelectedDate(newDate);
+    setPage(1);
+    if (availableDates.length > 0 && newDate >= availableDates[0]) {
+      setHasNewerBatchAvailable(false);
+    }
+  }, [selectedDate, availableDates]);
+
+  const handleJumpToLatest = useCallback(() => {
+    if (availableDates.length > 0) {
+      handleDateChange(availableDates[0]);
+    }
+  }, [availableDates, handleDateChange]);
+
+  // 初始化获取可用归档日期列表
+  useEffect(() => {
+    let isMounted = true;
+    fetchAvailableDates()
+      .then(res => {
+        if (isMounted && res.dates && res.dates.length > 0) {
+          setAvailableDates(res.dates);
+          if (res.latestDate && res.latestDate !== selectedDate) {
+            setSelectedDate(res.latestDate);
+          }
+        }
+      })
+      .catch(err => {
+        console.warn('[SparkNewsDashboard] 获取可用日期异常:', err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // 效应：依赖变更即时拉取 + 智能事件驱动唤醒 (COMPLETED 状态下 0 轮询休眠) + 组件销毁时彻底清理
   useEffect(() => {
@@ -237,9 +275,20 @@ export const SparkNewsDashboard: React.FC = () => {
       es.onmessage = (event) => {
         try {
           const payload = JSON.parse(event.data);
-          const isCompleted = payload.type === 'COMPLETED' || payload.stage === 'COMPLETED';
+          const isCompleted = payload.type === 'COMPLETED' || payload.stage === 'COMPLETED' || payload.status === 'COMPLETED';
 
           if (isCompleted) {
+            fetchAvailableDates()
+              .then(res => {
+                if (res.dates) {
+                  setAvailableDates(res.dates);
+                }
+                if (res.latestDate && res.latestDate !== selectedDate) {
+                  setHasNewerBatchAvailable(true);
+                }
+              })
+              .catch(() => {});
+
             setStatusInfo((prev) => {
               const base = prev || buildFallbackStatus(
                 payload.date || selectedDate, 
@@ -334,11 +383,10 @@ export const SparkNewsDashboard: React.FC = () => {
 
   // 快速跳转至往期归档
   const handleViewPreviousDay = () => {
-    const dates = statusInfo?.availableDates || ['2026-09-24', '2026-09-23'];
+    const dates = availableDates.length > 0 ? availableDates : (statusInfo?.availableDates || ['2026-09-24', '2026-09-23']);
     const curIdx = dates.indexOf(selectedDate);
     const prevDate = dates[curIdx + 1] || '2026-09-23';
-    setSelectedDate(prevDate);
-    setPage(1);
+    handleDateChange(prevDate);
     showToast(`已无损切换至往期批次 [${prevDate}]`);
   };
 
@@ -359,14 +407,15 @@ export const SparkNewsDashboard: React.FC = () => {
       {/* 1. 顶部 Header (含情绪极性心电图与 24H 调度监控) */}
       <IntelligenceHeader
         statusInfo={statusInfo}
-        loading={isInitialLoading}
-        onRefresh={() => {
-          loadDashboardData(false);
-          showToast('手动同步请求已发出');
-        }}
-        onToggleStatus={handleToggleStatus}
-        onOpenImport={() => setIsImportModalOpen(true)}
+        onManualSync={handleRetry}
+        isSyncing={isSilentRefreshing || isInitialLoading}
+        onOpenImportModal={() => setIsImportModalOpen(true)}
         onOpenDevTools={() => setIsDevToolsOpen(true)}
+        currentDate={selectedDate}
+        availableDates={availableDates}
+        onDateChange={handleDateChange}
+        hasNewerBatchAvailable={hasNewerBatchAvailable}
+        onJumpToLatest={handleJumpToLatest}
       />
 
       {/* 静默刷新指示呼吸指示条 (触发时不打扰正常浏览) */}
@@ -399,8 +448,8 @@ export const SparkNewsDashboard: React.FC = () => {
           selectedSentiment={sentiment}
           onSelectSentiment={(s) => { setSentiment(s); setPage(1); }}
           selectedDate={selectedDate}
-          availableDates={statusInfo?.availableDates || [selectedDate]}
-          onSelectDate={(d) => { setSelectedDate(d); setPage(1); }}
+          availableDates={availableDates.length > 0 ? availableDates : (statusInfo?.availableDates || [selectedDate])}
+          onSelectDate={handleDateChange}
           searchValue={search}
           onSearchChange={(val) => { setSearch(val); setPage(1); }}
           stats={stats}
@@ -529,6 +578,7 @@ export const SparkNewsDashboard: React.FC = () => {
           setSelectedDate(importedDate);
           setPage(1);
           loadDashboardData(false);
+          fetchAvailableDates().then(res => { if (res.dates) setAvailableDates(res.dates); }).catch(() => {});
           showToast(`已成功同步并归档 [${importedDate}] 简报`);
         }}
       />
