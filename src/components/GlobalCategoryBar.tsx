@@ -165,14 +165,14 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                   key={s.key}
                   type="button"
                   onClick={() => onSelectSentiment(s.key)}
-                  className={`filter-sentiment-btn px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
+                  className={`filter-sentiment-btn px-2.5 py-1 rounded-md text-[11px] font-medium transition-all ${
                     isSelected
-                      ? 'filter-sentiment-btn-active bg-white/10 text-white font-bold'
-                      : 'text-slate-400 hover:text-slate-300'
+                      ? 'filter-sentiment-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
+                      : 'filter-sentiment-btn-inactive text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  <span className={`filter-sentiment-label filter-sentiment-${s.key} ${s.color}`}>{s.label}</span>
-                  <span className="ml-1 font-mono text-[10px] text-slate-500 filter-sentiment-count">({s.count})</span>
+                  <span className={`filter-sentiment-label filter-sentiment-${s.key}`}>{s.label}</span>
+                  <span className="ml-1 font-mono text-[10px] filter-sentiment-count">({s.count})</span>
                 </button>
               );
             })}

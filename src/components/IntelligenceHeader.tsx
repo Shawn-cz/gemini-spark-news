@@ -65,8 +65,8 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
     <header className="bg-obsidian-950/90 border-b border-white/10 sticky top-0 z-30 backdrop-blur-xl shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
         
-        {/* 第一行：Logo、品牌标识、操作区 (两端分布，永不重叠) */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
+        {/* 第一行：Logo、品牌标识、操作区 (两端分布，自适应响应式，永不重叠) */}
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 xl:gap-4">
           
           {/* Logo 与智库品牌标识 */}
           <div className="flex items-center space-x-3 min-w-0">
@@ -76,7 +76,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               </div>
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+              <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
                 <h1 className="text-base sm:text-lg font-black tracking-wider text-white uppercase bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent whitespace-nowrap">
                   Gemini Spark Intelligence
                 </h1>
@@ -91,8 +91,8 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
           </div>
 
-          {/* 右侧：全站主题切换胶囊、状态切换与防抖同步按钮 */}
-          <div className="flex items-center gap-2 sm:gap-2.5 self-end lg:self-auto flex-shrink-0 whitespace-nowrap">
+          {/* 右侧：全站主题切换胶囊、状态切换与防抖同步按钮 (自适应平铺与换行保护) */}
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-start xl:justify-end min-w-0">
             {/* 全站色彩主题切换胶囊 */}
             <ThemeSwitcher />
 

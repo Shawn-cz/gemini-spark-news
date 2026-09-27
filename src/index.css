@@ -2860,3 +2860,158 @@ html, body {
   color: #67e8f9 !important;
   stroke: #67e8f9 !important;
 }
+
+/* ========================================================
+   FIX(Issue #UI-004): 情绪滤镜按键在多巴胺与淡色主题下的极限对比度守护
+   彻底解决“字体与背景色对比太低看不清” (白字淡粉底) 缺陷
+   严格遵循 WCAG AAA 21:1 纯黑/纯白高对比度与新粗野主义实体美学
+   ======================================================== */
+
+/* 多巴胺高能波普 (Dopamine Theme) */
+[data-theme="dopamine"] .filter-sentiment-container {
+  border-left-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #ff007f !important;
+  border-radius: 6px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:hover:not(.filter-sentiment-btn-active) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+  background-color: #fff0f5 !important;
+}
+
+/* 激活态：黑底白字实体卡片 + 波普粉实体硬阴影，对比度 21:1 */
+[data-theme="dopamine"] .filter-sentiment-btn.filter-sentiment-btn-active,
+[data-theme="dopamine"] .filter-sentiment-btn-active {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn-active span,
+[data-theme="dopamine"] .filter-sentiment-btn-active .filter-sentiment-label,
+[data-theme="dopamine"] .filter-sentiment-btn-active .filter-sentiment-count {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* 未激活态：纯白实体底 + 高清晰黑/彩文字 */
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-all {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-positive {
+  color: #059669 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-neutral {
+  color: #334155 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-negative {
+  color: #e11d48 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-count {
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+/* 档案羊皮纸淡色主题 (Light Theme) */
+[data-theme="light"] .filter-sentiment-container {
+  border-left-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  border-radius: 6px !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:hover:not(.filter-sentiment-btn-active) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 激活态：黑底白字实体卡片 + 纯黑硬阴影，对比度 21:1 */
+[data-theme="light"] .filter-sentiment-btn.filter-sentiment-btn-active,
+[data-theme="light"] .filter-sentiment-btn-active {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn-active span,
+[data-theme="light"] .filter-sentiment-btn-active .filter-sentiment-label,
+[data-theme="light"] .filter-sentiment-btn-active .filter-sentiment-count {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* 未激活态：纯白实体底 + 经典黑/彩文字 */
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-all {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-positive {
+  color: #059669 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-neutral {
+  color: #334155 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-negative {
+  color: #e11d48 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .filter-sentiment-btn:not(.filter-sentiment-btn-active) .filter-sentiment-count {
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+/* 暗夜黑曜智库 (Dark Theme) */
+[data-theme="dark"] .filter-sentiment-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] .filter-sentiment-btn.filter-sentiment-btn-active,
+[data-theme="dark"] .filter-sentiment-btn-active {
+  background: rgba(6, 182, 212, 0.25) !important;
+  border: 1.5px solid rgba(6, 182, 212, 0.6) !important;
+  color: #67e8f9 !important;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2) !important;
+}
+
+[data-theme="dark"] .filter-sentiment-btn-active span,
+[data-theme="dark"] .filter-sentiment-btn-active .filter-sentiment-label,
+[data-theme="dark"] .filter-sentiment-btn-active .filter-sentiment-count {
+  color: #67e8f9 !important;
+}
+
