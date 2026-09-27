@@ -6,7 +6,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { apiRateLimiter, adminRateLimiter } from './middleware/rateLimiter.mjs';
-import { adminAuthGuard } from './middleware/adminAuth.mjs';
+import { adminAuthGuard, safeCompare } from './middleware/adminAuth.mjs';
 import {
   initDatabase,
   getDataSourceInfo,
@@ -21,7 +21,6 @@ import {
   setActiveModel,
   getAvailableModels
 } from './services/geminiSparkAgent.mjs';
-import crypto from 'crypto';
 import {
   addSSEClient,
   removeSSEClient,
@@ -62,6 +61,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.text({ type: ['text/plain', 'text/markdown'], limit: '2mb' }));
 app.use('/api', apiRateLimiter);
 
 // 接口 0: 健康检查与底层数据源探针
@@ -220,22 +220,23 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
     return res.status(401).json({ code: 401, message: '缺少鉴权密钥 (X-Admin-Key 或 ?key=)' });
   }
 
-  const clientBuffer = Buffer.from(clientKey.trim());
-  const serverBuffer = Buffer.from(configuredKey.trim());
-
-  if (clientBuffer.length !== serverBuffer.length || !crypto.timingSafeEqual(clientBuffer, serverBuffer)) {
+  if (!safeCompare(clientKey.trim(), configuredKey.trim())) {
     return res.status(401).json({ code: 401, message: '鉴权密钥无效' });
   }
 
+  let parsedData;
+  let targetDate;
+
+  // 阶段 1: 载荷提取、解析与格式校验 (失败统一返回 HTTP 400)
   try {
-    const parsedData = extractAndParseBriefingPayload(req.body);
+    parsedData = extractAndParseBriefingPayload(req.body);
 
     if (!Array.isArray(parsedData.items) || parsedData.items.length === 0) {
       return res.status(400).json({ code: 400, message: '简报数据必须包含至少一条 items 资讯' });
     }
 
     // 自动推导批次归档日期
-    let targetDate = req.body?.date || parsedData.date;
+    targetDate = (typeof req.body === 'object' && req.body !== null ? req.body.date : undefined) || parsedData.date;
     if (!targetDate && parsedData.batchStatus?.generatedTime) {
       const match = parsedData.batchStatus.generatedTime.match(/^\d{4}-\d{2}-\d{2}/);
       if (match) targetDate = match[0];
@@ -251,7 +252,13 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
       return res.status(400).json({ code: 400, message: `日期格式错误: ${targetDate}，必须为 YYYY-MM-DD` });
     }
+  } catch (err) {
+    console.error('[Webhook] Ingest parse/validation error:', err);
+    return res.status(400).json({ code: 400, message: err.message });
+  }
 
+  // 阶段 2: 数据入库持久化与全网客户端推流 (失败统一返回 HTTP 500)
+  try {
     // 持久化落盘 (自动写入 MongoDB Atlas 及本地双写保底)
     const saveResult = await saveBriefing(targetDate, parsedData);
 
@@ -268,7 +275,7 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
       }
     });
 
-    res.json({
+    return res.json({
       code: 200,
       message: `[${targetDate}] Gemini Spark 简报摄取成功并已广播`,
       data: {
@@ -278,8 +285,8 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
       }
     });
   } catch (err) {
-    console.error('[Webhook] Ingest error:', err);
-    res.status(400).json({ code: 400, message: err.message });
+    console.error('[Webhook] Ingest persistence/server error:', err);
+    return res.status(500).json({ code: 500, message: `简报摄取入库失败: ${err.message}` });
   }
 });
 

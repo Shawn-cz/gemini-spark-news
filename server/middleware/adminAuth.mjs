@@ -16,7 +16,7 @@ export function getEffectiveAdminKey() {
  * 使用常数时间安全比对两个字符串，杜绝计时侧信道攻击
  * 采用 SHA-256 摘要哈希将任意长度输入映射为 32 字节定长 Buffer，彻底消除长度泄露与 RangeError 风险
  */
-function safeCompare(a, b) {
+export function safeCompare(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
   const hashA = crypto.createHash('sha256').update(a).digest();
   const hashB = crypto.createHash('sha256').update(b).digest();
