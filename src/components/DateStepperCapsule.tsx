@@ -99,7 +99,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           onClick={handlePrevious}
           disabled={!canGoPrevious}
           title={canGoPrevious ? "查看前一日历史简报" : "已是系统内最早归档简报"}
-          className={`p-1.5 rounded transition-all duration-150 flex items-center justify-center ${
+          className={`stepper-btn-prev p-1.5 rounded transition-all duration-150 flex items-center justify-center ${
             canGoPrevious
               ? 'hover:bg-white/20 active:translate-y-0.5 cursor-pointer text-white'
               : 'opacity-30 cursor-not-allowed text-white/50'
@@ -116,17 +116,17 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           disabled={isLoading}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
-          className="px-2.5 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 hover:bg-white/10 rounded transition-colors cursor-pointer text-white"
+          className="stepper-btn-date px-2.5 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 hover:bg-white/10 rounded transition-colors cursor-pointer text-white"
           title="点击展开选择历史简报日期"
         >
-          <Calendar className="w-3.5 h-3.5 text-cyan-400" />
-          <span>{currentDate}</span>
+          <Calendar className="stepper-icon-calendar w-3.5 h-3.5 text-cyan-400" />
+          <span className="stepper-date-text">{currentDate}</span>
           {isLatest ? (
-            <span className="badge-status text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+            <span className="badge-status badge-status-latest text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
               最新
             </span>
           ) : (
-            <span className="badge-status text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter">
+            <span className="badge-status badge-status-archive text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter">
               归档
             </span>
           )}
@@ -138,7 +138,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           onClick={handleNext}
           disabled={!canGoNext}
           title={canGoNext ? "查看后一日简报" : "已是最新批次简报"}
-          className={`p-1.5 rounded transition-all duration-150 flex items-center justify-center ${
+          className={`stepper-btn-next p-1.5 rounded transition-all duration-150 flex items-center justify-center ${
             canGoNext
               ? 'hover:bg-white/20 active:translate-y-0.5 cursor-pointer text-white'
               : 'opacity-30 cursor-not-allowed text-white/50'
