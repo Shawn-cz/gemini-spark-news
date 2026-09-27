@@ -70,6 +70,17 @@ async function main() {
   });
   assert.equal(initSelectRes.status, 200, '携带有效秘钥初始化模型应返回 200');
 
+  console.log('\n[Step 0.5] 校验可用简报日期聚合接口 (GET /api/spark/available-dates)...');
+  const datesRes = await fetch('http://localhost:3001/api/spark/available-dates');
+  assert.strictEqual(datesRes.status, 200);
+  const datesBody = await datesRes.json();
+  assert.strictEqual(datesBody.code, 200);
+  assert.ok(Array.isArray(datesBody.data.dates), 'dates 必须为数组');
+  assert.ok(datesBody.data.dates.length > 0, 'dates 必须包含至少 1 个可用日期');
+  assert.strictEqual(datesBody.data.latestDate, datesBody.data.dates[0], 'latestDate 必须是 dates[0]');
+  assert.strictEqual(datesBody.data.totalDates, datesBody.data.dates.length, 'totalDates 必须与 dates 长度一致');
+  console.log(`   ✅ 可用日期接口校验通过: 共 ${datesBody.data.totalDates} 个批次, 最新批次为 [${datesBody.data.latestDate}]`);
+
   // 1. 建立 SSE 实时监听通道
   console.log('\n[Step 1] 挂载原生 SSE 实时推流通道 (GET /api/spark/stream)...');
   const sseEvents = [];
