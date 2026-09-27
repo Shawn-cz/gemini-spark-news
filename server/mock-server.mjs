@@ -79,7 +79,7 @@ app.get('/api/health', (req, res) => {
     activeModel,
     scheduler: {
       status: schedulerStatus.isGenerating ? 'generating' : 'idle',
-      lastBatchDate: schedulerStatus.currentBatchDate,
+      lastBatchDate: schedulerStatus.currentGeneratingDate ?? null,
       nextScheduleTime: '08:30 (每日晨报)'
     },
     data: {
