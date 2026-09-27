@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: gemini-spark-news
+    runtime: docker
+    plan: free
+    region: singapore
+    buildCommand: ""
+    startCommand: ""
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ADMIN_KEY
+        generateValue: true
+      - key: MONGO_URI
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+      - key: SCHEDULE_TIME
+        value: "08:30"
