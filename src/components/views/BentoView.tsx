@@ -71,16 +71,13 @@ export const BentoView: React.FC<BentoViewProps> = ({
         {/* 2. Bento 全球智库微状态雷达 Widget */}
         <div className="bento-radar-widget glass-card p-5 rounded-2xl flex flex-col justify-between border border-cyan-500/20 bg-gradient-to-br from-obsidian-card via-obsidian-950 to-cyan-950/20">
           <div>
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <span className="bento-radar-title text-xs font-mono font-bold text-cyan-400 flex items-center gap-1.5 uppercase">
                 <Activity className="w-4 h-4 text-cyan-400" />
                 Global Sector Heat
               </span>
               <span className="bento-radar-pulse w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
             </div>
-            <p className="bento-radar-desc text-xs text-slate-400 font-mono mb-4 leading-relaxed">
-              Gemini Spark 智能体全天候检索并提炼覆盖全球 24 时区算力集群、央行利率决策、关键航道与能源转型动态。
-            </p>
 
             <div className="space-y-2 text-xs font-mono">
               <div className="bento-radar-item flex justify-between items-center p-2 rounded-lg bg-white/[0.03] border border-white/5">
