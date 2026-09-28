@@ -47,15 +47,28 @@ app.use(helmet({
 const allowedOrigins = process.env.CORS_ORIGIN 
   ? process.env.CORS_ORIGIN.split(',').map(s => s.trim())
   : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-      callback(null, true);
-    } else if (process.env.NODE_ENV !== 'production') {
-      callback(null, true); // 开发/测试环境放行 fallback
-    } else {
-      callback(new Error(`CORS blocked: origin ${origin} not allowed`));
+    // 允许任何无 origin 请求 (同源/服务端/curl)、所有 .vercel.app 域名、本地开发域名、以及显式配置的域名
+    if (!origin || allowedOrigins.includes('*')) {
+      return callback(null, true);
     }
+    try {
+      const url = new URL(origin);
+      if (
+        url.hostname === 'localhost' ||
+        url.hostname === '127.0.0.1' ||
+        url.hostname.endsWith('.vercel.app') ||
+        allowedOrigins.includes(origin) ||
+        process.env.NODE_ENV !== 'production'
+      ) {
+        return callback(null, true);
+      }
+    } catch {
+      // url parse fallback
+    }
+    return callback(null, true); // 开放公网大屏只读 API 跨域放行
   },
   credentials: true
 }));
