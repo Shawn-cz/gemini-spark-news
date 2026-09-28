@@ -519,10 +519,6 @@ export async function getNewsList(params = {}) {
  * 保存/导入 Gemini Spark 简报
  */
 export async function saveBriefing(date, rawData) {
-  if (!fs.existsSync(BRIEFINGS_DIR)) {
-    fs.mkdirSync(BRIEFINGS_DIR, { recursive: true });
-  }
-
   let parsed = rawData;
   if (typeof rawData === 'string') {
     let cleaned = rawData.trim();
@@ -537,9 +533,17 @@ export async function saveBriefing(date, rawData) {
   const items = Array.isArray(parsed) ? parsed : (parsed.items || []);
   const batchStatus = Array.isArray(parsed) ? null : (parsed.batchStatus || null);
 
-  // 1. 物理文件持久化（备份保障）
-  const targetFile = path.join(BRIEFINGS_DIR, `${date}.json`);
-  fs.writeFileSync(targetFile, JSON.stringify(parsed, null, 2), 'utf-8');
+  // 1. 物理文件持久化（备份保障，Serverless 只读环境容错）
+  let targetFile = null;
+  try {
+    if (!fs.existsSync(BRIEFINGS_DIR)) {
+      fs.mkdirSync(BRIEFINGS_DIR, { recursive: true });
+    }
+    targetFile = path.join(BRIEFINGS_DIR, `${date}.json`);
+    fs.writeFileSync(targetFile, JSON.stringify(parsed, null, 2), 'utf-8');
+  } catch (fsErr) {
+    console.warn(`[Repository] 本地磁盘只读或无写权限 (Serverless 生产环境)，跳过本地文件备份: ${fsErr.message}`);
+  }
 
   // 2. 若连通 MongoDB，同步写入云端数据库
   if (isMongoConnected) {
