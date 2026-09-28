@@ -367,6 +367,34 @@ app.post('/api/spark/trigger-generate', adminRateLimiter, adminAuthGuard, async 
   }
 });
 
+// 接口 7.5: 专为 Vercel Cron 及定时调度设计的云端自动化触发端点 (支持 GET，匹配 Vercel Cron 规范)
+app.get('/api/spark/cron', async (req, res) => {
+  const clientKey = req.query.key || req.headers['x-admin-key'];
+  const configuredKey = getEffectiveAdminKey();
+  const isVercelCron = req.headers['x-vercel-cron'] === '1' || req.headers['user-agent']?.includes('vercel-cron');
+
+  // 安全校验：放行 Vercel 官方定时唤醒机制 或 携带有效密钥的外部请求
+  if (!isVercelCron) {
+    if (!clientKey || !safeCompare(clientKey.trim(), configuredKey.trim())) {
+      return res.status(401).json({ code: 401, message: 'Cron 触发密钥无效或未授权' });
+    }
+  }
+
+  try {
+    const targetDate = req.query.date || new Date().toISOString().slice(0, 10);
+    console.log(`[Cron] ⏰ 接收到定时调度任务，准备生成 [${targetDate}] 晨报...`);
+    const result = await triggerGenerationPipeline(targetDate);
+    return res.json({
+      code: 200,
+      message: `[${targetDate}] Vercel Cron 定时生成任务执行成功`,
+      data: result
+    });
+  } catch (err) {
+    console.error('[Cron] 定时调度失败:', err);
+    return res.status(500).json({ code: 500, message: `Cron 任务异常: ${err.message}` });
+  }
+});
+
 // 接口 8: 原生 SSE 实时流推流端点
 app.get('/api/spark/stream', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
