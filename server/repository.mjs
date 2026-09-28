@@ -576,7 +576,15 @@ export async function saveBriefing(date, rawData) {
         const docs = items.map((it, idx) => ({
           ...it,
           id: it.id || `gemini-${date}-${String(idx + 1).padStart(3, '0')}`,
-          batchDate: date
+          batchDate: date,
+          source: it.source || 'Gemini Spark Intelligence',
+          sourceCountry: it.sourceCountry || '全球',
+          region: it.region || '全球',
+          publishTime: it.publishTime || `${date} 08:30:00`,
+          category: it.category || 'ai',
+          impactLevel: it.impactLevel || 'high',
+          sentiment: it.sentiment || 'neutral',
+          sentimentScore: typeof it.sentimentScore === 'number' ? it.sentimentScore : 0
         }));
         await NewsItemModel.insertMany(docs);
       }
