@@ -59,11 +59,17 @@ export function buildSparkPrompt(targetDate) {
 4. 影响力契约：
    - 必须挑选最重大的 1 篇标记为 "critical"（作为 Bento Hero 头条）；
    - 其余根据重要程度分配为 "high" 或 "medium"。
-5. NLP 契约：
+5. 深度自包含研报摘要契约（极其重要！）：
+   - 读者位于中国境内，受网络环境限制无法查阅外媒原文链接，因此每篇摘要（summary）必须是一篇“信息完整、自包含且论述严密的微型研报”，字数在 280 至 450 字之间，严禁两句话空泛概括！
+   - 摘要结构必须严格涵盖以下核心要素，并统一使用中文方括号明确标出板块：
+     【时间与主体】：精确指出事件发生的具体时间点，以及牵涉的关键国家、主权机构、核心科技巨头或跨国金融组织；
+     【事件核心细节】：深入还原事实来龙去脉、关键技术突破或制程良率、重大协议条款或资金规模等详实事实；
+     【战略与深远影响】：深度剖析对全球产业链供应链重塑、地缘博弈平衡、资本流动或技术竞争格局的深层冲击。
+6. NLP 契约：
    - 每篇新闻必须包含 "sentiment" ("positive" | "neutral" | "negative")；
    - "sentimentScore"（浮点数 -1.0 到 +1.0）；
-   - "nlpKeyEntities"（3~4 个关键地名、机构名或核心术语）。
-6. 配图与信源契约：包含权威信源名称（如 Reuters, Bloomberg, FT 等）和高质量无版权新闻图片 URL。
+   - "nlpKeyEntities"（3~5 个关键地名、机构名或核心术语）。
+7. 配图与信源契约：包含权威信源名称（如 Reuters, Bloomberg, FT 等）和高质量无版权新闻图片 URL。
 
 JSON 结构示例：
 {
@@ -80,7 +86,7 @@ JSON 结构示例：
       "category": "ai",
       "region": "North America",
       "impactLevel": "critical",
-      "summary": "150字左右的精准智库摘要...",
+      "summary": "【时间与主体】2026年9月29日，某核心主体...【事件核心细节】在最新举行的全球峰会上，披露关键参数突破...【战略与深远影响】这一重大突破将深刻重塑全球产业链，导致...",
       "tags": ["AI", "Semiconductor"],
       "sentiment": "neutral",
       "sentimentScore": 0.05,

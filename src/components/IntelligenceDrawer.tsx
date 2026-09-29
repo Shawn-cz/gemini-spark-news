@@ -100,6 +100,62 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // 解析结构化微型研报多要素（时间与主体、事件核心细节、战略深远影响）
+  const renderStructuredSummary = (summaryText: string) => {
+    if (!summaryText) return null;
+
+    if (summaryText.includes('【') && summaryText.includes('】')) {
+      const parts = summaryText.split(/(?=【[^】]+】)/g).filter(Boolean);
+      if (parts.length > 1) {
+        return (
+          <div className="space-y-3">
+            {parts.map((part, idx) => {
+              const match = part.match(/^【([^】]+)】([\s\S]*)$/);
+              if (match) {
+                const [, title, content] = match;
+                const isTimeSubject = title.includes('时间') || title.includes('主体');
+                const isDetails = title.includes('细节') || title.includes('核心');
+                const isImpact = title.includes('影响') || title.includes('战略');
+
+                const badgeStyle = isTimeSubject
+                  ? 'bg-indigo-950/80 text-indigo-300 border-indigo-700/60'
+                  : isDetails
+                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60'
+                  : isImpact
+                  ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60'
+                  : 'bg-white/10 text-slate-300 border-white/20';
+
+                return (
+                  <div key={idx} className="dossier-section-block bg-white/[0.02] p-3.5 rounded-xl border border-white/5 space-y-1.5 transition-colors hover:bg-white/[0.04]">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border inline-flex items-center gap-1 shadow-sm ${badgeStyle}`}>
+                        {title}
+                      </span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-200 font-sans tracking-wide">
+                      {content.trim()}
+                    </p>
+                  </div>
+                );
+              }
+              return (
+                <p key={idx} className="text-sm leading-relaxed text-slate-200 font-sans">
+                  {part.trim()}
+                </p>
+              );
+            })}
+          </div>
+        );
+      }
+    }
+
+    return (
+      <div className="whitespace-pre-line text-sm leading-relaxed text-slate-200 font-sans">
+        {summaryText}
+      </div>
+    );
+  };
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-5 lg:p-8 animate-fade-in">
       
@@ -269,19 +325,19 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
               )}
             </div>
 
-            {/* Gemini 智能体深度研报摘要 */}
-            <div className="space-y-2">
+            {/* Gemini 智能体深度研报提炼 (自包含微型深度研报) */}
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-mono uppercase tracking-wider text-cyan-300 flex items-center gap-1.5 font-bold">
                   <FileText className="w-4 h-4 text-cyan-400" />
-                  Gemini 智能体深度研报提炼
+                  Gemini 智能体深度研报提炼 (自包含微型研报)
                 </h4>
-                <span className="text-[10px] font-mono text-slate-500">
-                  多语种交叉提炼 · 核心摘要
+                <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">
+                  时间 · 主体 · 核心细节 · 战略影响
                 </span>
               </div>
               <div className="dossier-summary-card text-sm leading-relaxed text-slate-200 font-sans bg-white/[0.03] p-5 rounded-2xl border border-white/10 shadow-inner">
-                {news.summary}
+                {renderStructuredSummary(news.summary)}
               </div>
             </div>
 
