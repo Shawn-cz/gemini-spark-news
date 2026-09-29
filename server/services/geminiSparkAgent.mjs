@@ -125,8 +125,9 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
   try {
     await report('SEARCHING', 40, `正在调度 Google Search Grounding 检索 ${targetDate} 全球权威动态...`);
     
-    // 真实 Google Gemini API 调用
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:generateContent?key=${apiKey}`;
+    // 映射到 Google 官方目前线上正式支持的稳定模型标识
+    const googleModel = currentModel.includes('pro') ? 'gemini-1.5-pro' : 'gemini-1.5-flash';
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${apiKey}`;
     const prompt = buildSparkPrompt(targetDate);
 
     const controller = new AbortController();
@@ -140,8 +141,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
-            temperature: 0.3,
-            responseMimeType: 'application/json'
+            temperature: 0.3
           },
           tools: [{ googleSearch: {} }] // 开启 Google Search Grounding 联网感知
         }),
