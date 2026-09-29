@@ -123,37 +123,58 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
   }
 
   try {
-    await report('SEARCHING', 40, `正在调度 Google Search Grounding 检索 ${targetDate} 全球权威动态...`);
+    await report('SEARCHING', 40, `正在唤醒 Google Gemini 认知大模型分析 ${targetDate} 全球权威动态...`);
     
-    // 映射到 Google 官方目前线上正式支持的稳定模型标识
-    const googleModel = currentModel.includes('pro') ? 'gemini-1.5-pro' : 'gemini-1.5-flash';
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${googleModel}:generateContent?key=${apiKey}`;
+    // 候选模型自适应容灾池（优先主力 Flash，遇到 Google 临时并发峰值自动平滑转接 Lite）
+    const candidateModels = currentModel.includes('pro')
+      ? ['gemini-pro-latest', 'gemini-flash-latest', 'gemini-flash-lite-latest']
+      : ['gemini-flash-latest', 'gemini-flash-lite-latest'];
+
     const prompt = buildSparkPrompt(targetDate);
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s 超时保护
     let response;
+    let chosenModel = candidateModels[0];
+    let lastError = null;
 
-    try {
-      response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.3
+    for (const model of candidateModels) {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s 超时保护
+
+      try {
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-goog-api-key': apiKey.trim()
           },
-          tools: [{ googleSearch: {} }] // 开启 Google Search Grounding 联网感知
-        }),
-        signal: controller.signal
-      });
-    } finally {
-      clearTimeout(timeoutId);
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.4,
+              responseMimeType: 'application/json'
+            }
+          }),
+          signal: controller.signal
+        });
+
+        if (response.ok) {
+          chosenModel = model;
+          break;
+        }
+
+        const errText = await response.text();
+        lastError = new Error(`Google API [${model}] 异常: HTTP ${response.status} - ${errText}`);
+        console.warn(`[GeminiSparkAgent] ⚠️ 模型 [${model}] 响应 HTTP ${response.status}，自动尝试下一候选模型...`);
+      } catch (err) {
+        lastError = err;
+        console.warn(`[GeminiSparkAgent] ⚠️ 模型 [${model}] 请求失败 (${err.message})，自动尝试下一候选模型...`);
+      } finally {
+        clearTimeout(timeoutId);
+      }
     }
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Google API 响应异常: HTTP ${response.status} - ${errText}`);
+    if (!response || !response.ok) {
+      throw lastError || new Error('所有 Gemini 官方候选模型均无法提供服务');
     }
 
     await report('DISTILLING', 70, `跨语种长文提炼中，执行 AI/金融/地缘/气候 四大领域配额平衡...`);
