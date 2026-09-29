@@ -3178,4 +3178,22 @@ html, body {
   background-color: rgba(255, 0, 127, 0.08) !important;
 }
 
+/* ========================================================
+   Category Bar & ViewMode Container Anti-Overlap Isolation
+   ======================================================== */
+.category-scroll-container {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+.viewmode-container {
+  flex-shrink: 0 !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.category-pill-btn {
+  flex-shrink: 0 !important;
+}
+
 

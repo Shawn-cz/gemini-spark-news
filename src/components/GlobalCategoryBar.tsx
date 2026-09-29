@@ -47,17 +47,17 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
 }) => {
   const categories = [
     { key: 'all' as const, label: '全部领域', icon: Layers, count: stats?.total ?? 0 },
-    { key: 'ai' as const, label: '全球 AI & 算力', icon: Bot, count: stats?.categoryCounts.ai ?? 0 },
-    { key: 'finance' as const, label: '宏观金融 & 资本', icon: TrendingUp, count: stats?.categoryCounts.finance ?? 0 },
-    { key: 'geopolitics' as const, label: '地缘政治 & 经贸', icon: Globe2, count: stats?.categoryCounts.geopolitics ?? 0 },
-    { key: 'climate' as const, label: '气候变化 & 能源', icon: Zap, count: stats?.categoryCounts.climate ?? 0 },
+    { key: 'ai' as const, label: '全球 AI 算力', icon: Bot, count: stats?.categoryCounts.ai ?? 0 },
+    { key: 'finance' as const, label: '宏观金融', icon: TrendingUp, count: stats?.categoryCounts.finance ?? 0 },
+    { key: 'geopolitics' as const, label: '地缘经贸', icon: Globe2, count: stats?.categoryCounts.geopolitics ?? 0 },
+    { key: 'climate' as const, label: '气候能源', icon: Zap, count: stats?.categoryCounts.climate ?? 0 },
     { key: 'bookmarks' as const, label: '我的收藏', icon: Bookmark, count: bookmarkCount, isBookmark: true },
   ];
 
   const viewModes = [
-    { key: 'bento' as const, label: 'Bento 智库看板', icon: LayoutGrid },
+    { key: 'bento' as const, label: 'Bento 看板', icon: LayoutGrid },
     { key: 'matrix' as const, label: '四象限流', icon: Columns3 },
-    { key: 'timeline' as const, label: '24H 时空轨迹', icon: Clock3 },
+    { key: 'timeline' as const, label: '24H 时空轴', icon: Clock3 },
   ];
 
   const sentiments = [
@@ -70,11 +70,11 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
   return (
     <div className="space-y-3 mb-6">
       
-      {/* 第一行：领域胶囊切换与右侧视图模式切换 (Bento/Matrix/Timeline) */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+      {/* 第一行：领域胶囊切换与右侧视图模式切换 (Bento/Matrix/Timeline) - 严格防重叠隔离 */}
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3 min-w-0">
         
-        {/* 4大领域胶囊 + 我的收藏 */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
+        {/* 4大领域胶囊 + 我的收藏 (min-w-0 flex-1 隔离溢出，坚决不挤压重叠右侧视图组件) */}
+        <div className="category-scroll-container flex items-center gap-1.5 overflow-x-auto pb-1 xl:pb-0 scrollbar-none min-w-0 flex-1">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat.key;
             const Icon = cat.icon;
@@ -84,7 +84,7 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 key={cat.key}
                 type="button"
                 onClick={() => onSelectCategory(cat.key)}
-                className={`category-pill-btn inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                className={`category-pill-btn inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
                   isSelected
                     ? isBm
                       ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold'
@@ -94,13 +94,13 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                     : 'category-pill-unselected bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5'
                 }`}
               >
-                <Icon className={`category-pill-icon w-3.5 h-3.5 ${
+                <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
                   isSelected 
                     ? isBm ? 'text-amber-400 fill-current' : 'text-cyan-400' 
                     : isBm ? 'text-amber-400' : 'text-slate-400'
                 }`} />
                 <span>{cat.label}</span>
-                <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
+                <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
                   isSelected 
                     ? isBm ? 'bg-amber-400/20 text-amber-200' : 'bg-cyan-400/20 text-cyan-200' 
                     : isBm ? 'bg-amber-500/15 text-amber-300' : 'bg-white/5 text-slate-500'
@@ -112,8 +112,8 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
           })}
         </div>
 
-        {/* 3 种新奇视图模式切换 */}
-        <div className="viewmode-container inline-flex bg-obsidian-card p-1 rounded-xl border border-white/10 self-start lg:self-auto shadow-inner">
+        {/* 3 种新奇视图模式切换 (flex-shrink-0 绝对防挤压，永不被遮挡或重叠) */}
+        <div className="viewmode-container inline-flex bg-obsidian-card p-1 rounded-xl border border-white/10 self-start xl:self-auto shadow-inner flex-shrink-0">
           {viewModes.map((vm) => {
             const isSelected = viewMode === vm.key;
             const Icon = vm.icon;
@@ -122,14 +122,14 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 key={vm.key}
                 type="button"
                 onClick={() => onSelectViewMode(vm.key)}
-                className={`viewmode-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                className={`viewmode-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                   isSelected
                     ? 'viewmode-btn-active bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{vm.label}</span>
+                <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                <span className="whitespace-nowrap">{vm.label}</span>
               </button>
             );
           })}
