@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { 
   AlertTriangle, 
   RotateCw, 
   Inbox, 
   WifiOff, 
-  Radio
+  Radio,
+  Bookmark
 } from 'lucide-react';
 import { 
   GlobalNewsItem, 
@@ -15,7 +16,18 @@ import {
   GlobalNewsStats,
   BatchStatusType 
 } from '../types/news';
-import { fetchNewsList, fetchSparkBatchStatus, toggleSparkStatus, fetchAvailableDates } from '../services/api';
+import { 
+  fetchNewsList, 
+  fetchNewsById,
+  fetchSparkBatchStatus, 
+  toggleSparkStatus, 
+  fetchAvailableDates 
+} from '../services/api';
+import { 
+  loadBookmarks, 
+  toggleBookmarkStorage, 
+  subscribeBookmarks 
+} from '../services/bookmarkStorage';
 import { IntelligenceHeader } from './IntelligenceHeader';
 import { GlobalCategoryBar } from './GlobalCategoryBar';
 import { BentoView } from './views/BentoView';
@@ -28,14 +40,30 @@ import { ImportBriefingModal } from './ImportBriefingModal';
 import { DevToolsPanel } from './DevToolsPanel';
 
 export const SparkNewsDashboard: React.FC = () => {
-  // 1. 过滤与查询条件状态
-  const [selectedDate, setSelectedDate] = useState<string>('2026-09-24');
+  // 1. URL Deep-Linking 初始参数提取 (支持通过 ?date=...&newsId=... 免翻直达)
+  const pendingDeepLinkRef = useRef<{ date: string | null; newsId: string | null }>({
+    date: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('date') : null,
+    newsId: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('newsId') : null
+  });
+
+  // 过滤与查询条件状态 (若 URL 含有合法日期参数，优先读取)
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const d = new URLSearchParams(window.location.search).get('date');
+      if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+    }
+    return '2026-09-24';
+  });
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [hasNewerBatchAvailable, setHasNewerBatchAvailable] = useState<boolean>(false);
   const [category, setCategory] = useState<CategoryType>('all');
   const [sentiment, setSentiment] = useState<SentimentType | 'all'>('all');
   const [search, setSearch] = useState<string>('');
   const [viewMode, setViewMode] = useState<ViewMode>('bento');
+
+  // 本地永久收藏夹状态 (跨会话持久化与事件总线同步)
+  const [bookmarks, setBookmarks] = useState<GlobalNewsItem[]>(() => loadBookmarks());
+  const bookmarkedIdSet = useMemo(() => new Set(bookmarks.map(b => b.id)), [bookmarks]);
 
   // 分页状态
   const [page, setPage] = useState<number>(1);
@@ -82,6 +110,24 @@ export const SparkNewsDashboard: React.FC = () => {
       setErrorMessage(null);
     } else {
       setIsSilentRefreshing(true);
+    }
+
+    // 针对本地收藏模式：无需请求外部新闻列表，仅同步批次元数据
+    if (category === 'bookmarks') {
+      try {
+        const batchStatusRes = await fetchSparkBatchStatus(selectedDate, controller.signal);
+        setStatusInfo(batchStatusRes);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.warn('[SparkNewsDashboard] 收藏模式获取状态异常:', err);
+        }
+      } finally {
+        if (!isSilent) {
+          setIsInitialLoading(false);
+        }
+        setIsSilentRefreshing(false);
+      }
+      return;
     }
 
     try {
@@ -156,7 +202,7 @@ export const SparkNewsDashboard: React.FC = () => {
       .then(res => {
         if (isMounted && res.dates && res.dates.length > 0) {
           setAvailableDates(res.dates);
-          if (res.latestDate && res.latestDate !== selectedDate) {
+          if (!pendingDeepLinkRef.current.date && res.latestDate && res.latestDate !== selectedDate) {
             setSelectedDate(res.latestDate);
           }
         }
@@ -347,6 +393,134 @@ export const SparkNewsDashboard: React.FC = () => {
     };
   }, [selectedDate]);
 
+  // 5.1 监听跨标签页及组件内部的收藏变更，保证多端实时同步
+  useEffect(() => {
+    return subscribeBookmarks((updated) => {
+      setBookmarks(updated);
+    });
+  }, []);
+
+  // 收藏/取消收藏处理程序
+  const handleToggleBookmark = useCallback((news: GlobalNewsItem) => {
+    const result = toggleBookmarkStorage(news);
+    setBookmarks(result.bookmarks);
+    showToast(result.isBookmarked ? `⭐ 已成功收藏研报: ${news.title}` : '已从收藏夹移除该研报');
+  }, [showToast]);
+
+  // 5.2 Deep-Link 自动消费：若存在待直达的 newsId，精准唤起详情档案弹窗
+  useEffect(() => {
+    const targetId = pendingDeepLinkRef.current.newsId;
+    if (!targetId) return;
+
+    // 先在已有新闻列表与本地收藏夹中查询
+    const found = newsItems.find(it => it.id === targetId) || bookmarks.find(it => it.id === targetId);
+    if (found) {
+      setSelectedNews(found);
+      pendingDeepLinkRef.current.newsId = null;
+      showToast(`🎯 已为您精准直达研报: ${found.title}`);
+      return;
+    }
+
+    // 若当前未包含（跨日期或跨页），从单篇直达端点拉取
+    if (!isInitialLoading) {
+      fetchNewsById(targetId)
+        .then(item => {
+          if (item) {
+            setSelectedNews(item);
+            if (item.batchDate && item.batchDate !== selectedDate) {
+              setSelectedDate(item.batchDate);
+            }
+            showToast(`🎯 已为您精准直达研报: ${item.title}`);
+          }
+        })
+        .catch(err => console.warn('[DeepLink] 单篇直达获取失败:', err))
+        .finally(() => {
+          pendingDeepLinkRef.current.newsId = null;
+        });
+    }
+  }, [newsItems, bookmarks, isInitialLoading, selectedDate, showToast]);
+
+  // 5.3 保持当前 URL 与用户所浏览的日期及研报实时同步 (支持随时复制深链分享)
+  useEffect(() => {
+    try {
+      const url = new URL(window.location.href);
+      if (category !== 'bookmarks') {
+        url.searchParams.set('date', selectedDate);
+      }
+      if (selectedNews) {
+        url.searchParams.set('newsId', selectedNews.id);
+        if (selectedNews.batchDate) {
+          url.searchParams.set('date', selectedNews.batchDate);
+        }
+      } else {
+        url.searchParams.delete('newsId');
+      }
+      window.history.replaceState(null, '', url.toString());
+    } catch {
+      // 容错忽略非浏览器环境
+    }
+  }, [selectedDate, selectedNews, category]);
+
+  // 5.4 收藏模式与常规批次数据流融合计算
+  const isBookmarksMode = category === 'bookmarks';
+
+  const filteredBookmarks = useMemo(() => {
+    let list = [...bookmarks];
+    if (sentiment !== 'all') {
+      list = list.filter(i => i.sentiment === sentiment);
+    }
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      list = list.filter(i => 
+        i.title.toLowerCase().includes(q) ||
+        (i.englishTitle && i.englishTitle.toLowerCase().includes(q)) ||
+        i.summary.toLowerCase().includes(q) ||
+        i.source.toLowerCase().includes(q) ||
+        (i.tags && i.tags.some(t => t.toLowerCase().includes(q))) ||
+        (i.nlpKeyEntities && i.nlpKeyEntities.some(e => e.toLowerCase().includes(q)))
+      );
+    }
+    return list;
+  }, [bookmarks, sentiment, search]);
+
+  const bookmarkStats: GlobalNewsStats = useMemo(() => {
+    const total = bookmarks.length;
+    const positive = bookmarks.filter(b => b.sentiment === 'positive').length;
+    const neutral = bookmarks.filter(b => b.sentiment === 'neutral').length;
+    const negative = bookmarks.filter(b => b.sentiment === 'negative').length;
+    const avgScore = total > 0 
+      ? Number((bookmarks.reduce((acc, cur) => acc + cur.sentimentScore, 0) / total).toFixed(2))
+      : 0;
+    return {
+      total,
+      positive,
+      neutral,
+      negative,
+      avgSentimentScore: avgScore,
+      categoryCounts: {
+        ai: bookmarks.filter(b => b.category === 'ai').length,
+        finance: bookmarks.filter(b => b.category === 'finance').length,
+        geopolitics: bookmarks.filter(b => b.category === 'geopolitics').length,
+        climate: bookmarks.filter(b => b.category === 'climate').length,
+      },
+      batchDate: selectedDate
+    };
+  }, [bookmarks, selectedDate]);
+
+  const currentItems = useMemo(() => {
+    if (isBookmarksMode) {
+      const start = (page - 1) * pageSize;
+      return filteredBookmarks.slice(start, start + pageSize);
+    }
+    return newsItems;
+  }, [isBookmarksMode, filteredBookmarks, page, pageSize, newsItems]);
+
+  const currentTotal = isBookmarksMode ? filteredBookmarks.length : totalCount;
+  const currentTotalPages = isBookmarksMode 
+    ? Math.max(1, Math.ceil(filteredBookmarks.length / pageSize))
+    : totalPages;
+  const currentStats = isBookmarksMode ? bookmarkStats : stats;
+
   // DevTools 调试动作
   const handleTriggerSilentSync = () => {
     loadDashboardData(true);
@@ -452,7 +626,8 @@ export const SparkNewsDashboard: React.FC = () => {
           onSelectDate={handleDateChange}
           searchValue={search}
           onSearchChange={(val) => { setSearch(val); setPage(1); }}
-          stats={stats}
+          stats={currentStats}
+          bookmarkCount={bookmarks.length}
         />
 
         {/* 3. 边界状态处理 1: 接口错误捕获与“点击重试”按钮 */}
@@ -500,8 +675,31 @@ export const SparkNewsDashboard: React.FC = () => {
               <div className="h-64 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
             </div>
           </div>
-        ) : newsItems.length === 0 ? (
-          /* 3. 边界状态处理 3: 当 Spark 批次为空时的“暂无资讯”空状态 */
+        ) : isBookmarksMode && currentItems.length === 0 ? (
+          /* 3. 边界状态处理 3A: 收藏夹为空提示 */
+          <div className="glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border border-amber-500/20 shadow-glow-amber bg-amber-950/10">
+            <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4 text-amber-400">
+              <Bookmark className="w-8 h-8 fill-current opacity-80" />
+            </div>
+            <h3 className="text-base font-bold text-white mb-2 font-mono">
+              您的全球智库收藏夹目前为空
+            </h3>
+            <p className="text-xs text-slate-300 mb-6 font-mono leading-relaxed">
+              在浏览任何研报卡片或打开深度解析档案时，点击 ⭐ 收藏按钮即可将核心宏观情报永久留存在本地浏览器中，跨越历史批次随时温故复盘。
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setCategory('all');
+                setPage(1);
+              }}
+              className="px-5 py-2.5 text-xs font-mono font-bold text-amber-300 bg-amber-950/80 hover:bg-amber-900 border border-amber-700/60 rounded-xl transition shadow-md shadow-amber-950/40"
+            >
+              浏览全部领域研报
+            </button>
+          </div>
+        ) : currentItems.length === 0 ? (
+          /* 3. 边界状态处理 3B: 当 Spark 批次为空时的“暂无资讯”空状态 */
           <div className="glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border border-white/10 shadow-inner">
             <div className="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4 text-slate-500">
               <Inbox className="w-8 h-8 text-cyan-400 opacity-60" />
@@ -525,26 +723,32 @@ export const SparkNewsDashboard: React.FC = () => {
           <>
             {viewMode === 'bento' && (
               <BentoView
-                items={newsItems}
+                items={currentItems}
                 loading={false}
                 onSelectNews={(news) => setSelectedNews(news)}
                 onResetFilter={handleResetFilter}
+                bookmarkedIdSet={bookmarkedIdSet}
+                onToggleBookmark={handleToggleBookmark}
               />
             )}
 
             {viewMode === 'matrix' && (
               <MatrixStreamView
-                items={newsItems}
+                items={currentItems}
                 loading={false}
                 onSelectNews={(news) => setSelectedNews(news)}
+                bookmarkedIdSet={bookmarkedIdSet}
+                onToggleBookmark={handleToggleBookmark}
               />
             )}
 
             {viewMode === 'timeline' && (
               <TimelineScrubber
-                items={newsItems}
+                items={currentItems}
                 loading={false}
                 onSelectNews={(news) => setSelectedNews(news)}
+                bookmarkedIdSet={bookmarkedIdSet}
+                onToggleBookmark={handleToggleBookmark}
               />
             )}
 
@@ -552,8 +756,8 @@ export const SparkNewsDashboard: React.FC = () => {
             {viewMode === 'bento' && (
               <Pagination
                 currentPage={page}
-                totalPages={totalPages}
-                total={totalCount}
+                totalPages={currentTotalPages}
+                total={currentTotal}
                 pageSize={pageSize}
                 onPageChange={(p) => setPage(p)}
               />
@@ -567,6 +771,9 @@ export const SparkNewsDashboard: React.FC = () => {
       <IntelligenceDrawer
         news={selectedNews}
         onClose={() => setSelectedNews(null)}
+        isBookmarked={selectedNews ? bookmarkedIdSet.has(selectedNews.id) : false}
+        onToggleBookmark={handleToggleBookmark}
+        onShowToast={showToast}
       />
 
       {/* 快捷导入 Gemini 简报产物弹窗 */}

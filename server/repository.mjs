@@ -516,6 +516,52 @@ export async function getNewsList(params = {}) {
 }
 
 /**
+ * 根据研报唯一 ID 检索单篇深度研报档案 (Deep-Linking 专属直达支持)
+ */
+export async function getNewsById(id) {
+  if (!id || typeof id !== 'string') return null;
+  const targetId = id.trim();
+
+  // 1. 若连通 MongoDB，优先直接按 ID 精准查询
+  if (isMongoConnected) {
+    try {
+      const doc = await NewsItemModel.findOne({ id: targetId }).lean();
+      if (doc) return doc;
+    } catch (err) {
+      console.warn(`[Repository] MongoDB 按 ID 查询失败 (${err.message})，降级至本地缓存检索`);
+    }
+  }
+
+  // 2. 检索内存中的所有日期批次
+  for (const date of Object.keys(memoryNewsStore)) {
+    const list = memoryNewsStore[date] || [];
+    const item = list.find(it => it.id === targetId);
+    if (item) return item;
+  }
+
+  // 3. 扫描本地 data/briefings 目录中的各期归档文件
+  if (fs.existsSync(BRIEFINGS_DIR)) {
+    try {
+      const files = fs.readdirSync(BRIEFINGS_DIR);
+      for (const file of files) {
+        if (!file.endsWith('.json')) continue;
+        const filePath = path.join(BRIEFINGS_DIR, file);
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const parsed = JSON.parse(content);
+        if (Array.isArray(parsed.items)) {
+          const item = parsed.items.find(it => it.id === targetId);
+          if (item) return item;
+        }
+      }
+    } catch (err) {
+      console.warn('[Repository] 本地扫描查找研报 ID 异常:', err.message);
+    }
+  }
+
+  return null;
+}
+
+/**
  * 保存/导入 Gemini Spark 简报
  */
 export async function saveBriefing(date, rawData) {

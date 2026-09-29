@@ -3082,3 +3082,100 @@ html, body {
   color: #67e8f9 !important;
 }
 
+/* ========================================================
+   Bookmarks & Deep-Linking UI Theme Adaptations
+   ======================================================== */
+
+/* 1. 经典羊皮纸 (Light Mode) 收藏适配 */
+[data-theme="light"] .category-pill-bookmarks.category-pill-selected {
+  background: #f59e0b !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+[data-theme="light"] .category-pill-bookmarks.category-pill-selected .category-pill-icon {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+[data-theme="light"] .category-pill-bookmarks.category-pill-selected .category-pill-count {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+[data-theme="light"] .dossier-action-btn.dossier-action-active {
+  background-color: #fbbf24 !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+[data-theme="light"] .dossier-action-btn.dossier-action-active svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+[data-theme="light"] .dossier-bookmarked-badge {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1.5px solid #f59e0b !important;
+}
+
+[data-theme="light"] .card-bookmark-btn {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .card-bookmark-btn:hover {
+  color: #0f172a !important;
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 2. 多巴胺波普 (Dopamine Mode) 收藏适配 */
+[data-theme="dopamine"] .category-pill-bookmarks.category-pill-selected {
+  background: #ffb703 !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .category-pill-bookmarks.category-pill-selected .category-pill-icon {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+[data-theme="dopamine"] .category-pill-bookmarks.category-pill-selected .category-pill-count {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dopamine"] .dossier-action-btn.dossier-action-active {
+  background-color: #ffb703 !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .dossier-action-btn.dossier-action-active svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+[data-theme="dopamine"] .dossier-bookmarked-badge {
+  background-color: #fef08a !important;
+  color: #713f12 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+[data-theme="dopamine"] .card-bookmark-btn {
+  color: #64748b !important;
+}
+
+[data-theme="dopamine"] .card-bookmark-btn:hover {
+  color: #ff007f !important;
+  background-color: rgba(255, 0, 127, 0.08) !important;
+}
+
+

@@ -21,15 +21,25 @@ import {
   FileText
 } from 'lucide-react';
 import { GlobalNewsItem, CategoryType, ImpactLevel } from '../types/news';
+import { isNewsBookmarked, toggleBookmarkStorage } from '../services/bookmarkStorage';
 
 interface IntelligenceDrawerProps {
   news: GlobalNewsItem | null;
   onClose: () => void;
+  isBookmarked?: boolean;
+  onToggleBookmark?: (news: GlobalNewsItem) => void;
+  onShowToast?: (msg: string) => void;
 }
 
-export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, onClose }) => {
+export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ 
+  news, 
+  onClose,
+  isBookmarked: externalIsBookmarked,
+  onToggleBookmark,
+  onShowToast
+}) => {
   const [imgError, setImgError] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [internalBookmarked, setInternalBookmarked] = useState(false);
   const [copied, setCopied] = useState(false);
 
   // 监听 ESC 键关闭
@@ -41,14 +51,91 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  // 重置内部状态
+  // 重置与同步内部收藏状态
   useEffect(() => {
     setImgError(false);
-    setIsBookmarked(false);
     setCopied(false);
-  }, [news?.id]);
+    if (news) {
+      if (typeof externalIsBookmarked === 'boolean') {
+        setInternalBookmarked(externalIsBookmarked);
+      } else {
+        setInternalBookmarked(isNewsBookmarked(news.id));
+      }
+    }
+  }, [news?.id, externalIsBookmarked]);
 
   if (!news) return null;
+
+  const currentBookmarked = typeof externalIsBookmarked === 'boolean' 
+    ? externalIsBookmarked 
+    : internalBookmarked;
+
+  // 切换收藏状态
+  const handleToggleBookmark = () => {
+    if (!news) return;
+    if (onToggleBookmark) {
+      onToggleBookmark(news);
+    } else {
+      const result = toggleBookmarkStorage(news);
+      setInternalBookmarked(result.isBookmarked);
+      if (onShowToast) {
+        onShowToast(result.isBookmarked ? `⭐ 已成功收藏研报: ${news.title}` : '已从收藏夹移除该研报');
+      }
+    }
+  };
+
+  // 深度直达分享：生成专属深链 URL，优先调用原生移动端分享，优雅降级至剪贴板复制
+  const handleShare = async () => {
+    if (!news) return;
+    const origin = window.location.origin;
+    const path = window.location.pathname;
+    const targetDate = news.batchDate || news.publishTime.slice(0, 10);
+    const shareUrl = `${origin}${path}?date=${encodeURIComponent(targetDate)}&newsId=${encodeURIComponent(news.id)}`;
+
+    // 优先尝试原生系统分享 (iOS/Android/macOS)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `【智库研报】${news.title}`,
+          text: `${news.title} —— Gemini Spark 全球宏观情报`,
+          url: shareUrl
+        });
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        if (onShowToast) {
+          onShowToast('✅ 已调用系统分享');
+        }
+        return;
+      } catch (err: any) {
+        if (err.name === 'AbortError') {
+          return; // 用户主动取消系统分享弹窗
+        }
+      }
+    }
+
+    // 降级使用剪贴板复制深度直达链接
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+      if (onShowToast) {
+        onShowToast('🔗 研报深度直达专属链接已复制到剪贴板！');
+      }
+    } catch {
+      // 容错降级
+      const textArea = document.createElement('textarea');
+      textArea.value = shareUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+      if (onShowToast) {
+        onShowToast('🔗 研报深度直达专属链接已复制到剪贴板！');
+      }
+    }
+  };
 
   // 领域配置
   const getCategoryMeta = (cat: CategoryType) => {
@@ -171,27 +258,33 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <span className="dossier-id-code text-xs font-mono text-slate-500 uppercase hidden sm:inline">
               档案编号: <strong className="text-slate-400 font-semibold">{news.id}</strong>
             </span>
+            {currentBookmarked && (
+              <span className="dossier-bookmarked-badge px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40 flex items-center gap-1 shadow-sm">
+                <Bookmark className="w-3 h-3 fill-current text-amber-400" />
+                <span>已收藏</span>
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`dossier-action-btn p-2 rounded-xl transition border ${
-                isBookmarked 
-                  ? 'bg-amber-950/80 text-amber-400 border-amber-700/60' 
+              onClick={handleToggleBookmark}
+              className={`dossier-action-btn p-2 rounded-xl transition border flex items-center justify-center ${
+                currentBookmarked 
+                  ? 'dossier-action-active bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-glow-amber' 
                   : 'bg-white/5 text-slate-400 hover:text-white border-white/5'
               }`}
-              title={isBookmarked ? "已收藏" : "收藏该研报"}
+              title={currentBookmarked ? "已收藏 (点击取消收藏)" : "收藏该研报 (永久留存本地)"}
             >
-              <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
+              <Bookmark className={`w-4 h-4 ${currentBookmarked ? 'fill-current text-amber-400' : ''}`} />
             </button>
 
             <button
               type="button"
-              onClick={handleCopyLink}
-              className="dossier-action-btn p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/5 relative"
-              title="分享此研报链接"
+              onClick={handleShare}
+              className="dossier-action-btn p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/5 relative flex items-center justify-center"
+              title="深度直达分享 (生成免翻专属链接)"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
             </button>
@@ -199,7 +292,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
             <button
               type="button"
               onClick={onClose}
-              className="dossier-close-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5 ml-1"
+              className="dossier-close-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5 ml-1 flex items-center justify-center"
               title="关闭 (Esc)"
             >
               <X className="w-5 h-5" />

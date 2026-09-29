@@ -9,7 +9,8 @@ import {
   Layers, 
   ExternalLink,
   Calendar,
-  Sparkles
+  Sparkles,
+  Bookmark
 } from 'lucide-react';
 import { GlobalNewsItem, CategoryType, ImpactLevel } from '../types/news';
 
@@ -17,12 +18,16 @@ interface GlobalNewsCardProps {
   news: GlobalNewsItem;
   onClick: () => void;
   isHero?: boolean;
+  isBookmarked?: boolean;
+  onToggleBookmark?: (news: GlobalNewsItem) => void;
 }
 
 export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({ 
   news, 
   onClick,
-  isHero = false 
+  isHero = false,
+  isBookmarked = false,
+  onToggleBookmark
 }) => {
   const [imgError, setImgError] = useState(false);
 
@@ -192,10 +197,31 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
             ))}
           </div>
 
-          {/* 查看研报微链接 */}
-          <div className="card-action-link text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
-            <span className="whitespace-nowrap">深度解析</span>
-            <ExternalLink className="w-3 h-3 flex-shrink-0" />
+          {/* 操作区：快捷收藏与查看研报微链接 */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {onToggleBookmark && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleBookmark(news);
+                }}
+                className={`card-bookmark-btn p-1.5 rounded-lg transition-all flex items-center justify-center ${
+                  isBookmarked
+                    ? 'text-amber-400 bg-amber-500/15 border border-amber-500/40 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-300 hover:bg-white/5 border border-transparent'
+                }`}
+                title={isBookmarked ? "已收藏 (点击取消)" : "收藏该研报"}
+              >
+                <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-current text-amber-400' : ''}`} />
+              </button>
+            )}
+
+            {/* 查看研报微链接 */}
+            <div className="card-action-link text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
+              <span className="whitespace-nowrap">深度解析</span>
+              <ExternalLink className="w-3 h-3 flex-shrink-0" />
+            </div>
           </div>
         </div>
 

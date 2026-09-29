@@ -185,3 +185,26 @@ test('API Endpoints - GET /api/health 返回完整容器健康探针与调度状
   assert.ok(json.data.scheduler);
   assert.equal(typeof json.data.scheduler.isGenerating, 'boolean');
 });
+
+test('API Endpoints - GET /api/news/:id 支持单篇研报精准直达查询 (Deep-Linking)', async () => {
+  // 1. 先从列表获取一个有效的新闻条目 ID
+  const listRes = await fetch(`${baseUrl}/api/news?date=2026-09-24`);
+  assert.equal(listRes.status, 200);
+  const listJson = await listRes.json();
+  assert.ok(listJson.data.items.length > 0);
+  const targetItem = listJson.data.items[0];
+
+  // 2. 测试通过 ID 查询该条研报
+  const itemRes = await fetch(`${baseUrl}/api/news/${targetItem.id}`);
+  assert.equal(itemRes.status, 200);
+  const itemJson = await itemRes.json();
+  assert.equal(itemJson.code, 200);
+  assert.equal(itemJson.data.id, targetItem.id);
+  assert.equal(itemJson.data.title, targetItem.title);
+
+  // 3. 测试不存在的 ID 返回 404
+  const notFoundRes = await fetch(`${baseUrl}/api/news/non-existent-id-99999`);
+  assert.equal(notFoundRes.status, 404);
+  const notFoundJson = await notFoundRes.json();
+  assert.equal(notFoundJson.code, 404);
+});

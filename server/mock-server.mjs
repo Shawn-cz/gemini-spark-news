@@ -12,6 +12,7 @@ import {
   getDataSourceInfo,
   getBatchStatus,
   getNewsList,
+  getNewsById,
   saveBriefing,
   toggleBatchStatus,
   getAvailableBriefingDates
@@ -145,6 +146,28 @@ app.get('/api/news', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/news error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 2.1: 按 ID 获取单篇全球智库研报档案 (Deep-Linking 专属直达支持)
+app.get('/api/news/:id', async (req, res) => {
+  try {
+    const item = await getNewsById(req.params.id);
+    if (!item) {
+      return res.status(404).json({
+        code: 404,
+        message: '未找到指定研报档案',
+        data: null
+      });
+    }
+    res.json({
+      code: 200,
+      message: 'success',
+      data: item
+    });
+  } catch (err) {
+    console.error('[API] /api/news/:id error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });

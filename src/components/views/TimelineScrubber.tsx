@@ -7,12 +7,16 @@ interface TimelineScrubberProps {
   items: GlobalNewsItem[];
   loading: boolean;
   onSelectNews: (news: GlobalNewsItem) => void;
+  bookmarkedIdSet?: Set<string>;
+  onToggleBookmark?: (news: GlobalNewsItem) => void;
 }
 
 export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   items,
   loading,
-  onSelectNews
+  onSelectNews,
+  bookmarkedIdSet,
+  onToggleBookmark
 }) => {
   // 当前时间窗口筛选 (0-24小时，或者 'all')
   const [session, setSession] = useState<'all' | 'asia' | 'europe' | 'us'>('all');
@@ -177,6 +181,8 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
                   <GlobalNewsCard
                     news={news}
                     onClick={() => onSelectNews(news)}
+                    isBookmarked={bookmarkedIdSet?.has(news.id)}
+                    onToggleBookmark={onToggleBookmark}
                   />
                 </div>
               </div>

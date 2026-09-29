@@ -1,4 +1,4 @@
-export type CategoryType = 'all' | 'ai' | 'finance' | 'geopolitics' | 'climate';
+export type CategoryType = 'all' | 'ai' | 'finance' | 'geopolitics' | 'climate' | 'bookmarks';
 
 export type RegionType = 'Global' | 'North America' | 'Europe' | 'Asia-Pacific' | 'Middle East';
 

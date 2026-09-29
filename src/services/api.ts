@@ -1,4 +1,5 @@
 import {
+  GlobalNewsItem,
   NewsQueryParams,
   NewsResponseData,
   SparkBatchStatusInfo,
@@ -54,6 +55,25 @@ export async function fetchNewsList(
   }
   const json = await res.json();
   return json.data;
+}
+
+/**
+ * 根据研报 ID 精准获取单篇深度档案 (Deep-Linking 专属直达)
+ */
+export async function fetchNewsById(
+  id: string, 
+  signal?: AbortSignal
+): Promise<GlobalNewsItem | null> {
+  if (!id) return null;
+  const res = await fetch(`${BASE_URL}/news/${encodeURIComponent(id)}`, { signal });
+  if (res.status === 404) {
+    return null;
+  }
+  if (!res.ok) {
+    throw new Error(`获取研报详情失败: HTTP ${res.status}`);
+  }
+  const json = await res.json();
+  return json.data || null;
 }
 
 /**

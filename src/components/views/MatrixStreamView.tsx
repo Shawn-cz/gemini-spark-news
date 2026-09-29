@@ -7,12 +7,16 @@ interface MatrixStreamViewProps {
   items: GlobalNewsItem[];
   loading: boolean;
   onSelectNews: (news: GlobalNewsItem) => void;
+  bookmarkedIdSet?: Set<string>;
+  onToggleBookmark?: (news: GlobalNewsItem) => void;
 }
 
 export const MatrixStreamView: React.FC<MatrixStreamViewProps> = ({
   items,
   loading,
-  onSelectNews
+  onSelectNews,
+  bookmarkedIdSet,
+  onToggleBookmark
 }) => {
   const lanes = [
     {
@@ -93,6 +97,8 @@ export const MatrixStreamView: React.FC<MatrixStreamViewProps> = ({
                     key={news.id}
                     news={news}
                     onClick={() => onSelectNews(news)}
+                    isBookmarked={bookmarkedIdSet?.has(news.id)}
+                    onToggleBookmark={onToggleBookmark}
                   />
                 ))
               )}

@@ -9,7 +9,8 @@ import {
   Clock3, 
   Search, 
   Calendar,
-  Layers
+  Layers,
+  Bookmark
 } from 'lucide-react';
 import { CategoryType, ViewMode, SentimentType, GlobalNewsStats } from '../types/news';
 
@@ -26,6 +27,7 @@ interface GlobalCategoryBarProps {
   searchValue: string;
   onSearchChange: (value: string) => void;
   stats: GlobalNewsStats | null;
+  bookmarkCount?: number;
 }
 
 export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
@@ -40,7 +42,8 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
   onSelectDate,
   searchValue,
   onSearchChange,
-  stats
+  stats,
+  bookmarkCount = 0
 }) => {
   const categories = [
     { key: 'all' as const, label: '全部领域', icon: Layers, count: stats?.total ?? 0 },
@@ -48,6 +51,7 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
     { key: 'finance' as const, label: '宏观金融 & 资本', icon: TrendingUp, count: stats?.categoryCounts.finance ?? 0 },
     { key: 'geopolitics' as const, label: '地缘政治 & 经贸', icon: Globe2, count: stats?.categoryCounts.geopolitics ?? 0 },
     { key: 'climate' as const, label: '气候变化 & 能源', icon: Zap, count: stats?.categoryCounts.climate ?? 0 },
+    { key: 'bookmarks' as const, label: '我的收藏', icon: Bookmark, count: bookmarkCount, isBookmark: true },
   ];
 
   const viewModes = [
@@ -69,11 +73,12 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
       {/* 第一行：领域胶囊切换与右侧视图模式切换 (Bento/Matrix/Timeline) */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
         
-        {/* 4大领域胶囊 */}
+        {/* 4大领域胶囊 + 我的收藏 */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat.key;
             const Icon = cat.icon;
+            const isBm = (cat as any).isBookmark;
             return (
               <button
                 key={cat.key}
@@ -81,14 +86,24 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 onClick={() => onSelectCategory(cat.key)}
                 className={`category-pill-btn inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                   isSelected
-                    ? 'category-pill-selected bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-glow-blue font-semibold'
+                    ? isBm
+                      ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold'
+                      : 'category-pill-selected bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-glow-blue font-semibold'
+                    : isBm
+                    ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30'
                     : 'category-pill-unselected bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5'
                 }`}
               >
-                <Icon className={`category-pill-icon w-3.5 h-3.5 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
+                <Icon className={`category-pill-icon w-3.5 h-3.5 ${
+                  isSelected 
+                    ? isBm ? 'text-amber-400 fill-current' : 'text-cyan-400' 
+                    : isBm ? 'text-amber-400' : 'text-slate-400'
+                }`} />
                 <span>{cat.label}</span>
                 <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
-                  isSelected ? 'bg-cyan-400/20 text-cyan-200' : 'bg-white/5 text-slate-500'
+                  isSelected 
+                    ? isBm ? 'bg-amber-400/20 text-amber-200' : 'bg-cyan-400/20 text-cyan-200' 
+                    : isBm ? 'bg-amber-500/15 text-amber-300' : 'bg-white/5 text-slate-500'
                 }`}>
                   {cat.count}
                 </span>

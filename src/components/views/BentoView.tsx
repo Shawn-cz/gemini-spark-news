@@ -8,13 +8,17 @@ interface BentoViewProps {
   loading: boolean;
   onSelectNews: (news: GlobalNewsItem) => void;
   onResetFilter?: () => void;
+  bookmarkedIdSet?: Set<string>;
+  onToggleBookmark?: (news: GlobalNewsItem) => void;
 }
 
 export const BentoView: React.FC<BentoViewProps> = ({
   items,
   loading,
   onSelectNews,
-  onResetFilter
+  onResetFilter,
+  bookmarkedIdSet,
+  onToggleBookmark
 }) => {
   if (loading) {
     return (
@@ -65,6 +69,8 @@ export const BentoView: React.FC<BentoViewProps> = ({
             news={heroNews}
             onClick={() => onSelectNews(heroNews)}
             isHero={true}
+            isBookmarked={bookmarkedIdSet?.has(heroNews.id)}
+            onToggleBookmark={onToggleBookmark}
           />
         )}
 
@@ -116,6 +122,8 @@ export const BentoView: React.FC<BentoViewProps> = ({
             key={news.id}
             news={news}
             onClick={() => onSelectNews(news)}
+            isBookmarked={bookmarkedIdSet?.has(news.id)}
+            onToggleBookmark={onToggleBookmark}
           />
         ))}
 
