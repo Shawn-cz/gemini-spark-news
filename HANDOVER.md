@@ -18,6 +18,7 @@
   - Issue #UI-003 多巴胺波普与淡色羊皮纸主题下日期步进胶囊深色背景与深色字体视觉融合缺陷彻底修复 (重构为新粗野主义纯白实体按键卡片、粗黑边框、波普粉硬阴影与纯黑高对比度文字，达成 WCAG AAA 21:1 极限清晰度)
   - Issue #UI-004 顶部工具栏胶囊与品牌徽章重叠碰撞、情绪滤镜按键文字与浅粉背景对比度过低白字不可读缺陷彻底修复 (解耦自适应断点与平铺换行约束，消除胶囊空间挤压重叠；消除 bg-white/10 浅粉染色，重构为高对比度黑底白字实体按键，对比度 21:1)
   - Issue #UI-005 页面冗余解释性注释文本与徽章精简清理 (移除顶部标题副标题描述与 GEMINI AGENT 24H 徽章、移除 Bento 视图 Global Sector Heat 解释性长文本，页面信息层级大幅净化、视觉呼吸感与专业度显著提升)
+  - Issue #UI-006 导航栏“我的收藏”胶囊与视图切换器物理碰撞遮挡彻底修复，并确立**全版面布局合理性审阅铁律** (规范文案长度与全套卡片严格对齐、引入 `min-w-0 flex-1` 与 `flex-shrink-0` 容器解耦、断点升级为 `xl:`；确立全版面多断点、多主题与真机无头渲染审阅验收流程，已写入工程根级规范 `GEMINI.md`)
 - **云原生 PaaS 部署与运维就绪 (MVP 3)**: 
   - 基础设施代码 (IaC) 清单就绪：[`render.yaml`](render.yaml)、[`railway.json`](railway.json)、[`fly.toml`](fly.toml)
   - 全面详尽的部署操作指南：[`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md)
