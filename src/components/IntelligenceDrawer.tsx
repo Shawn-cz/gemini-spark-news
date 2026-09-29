@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { GlobalNewsItem, CategoryType, ImpactLevel } from '../types/news';
 import { isNewsBookmarked, toggleBookmarkStorage } from '../services/bookmarkStorage';
+import { ShareModal } from './ShareModal';
 
 interface IntelligenceDrawerProps {
   news: GlobalNewsItem | null;
@@ -41,15 +42,16 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
   const [imgError, setImgError] = useState(false);
   const [internalBookmarked, setInternalBookmarked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-  // 监听 ESC 键关闭
+  // 监听 ESC 键关闭 (优先由子弹窗消费 ESC)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape' && !isShareModalOpen) onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, [onClose, isShareModalOpen]);
 
   // 重置与同步内部收藏状态
   useEffect(() => {
@@ -84,57 +86,9 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
     }
   };
 
-  // 深度直达分享：生成专属深链 URL，优先调用原生移动端分享，优雅降级至剪贴板复制
-  const handleShare = async () => {
-    if (!news) return;
-    const origin = window.location.origin;
-    const path = window.location.pathname;
-    const targetDate = news.batchDate || news.publishTime.slice(0, 10);
-    const shareUrl = `${origin}${path}?date=${encodeURIComponent(targetDate)}&newsId=${encodeURIComponent(news.id)}`;
-
-    // 优先尝试原生系统分享 (iOS/Android/macOS)
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `【智库研报】${news.title}`,
-          text: `${news.title} —— Gemini Spark 全球宏观情报`,
-          url: shareUrl
-        });
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-        if (onShowToast) {
-          onShowToast('✅ 已调用系统分享');
-        }
-        return;
-      } catch (err: any) {
-        if (err.name === 'AbortError') {
-          return; // 用户主动取消系统分享弹窗
-        }
-      }
-    }
-
-    // 降级使用剪贴板复制深度直达链接
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-      if (onShowToast) {
-        onShowToast('🔗 研报深度直达专属链接已复制到剪贴板！');
-      }
-    } catch {
-      // 容错降级
-      const textArea = document.createElement('textarea');
-      textArea.value = shareUrl;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-      if (onShowToast) {
-        onShowToast('🔗 研报深度直达专属链接已复制到剪贴板！');
-      }
-    }
+  // 唤起专属微信扫码与多端直达分享面板 (支持微信扫码秒开、图文文案复制与多端直达)
+  const handleShare = () => {
+    setIsShareModalOpen(true);
   };
 
   // 领域配置
@@ -284,9 +238,9 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
               type="button"
               onClick={handleShare}
               className="dossier-action-btn p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/5 relative flex items-center justify-center"
-              title="深度直达分享 (生成免翻专属链接)"
+              title="微信扫码与多端分享 (免翻专属直达)"
             >
-              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+              <Share2 className="w-4 h-4" />
             </button>
 
             <button
@@ -501,6 +455,14 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
         </div>
 
       </div>
+
+      {/* 微信扫码与多端专属直达分享弹窗 */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        news={news}
+        onShowToast={onShowToast}
+      />
 
     </div>
   );

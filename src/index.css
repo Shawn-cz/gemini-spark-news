@@ -1140,6 +1140,48 @@ html, body {
 }
 
 /* ========================================================
+   WeChat & Cross-Platform Share Modal - Light Mode
+   ======================================================== */
+[data-theme="light"] .share-modal-window {
+  background-color: #fffdfa !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 8px 8px 0px #000000 !important;
+  color: #000000 !important;
+}
+
+[data-theme="light"] .share-modal-header {
+  background-color: #fbf6ec !important;
+  border-bottom: 2px solid #000000 !important;
+}
+
+[data-theme="light"] .share-modal-header h3 {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .share-modal-window .bg-obsidian-900\/60 {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0 #000000 !important;
+}
+
+[data-theme="light"] .share-modal-window .bg-black\/40 {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .share-modal-window .text-slate-400,
+[data-theme="light"] .share-modal-window .text-slate-300 {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .share-modal-window .bg-cyan-950\/30 {
+  background-color: #f0fdf4 !important;
+  border: 1.5px solid #000000 !important;
+  color: #14532d !important;
+}
+
+/* ========================================================
    Sub-Views & Pagination - Neo-Brutalist Light Mode
    ======================================================== */
 /* 1. Matrix Stream View */
@@ -2387,9 +2429,46 @@ html, body {
   background-color: #e00070 !important;
 }
 
-[data-theme="dopamine"] .dossier-done-btn:active {
-  transform: translate(1px, 1px) !important;
-  box-shadow: 1px 1px 0 #000000 !important;
+/* ========================================================
+   WeChat & Cross-Platform Share Modal - Neo-Brutalist Dopamine Mode
+   ======================================================== */
+[data-theme="dopamine"] .share-modal-window {
+  background-color: #ffffff !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 8px 8px 0px #ff007f !important;
+  color: #000000 !important;
+}
+
+[data-theme="dopamine"] .share-modal-header {
+  background-color: #fff0f5 !important;
+  border-bottom: 2px solid #000000 !important;
+}
+
+[data-theme="dopamine"] .share-modal-header h3 {
+  color: #000000 !important;
+}
+
+[data-theme="dopamine"] .share-modal-window .bg-obsidian-900\/60 {
+  background-color: #fffaf0 !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0 #000000 !important;
+}
+
+[data-theme="dopamine"] .share-modal-window .bg-black\/40 {
+  background-color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="dopamine"] .share-modal-window .text-slate-400,
+[data-theme="dopamine"] .share-modal-window .text-slate-300 {
+  color: #334155 !important;
+}
+
+[data-theme="dopamine"] .share-modal-window .bg-cyan-950\/30 {
+  background-color: #fff0f5 !important;
+  border: 1.5px solid #000000 !important;
+  color: #831843 !important;
 }
 
 /* ========================================================
