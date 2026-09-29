@@ -108,38 +108,27 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
       const parts = summaryText.split(/(?=【[^】]+】)/g).filter(Boolean);
       if (parts.length > 1) {
         return (
-          <div className="space-y-3">
+          <div className="dossier-summary-flow space-y-3.5">
             {parts.map((part, idx) => {
               const match = part.match(/^【([^】]+)】([\s\S]*)$/);
               if (match) {
                 const [, title, content] = match;
-                const isTimeSubject = title.includes('时间') || title.includes('主体');
-                const isDetails = title.includes('细节') || title.includes('核心');
-                const isImpact = title.includes('影响') || title.includes('战略');
-
-                const badgeStyle = isTimeSubject
-                  ? 'bg-indigo-950/80 text-indigo-300 border-indigo-700/60'
-                  : isDetails
-                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60'
-                  : isImpact
-                  ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60'
-                  : 'bg-white/10 text-slate-300 border-white/20';
-
                 return (
-                  <div key={idx} className="dossier-section-block bg-white/[0.02] p-3.5 rounded-xl border border-white/5 space-y-1.5 transition-colors hover:bg-white/[0.04]">
+                  <div key={idx} className="dossier-section-row space-y-1.5 border-b border-white/5 last:border-b-0 pb-3.5 last:pb-0">
                     <div className="flex items-center gap-2">
-                      <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border inline-flex items-center gap-1 shadow-sm ${badgeStyle}`}>
-                        {title}
+                      <span className="dossier-section-tag font-mono text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1.5 shadow-sm">
+                        <span className="dossier-section-indicator w-1.5 h-1.5 rounded-full flex-shrink-0" />
+                        <span>{title}</span>
                       </span>
                     </div>
-                    <p className="text-sm leading-relaxed text-slate-200 font-sans tracking-wide">
+                    <p className="dossier-section-text text-sm leading-relaxed font-sans">
                       {content.trim()}
                     </p>
                   </div>
                 );
               }
               return (
-                <p key={idx} className="text-sm leading-relaxed text-slate-200 font-sans">
+                <p key={idx} className="dossier-section-text text-sm leading-relaxed font-sans">
                   {part.trim()}
                 </p>
               );
@@ -150,7 +139,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ news, on
     }
 
     return (
-      <div className="whitespace-pre-line text-sm leading-relaxed text-slate-200 font-sans">
+      <div className="whitespace-pre-line text-sm leading-relaxed dossier-section-text font-sans">
         {summaryText}
       </div>
     );

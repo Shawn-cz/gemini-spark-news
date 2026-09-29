@@ -846,6 +846,25 @@ html, body {
   border-color: #bae6fd !important;
 }
 
+/* Dossier Structured Summary Flow (Base / Dark Mode) */
+.dossier-section-row {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dossier-section-tag {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #38bdf8;
+}
+
+.dossier-section-indicator {
+  background-color: #38bdf8;
+}
+
+.dossier-section-text {
+  color: #cbd5e1;
+}
+
 /* ========================================================
    Intelligence Dossier Modal - Neo-Brutalist Light Mode
    ======================================================== */
@@ -1002,6 +1021,30 @@ html, body {
   box-shadow: 3px 3px 0 #000000 !important;
   color: #18181b !important;
   border-radius: 12px !important;
+}
+
+[data-theme="light"] .dossier-section-row {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .dossier-section-tag {
+  background-color: #0f172a !important;
+  border: 1px solid #0f172a !important;
+  color: #ffffff !important;
+  box-shadow: 1.5px 1.5px 0px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="light"] .dossier-section-tag span {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .dossier-section-indicator {
+  background-color: #38bdf8 !important;
+}
+
+[data-theme="light"] .dossier-section-text {
+  color: #0f172a !important;
+  font-weight: 500 !important;
 }
 
 [data-theme="light"] .dossier-nlp-card {
@@ -2231,6 +2274,30 @@ html, body {
   box-shadow: 3px 3px 0 #000000 !important;
   color: #1e1b4b !important;
   border-radius: 12px !important;
+}
+
+[data-theme="dopamine"] .dossier-section-row {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dopamine"] .dossier-section-tag {
+  background-color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .dossier-section-tag span {
+  color: #ffffff !important;
+}
+
+[data-theme="dopamine"] .dossier-section-indicator {
+  background-color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .dossier-section-text {
+  color: #1e1b4b !important;
+  font-weight: 500 !important;
 }
 
 [data-theme="dopamine"] .dossier-nlp-card {
