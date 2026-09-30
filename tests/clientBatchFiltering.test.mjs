@@ -1,55 +1,18 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import ts from 'typescript';
 
-// 提取与前端 SparkNewsDashboard 一致的内存过滤与统计计算核心算法
-export function filterBatchNews(items, { category = 'all', sentiment = 'all', search = '' } = {}) {
-  let list = items;
-  if (category && category !== 'all') {
-    list = list.filter(i => i.category === category);
-  }
-  if (sentiment && sentiment !== 'all') {
-    list = list.filter(i => i.sentiment === sentiment);
-  }
-  if (search && search.trim()) {
-    const q = search.trim().toLowerCase();
-    list = list.filter(i =>
-      (i.title && i.title.toLowerCase().includes(q)) ||
-      (i.englishTitle && i.englishTitle.toLowerCase().includes(q)) ||
-      (i.summary && i.summary.toLowerCase().includes(q)) ||
-      (i.source && i.source.toLowerCase().includes(q)) ||
-      (Array.isArray(i.tags) && i.tags.some(t => t.toLowerCase().includes(q))) ||
-      (Array.isArray(i.nlpKeyEntities) && i.nlpKeyEntities.some(e => e.toLowerCase().includes(q)))
-    );
-  }
-  return list;
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-export function calculateBatchStats(items, batchDate = '2026-09-30') {
-  const total = items.length;
-  const positive = items.filter(i => i.sentiment === 'positive').length;
-  const neutral = items.filter(i => i.sentiment === 'neutral').length;
-  const negative = items.filter(i => i.sentiment === 'negative').length;
-  const avgSentimentScore = total > 0
-    ? Number((items.reduce((acc, cur) => acc + (cur.sentimentScore || 0), 0) / total).toFixed(2))
-    : 0;
-
-  const categoryCounts = {
-    ai: items.filter(i => i.category === 'ai').length,
-    finance: items.filter(i => i.category === 'finance').length,
-    geopolitics: items.filter(i => i.category === 'geopolitics').length,
-    climate: items.filter(i => i.category === 'climate').length,
-  };
-
-  return {
-    total,
-    positive,
-    neutral,
-    negative,
-    avgSentimentScore,
-    categoryCounts,
-    batchDate
-  };
-}
+// 动态读取并编译 src/utils/batchFiltering.ts，确保测试套件直接验证核心源码
+const tsFilePath = path.resolve(__dirname, '../src/utils/batchFiltering.ts');
+const tsCode = fs.readFileSync(tsFilePath, 'utf8');
+const jsCode = ts.transpileModule(tsCode, { compilerOptions: { module: ts.ModuleKind.ESNext } }).outputText;
+export const { filterBatchNews, calculateBatchStats } = await import(`data:text/javascript;base64,${Buffer.from(jsCode).toString('base64')}`);
 
 describe('Client-Side Batch In-Memory Filtering Engine', () => {
   const mock12Items = [

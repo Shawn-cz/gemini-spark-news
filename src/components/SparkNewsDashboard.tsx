@@ -28,6 +28,7 @@ import {
   toggleBookmarkStorage, 
   subscribeBookmarks 
 } from '../services/bookmarkStorage';
+import { filterBatchNews, calculateBatchStats } from '../utils/batchFiltering';
 import { IntelligenceHeader } from './IntelligenceHeader';
 import { GlobalCategoryBar } from './GlobalCategoryBar';
 import { BentoView } from './views/BentoView';
@@ -68,14 +69,17 @@ export const SparkNewsDashboard: React.FC = () => {
   // 分页状态
   const [page, setPage] = useState<number>(1);
   const pageSize = viewMode === 'bento' ? 8 : 24;
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalCount, setTotalCount] = useState<number>(0);
 
-  // 2. 数据与元信息状态
-  const [newsItems, setNewsItems] = useState<GlobalNewsItem[]>([]);
-  const [stats, setStats] = useState<GlobalNewsStats | null>(null);
+  // 2. 数据与元信息状态 (全量批次与内存缓存)
+  const [rawBatchNews, setRawBatchNews] = useState<GlobalNewsItem[]>([]);
+  const [rawBatchStats, setRawBatchStats] = useState<GlobalNewsStats | null>(null);
   const [statusInfo, setStatusInfo] = useState<SparkBatchStatusInfo | null>(null);
   const [selectedNews, setSelectedNews] = useState<GlobalNewsItem | null>(null);
+
+  const rawBatchNewsRef = useRef(rawBatchNews);
+  useEffect(() => {
+    rawBatchNewsRef.current = rawBatchNews;
+  }, [rawBatchNews]);
 
   // 3. 边界状态控制：初次加载骨架、静默刷新指示、接口错误
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
@@ -105,50 +109,29 @@ export const SparkNewsDashboard: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    if (!isSilent) {
+    if (!isSilent && rawBatchNewsRef.current.length === 0) {
       setIsInitialLoading(true);
       setErrorMessage(null);
-    } else {
+    } else if (isSilent) {
       setIsSilentRefreshing(true);
     }
 
-    // 针对本地收藏模式：无需请求外部新闻列表，仅同步批次元数据
-    if (category === 'bookmarks') {
-      try {
-        const batchStatusRes = await fetchSparkBatchStatus(selectedDate, controller.signal);
-        setStatusInfo(batchStatusRes);
-      } catch (err: any) {
-        if (err.name !== 'AbortError') {
-          console.warn('[SparkNewsDashboard] 收藏模式获取状态异常:', err);
-        }
-      } finally {
-        if (!isSilent) {
-          setIsInitialLoading(false);
-        }
-        setIsSilentRefreshing(false);
-      }
-      return;
-    }
-
     try {
-      // 并发拉取批次状态与新闻列表
+      // 并发拉取批次状态与全量新闻列表 (一次拉取全部领域、全情绪、单日全量 50 篇)
       const [batchStatusRes, newsRes] = await Promise.all([
         fetchSparkBatchStatus(selectedDate, controller.signal),
         fetchNewsList({
           date: selectedDate,
-          category,
-          sentiment,
-          search,
-          page,
-          pageSize
+          category: 'all',
+          sentiment: 'all',
+          page: 1,
+          pageSize: 50
         }, controller.signal)
       ]);
 
       setStatusInfo(batchStatusRes);
-      setNewsItems(newsRes.items);
-      setTotalPages(newsRes.pagination.totalPages);
-      setTotalCount(newsRes.pagination.total);
-      setStats(newsRes.stats);
+      setRawBatchNews(newsRes.items);
+      setRawBatchStats(newsRes.stats);
       setErrorMessage(null);
 
       if (isSilent) {
@@ -161,7 +144,7 @@ export const SparkNewsDashboard: React.FC = () => {
       }
       console.error('[SparkNewsDashboard] 数据拉取异常:', err);
       // 仅在非静默刷新或当前无缓存数据时呈现错误卡片
-      if (!isSilent || newsItems.length === 0) {
+      if (!isSilent || rawBatchNewsRef.current.length === 0) {
         setErrorMessage(err.message || '网络连接中断或 Gemini Spark 接口异常');
       } else {
         showToast('后台定时同步遇到偶发异常，继续保留当前数据');
@@ -172,7 +155,7 @@ export const SparkNewsDashboard: React.FC = () => {
       }
       setIsSilentRefreshing(false);
     }
-  }, [selectedDate, category, sentiment, search, page, pageSize, newsItems.length, showToast]);
+  }, [selectedDate, showToast]);
 
   // 手动触发重试
   const handleRetry = () => {
@@ -416,7 +399,7 @@ export const SparkNewsDashboard: React.FC = () => {
     if (!targetId) return;
 
     // 先在已有新闻列表与本地收藏夹中查询
-    const found = newsItems.find(it => it.id === targetId) || bookmarks.find(it => it.id === targetId);
+    const found = rawBatchNews.find(it => it.id === targetId) || bookmarks.find(it => it.id === targetId);
     if (found) {
       setSelectedNews(found);
       pendingDeepLinkRef.current.newsId = null;
@@ -441,7 +424,7 @@ export const SparkNewsDashboard: React.FC = () => {
           pendingDeepLinkRef.current.newsId = null;
         });
     }
-  }, [newsItems, bookmarks, isInitialLoading, selectedDate, showToast]);
+  }, [rawBatchNews, bookmarks, isInitialLoading, selectedDate, showToast]);
 
   // 5.3 保持当前 URL 与用户所浏览的日期及研报实时同步 (支持随时复制深链分享)
   useEffect(() => {
@@ -464,65 +447,39 @@ export const SparkNewsDashboard: React.FC = () => {
     }
   }, [selectedDate, selectedNews, category]);
 
-  // 5.4 收藏模式与常规批次数据流融合计算
+  // 5.4 客户端批次全量内存过滤与指标衍生计算 (0ms 纯响应式)
   const isBookmarksMode = category === 'bookmarks';
 
-  const filteredBookmarks = useMemo(() => {
-    let list = [...bookmarks];
-    if (sentiment !== 'all') {
-      list = list.filter(i => i.sentiment === sentiment);
-    }
-    if (search.trim()) {
-      const q = search.trim().toLowerCase();
-      list = list.filter(i => 
-        i.title.toLowerCase().includes(q) ||
-        (i.englishTitle && i.englishTitle.toLowerCase().includes(q)) ||
-        i.summary.toLowerCase().includes(q) ||
-        i.source.toLowerCase().includes(q) ||
-        (i.tags && i.tags.some(t => t.toLowerCase().includes(q))) ||
-        (i.nlpKeyEntities && i.nlpKeyEntities.some(e => e.toLowerCase().includes(q)))
-      );
-    }
-    return list;
-  }, [bookmarks, sentiment, search]);
-
-  const bookmarkStats: GlobalNewsStats = useMemo(() => {
-    const total = bookmarks.length;
-    const positive = bookmarks.filter(b => b.sentiment === 'positive').length;
-    const neutral = bookmarks.filter(b => b.sentiment === 'neutral').length;
-    const negative = bookmarks.filter(b => b.sentiment === 'negative').length;
-    const avgScore = total > 0 
-      ? Number((bookmarks.reduce((acc, cur) => acc + cur.sentimentScore, 0) / total).toFixed(2))
-      : 0;
-    return {
-      total,
-      positive,
-      neutral,
-      negative,
-      avgSentimentScore: avgScore,
-      categoryCounts: {
-        ai: bookmarks.filter(b => b.category === 'ai').length,
-        finance: bookmarks.filter(b => b.category === 'finance').length,
-        geopolitics: bookmarks.filter(b => b.category === 'geopolitics').length,
-        climate: bookmarks.filter(b => b.category === 'climate').length,
-      },
-      batchDate: selectedDate
-    };
-  }, [bookmarks, selectedDate]);
-
-  const currentItems = useMemo(() => {
+  const filteredNewsItems = useMemo(() => {
     if (isBookmarksMode) {
-      const start = (page - 1) * pageSize;
-      return filteredBookmarks.slice(start, start + pageSize);
+      return filterBatchNews(bookmarks, { sentiment, search });
     }
-    return newsItems;
-  }, [isBookmarksMode, filteredBookmarks, page, pageSize, newsItems]);
+    return filterBatchNews(rawBatchNews, { category, sentiment, search });
+  }, [isBookmarksMode, bookmarks, rawBatchNews, category, sentiment, search]);
 
-  const currentTotal = isBookmarksMode ? filteredBookmarks.length : totalCount;
-  const currentTotalPages = isBookmarksMode 
-    ? Math.max(1, Math.ceil(filteredBookmarks.length / pageSize))
-    : totalPages;
-  const currentStats = isBookmarksMode ? bookmarkStats : stats;
+  const currentTotal = filteredNewsItems.length;
+  const currentTotalPages = Math.max(1, Math.ceil(currentTotal / pageSize));
+
+  const pagedBentoItems = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filteredNewsItems.slice(start, start + pageSize);
+  }, [filteredNewsItems, page, pageSize]);
+
+  const currentDisplayItems = useMemo(() => {
+    return viewMode === 'bento' ? pagedBentoItems : filteredNewsItems;
+  }, [viewMode, pagedBentoItems, filteredNewsItems]);
+
+  const currentItems = currentDisplayItems;
+
+  const currentStats = useMemo<GlobalNewsStats | null>(() => {
+    if (isBookmarksMode) {
+      return calculateBatchStats(bookmarks, selectedDate);
+    }
+    if (category === 'all' && rawBatchStats) {
+      return rawBatchStats;
+    }
+    return calculateBatchStats(rawBatchNews, selectedDate);
+  }, [isBookmarksMode, bookmarks, selectedDate, category, rawBatchStats, rawBatchNews]);
 
   // DevTools 调试动作
   const handleTriggerSilentSync = () => {
@@ -531,8 +488,7 @@ export const SparkNewsDashboard: React.FC = () => {
   };
 
   const handleInjectNews = (mockItem: GlobalNewsItem) => {
-    setNewsItems((prev) => [mockItem, ...prev]);
-    setTotalCount((prev) => prev + 1);
+    setRawBatchNews((prev) => [mockItem, ...prev]);
     showToast(`DevTools: 成功注入测试新闻 [${mockItem.category.toUpperCase()}]`);
   };
 
@@ -542,8 +498,8 @@ export const SparkNewsDashboard: React.FC = () => {
   };
 
   const handleSimulateEmpty = () => {
-    setNewsItems([]);
-    setTotalCount(0);
+    setRawBatchNews([]);
+    setRawBatchStats(null);
     showToast('DevTools: 已清空当前列表模拟空状态 (Empty State)');
   };
 
@@ -727,7 +683,7 @@ export const SparkNewsDashboard: React.FC = () => {
           <>
             {viewMode === 'bento' && (
               <BentoView
-                items={currentItems}
+                items={currentDisplayItems}
                 loading={false}
                 onSelectNews={(news) => setSelectedNews(news)}
                 onResetFilter={handleResetFilter}
@@ -738,7 +694,7 @@ export const SparkNewsDashboard: React.FC = () => {
 
             {viewMode === 'matrix' && (
               <MatrixStreamView
-                items={currentItems}
+                items={currentDisplayItems}
                 loading={false}
                 onSelectNews={(news) => setSelectedNews(news)}
                 bookmarkedIdSet={bookmarkedIdSet}
@@ -748,7 +704,7 @@ export const SparkNewsDashboard: React.FC = () => {
 
             {viewMode === 'timeline' && (
               <TimelineScrubber
-                items={currentItems}
+                items={currentDisplayItems}
                 loading={false}
                 onSelectNews={(news) => setSelectedNews(news)}
                 bookmarkedIdSet={bookmarkedIdSet}
