@@ -185,6 +185,24 @@ html, body {
   background-color: #f59e0b !important;
 }
 
+/* Sentiment Pulse Capsule - Neo-Brutalist Light Mode */
+[data-theme="light"] .header-sentiment-capsule {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  color: #000000 !important;
+}
+
+[data-theme="light"] .header-sentiment-capsule .text-slate-400,
+[data-theme="light"] .header-sentiment-capsule .text-slate-300 {
+  color: #1e293b !important;
+}
+
+[data-theme="light"] .header-sentiment-capsule .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
 /* Header Action Buttons - Neo-Brutalist Tactile Feel */
 [data-theme="light"] .header-action-btn {
   border: 2px solid #000000 !important;
@@ -1509,6 +1527,24 @@ html, body {
 }
 [data-theme="dopamine"] .header-metric-card .bg-amber-400 {
   background-color: #f59e0b !important;
+}
+
+/* Sentiment Pulse Capsule - Neo-Brutalist Dopamine Mode */
+[data-theme="dopamine"] .header-sentiment-capsule {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px #ff007f !important;
+  color: #000000 !important;
+}
+
+[data-theme="dopamine"] .header-sentiment-capsule .text-slate-400,
+[data-theme="dopamine"] .header-sentiment-capsule .text-slate-300 {
+  color: #1e1b4b !important;
+}
+
+[data-theme="dopamine"] .header-sentiment-capsule .bg-slate-800 {
+  background-color: #fce7f3 !important;
+  border: 1px solid #fbcfe8 !important;
 }
 
 /* Header Action Buttons - Neo-Brutalist Tactile Feel */

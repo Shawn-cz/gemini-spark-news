@@ -214,7 +214,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
     };
   } catch (err) {
     console.warn(`[GeminiSparkAgent] ⚠️ 真实 API 调用异常 (${err.message})，平滑降级至高保真智能语料引擎`);
-    return await generateFallbackBriefing(targetDate, currentModel, report);
+    return await generateFallbackBriefing(targetDate, currentModel, report, true);
   }
 }
 
@@ -284,12 +284,14 @@ export function ensureBriefingContract(items, targetDate) {
 /**
  * 智能保底生成器
  */
-async function generateFallbackBriefing(targetDate, currentModel, report) {
+async function generateFallbackBriefing(targetDate, currentModel, report, skipSearching = false) {
   const isTest = process.env.NODE_ENV === 'test';
   const delay = isTest ? 10 : 600;
 
-  await report('SEARCHING', 40, `正在从全球高质量智库快照中检索 ${targetDate} 关联要闻...`);
-  await new Promise(r => setTimeout(r, delay));
+  if (!skipSearching) {
+    await report('SEARCHING', 40, `正在从全球高质量智库快照中检索 ${targetDate} 关联要闻...`);
+    await new Promise(r => setTimeout(r, delay));
+  }
 
   await report('DISTILLING', 70, `跨语种长文提炼中，执行 AI/金融/地缘/气候 四大领域配额平衡...`);
   await new Promise(r => setTimeout(r, delay));

@@ -8,9 +8,8 @@ import {
   Columns3, 
   Clock3, 
   Search, 
-  Calendar,
-  Layers,
-  Bookmark
+  Layers, 
+  Bookmark 
 } from 'lucide-react';
 import { CategoryType, ViewMode, SentimentType, GlobalNewsStats } from '../types/news';
 
@@ -137,65 +136,33 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
 
       </div>
 
-      {/* 第二行：批次历史日期、情绪快速滤镜与检索框 */}
-      <div className="glass-card p-3 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3">
+      {/* 第二行：情绪快速滤镜与检索框 (移除与顶部步进胶囊重复的批次日期列表，全端紧凑对齐) */}
+      <div className="glass-card p-2 sm:p-2.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* 历史日期切换 */}
-          <div className="filter-date-label flex items-center gap-1.5 text-xs font-mono text-slate-400">
-            <Calendar className="filter-date-icon w-3.5 h-3.5 text-cyan-400" />
-            <span>批次日期:</span>
-          </div>
-
-          <div className="filter-date-container inline-flex bg-obsidian-950 p-0.5 rounded-lg border border-white/5">
-            {availableDates.map((date, idx) => {
-              const isSelected = selectedDate === date;
-              const isToday = idx === 0;
-              return (
-                <button
-                  key={date}
-                  type="button"
-                  onClick={() => onSelectDate(date)}
-                  className={`filter-date-btn px-2.5 py-1 rounded-md text-xs font-mono transition-all ${
-                    isSelected
-                      ? 'filter-date-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <span>{isToday ? `今日 (${date})` : date}</span>
-                  {isToday && (
-                    <span className="ml-1 inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* 情绪滤镜 */}
-          <div className="filter-sentiment-container hidden sm:flex items-center gap-1 pl-2 border-l border-white/10">
-            {sentiments.map((s) => {
-              const isSelected = selectedSentiment === s.key;
-              return (
-                <button
-                  key={s.key}
-                  type="button"
-                  onClick={() => onSelectSentiment(s.key)}
-                  className={`filter-sentiment-btn px-2.5 py-1 rounded-md text-[11px] font-medium transition-all ${
-                    isSelected
-                      ? 'filter-sentiment-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
-                      : 'filter-sentiment-btn-inactive text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <span className={`filter-sentiment-label filter-sentiment-${s.key}`}>{s.label}</span>
-                  <span className="ml-1 font-mono text-[10px] filter-sentiment-count">({s.count})</span>
-                </button>
-              );
-            })}
-          </div>
+        {/* 情绪滤镜 (全端可用，水平平滑滚动) */}
+        <div className="filter-sentiment-container flex items-center gap-1.5 overflow-x-auto scrollbar-none min-w-0 py-0.5">
+          {sentiments.map((s) => {
+            const isSelected = selectedSentiment === s.key;
+            return (
+              <button
+                key={s.key}
+                type="button"
+                onClick={() => onSelectSentiment(s.key)}
+                className={`filter-sentiment-btn px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
+                  isSelected
+                    ? 'filter-sentiment-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
+                    : 'filter-sentiment-btn-inactive text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <span className={`filter-sentiment-label filter-sentiment-${s.key}`}>{s.label}</span>
+                <span className="ml-1 font-mono text-[10px] filter-sentiment-count">({s.count})</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* 全球多语种检索框 */}
-        <div className="relative w-full md:w-64">
+        <div className="relative w-full sm:w-64 flex-shrink-0">
           <Search className="category-search-icon w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
