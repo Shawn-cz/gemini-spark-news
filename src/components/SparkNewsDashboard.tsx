@@ -754,7 +754,10 @@ export const SparkNewsDashboard: React.FC = () => {
                 bookmarkedIdSet={bookmarkedIdSet}
                 onToggleBookmark={handleToggleBookmark}
                 activeCategory={category}
+                activeSentiment={sentiment}
+                searchValue={search}
                 totalBatchCount={statusInfo?.batchNewsCount || stats?.total || 12}
+                onResetFilters={handleResetFilter}
                 onResetCategory={() => {
                   setCategory('all');
                   setPage(1);

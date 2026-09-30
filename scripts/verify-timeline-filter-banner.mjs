@@ -110,7 +110,7 @@ async function isBackendRunning() {
 }
 
 async function run() {
-  console.log('=== [E2E] 验证 24H 时空轴领域过滤感知条 (Option A) ===\n');
+  console.log('=== [E2E] 验证 24H 时空轴常驻全维感知条 (Filtered & Unfiltered) ===\n');
 
   let backendProc = null;
   const backendUp = await isBackendRunning();
@@ -148,47 +148,51 @@ async function run() {
     await page.waitForFunction(() => document.querySelectorAll('article').length > 0, { timeout: 20000 });
     await new Promise(r => setTimeout(r, 800));
 
-    // 1. 点击切换到「全球 AI 算力」
-    console.log('   -> 点击「全球 AI 算力」分类胶囊...');
-    await page.evaluate(() => {
-      const btns = Array.from(document.querySelectorAll('.category-pill-btn'));
-      const aiBtn = btns.find(b => b.innerText.includes('AI') || b.innerText.includes('算力'));
-      if (aiBtn) aiBtn.click();
-    });
-    await new Promise(r => setTimeout(r, 1200));
-
-    // 2. 切换到「24H 时空轴」视图
-    console.log('   -> 切换到「24H 时空轴」视图...');
+    // 1. 直接切换到「24H 时空轴」视图（无任何过滤，默认全领域全部情绪状态）
+    console.log('   -> 切换到「24H 时空轴」视图（验证常驻未过滤就绪态）...');
     await page.evaluate(() => {
       const viewBtns = Array.from(document.querySelectorAll('.viewmode-container button'));
       const timelineBtn = viewBtns.find(b => b.innerText.includes('时空轴'));
       if (timelineBtn) timelineBtn.click();
     });
+    await page.waitForFunction(() => document.querySelector('.timeline-filter-banner'), { timeout: 15000 });
 
-    // 等待网络数据稳定加载完成与状态指示条呈现
-    console.log('   -> 等待时空轴数据稳定呈现...');
+    const idleBannerText = await page.$eval('.timeline-filter-banner', el => el.innerText);
+    console.log('   ✅ 常驻就绪感知条已展现:', idleBannerText.replace(/\n/g, ' '));
+    if (!idleBannerText.includes('全天全领域连续流就绪')) {
+      throw new Error(`❌ 预期包含全天全领域连续流就绪，实际为: ${idleBannerText}`);
+    }
+
+    // 保存未过滤就绪态截图
+    await page.screenshot({ path: path.join(screenshotsDir, 'timeline-filter-banner-idle.png') });
+    console.log('   📸 已保存未过滤就绪态截图: screenshots/timeline-filter-banner-idle.png');
+
+    // 2. 精准复刻用户场景：点击「正面发展 (8)」情绪过滤
+    console.log('   -> 点击「正面发展」情绪过滤胶囊（精准复现用户截图状态）...');
+    await page.evaluate(() => {
+      const btns = Array.from(document.querySelectorAll('.filter-sentiment-btn'));
+      const posBtn = btns.find(b => b.innerText.includes('正面发展'));
+      if (posBtn) posBtn.click();
+    });
     await page.waitForFunction(() => {
-      const banner = document.querySelector('.timeline-filter-banner');
-      const timelineCard = document.querySelector('.timeline-scrubber-card');
-      return banner && timelineCard;
-    }, { timeout: 20000 });
-    await new Promise(r => setTimeout(r, 1200));
+      const banner = document.querySelector('.timeline-filter-banner-active');
+      return banner && banner.innerText.includes('正面发展');
+    }, { timeout: 15000 });
+    await new Promise(r => setTimeout(r, 600));
 
-    // 3. 校验状态指示条
-    console.log('[4/5] 校验 .timeline-filter-banner 渲染与内容断言...');
+    // 3. 校验情绪过滤下的状态指示条
+    console.log('[4/5] 校验情绪过滤（正面发展）下的 .timeline-filter-banner 呈现...');
     const bannerInfo = await page.evaluate(() => {
       const banner = document.querySelector('.timeline-filter-banner');
       if (!banner) return null;
       const target = banner.querySelector('.timeline-filter-target')?.innerText || '';
       const count = banner.querySelector('.timeline-filter-count')?.innerText || '';
       const resetBtn = banner.querySelector('.timeline-filter-reset-btn')?.innerText || '';
-      const newsCards = document.querySelectorAll('.timeline-axis article').length;
       return {
         text: banner.innerText,
         target,
         count,
-        resetBtn,
-        newsCards
+        resetBtn
       };
     });
 
@@ -196,17 +200,16 @@ async function run() {
       throw new Error('❌ 未找到 .timeline-filter-banner 状态指示条！');
     }
 
-    console.log('   ✅ 状态指示条存在:');
-    console.log('      领域目标:', bannerInfo.target);
+    console.log('   ✅ 情绪过滤感知条存在:');
+    console.log('      过滤目标:', bannerInfo.target);
     console.log('      条数统计:', bannerInfo.count);
     console.log('      重置按键:', bannerInfo.resetBtn);
-    console.log('      时空轴当前资讯卡片数:', bannerInfo.newsCards);
 
-    if (!bannerInfo.target.includes('全球 AI 算力')) {
-      throw new Error(`❌ 目标领域应为全球 AI 算力，实际为: ${bannerInfo.target}`);
+    if (!bannerInfo.target.includes('正面发展')) {
+      throw new Error(`❌ 过滤目标应为正面发展，实际为: ${bannerInfo.target}`);
     }
 
-    // 4. 截图三套主题（暗色、淡色、多巴胺）
+    // 4. 截图三套主题与多端视觉凭证
     console.log('[5/5] 截图三套主题与多端视觉凭证...');
 
     // 4.1 暗色主题截图
@@ -243,15 +246,14 @@ async function run() {
       const resetBtn = document.querySelector('.timeline-filter-reset-btn');
       if (resetBtn) resetBtn.click();
     });
-    await new Promise(r => setTimeout(r, 1500));
-
-    const postResetBanner = await page.$('.timeline-filter-banner');
-    if (postResetBanner) {
-      throw new Error('❌ 重置后 .timeline-filter-banner 仍未消失！');
+    const idleBannerHandle = await page.waitForSelector('.timeline-filter-banner-idle', { timeout: 15000 });
+    const postResetText = await idleBannerHandle.evaluate(el => el.innerText);
+    console.log('   ✅ 重置按键点击后，感知条平滑还原为就绪态:', postResetText.replace(/\n/g, ' '));
+    if (!postResetText.includes('全天全领域连续流就绪')) {
+      throw new Error(`❌ 重置后未恢复为全天全领域连续流就绪状态: ${postResetText}`);
     }
-    console.log('   ✅ 重置按键点击后，过滤条已平滑退出，分类重置为全部领域！');
 
-    console.log('\n🎉 [E2E 验证全部通过！] 24H 时空轴领域过滤感知条已就绪，三套主题对比度高保真达成！');
+    console.log('\n🎉 [E2E 验证全部通过！] 24H 时空轴常驻全维感知条已完美就绪！');
   } finally {
     await browser.close();
     await new Promise(r => staticServer.close(r));
