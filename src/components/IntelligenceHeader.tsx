@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Globe, 
-  RotateCw, 
   Activity, 
-  SlidersHorizontal,
-  Upload
+  SlidersHorizontal 
 } from 'lucide-react';
 import { SparkBatchStatusInfo } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -12,9 +10,9 @@ import { DateStepperCapsule } from './DateStepperCapsule';
 
 export interface IntelligenceHeaderProps {
   statusInfo: SparkBatchStatusInfo | null;
-  onManualSync: () => void;
+  onManualSync?: () => void;
   isSyncing: boolean;
-  onOpenImportModal: () => void;
+  onOpenImportModal?: () => void;
   onOpenDevTools: () => void;
   currentDate: string;
   availableDates: string[];
@@ -37,15 +35,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   onJumpToLatest,
   onDismissNewerBatch
 }) => {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const handleManualRefresh = () => {
-    if (isRefreshing || isSyncing) return;
-    setIsRefreshing(true);
-    onManualSync();
-    setTimeout(() => setIsRefreshing(false), 800);
-  };
-
   const isRunning = statusInfo?.status === 'RUNNING';
   const sentimentScore = statusInfo?.globalSentimentIndex ?? 28;
 
@@ -86,7 +75,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               </div>
             </div>
 
-            {/* 移动端专属第一行右侧控制：主题切换器 + 紧凑同步按键 */}
+            {/* 移动端专属第一行右侧控制：主题切换器 + 紧凑 DevTools 按键 (含导入与同步) */}
             <div className="flex items-center gap-1.5 lg:hidden flex-shrink-0">
               <ThemeSwitcher />
 
@@ -96,21 +85,11 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                   type="button"
                   onClick={onOpenDevTools}
                   className="header-action-btn p-1.5 rounded-lg text-amber-300 bg-amber-950/70 border border-amber-800 transition-all flex items-center justify-center flex-shrink-0 shadow-sm"
-                  title="DevTools 开发者控制台"
+                  title="DevTools 开发者控制台 (含导入简报与批次同步)"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400" />
                 </button>
               )}
-              
-              <button
-                type="button"
-                onClick={handleManualRefresh}
-                disabled={isRefreshing || isSyncing}
-                className="header-action-btn p-1.5 rounded-lg text-white bg-cyan-600 hover:bg-cyan-500 border border-cyan-400/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm"
-                title={isRefreshing || isSyncing ? '同步中...' : '手动同步最新批次'}
-              >
-                <RotateCw className={`w-3.5 h-3.5 ${isRefreshing || isSyncing ? 'animate-spin' : ''}`} />
-              </button>
             </div>
           </div>
 
@@ -147,7 +126,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               </div>
             </div>
 
-            {/* 桌面端专属操作区 (移动端已在第一行折叠) */}
+            {/* 桌面端专属操作区：主题切换器 + DevTools (导入简报与同步批次已收纳至 DevTools 抽屉，彻底解放顶栏横向排盘空间) */}
             <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
               <ThemeSwitcher />
 
@@ -157,43 +136,15 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                   type="button"
                   onClick={onOpenDevTools}
                   className="header-action-btn header-btn-devtools px-2.5 py-1.5 text-xs font-mono rounded-lg text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800 transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
-                  title="打开全栈开发者调试套件 (DevTools)"
+                  title="打开全栈开发者控制台 (DevTools · 含导入简报与批次同步)"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
                   <span>DevTools</span>
-                  <span className={`font-bold hidden 2xl:inline ${isRunning ? "text-amber-400" : "text-emerald-400"}`}>
+                  <span className={`font-bold hidden xl:inline ${isRunning ? "text-amber-400" : "text-emerald-400"}`}>
                     [{isRunning ? "计算中" : "已归档"}]
                   </span>
                 </button>
               )}
-
-              {/* 导入今日 Gemini 简报 */}
-              {onOpenImportModal && (
-                <button
-                  type="button"
-                  onClick={onOpenImportModal}
-                  className="header-action-btn header-btn-import px-2.5 py-1.5 text-xs font-mono rounded-lg text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 transition-all hidden xl:flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
-                  title="粘贴并导入 Gemini Spark 定时任务生成的输出"
-                >
-                  <Upload className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                  <span>导入简报</span>
-                </button>
-              )}
-
-              {/* 桌面端防抖刷新按钮 */}
-              <button
-                type="button"
-                onClick={handleManualRefresh}
-                disabled={isRefreshing || isSyncing}
-                className={`header-action-btn header-btn-sync inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white shadow-md transition-all border border-cyan-400/30 whitespace-nowrap flex-shrink-0 ${
-                  isRefreshing || isSyncing
-                    ? 'bg-slate-800 text-slate-400 cursor-not-allowed border-slate-700'
-                    : 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-cyan-500/20'
-                }`}
-              >
-                <RotateCw className={`w-3.5 h-3.5 flex-shrink-0 ${isRefreshing || isSyncing ? 'animate-spin' : ''}`} />
-                <span className="font-mono">{isRefreshing || isSyncing ? 'SYNC...' : '同步批次'}</span>
-              </button>
             </div>
 
           </div>

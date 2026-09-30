@@ -805,6 +805,7 @@ export const SparkNewsDashboard: React.FC = () => {
         onSimulateEmpty={handleSimulateEmpty}
         currentStatus={statusInfo?.status}
         silentCountdown={silentCountdown}
+        onOpenImportModal={() => setIsImportModalOpen(true)}
       />
 
       {/* 底部智库状态条 */}

@@ -21,7 +21,8 @@ import {
   Eye,
   EyeOff,
   Save,
-  ShieldAlert
+  ShieldAlert,
+  Upload
 } from 'lucide-react';
 import { 
   fetchHealthInfo, 
@@ -45,6 +46,7 @@ interface DevToolsPanelProps {
   onSimulateEmpty: () => void;
   currentStatus: string | undefined;
   silentCountdown: number;
+  onOpenImportModal?: () => void;
 }
 
 export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
@@ -56,7 +58,8 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
   onSimulateError,
   onSimulateEmpty,
   currentStatus,
-  silentCountdown
+  silentCountdown,
+  onOpenImportModal
 }) => {
   const [health, setHealth] = useState<HealthInfo | null>(null);
   const [latency, setLatency] = useState<number | null>(null);
@@ -418,6 +421,34 @@ export const DevToolsPanel: React.FC<DevToolsPanelProps> = ({
                 </>
               )}
             </button>
+
+            {/* 核心操作集成：导入简报 & 批次同步 (由 Header 移入，净化顶栏横向空间) */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              {onOpenImportModal && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    onOpenImportModal();
+                  }}
+                  className="py-2 px-2.5 rounded-lg bg-cyan-950/70 hover:bg-cyan-900 border border-cyan-700/60 text-cyan-200 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm"
+                  title="粘贴并导入 Gemini Spark 定时任务或外部生成的 JSON 简报"
+                >
+                  <Upload className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                  <span>导入今日简报</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={onTriggerSilentSync}
+                className="py-2 px-2.5 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-700/60 text-indigo-200 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm"
+                title="手动从服务端同步并刷新最新批次数据"
+              >
+                <RotateCw className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
+                <span>立即同步批次</span>
+              </button>
+            </div>
 
             {/* 运维管理秘钥配置 (X-Admin-Key) */}
             <div className="p-3 rounded-lg bg-black/40 border border-cyan-500/20 space-y-2">
