@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { GlobalNewsItem, CategoryType, SentimentType } from '../../types/news';
+import { GlobalNewsItem } from '../../types/news';
 import { GlobalNewsCard } from '../GlobalNewsCard';
-import { Clock, Globe, Filter, RotateCcw, CheckCircle2 } from 'lucide-react';
+import { Clock, Globe } from 'lucide-react';
 
 interface TimelineScrubberProps {
   items: GlobalNewsItem[];
@@ -9,62 +9,18 @@ interface TimelineScrubberProps {
   onSelectNews: (news: GlobalNewsItem) => void;
   bookmarkedIdSet?: Set<string>;
   onToggleBookmark?: (news: GlobalNewsItem) => void;
-  activeCategory?: CategoryType;
-  activeSentiment?: SentimentType | 'all';
-  searchValue?: string;
-  totalBatchCount?: number;
-  onResetFilters?: () => void;
-  onResetCategory?: () => void;
 }
-
-const CATEGORY_NAMES: Record<string, string> = {
-  ai: '全球 AI 算力',
-  finance: '宏观金融',
-  geopolitics: '地缘经贸',
-  climate: '气候能源',
-  bookmarks: '我的收藏'
-};
-
-const SENTIMENT_NAMES: Record<string, string> = {
-  positive: '正面发展',
-  neutral: '中性观察',
-  negative: '风险预警'
-};
 
 export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   items,
   loading,
   onSelectNews,
   bookmarkedIdSet,
-  onToggleBookmark,
-  activeCategory,
-  activeSentiment,
-  searchValue,
-  totalBatchCount,
-  onResetFilters,
-  onResetCategory
+  onToggleBookmark
 }) => {
   // 当前时间窗口筛选 (0-24小时，或者 'all')
   const [session, setSession] = useState<'all' | 'asia' | 'europe' | 'us'>('all');
   const [scrubHour, setScrubHour] = useState<number>(24); // 24 表示全天
-
-  // 计算当前全局生效的多维筛选条件
-  const activeFilters = useMemo(() => {
-    const list: string[] = [];
-    if (activeCategory && activeCategory !== 'all') {
-      list.push(CATEGORY_NAMES[activeCategory] || activeCategory);
-    }
-    if (activeSentiment && activeSentiment !== 'all') {
-      list.push(SENTIMENT_NAMES[activeSentiment] || activeSentiment);
-    }
-    if (searchValue && searchValue.trim()) {
-      list.push(`检索: "${searchValue.trim()}"`);
-    }
-    return list;
-  }, [activeCategory, activeSentiment, searchValue]);
-
-  const isFiltered = activeFilters.length > 0;
-  const handleReset = onResetFilters || onResetCategory;
 
   // 根据发布时间过滤
   const filteredTimelineItems = useMemo(() => {
@@ -171,50 +127,6 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           </div>
         </div>
 
-        {/* 时空轴全景感知状态条 (过滤中/未过滤均有清晰状态呈现) */}
-        <div className={`timeline-filter-banner flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-xl border ${
-          isFiltered 
-            ? 'timeline-filter-banner-active bg-cyan-950/40 border-cyan-500/30 text-cyan-300' 
-            : 'timeline-filter-banner-idle bg-white/[0.03] border-white/10 text-slate-300'
-        }`}>
-          <div className="flex items-center gap-2 min-w-0">
-            {isFiltered ? (
-              <Filter className="timeline-filter-icon w-3.5 h-3.5 flex-shrink-0 text-cyan-400" />
-            ) : (
-              <CheckCircle2 className="timeline-filter-idle-icon w-3.5 h-3.5 flex-shrink-0 text-emerald-400" />
-            )}
-            <div className="text-xs font-mono min-w-0 leading-relaxed">
-              {isFiltered ? (
-                <>
-                  <span className="opacity-90">当前时空轴处于过滤中：</span>
-                  <span className="timeline-filter-target font-bold ml-1 text-white">
-                    {activeFilters.join(' · ')}
-                  </span>
-                  <span className="timeline-filter-count ml-1 text-slate-400 whitespace-nowrap">
-                    （{items.length} / {totalBatchCount ?? 12} 篇）
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span className="opacity-90">全天全领域连续流就绪：</span>
-                  <span className="timeline-filter-target font-bold ml-1 text-white">已收录完整 {items.length} 篇战略研报</span>
-                  <span className="text-[11px] text-slate-400 ml-2 hidden sm:inline">（全部 12 篇满配呈现，可拖动时间轴或点击时区切片）</span>
-                </>
-              )}
-            </div>
-          </div>
-          {isFiltered && handleReset && (
-            <button
-              type="button"
-              onClick={handleReset}
-              className="timeline-filter-reset-btn inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex-shrink-0 bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-200 border border-cyan-400/30 active:scale-95 transition"
-            >
-              <span>点击展示全部研报 ({totalBatchCount ?? 12} 篇)</span>
-              <RotateCcw className="w-3 h-3 flex-shrink-0" />
-            </button>
-          )}
-        </div>
-
         {/* 交互时间滑块 */}
         <div className="space-y-1 pt-2">
           <div className="flex justify-between text-[11px] font-mono text-slate-400">
@@ -240,20 +152,8 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
 
       {/* 时空卡片列表 */}
       {filteredTimelineItems.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center text-slate-400 font-mono space-y-4">
-          <p>所选时段暂无符合条件的事件涌现，请滑动时间标尺或选择全天流。</p>
-          {handleReset && (
-            <div>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="timeline-filter-reset-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-200 border border-cyan-400/30 transition active:scale-95 shadow-md"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>重置为全部领域 ({totalBatchCount ?? 12} 篇)</span>
-              </button>
-            </div>
-          )}
+        <div className="glass-card rounded-2xl p-12 text-center text-slate-400 font-mono">
+          所选时段暂无该领域事件涌现，请滑动时间标尺或选择全天流。
         </div>
       ) : (
         <div className="timeline-axis relative pl-6 sm:pl-8 border-l border-cyan-500/20 space-y-8 my-6">

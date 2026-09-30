@@ -753,15 +753,6 @@ export const SparkNewsDashboard: React.FC = () => {
                 onSelectNews={(news) => setSelectedNews(news)}
                 bookmarkedIdSet={bookmarkedIdSet}
                 onToggleBookmark={handleToggleBookmark}
-                activeCategory={category}
-                activeSentiment={sentiment}
-                searchValue={search}
-                totalBatchCount={statusInfo?.batchNewsCount || stats?.total || 12}
-                onResetFilters={handleResetFilter}
-                onResetCategory={() => {
-                  setCategory('all');
-                  setPage(1);
-                }}
               />
             )}
 
