@@ -1319,6 +1319,49 @@ html, body {
   color: #000000 !important;
 }
 
+[data-theme="light"] .timeline-filter-banner {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+[data-theme="light"] .timeline-filter-icon {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .timeline-filter-target {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .timeline-filter-count {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .timeline-filter-reset-btn {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .timeline-filter-reset-btn span {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .timeline-filter-reset-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme="light"] .timeline-filter-reset-btn:hover {
+  background: #1e293b !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
+}
+
 /* 3. Bento View Radar Widget */
 [data-theme="light"] .bento-radar-widget {
   background: #ffffff !important;
@@ -2625,6 +2668,50 @@ html, body {
 
 [data-theme="dopamine"] .timeline-tag svg {
   color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-banner {
+  background: #fff0f5 !important;
+  color: #1e1b4b !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2.5px 2.5px 0px #ff007f !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-icon {
+  color: #ff007f !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-target {
+  color: #ff007f !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-count {
+  color: #64748b !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-reset-btn {
+  background: #ff007f !important;
+  color: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 1.5px 1.5px 0px #000000 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-reset-btn span {
+  color: #ffffff !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-reset-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme="dopamine"] .timeline-filter-reset-btn:hover {
+  background: #e00070 !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2.5px 2.5px 0px #000000 !important;
 }
 
 /* 3. Bento View Radar Widget */

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { GlobalNewsItem } from '../../types/news';
+import { GlobalNewsItem, CategoryType } from '../../types/news';
 import { GlobalNewsCard } from '../GlobalNewsCard';
-import { Clock, Globe } from 'lucide-react';
+import { Clock, Globe, Filter, RotateCcw } from 'lucide-react';
 
 interface TimelineScrubberProps {
   items: GlobalNewsItem[];
@@ -9,14 +9,28 @@ interface TimelineScrubberProps {
   onSelectNews: (news: GlobalNewsItem) => void;
   bookmarkedIdSet?: Set<string>;
   onToggleBookmark?: (news: GlobalNewsItem) => void;
+  activeCategory?: CategoryType;
+  totalBatchCount?: number;
+  onResetCategory?: () => void;
 }
+
+const CATEGORY_NAMES: Record<string, string> = {
+  ai: '全球 AI 算力',
+  finance: '宏观金融',
+  geopolitics: '地缘经贸',
+  climate: '气候能源',
+  bookmarks: '我的收藏'
+};
 
 export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   items,
   loading,
   onSelectNews,
   bookmarkedIdSet,
-  onToggleBookmark
+  onToggleBookmark,
+  activeCategory,
+  totalBatchCount,
+  onResetCategory
 }) => {
   // 当前时间窗口筛选 (0-24小时，或者 'all')
   const [session, setSession] = useState<'all' | 'asia' | 'europe' | 'us'>('all');
@@ -127,6 +141,34 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           </div>
         </div>
 
+        {/* 方案 A: 领域过滤感知状态栏与一键还原 */}
+        {activeCategory && activeCategory !== 'all' && (
+          <div className="timeline-filter-banner flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-xl border bg-cyan-950/40 border-cyan-500/30 text-cyan-300">
+            <div className="flex items-center gap-2 min-w-0">
+              <Filter className="timeline-filter-icon w-3.5 h-3.5 flex-shrink-0 text-cyan-400" />
+              <div className="text-xs font-mono min-w-0 leading-relaxed">
+                <span className="opacity-90">当前时空轴处于领域过滤中：</span>
+                <span className="timeline-filter-target font-bold ml-1 text-white">
+                  {CATEGORY_NAMES[activeCategory] || activeCategory}
+                </span>
+                <span className="timeline-filter-count ml-1 text-slate-400 whitespace-nowrap">
+                  （{items.length} / {totalBatchCount ?? 12} 篇）
+                </span>
+              </div>
+            </div>
+            {onResetCategory && (
+              <button
+                type="button"
+                onClick={onResetCategory}
+                className="timeline-filter-reset-btn inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex-shrink-0 bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-200 border border-cyan-400/30 active:scale-95 transition"
+              >
+                <span>点击展示全部领域 ({totalBatchCount ?? 12} 篇)</span>
+                <RotateCcw className="w-3 h-3 flex-shrink-0" />
+              </button>
+            )}
+          </div>
+        )}
+
         {/* 交互时间滑块 */}
         <div className="space-y-1 pt-2">
           <div className="flex justify-between text-[11px] font-mono text-slate-400">
@@ -152,8 +194,20 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
 
       {/* 时空卡片列表 */}
       {filteredTimelineItems.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center text-slate-400 font-mono">
-          所选时段暂无该领域事件涌现，请滑动时间标尺或选择全天流。
+        <div className="glass-card rounded-2xl p-12 text-center text-slate-400 font-mono space-y-4">
+          <p>所选时段暂无该领域事件涌现，请滑动时间标尺或选择全天流。</p>
+          {activeCategory && activeCategory !== 'all' && onResetCategory && (
+            <div>
+              <button
+                type="button"
+                onClick={onResetCategory}
+                className="timeline-filter-reset-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-200 border border-cyan-400/30 transition active:scale-95 shadow-md"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>重置为全部领域 ({totalBatchCount ?? 12} 篇)</span>
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="timeline-axis relative pl-6 sm:pl-8 border-l border-cyan-500/20 space-y-8 my-6">
