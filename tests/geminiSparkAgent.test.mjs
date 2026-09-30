@@ -41,19 +41,19 @@ test('GeminiSparkAgent - 拒绝切换不存在或未经验证的模型', () => {
 test('GeminiSparkAgent - buildSparkPrompt 生成包含目标日期与契约规则的提示词', () => {
   const prompt = buildSparkPrompt('2026-09-25');
   assert.ok(prompt.includes('2026-09-25'));
-  assert.ok(prompt.includes('8 到 12 篇'));
+  assert.ok(prompt.includes('12 篇'));
   assert.ok(prompt.includes('critical'));
   assert.ok(prompt.includes('climate'));
 });
 
-test('GeminiSparkAgent - 双模容灾生成合法智库简报 (8~12篇，包含1篇 critical，1~2篇 climate)', async () => {
+test('GeminiSparkAgent - 双模容灾生成合法智库简报 (满配 12 篇，包含 1 篇 critical，2 篇 climate)', async () => {
   const stages = [];
   const briefing = await generateDailyBriefing('2026-09-25', (stageData) => {
     stages.push(stageData);
   });
 
   assert.ok(Array.isArray(briefing.items));
-  assert.ok(briefing.items.length >= 8 && briefing.items.length <= 12, `新闻总数应在 8~12 篇，实际: ${briefing.items.length}`);
+  assert.equal(briefing.items.length, 12, `新闻总数必须严格为满配 12 篇，实际: ${briefing.items.length}`);
   
   const criticalItems = briefing.items.filter(i => i.impactLevel === 'critical');
   assert.equal(criticalItems.length, 1, '必须且仅有 1 篇 critical 影响等级新闻');

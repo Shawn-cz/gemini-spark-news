@@ -52,13 +52,15 @@ export function buildSparkPrompt(targetDate) {
 
 【输出规范与契约约定】：
 1. 严格输出合法的 JSON 格式，不要包含任何 markdown 说明之外的文字。
-2. 篇数契约：新闻总条数严格控制在 8 到 12 篇。
-3. 领域契约：
-   - "climate"（气候与能源转型）必须严格控制在 1 到 2 篇；
-   - 其余篇数均匀分布在 "ai"（人工智能）、"finance"（全球金融）和 "geopolitics"（地缘博弈）。
+2. 篇数契约（强硬约束）：新闻总条数必须且严格输出满配 12 篇（不多不少，严禁缺漏少于 12 篇）。
+3. 四大领域硬性配额分布（合计整整 12 篇）：
+   - "ai"（全球 AI 与前沿算力）：精确输出 4 篇；
+   - "finance"（全球金融与宏观资本）：精确输出 3 篇；
+   - "geopolitics"（地缘政治与国际经贸）：精确输出 3 篇；
+   - "climate"（气候变化与能源转型）：精确输出 2 篇。
 4. 影响力契约：
    - 必须挑选最重大的 1 篇标记为 "critical"（作为 Bento Hero 头条）；
-   - 其余根据重要程度分配为 "high" 或 "medium"。
+   - 其余根据重要程度分配为 "high"（约 4~5 篇）或 "medium"（约 6~7 篇）。
 5. 深度自包含研报摘要契约（极其重要！）：
    - 读者位于中国境内，受网络环境限制无法查阅外媒原文链接，因此每篇摘要（summary）必须是一篇“信息完整、自包含且论述严密的微型研报”，字数在 280 至 450 字之间，严禁两句话空泛概括！
    - 摘要结构必须严格涵盖以下核心要素，并统一使用中文方括号明确标出板块：
@@ -157,6 +159,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.4,
+              maxOutputTokens: 8192,
               responseMimeType: 'application/json'
             }
           }),
@@ -219,14 +222,21 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
 }
 
 /**
- * 契约规范校准器（确保符合 8~12 篇、1 篇 critical、1~2 篇 climate）
+ * 契约规范校准器（确保严格输出满配 12 篇、1 篇 critical、2 篇 climate）
  */
 export function ensureBriefingContract(items, targetDate) {
   let list = Array.isArray(items) ? [...items] : [];
   
-  if (list.length < 8) {
+  if (list.length < 12) {
     const fallbackList = createGlobalDailyBatch(targetDate, 0);
-    list = [...list, ...fallbackList.slice(0, 10 - list.length)];
+    // 从保底高质量智库中按去重逻辑智能补齐至满配 12 篇
+    const existingTitles = new Set(list.map(i => i.title));
+    const uniqueFallbacks = fallbackList.filter(i => !existingTitles.has(i.title));
+    list = [...list, ...uniqueFallbacks.slice(0, 12 - list.length)];
+    // 若极端去重情况下仍不足 12 篇，循环切片强制补齐
+    if (list.length < 12) {
+      list = [...list, ...fallbackList.slice(0, 12 - list.length)];
+    }
   } else if (list.length > 12) {
     list = list.slice(0, 12);
   }

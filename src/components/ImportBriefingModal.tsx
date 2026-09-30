@@ -29,9 +29,8 @@ export const ImportBriefingModal: React.FC<ImportBriefingModalProps> = ({
 【输出要求】
 1. 只输出合法、纯净的 JSON 数据，代码块使用 \`\`\`json 包裹，不要输出任何寒暄或前言。
 2. 覆盖四大领域：ai（前沿算力）、finance（宏观金融）、geopolitics（地缘经贸）、climate（气候能源）。
-3. 严格生成 8-12 条高质量全球要闻：
-   - 【配额限制】climate（气候能源）类严格控制在 1-2 条；
-   - 【重点倾斜】剩余全部条目（约 7-10 条）分配给 ai、finance、geopolitics 三大领域；
+3. 严格生成满配 12 条高质量全球要闻：
+   - 【硬性配额】ai 类 4 条，finance 类 3 条，geopolitics 类 3 条，climate 类 2 条（合计整整 12 条）；
    - 挑选 1 条影响最深远的全球突发事件设为 "impactLevel": "critical"，其余为 "high" 或 "medium"。
 4. 情感极性评分 sentimentScore 介于 -1.0 到 +1.0 之间。
 5. 命名实体 nlpKeyEntities 提取 3-5 个核心词。
