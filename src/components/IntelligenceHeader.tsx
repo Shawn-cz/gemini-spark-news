@@ -21,6 +21,7 @@ export interface IntelligenceHeaderProps {
   onDateChange: (date: string) => void;
   hasNewerBatchAvailable?: boolean;
   onJumpToLatest?: () => void;
+  onDismissNewerBatch?: () => void;
 }
 
 export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
@@ -33,7 +34,8 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   availableDates,
   onDateChange,
   hasNewerBatchAvailable = false,
-  onJumpToLatest
+  onJumpToLatest,
+  onDismissNewerBatch
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -123,6 +125,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               isLoading={isSyncing}
               hasNewerBatchAvailable={hasNewerBatchAvailable}
               onJumpToLatest={onJumpToLatest}
+              onDismissNewerBatch={onDismissNewerBatch}
             />
 
             {/* 2. 全球宏观情绪极性指标 (唯一保留且精简的高价值情报胶囊) */}

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, Sparkles, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, Sparkles, Check, X } from 'lucide-react';
 
 export interface DateStepperCapsuleProps {
   currentDate: string;
@@ -8,6 +8,7 @@ export interface DateStepperCapsuleProps {
   isLoading?: boolean;
   hasNewerBatchAvailable?: boolean;
   onJumpToLatest?: () => void;
+  onDismissNewerBatch?: () => void;
 }
 
 export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
@@ -16,9 +17,11 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
   onDateChange,
   isLoading = false,
   hasNewerBatchAvailable = false,
-  onJumpToLatest
+  onJumpToLatest,
+  onDismissNewerBatch
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 计算当前日期索引 (availableDates 严格降序：索引 0 为最新)
@@ -88,6 +91,29 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen]);
+
+  // 当外部 hasNewerBatchAvailable 改变或日期改变时，重置本地已退出标记
+  useEffect(() => {
+    setIsDismissed(false);
+  }, [hasNewerBatchAvailable, currentDate]);
+
+  const handleDismiss = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setIsDismissed(true);
+    if (onDismissNewerBatch) {
+      onDismissNewerBatch();
+    }
+  };
+
+  // 8秒自动倒计时退出机制：避免通知弹窗永久霸屏，提升浏览沉浸感
+  useEffect(() => {
+    if (hasNewerBatchAvailable && !isLatest && !isDismissed) {
+      const timer = setTimeout(() => {
+        handleDismiss();
+      }, 8000);
+      return () => clearTimeout(timer);
+    }
+  }, [hasNewerBatchAvailable, isLatest, isDismissed]);
 
   return (
     <div ref={containerRef} className="relative inline-flex items-center select-none font-mono">
@@ -193,17 +219,30 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
         </div>
       )}
 
-      {/* 实时新批次漂浮轻提示 (当用户回溯历史，且后台生成完毕最新批次时呈现) */}
-      {!isOpen && hasNewerBatchAvailable && onJumpToLatest && (
-        <div className="absolute top-full right-0 mt-2 z-40 whitespace-nowrap">
+      {/* 实时新批次漂浮轻提示 (当用户回溯历史，且后台生成完毕最新批次时呈现；支持手动点击关闭与8秒自动退出) */}
+      {!isOpen && hasNewerBatchAvailable && !isLatest && !isDismissed && onJumpToLatest && (
+        <div className="absolute top-full right-0 mt-2 z-40 flex items-center shadow-[3px_3px_0px_#000] rounded-md border-2 border-black bg-amber-400 text-black font-mono overflow-hidden whitespace-nowrap animate-in fade-in zoom-in-95 duration-200">
           <button
             type="button"
-            onClick={onJumpToLatest}
-            className="flex items-center gap-1.5 bg-amber-400 text-black font-mono font-bold text-xs px-2.5 py-1 rounded-md border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-amber-300 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+            onClick={() => {
+              handleDismiss();
+              onJumpToLatest();
+            }}
+            className="flex items-center gap-1.5 font-bold text-xs px-2.5 py-1.5 hover:bg-amber-300 active:translate-y-0.5 transition-all cursor-pointer"
             title="点击切换到刚刚生成的今日最新批次"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 text-black flex-shrink-0" />
             <span>今日最新研报已就绪 · 点击查看</span>
+          </button>
+          
+          <button
+            type="button"
+            onClick={handleDismiss}
+            className="px-2 py-1.5 border-l-2 border-black hover:bg-amber-500 text-black/80 hover:text-black transition-colors cursor-pointer flex items-center justify-center flex-shrink-0"
+            title="关闭并退出提示"
+            aria-label="关闭并退出提示"
+          >
+            <X className="w-3.5 h-3.5 stroke-[2.5]" />
           </button>
         </div>
       )}

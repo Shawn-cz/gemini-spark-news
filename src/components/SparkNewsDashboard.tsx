@@ -181,19 +181,22 @@ export const SparkNewsDashboard: React.FC = () => {
 
   // 日期步进切换与跳转至最新批次
   const handleDateChange = useCallback((newDate: string) => {
+    setHasNewerBatchAvailable(false);
     if (newDate === selectedDate) return;
     setSelectedDate(newDate);
     setPage(1);
-    if (availableDates.length > 0 && newDate >= availableDates[0]) {
-      setHasNewerBatchAvailable(false);
-    }
-  }, [selectedDate, availableDates]);
+  }, [selectedDate]);
 
   const handleJumpToLatest = useCallback(() => {
+    setHasNewerBatchAvailable(false);
     if (availableDates.length > 0) {
       handleDateChange(availableDates[0]);
     }
   }, [availableDates, handleDateChange]);
+
+  const handleDismissNewerBatch = useCallback(() => {
+    setHasNewerBatchAvailable(false);
+  }, []);
 
   // 初始化获取可用归档日期列表
   useEffect(() => {
@@ -590,6 +593,7 @@ export const SparkNewsDashboard: React.FC = () => {
         onDateChange={handleDateChange}
         hasNewerBatchAvailable={hasNewerBatchAvailable}
         onJumpToLatest={handleJumpToLatest}
+        onDismissNewerBatch={handleDismissNewerBatch}
       />
 
       {/* 静默刷新指示呼吸指示条 (触发时不打扰正常浏览) */}
