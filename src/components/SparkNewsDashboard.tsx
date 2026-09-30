@@ -112,7 +112,7 @@ export const SparkNewsDashboard: React.FC = () => {
     if (!isSilent && rawBatchNewsRef.current.length === 0) {
       setIsInitialLoading(true);
       setErrorMessage(null);
-    } else if (isSilent) {
+    } else {
       setIsSilentRefreshing(true);
     }
 
@@ -460,10 +460,19 @@ export const SparkNewsDashboard: React.FC = () => {
   const currentTotal = filteredNewsItems.length;
   const currentTotalPages = Math.max(1, Math.ceil(currentTotal / pageSize));
 
+  // 当过滤条件收窄或删除收藏导致当前页码越界时，自动回退到最新可用最大页
+  useEffect(() => {
+    if (page > currentTotalPages) {
+      setPage(currentTotalPages);
+    }
+  }, [page, currentTotalPages]);
+
+  const safePage = Math.min(page, currentTotalPages);
+
   const pagedBentoItems = useMemo(() => {
-    const start = (page - 1) * pageSize;
+    const start = (safePage - 1) * pageSize;
     return filteredNewsItems.slice(start, start + pageSize);
-  }, [filteredNewsItems, page, pageSize]);
+  }, [filteredNewsItems, safePage, pageSize]);
 
   const currentDisplayItems = useMemo(() => {
     return viewMode === 'bento' ? pagedBentoItems : filteredNewsItems;
@@ -475,11 +484,11 @@ export const SparkNewsDashboard: React.FC = () => {
     if (isBookmarksMode) {
       return calculateBatchStats(bookmarks, selectedDate);
     }
-    if (category === 'all' && rawBatchStats) {
+    if (rawBatchStats) {
       return rawBatchStats;
     }
     return calculateBatchStats(rawBatchNews, selectedDate);
-  }, [isBookmarksMode, bookmarks, selectedDate, category, rawBatchStats, rawBatchNews]);
+  }, [isBookmarksMode, bookmarks, selectedDate, rawBatchStats, rawBatchNews]);
 
   // DevTools 调试动作
   const handleTriggerSilentSync = () => {

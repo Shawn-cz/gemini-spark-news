@@ -19,16 +19,17 @@ export function filterBatchNews(
   let list = items;
 
   if (category && category !== 'all' && category !== 'bookmarks') {
-    list = list.filter(i => i.category === category);
+    list = list.filter(i => Boolean(i) && i.category === category);
   }
 
   if (sentiment && sentiment !== 'all') {
-    list = list.filter(i => i.sentiment === sentiment);
+    list = list.filter(i => Boolean(i) && i.sentiment === sentiment);
   }
 
   if (search && search.trim()) {
     const q = search.trim().toLowerCase();
     list = list.filter(i => {
+      if (!i) return false;
       const matchTitle = typeof i.title === 'string' && i.title.toLowerCase().includes(q);
       const matchEnTitle = typeof i.englishTitle === 'string' && i.englishTitle.toLowerCase().includes(q);
       const matchSummary = typeof i.summary === 'string' && i.summary.toLowerCase().includes(q);
