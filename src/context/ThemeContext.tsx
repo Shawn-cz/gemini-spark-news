@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type ThemeType = 'dark' | 'light' | 'dopamine';
+export type ThemeType = 'cyber-hud' | 'pop-dopamine' | 'ios-glass' | 'dark' | 'light' | 'dopamine';
 
 interface ThemeContextType {
   theme: ThemeType;
@@ -18,7 +18,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setThemeState] = useState<ThemeType>(() => {
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeType;
-      if (saved === 'dark' || saved === 'light' || saved === 'dopamine') {
+      if (['cyber-hud', 'pop-dopamine', 'ios-glass', 'dark', 'light', 'dopamine'].includes(saved)) {
         return saved;
       }
     } catch {
@@ -37,8 +37,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    document.body.setAttribute('data-theme', theme);
+    // 映射到 DOM 样式系统的激活标识:
+    // pop-dopamine -> dopamine (匹配保留的方案 B 波普潮玩整套 Neo-Brutalist 样式)
+    // cyber-hud -> dark (匹配方案 A 赛博战术暗黑 HUD 样式)
+    // light -> ios-glass (新轻量白玻璃样式)
+    const effectiveThemeAttr = 
+      theme === 'pop-dopamine' ? 'dopamine' :
+      theme === 'cyber-hud' ? 'dark' :
+      theme === 'light' ? 'ios-glass' :
+      theme;
+
+    document.documentElement.setAttribute('data-theme', effectiveThemeAttr);
+    document.body.setAttribute('data-theme', effectiveThemeAttr);
+    document.documentElement.setAttribute('data-token-theme', theme);
   }, [theme]);
 
   return (

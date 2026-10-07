@@ -7,6 +7,7 @@ import {
 import { SparkBatchStatusInfo } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { DateStepperCapsule } from './DateStepperCapsule';
+import { useTheme } from '../context/ThemeContext';
 
 export interface IntelligenceHeaderProps {
   statusInfo: SparkBatchStatusInfo | null;
@@ -37,19 +38,25 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 }) => {
   const isRunning = statusInfo?.status === 'RUNNING';
   const sentimentScore = statusInfo?.globalSentimentIndex ?? 28;
+  const { theme } = useTheme();
+  const isIosGlass = theme === 'ios-glass' || theme === 'light';
 
   // 根据极性分判定文案与色彩 (拆分中英文，支持自适应紧凑排版)
   const getPulseMeta = (score: number) => {
-    if (score >= 30) return { label: '显著积极', en: 'Risk-On', color: 'text-emerald-400', bar: 'bg-emerald-500' };
-    if (score >= 0) return { label: '谨慎乐观', en: 'Mild Optimism', color: 'text-cyan-400', bar: 'bg-cyan-500' };
-    if (score >= -30) return { label: '中性观望', en: 'Neutral Watch', color: 'text-slate-400', bar: 'bg-slate-500' };
-    return { label: '避险预警', en: 'Risk-Off', color: 'text-rose-400', bar: 'bg-rose-500' };
+    if (score >= 30) return { label: '显著积极', en: 'Risk-On', color: isIosGlass ? 'text-emerald-600' : 'text-emerald-400', bar: 'bg-emerald-500' };
+    if (score >= 0) return { label: '谨慎乐观', en: 'Mild Optimism', color: isIosGlass ? 'text-cyan-600' : 'text-cyan-400', bar: 'bg-cyan-500' };
+    if (score >= -30) return { label: '中性观望', en: 'Neutral Watch', color: isIosGlass ? 'text-slate-500' : 'text-slate-400', bar: 'bg-slate-500' };
+    return { label: '避险预警', en: 'Risk-Off', color: isIosGlass ? 'text-rose-600' : 'text-rose-400', bar: 'bg-rose-500' };
   };
 
   const pulse = getPulseMeta(sentimentScore);
 
   return (
-    <header className="bg-obsidian-950/95 border-b border-white/10 sticky top-0 z-30 backdrop-blur-xl shadow-lg">
+    <header className={`sticky top-0 z-30 backdrop-blur-xl transition-colors border-b ${
+      isIosGlass 
+        ? 'bg-white/80 border-slate-200/60 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.04)] text-slate-900' 
+        : 'bg-obsidian-950/95 border-white/10 shadow-lg text-white'
+    }`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5">
         
         {/* 全响应式自适应布局：
@@ -63,13 +70,19 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             {/* 品牌标识 */}
             <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
               <div className="header-logo-icon w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-md shadow-cyan-500/20 flex-shrink-0">
-                <div className="w-full h-full bg-obsidian-950 rounded-[11px] flex items-center justify-center text-cyan-400">
+                <div className={`w-full h-full rounded-[11px] flex items-center justify-center transition-colors ${
+                  isIosGlass ? 'bg-white text-blue-600' : 'bg-obsidian-950 text-cyan-400'
+                }`}>
                   <Globe className="w-4 h-4 sm:w-4.5 sm:h-4.5 animate-spin-slow" />
                 </div>
               </div>
               <div className="min-w-0">
-                <h1 className="text-sm sm:text-base font-black tracking-wider text-white uppercase bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent whitespace-nowrap">
-                  <span className="sm:hidden">Gemini Spark</span>
+                <h1 className={`text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap transition-colors ${
+                  isIosGlass 
+                    ? 'text-slate-900' 
+                    : 'text-white bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent'
+                }`}>
+                  <span className="sm:hidden">Spark</span>
                   <span className="hidden sm:inline">Gemini Spark Intelligence</span>
                 </h1>
               </div>
@@ -84,10 +97,14 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 <button
                   type="button"
                   onClick={onOpenDevTools}
-                  className="header-action-btn p-1.5 rounded-lg text-amber-300 bg-amber-950/70 border border-amber-800 transition-all flex items-center justify-center flex-shrink-0 shadow-sm"
+                  className={`header-action-btn p-1.5 rounded-lg transition-all flex items-center justify-center flex-shrink-0 shadow-sm ${
+                    isIosGlass
+                      ? 'text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200'
+                      : 'text-amber-300 bg-amber-950/70 border border-amber-800'
+                  }`}
                   title="DevTools 开发者控制台 (含导入简报与批次同步)"
                 >
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400" />
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500" />
                 </button>
               )}
             </div>
@@ -109,16 +126,26 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
             {/* 2. 全球宏观情绪极性指标 (唯一保留且精简的高价值情报胶囊) */}
             <div 
-              className="header-sentiment-capsule inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl border border-white/10 bg-white/[0.03] text-xs font-mono flex-shrink-0 transition-all shadow-sm"
+              className={`header-sentiment-capsule inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-mono flex-shrink-0 transition-all shadow-sm ${
+                isIosGlass
+                  ? 'bg-white/80 border-slate-200/80 text-slate-800'
+                  : 'border-white/10 bg-white/[0.03] text-slate-300'
+              }`}
               title={`全球宏观情绪极性: ${sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`} (${pulse.label} / ${pulse.en})`}
             >
               <Activity className={`w-3.5 h-3.5 flex-shrink-0 ${pulse.color} animate-pulse`} />
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider hidden md:inline">情绪脉搏:</span>
+              <span className={`text-[10px] uppercase tracking-wider hidden md:inline ${
+                isIosGlass ? 'text-slate-500' : 'text-slate-400'
+              }`}>情绪脉搏:</span>
               <span className={`font-black ${pulse.color} text-xs`}>
                 {sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`}
               </span>
-              <span className="font-semibold text-slate-300 text-[11px] whitespace-nowrap">{pulse.label}</span>
-              <div className="w-8 sm:w-10 bg-slate-800 rounded-full h-1 overflow-hidden hidden sm:block flex-shrink-0">
+              <span className={`font-semibold text-[11px] whitespace-nowrap ${
+                isIosGlass ? 'text-slate-700' : 'text-slate-300'
+              }`}>{pulse.label}</span>
+              <div className={`w-8 sm:w-10 rounded-full h-1 overflow-hidden hidden sm:block flex-shrink-0 ${
+                isIosGlass ? 'bg-slate-200' : 'bg-slate-800'
+              }`}>
                 <div
                   className={`h-full rounded-full ${pulse.bar}`}
                   style={{ width: `${Math.min(100, Math.max(10, Math.abs(sentimentScore)))}%` }}
@@ -135,12 +162,16 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 <button
                   type="button"
                   onClick={onOpenDevTools}
-                  className="header-action-btn header-btn-devtools px-2.5 py-1.5 text-xs font-mono rounded-lg text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800 transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0"
+                  className={`header-action-btn header-btn-devtools px-2.5 py-1.5 text-xs font-mono rounded-lg transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0 ${
+                    isIosGlass
+                      ? 'text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200'
+                      : 'text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800'
+                  }`}
                   title="打开全栈开发者控制台 (DevTools · 含导入简报与批次同步)"
                 >
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                   <span>DevTools</span>
-                  <span className={`font-bold hidden xl:inline ${isRunning ? "text-amber-400" : "text-emerald-400"}`}>
+                  <span className={`font-bold hidden xl:inline ${isRunning ? "text-amber-600" : (isIosGlass ? "text-emerald-700" : "text-emerald-400")}`}>
                     [{isRunning ? "计算中" : "已归档"}]
                   </span>
                 </button>

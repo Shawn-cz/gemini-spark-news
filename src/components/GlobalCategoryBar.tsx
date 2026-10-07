@@ -12,6 +12,7 @@ import {
   Bookmark 
 } from 'lucide-react';
 import { CategoryType, ViewMode, SentimentType, GlobalNewsStats } from '../types/news';
+import { useTheme } from '../context/ThemeContext';
 
 interface GlobalCategoryBarProps {
   selectedCategory: CategoryType;
@@ -44,6 +45,9 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
   stats,
   bookmarkCount = 0
 }) => {
+  const { theme } = useTheme();
+  const isIosGlass = theme === 'ios-glass' || theme === 'light';
+
   const categories = [
     { key: 'all' as const, label: '全部领域', icon: Layers, count: stats?.total ?? 0 },
     { key: 'ai' as const, label: '全球 AI 算力', icon: Bot, count: stats?.categoryCounts.ai ?? 0 },
@@ -78,31 +82,42 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
             const isSelected = selectedCategory === cat.key;
             const Icon = cat.icon;
             const isBm = (cat as any).isBookmark;
+
+            const selectedStyle = isIosGlass
+              ? isBm
+                ? 'category-pill-selected category-pill-bookmarks bg-amber-500 text-white border border-amber-500 shadow-md font-semibold'
+                : 'category-pill-selected bg-blue-600 text-white border border-blue-600 shadow-md font-semibold'
+              : isBm
+              ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold'
+              : 'category-pill-selected bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-glow-blue font-semibold';
+
+            const unselectedStyle = isIosGlass
+              ? isBm
+                ? 'category-pill-unselected bg-amber-50/90 text-amber-800 border border-amber-200/80 hover:bg-amber-100 hover:text-amber-900 shadow-sm'
+                : 'category-pill-unselected bg-white/85 text-slate-700 border border-slate-200/80 hover:bg-white hover:text-slate-900 shadow-sm'
+              : isBm
+              ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30'
+              : 'category-pill-unselected bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5';
+
             return (
               <button
                 key={cat.key}
                 type="button"
                 onClick={() => onSelectCategory(cat.key)}
                 className={`category-pill-btn inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
-                  isSelected
-                    ? isBm
-                      ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold'
-                      : 'category-pill-selected bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-glow-blue font-semibold'
-                    : isBm
-                    ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30'
-                    : 'category-pill-unselected bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5'
+                  isSelected ? selectedStyle : unselectedStyle
                 }`}
               >
                 <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
                   isSelected 
-                    ? isBm ? 'text-amber-400 fill-current' : 'text-cyan-400' 
-                    : isBm ? 'text-amber-400' : 'text-slate-400'
+                    ? isIosGlass ? 'text-white' : (isBm ? 'text-amber-400 fill-current' : 'text-cyan-400')
+                    : isIosGlass ? (isBm ? 'text-amber-600' : 'text-slate-600') : (isBm ? 'text-amber-400' : 'text-slate-400')
                 }`} />
                 <span>{cat.label}</span>
                 <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
                   isSelected 
-                    ? isBm ? 'bg-amber-400/20 text-amber-200' : 'bg-cyan-400/20 text-cyan-200' 
-                    : isBm ? 'bg-amber-500/15 text-amber-300' : 'bg-white/5 text-slate-500'
+                    ? isIosGlass ? 'bg-white/25 text-white' : (isBm ? 'bg-amber-400/20 text-amber-200' : 'bg-cyan-400/20 text-cyan-200')
+                    : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600') : (isBm ? 'bg-amber-500/15 text-amber-300' : 'bg-white/5 text-slate-500')
                 }`}>
                   {cat.count}
                 </span>
@@ -112,7 +127,9 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
         </div>
 
         {/* 3 种新奇视图模式切换 (flex-shrink-0 绝对防挤压，永不被遮挡或重叠) */}
-        <div className="viewmode-container inline-flex bg-obsidian-card p-1 rounded-xl border border-white/10 self-start xl:self-auto shadow-inner flex-shrink-0">
+        <div className={`viewmode-container inline-flex p-1 rounded-xl self-start xl:self-auto flex-shrink-0 transition-colors ${
+          isIosGlass ? 'bg-white/80 border border-slate-200/80 shadow-sm' : 'bg-obsidian-card border border-white/10 shadow-inner'
+        }`}>
           {viewModes.map((vm) => {
             const isSelected = viewMode === vm.key;
             const Icon = vm.icon;
@@ -123,7 +140,11 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 onClick={() => onSelectViewMode(vm.key)}
                 className={`viewmode-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                   isSelected
-                    ? 'viewmode-btn-active bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
+                    ? isIosGlass
+                      ? 'viewmode-btn-active bg-blue-600 text-white shadow-md font-semibold'
+                      : 'viewmode-btn-active bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
+                    : isIosGlass
+                    ? 'text-slate-600 hover:text-slate-900'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -137,7 +158,11 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
       </div>
 
       {/* 第二行：情绪快速滤镜与检索框 (移除与顶部步进胶囊重复的批次日期列表，全端紧凑对齐) */}
-      <div className="glass-card p-2 sm:p-2.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+      <div className={`p-2 sm:p-2.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-colors ${
+        isIosGlass
+          ? 'bg-white/80 border border-slate-200/80 shadow-sm'
+          : 'glass-card'
+      }`}>
         
         {/* 情绪滤镜 (全端可用，水平平滑滚动) */}
         <div className="filter-sentiment-container flex items-center gap-1.5 overflow-x-auto scrollbar-none min-w-0 py-0.5">
@@ -150,12 +175,16 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
                 onClick={() => onSelectSentiment(s.key)}
                 className={`filter-sentiment-btn px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
                   isSelected
-                    ? 'filter-sentiment-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
+                    ? isIosGlass
+                      ? 'filter-sentiment-btn-active bg-blue-50 text-blue-700 font-bold border border-blue-200 shadow-sm'
+                      : 'filter-sentiment-btn-active bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30'
+                    : isIosGlass
+                    ? 'filter-sentiment-btn-inactive text-slate-600 hover:text-slate-900'
                     : 'filter-sentiment-btn-inactive text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <span className={`filter-sentiment-label filter-sentiment-${s.key}`}>{s.label}</span>
-                <span className="ml-1 font-mono text-[10px] filter-sentiment-count">({s.count})</span>
+                <span className={`ml-1 font-mono text-[10px] filter-sentiment-count ${isIosGlass && !isSelected ? 'text-slate-500' : ''}`}>({s.count})</span>
               </button>
             );
           })}
@@ -163,19 +192,27 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
 
         {/* 全球多语种检索框 */}
         <div className="relative w-full sm:w-64 flex-shrink-0">
-          <Search className="category-search-icon w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className={`category-search-icon w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${
+            isIosGlass ? 'text-slate-500' : 'text-slate-400'
+          }`} />
           <input
             type="text"
             placeholder="检索全球实体、机构或标签..."
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="category-search-input w-full pl-8 pr-3 py-1.5 text-xs bg-obsidian-950/80 border border-white/10 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-500 text-slate-200 placeholder-slate-500 transition font-mono"
+            className={`category-search-input w-full pl-8 pr-3 py-1.5 text-xs rounded-lg focus:outline-none transition font-mono ${
+              isIosGlass
+                ? 'bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500 shadow-inner'
+                : 'bg-obsidian-950/80 border border-white/10 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-500'
+            }`}
           />
           {searchValue && (
             <button
               type="button"
               onClick={() => onSearchChange('')}
-              className="category-search-clear absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-200"
+              className={`category-search-clear absolute right-2.5 top-1/2 -translate-y-1/2 text-xs transition ${
+                isIosGlass ? 'text-slate-400 hover:text-slate-700' : 'text-slate-400 hover:text-slate-200'
+              }`}
             >
               ×
             </button>

@@ -39,8 +39,11 @@ import { RunningStateView } from './RunningStateView';
 import { Pagination } from './Pagination';
 import { ImportBriefingModal } from './ImportBriefingModal';
 import { DevToolsPanel } from './DevToolsPanel';
+import { useTheme } from '../context/ThemeContext';
 
 export const SparkNewsDashboard: React.FC = () => {
+  const { theme } = useTheme();
+  const isIosGlass = theme === 'ios-glass' || theme === 'light';
   // 1. URL Deep-Linking 初始参数提取 (支持通过 ?date=...&newsId=... 免翻直达)
   const pendingDeepLinkRef = useRef<{ date: string | null; newsId: string | null }>({
     date: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('date') : null,
@@ -544,7 +547,15 @@ export const SparkNewsDashboard: React.FC = () => {
     statusInfo && statusInfo.status !== 'COMPLETED';
 
   return (
-    <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-obsidian-950">
+    <div className={`min-h-screen flex flex-col font-sans transition-colors relative ${
+      isIosGlass
+        ? 'bg-[#f1f5f9] text-slate-900 selection:bg-blue-500 selection:text-white'
+        : 'bg-obsidian-950 text-slate-100 selection:bg-cyan-500 selection:text-obsidian-950'
+    }`}>
+      {/* 方案 C 极光流体环境柔光层 */}
+      {isIosGlass && (
+        <div id="ios-mesh-bg" className="ios-glass-mesh-layer ios-mesh-mist pointer-events-none fixed inset-0 z-0" />
+      )}
       
       {/* 1. 顶部 Header (含情绪极性心电图与 24H 调度监控) */}
       <IntelligenceHeader
@@ -774,14 +785,18 @@ export const SparkNewsDashboard: React.FC = () => {
       />
 
       {/* 底部智库状态条 */}
-      <footer className="border-t border-white/5 py-4 mt-auto bg-obsidian-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-slate-500 gap-2">
+      <footer className={`border-t py-4 mt-auto transition-colors relative z-10 ${
+        isIosGlass ? 'bg-white/80 border-slate-200/60 text-slate-500' : 'bg-obsidian-950 border-white/5 text-slate-500'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-            <span>GEMINI SPARK GLOBAL INTELLIGENCE PLATFORM · 24H AGENT BRIEFINGS</span>
+            <span className={`w-1.5 h-1.5 rounded-full ${isIosGlass ? 'bg-blue-600' : 'bg-cyan-400'}`}></span>
+            <span className={isIosGlass ? 'text-slate-700 font-semibold' : 'text-slate-400'}>
+              GEMINI SPARK GLOBAL INTELLIGENCE PLATFORM · 24H AGENT BRIEFINGS
+            </span>
           </div>
-          <div className="text-slate-400">
-            EVENT-DRIVEN SYNC: ZERO-IDLE POLLING · ABORT-CONTROLLER GUARDED
+          <div className={isIosGlass ? 'text-slate-500' : 'text-slate-400'}>
+            EVENT-DRIVEN SYNC: ZERO-IDLE POLLING · IN-MEMORY CLIENT BATCH
           </div>
         </div>
       </footer>

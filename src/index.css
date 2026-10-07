@@ -3313,4 +3313,323 @@ html, body {
   flex-shrink: 0 !important;
 }
 
+/* =========================================================================
+   方案 C: 白色 iOS 流体透明玻璃风格 (Apple VisionOS / Liquid Glass) 全站激活
+   ========================================================================= */
+[data-theme="ios-glass"] body {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* 极光流体环境柔光层 */
+.ios-glass-mesh-layer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(50px);
+  transition: all 0.8s ease;
+}
+[data-theme="ios-glass"] .ios-glass-mesh-layer {
+  display: block;
+}
+.ios-mesh-mist {
+  background: 
+    radial-gradient(circle at 12% 18%, rgba(219, 234, 254, 0.75) 0%, transparent 45%),
+    radial-gradient(circle at 88% 12%, rgba(243, 232, 255, 0.7) 0%, transparent 45%),
+    radial-gradient(circle at 50% 88%, rgba(254, 243, 199, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(224, 242, 254, 0.65) 0%, transparent 40%),
+    #f8fafc;
+}
+
+/* iOS 拟真双层流体白玻璃卡片 (10px 微圆角) */
+.ios-glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 10px !important;
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.06),
+    0 1px 3px 0 rgba(0, 0, 0, 0.02),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ios-glass-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 
+    0 20px 45px -12px rgba(37, 99, 235, 0.14),
+    inset 0 1px 2px 0 #ffffff;
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+/* 顶部与底座视窗 (12px 微圆角外框，8px 内部窗格，0° 平视视窗) */
+[data-theme="ios-glass"] .dossier-modal-window {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(40px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 12px !important;
+  box-shadow: 
+    0 40px 90px -20px rgba(0, 0, 0, 0.22),
+    0 1px 3px 0 rgba(0, 0, 0, 0.05),
+    inset 0 1px 2px 0 #ffffff !important;
+  transform: none !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-header-bar {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-agent-badge {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+  box-shadow: none !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-title {
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-summary-card {
+  background: rgba(255, 255, 255, 0.70) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
+  color: #1e293b !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-nlp-card {
+  background: rgba(255, 255, 255, 0.70) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
+  color: #1e293b !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-meta-card {
+  background: rgba(255, 255, 255, 0.70) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-media-card {
+  border-radius: 8px !important;
+}
+
+[data-theme="ios-glass"] .dossier-modal-window .dossier-footer-bar {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-top: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+/* 分类与胶囊栏适配 (10px 微圆角外框，药丸状内项) */
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  color: #334155 !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn:hover {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn .category-pill-icon {
+  color: #64748b !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected:not(.category-pill-bookmarks) {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected:not(.category-pill-bookmarks) .category-pill-icon,
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected:not(.category-pill-bookmarks) span {
+  color: #ffffff !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected.category-pill-bookmarks {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  border-color: #f59e0b !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected.category-pill-bookmarks .category-pill-icon,
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected.category-pill-bookmarks span {
+  color: #ffffff !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-selected .category-pill-count {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-unselected .category-pill-count {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: #475569 !important;
+}
+
+/* 视图模式切换器 */
+[data-theme="ios-glass"] .viewmode-container {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="ios-glass"] .viewmode-btn {
+  border-radius: 9999px !important;
+  color: #64748b !important;
+}
+
+[data-theme="ios-glass"] .viewmode-btn.viewmode-btn-active {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35) !important;
+}
+
+/* 情绪过滤条容器 */
+[data-theme="ios-glass"] .filter-sentiment-container,
+[data-theme="ios-glass"] .glass-card {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="ios-glass"] .filter-sentiment-btn {
+  color: #64748b !important;
+}
+
+[data-theme="ios-glass"] .filter-sentiment-btn-active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 步进胶囊与下拉菜单 */
+[data-theme="ios-glass"] .date-stepper-capsule {
+  background: rgba(255, 255, 255, 0.80) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="ios-glass"] .date-stepper-capsule span:not(.badge-status) {
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .date-stepper-dropdown {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(30px) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  color: #0f172a !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 10px !important;
+}
+
+[data-theme="ios-glass"] .date-stepper-dropdown .date-dropdown-item {
+  color: #334155 !important;
+}
+
+[data-theme="ios-glass"] .date-stepper-dropdown .date-dropdown-item:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .date-stepper-dropdown .date-dropdown-item.is-selected {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  font-weight: 600 !important;
+}
+
+/* Header - iOS Glass White */
+[data-theme="ios-glass"] header {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="ios-glass"] header h1 {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  background: none !important;
+}
+
+/* 全球检索框适配 */
+[data-theme="ios-glass"] .category-search-input {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  color: #0f172a !important;
+  border-radius: 9999px !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="ios-glass"] .category-search-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+[data-theme="ios-glass"] .category-search-icon {
+  color: #64748b !important;
+}
+
+/* 分页条适配 */
+[data-theme="ios-glass"] .pagination-container {
+  border-top: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+[data-theme="ios-glass"] .pagination-stat {
+  color: #64748b !important;
+}
+
+[data-theme="ios-glass"] .pagination-stat span.text-cyan-400 {
+  color: #2563eb !important;
+}
+
+[data-theme="ios-glass"] .pagination-stat span.text-white {
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .pagination-arrow-btn {
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: #475569 !important;
+}
+
+[data-theme="ios-glass"] .pagination-arrow-btn:hover:not(:disabled) {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .pagination-page-btn {
+  color: #64748b !important;
+}
+
+[data-theme="ios-glass"] .pagination-page-btn:hover:not(.pagination-page-active) {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="ios-glass"] .pagination-page-active {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
+}
+
+
+
 

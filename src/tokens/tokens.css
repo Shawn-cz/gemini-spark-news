@@ -6,7 +6,8 @@
 /* =========================================================================
    1. 方案 A: 赛博战术 HUD 令牌 (Cyber Tactical HUD)
    ========================================================================= */
-[data-theme="cyber-hud"] {
+[data-theme="cyber-hud"],
+[data-theme="dark"] {
   --token-bg-base: #060913;
   --token-bg-surface: rgba(9, 14, 26, 0.88);
   --token-bg-elevated: #0b1329;
@@ -46,7 +47,8 @@
 /* =========================================================================
    2. 方案 B: 波普潮玩多巴胺令牌 (Pop Dopamine Art)
    ========================================================================= */
-[data-theme="pop-dopamine"] {
+[data-theme="pop-dopamine"],
+[data-theme="dopamine"] {
   --token-bg-base: #090d16;
   --token-bg-surface: #ffffff;
   --token-bg-elevated: #fef08a;
@@ -86,7 +88,8 @@
 /* =========================================================================
    3. 方案 C: 白色 iOS 流体透明玻璃令牌 (Apple VisionOS / Liquid Glass)
    ========================================================================= */
-[data-theme="ios-glass"] {
+[data-theme="ios-glass"],
+[data-theme="light"] {
   --token-bg-base: #f8fafc;
   --token-bg-surface: rgba(255, 255, 255, 0.75);
   --token-bg-elevated: rgba(255, 255, 255, 0.88);
