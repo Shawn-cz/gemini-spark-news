@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Spark Intelligence · 主题 3 深度交互升级版展示台</title>
+  <script src="./tailwindcss.cdn.js"></script>
+  <script>
+    if (typeof tailwind === 'undefined') {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.tailwindcss.com';
+      document.head.appendChild(s);
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Fredoka:wght@600;700&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    img, video {
+      max-width: 100%;
+    }
+    .hidden {
+      display: none !important;
+    }
+    /* =========================================================================
+       方案 A: 赛博战术极客 HUD (Cyber Tactical HUD)
+       ========================================================================= */
+    [data-theme="cyber-hud"] {
+      --bg-base: #060913;
+      --bg-grid: linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                 linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+      --card-bg: rgba(9, 14, 26, 0.92);
+      --card-border: 1px solid var(--hud-primary, #00f0ff);
+      --card-glow: 0 0 24px -6px rgba(0, 240, 255, 0.35);
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --accent-cyan: var(--hud-primary, #00f0ff);
+      --accent-amber: #ffb300;
+      --accent-red: #ff3366;
+      --font-tech: 'Chakra Petch', monospace, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    [data-theme="cyber-hud"].spectrum-amber {
+      --hud-primary: #ffb300;
+      --card-border: 1px solid #ffb300;
+      --card-glow: 0 0 24px -6px rgba(255, 179, 0, 0.4);
+    }
+    [data-theme="cyber-hud"].spectrum-green {
+      --hud-primary: #00ff88;
+      --card-border: 1px solid #00ff88;
+      --card-glow: 0 0 24px -6px rgba(0, 255, 136, 0.4);
+    }
+
+    [data-theme="cyber-hud"] .cyber-corner-bracket {
+      position: relative;
+    }
+    [data-theme="cyber-hud"] .cyber-corner-bracket::before,
+    [data-theme="cyber-hud"] .cyber-corner-bracket::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: var(--hud-primary, #00f0ff);
+      pointer-events: none;
+    }
+    [data-theme="cyber-hud"] .cyber-corner-bracket::before {
+      top: -1px; left: -1px;
+      border-top: 2px solid var(--hud-primary, #00f0ff);
+      border-left: 2px solid var(--hud-primary, #00f0ff);
+    }
+    [data-theme="cyber-hud"] .cyber-corner-bracket::after {
+      bottom: -1px; right: -1px;
+      border-bottom: 2px solid var(--hud-primary, #00f0ff);
+      border-right: 2px solid var(--hud-primary, #00f0ff);
+    }
+
+    @keyframes radarSweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-beam {
+      animation: radarSweep 3.5s linear infinite;
+      transform-origin: center center;
+    }
+    .radar-beam.fast {
+      animation: radarSweep 1.2s linear infinite;
+    }
+
+    /* 全局取消十字准心样式 */
+
+    /* 音频均衡器跳动 */
+    @keyframes eqBar1 { 0%, 100% { height: 4px; } 50% { height: 16px; } }
+    @keyframes eqBar2 { 0%, 100% { height: 14px; } 50% { height: 6px; } }
+    @keyframes eqBar3 { 0%, 100% { height: 8px; } 50% { height: 20px; } }
+    @keyframes eqBar4 { 0%, 100% { height: 18px; } 50% { height: 10px; } }
+    .eq-bar-1 { animation: eqBar1 0.7s ease-in-out infinite; }
+    .eq-bar-2 { animation: eqBar2 0.5s ease-in-out infinite; }
+    .eq-bar-3 { animation: eqBar3 0.9s ease-in-out infinite; }
+    .eq-bar-4 { animation: eqBar4 0.6s ease-in-out infinite; }
+
+    /* =========================================================================
+       方案 B: 波普潮玩多巴胺 (Pop Dopamine Art)
+       ========================================================================= */
+    [data-theme="pop-dopamine"] {
+      --bg-base: #fdfaf3;
+      --bg-pattern: radial-gradient(#d1d5db 1.2px, transparent 1.2px);
+      --card-bg: #ffffff;
+      --card-border: 3px solid #111827;
+      --card-shadow: 6px 6px 0px 0px #111827;
+      --text-main: #111827;
+      --text-sub: #4b5563;
+      --pop-pink: #ff4785;
+      --pop-yellow: #ffd000;
+      --pop-purple: #8b5cf6;
+      --pop-mint: #10b981;
+      --pop-blue: #0ea5e9;
+      --font-pop: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    [data-theme="pop-dopamine"] .pop-btn {
+      transition: all 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    [data-theme="pop-dopamine"] .pop-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px 0px #111827;
+    }
+    [data-theme="pop-dopamine"] .pop-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px 0px #111827;
+    }
+    [data-theme="pop-dopamine"] .pop-sticker {
+      transform: rotate(-6deg);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    [data-theme="pop-dopamine"] .pop-sticker:hover {
+      transform: rotate(4deg) scale(1.08);
+    }
+
+    /* =========================================================================
+       方案 C: 白色 iOS 流体透明玻璃风格 (Apple VisionOS / Liquid Glassmorphism)
+       ========================================================================= */
+    [data-theme="ios-glass"] {
+      --bg-base: #f0f4f8;
+      --card-bg: rgba(255, 255, 255, 0.72);
+      --card-border: 1px solid rgba(255, 255, 255, 0.85);
+      --card-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --ios-blue: #007aff;
+      --ios-mint: #34c759;
+      --ios-indigo: #5856d6;
+      --ios-orange: #ff9500;
+      --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Plus Jakarta Sans", system-ui, sans-serif;
+    }
+
+    [data-theme="ios-glass"] #body-root {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    /* iOS 极光流体环境柔光背景 (Liquid Ambient Lighting Mesh) */
+    .ios-glass-mesh-layer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(50px);
+      transition: all 0.8s ease;
+    }
+    [data-theme="ios-glass"] .ios-glass-mesh-layer {
+      display: block;
+    }
+    .ios-mesh-mist {
+      background: 
+        radial-gradient(circle at 12% 18%, rgba(219, 234, 254, 0.75) 0%, transparent 45%),
+        radial-gradient(circle at 88% 12%, rgba(243, 232, 255, 0.7) 0%, transparent 45%),
+        radial-gradient(circle at 50% 88%, rgba(254, 243, 199, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 75% 65%, rgba(224, 242, 254, 0.65) 0%, transparent 40%),
+        #f8fafc;
+    }
+    .ios-mesh-aurora {
+      background: 
+        radial-gradient(circle at 18% 25%, rgba(191, 219, 254, 0.85) 0%, transparent 50%),
+        radial-gradient(circle at 82% 18%, rgba(233, 213, 255, 0.85) 0%, transparent 45%),
+        radial-gradient(circle at 45% 80%, rgba(167, 243, 208, 0.6) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(254, 215, 170, 0.7) 0%, transparent 50%),
+        #f1f5f9;
+    }
+    .ios-mesh-pearl {
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(254, 240, 138, 0.45) 0%, transparent 50%),
+        radial-gradient(circle at 80% 15%, rgba(254, 205, 211, 0.45) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(241, 245, 249, 0.9) 0%, transparent 50%),
+        #fafaf9;
+    }
+
+    /* iOS 拟真双层流体白玻璃卡片 (Apple Specular Frosted Glass) */
+    .ios-glass-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      box-shadow: 
+        0 20px 45px -15px rgba(0, 0, 0, 0.05),
+        0 1px 3px 0 rgba(0, 0, 0, 0.02),
+        inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+    .ios-glass-card:hover {
+      transform: translateY(-4px) scale(1.008);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 
+        0 30px 60px -15px rgba(0, 122, 255, 0.12),
+        0 8px 20px -4px rgba(0, 0, 0, 0.04),
+        inset 0 1px 2px 0 #ffffff;
+      border-color: rgba(255, 255, 255, 0.95);
+    }
+    .ios-glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 25%, rgba(255, 255, 255, 0.95) 75%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* iOS 原生胶囊滑动分段控制器 (Segmented Control Pill) */
+    .ios-segmented-capsule {
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 9999px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+      padding: 3px;
+    }
+
+    /* iOS 白色流体玻璃弹窗视窗 (VisionOS Glass Modal) */
+    #glass-dossier-modal {
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      background: rgba(15, 23, 42, 0.35);
+      transition: opacity 0.3s ease;
+    }
+    .ios-modal-window {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(40px) saturate(200%);
+      -webkit-backdrop-filter: blur(40px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 
+        0 40px 90px -20px rgba(0, 0, 0, 0.25),
+        0 1px 3px 0 rgba(0, 0, 0, 0.05),
+        inset 0 1px 2px 0 #ffffff;
+    }
+    .ios-modal-pane {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      transition: all 0.2s ease;
+    }
+    .ios-modal-pane:hover {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 8px 30px rgba(0, 122, 255, 0.08), inset 0 1px 1px #ffffff;
+    }
+    /* =========================================================================
+       方案 A: 物理级 3D 全息投影技术架构 (Cinematic Holographic Projection)
+       对标用户提供的基准参考图：
+       1. 桌面金属斜切发射底座 (Chamfered Metallic Projector Unit)
+       2. 圆形高能发光透镜与垂直扩散体积光束 (Circular Lens & Volumetric Light Cone)
+       3. 纯净浮空全息光照文字与点阵网格粒子 (Dot-Matrix Holographic Text - NO BOX BORDER!)
+       ========================================================================= */
+
+    /* =========================================================================
+       3D 原生全息浮空透视空间体系 (True 3D Holographic Perspective Space)
+       ========================================================================= */
+    #holo-dossier-modal {
+      perspective: 1100px;
+      perspective-origin: 50% 65%;
+    }
+
+    /* 浮空内容主舞台：0° 绝对垂直平视，完全挺拔平正，绝对零形变，绝佳阅读体验 */
+    .holo-perspective-stage {
+      transform-style: preserve-3d;
+      transform-origin: 50% 85%;
+      transform: perspective(1200px) rotateX(0deg) translateY(0px) translateZ(0px);
+      animation: holoSpatialFloat 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes holoSpatialFloat {
+      0% {
+        transform: perspective(1200px) rotateX(0deg) translateY(0px) translateZ(0px);
+      }
+      100% {
+        transform: perspective(1200px) rotateX(0deg) translateY(-4px) translateZ(0px);
+      }
+    }
+
+    /* 全息主标题：纯净极简高透光，字迹清脆锐利，无重影杂色与过度立体阴影 */
+    .holo-dot-matrix-title {
+      font-family: 'Chakra Petch', 'Plus Jakarta Sans', system-ui, sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      position: relative;
+      display: inline-block;
+      transform: translateZ(0px);
+      /* 纯净清透文字发光：字迹纯白锐利清晰，仅边缘附带微弱青色高科技光晕，绝不重影模糊 */
+      text-shadow: 
+        0 0 10px rgba(0, 240, 255, 0.75),
+        0 0 20px rgba(0, 240, 255, 0.35);
+    }
+
+    /* 全息副标题：极简平正挺拔 */
+    .holo-sub-glow {
+      font-family: 'Chakra Petch', monospace, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: #38bdf8;
+      transform: translateZ(0px);
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.45);
+    }
+
+    /* 浮空透镜相框：完全平正平视 */
+    .holo-floating-photo-3d {
+      transform: translateZ(0px) rotateX(0deg);
+      transform-style: preserve-3d;
+      box-shadow: 0 15px 35px rgba(0, 240, 255, 0.35), 0 0 20px rgba(0, 240, 255, 0.25);
+    }
+
+    /* 3D 浮空高辨识度透明玻璃视窗 (等宽 100%，高度自适应内容，高透通透质感) */
+    .holo-section-card-3d {
+      transform-style: preserve-3d;
+      position: relative;
+      width: 100%;
+      height: auto;
+      min-height: fit-content;
+      padding: 14px 16px;
+      border-radius: 12px;
+      /* 纯正透明蓝灰冷色调毛玻璃底：内部透明度再提高 50%，极致通透晶莹轻灵 */
+      background: linear-gradient(
+        135deg, 
+        rgba(14, 38, 70, 0.38) 0%, 
+        rgba(7, 22, 44, 0.32) 50%, 
+        rgba(10, 32, 60, 0.38) 100%
+      );
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      
+      /* 全封闭立体玻璃窗格边框：边框透明度同步提高 50%，更加轻薄若隐若现 */
+      border: 1px solid rgba(0, 240, 255, 0.18);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.40);
+      border-left: 3px solid rgba(0, 240, 255, 0.45);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+      
+      /* 真实玻璃窗口光影：微透空灵阴影 + 青色微光 + 极细顶沿镜面反光 */
+      box-shadow: 
+        0 14px 32px -4px rgba(0, 0, 0, 0.55),
+        0 0 18px rgba(0, 240, 255, 0.10),
+        inset 0 1px 1px rgba(255, 255, 255, 0.30),
+        inset 0 0 15px rgba(0, 240, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 16px;
+    }
+    @media (min-width: 640px) {
+      .holo-section-card-3d {
+        padding: 18px 24px;
+      }
+    }
+    /* 玻璃表面对角线斜切高光反射条 (Glass Specular Highlight Sheen) */
+    .holo-section-card-3d::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(0, 240, 255, 0.04) 25%,
+        transparent 55%
+      );
+      pointer-events: none;
+    }
+    /* 左上角战术高亮卡扣标记 (Tactical Corner Bracket) */
+    .holo-section-card-3d::after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 14px;
+      height: 14px;
+      border-top: 2px solid rgba(255, 255, 255, 0.45);
+      border-left: 2px solid rgba(255, 255, 255, 0.45);
+      border-top-left-radius: 12px;
+      pointer-events: none;
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.35);
+    }
+    .holo-section-card-3d:hover {
+      transform: translateZ(0px) translateY(-3px) scale(1.01) !important;
+      background: linear-gradient(
+        135deg, 
+        rgba(18, 48, 85, 0.48) 0%, 
+        rgba(9, 28, 54, 0.42) 50%, 
+        rgba(14, 40, 75, 0.48) 100%
+      );
+      border-color: rgba(0, 240, 255, 0.35);
+      border-top-color: rgba(255, 255, 255, 0.60);
+      box-shadow: 
+        0 20px 40px -4px rgba(0, 0, 0, 0.65),
+        0 0 25px rgba(0, 240, 255, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.50),
+        inset 0 0 20px rgba(0, 240, 255, 0.10);
+    }
+
+    .holo-body-floating {
+      color: #f8fafc;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      font-weight: 400;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+
+    /* 浮空遥测数据仪表槽：平正挺拔 */
+    .holo-telemetry-dock-3d {
+      transform: translateZ(0px) rotateX(0deg);
+      transform-style: preserve-3d;
+    }
+    @media (min-width: 640px) {
+      .holo-telemetry-dock-3d {
+        transform: translateZ(0px) rotateX(0deg);
+      }
+    }
+
+    /* 空间透视地面雷达环网 (Ground Perspective Holographic Grid) */
+    .holo-ground-perspective-grid {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) rotateX(75deg);
+      width: min(600px, 92vw);
+      max-width: 100%;
+      height: 280px;
+      border-radius: 50%;
+      border: 1px dashed rgba(0, 240, 255, 0.4);
+      background: radial-gradient(ellipse at 50% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 6;
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
+    }
+    .holo-ground-perspective-grid::before {
+      content: '';
+      position: absolute;
+      inset: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+    .holo-ground-perspective-grid::after {
+      content: '';
+      position: absolute;
+      inset: 55px;
+      border-radius: 50%;
+      border: 1px dashed rgba(0, 240, 255, 0.22);
+    }
+
+    /* 左右两侧全息透视引导光线 (Projection Perspective Guide Rays) */
+    .holo-perspective-guide-lines {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(780px, 96vw);
+      max-width: 100%;
+      height: 440px;
+      pointer-events: none;
+      z-index: 7;
+      overflow: hidden;
+    }
+
+    /* 物理级全息发射台底座 (Chamfered Metallic Dock) */
+    .holo-projector-dock {
+      position: relative;
+      width: 210px;
+      height: 48px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #334155 0%, #0f172a 40%, #020617 100%);
+      clip-path: polygon(14% 0%, 86% 0%, 100% 100%, 0% 100%);
+      box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.95),
+        0 0 35px rgba(0, 240, 255, 0.35);
+      border-bottom: 2px solid #00f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    /* 顶部发光透镜环孔 */
+    .holo-emitter-lens {
+      position: absolute;
+      top: -12px;
+      width: 130px;
+      height: 26px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, #ffffff 0%, #00f0ff 45%, rgba(0, 240, 255, 0.2) 75%, transparent 100%);
+      box-shadow: 
+        0 0 20px #00f0ff,
+        0 0 45px rgba(0, 240, 255, 0.85),
+        0 0 75px rgba(0, 240, 255, 0.5);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+    }
+
+    /* 水平强光高光条 (Anamorphic Beam Flare) */
+    .holo-lens-flare {
+      position: absolute;
+      top: 2px;
+      left: -35px;
+      right: -35px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.6) 20%, #ffffff 50%, rgba(0, 240, 255, 0.6) 80%, transparent 100%);
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      pointer-events: none;
+    }
+
+    /* 向上扩散体积光锥 (Upward Volumetric Light Cone) */
+    .holo-volumetric-beam {
+      position: absolute;
+      bottom: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 480px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0, 240, 255, 0.4) 0%, rgba(0, 240, 255, 0.12) 45%, transparent 75%);
+      clip-path: polygon(25% 100%, 75% 100%, 98% 0%, 2% 0%);
+      animation: beamBreathe 4s ease-in-out infinite alternate;
+      z-index: 5;
+    }
+    @keyframes beamBreathe {
+      0% { opacity: 0.75; transform: translateX(-50%) scaleX(0.96); }
+      100% { opacity: 1; transform: translateX(-50%) scaleX(1.04); }
+    }
+
+    /* 浮空全息卡片容器 (无厚重方框，内容悬浮在虚空) */
+    .holo-station-card {
+      position: relative;
+      height: 590px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      perspective: 1000px;
+      transition: transform 0.3s ease;
+    }
+    .holo-station-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* 悬浮在光束中的图文面板 (Ethereal Floating Content) */
+    .holo-floating-deck {
+      position: absolute;
+      top: 10px;
+      left: 8px;
+      right: 8px;
+      bottom: 65px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateZ(50px);
+      transform-style: preserve-3d;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .holo-station-card:hover .holo-floating-deck {
+      transform: translateZ(75px) translateY(-5px);
+    }
+
+    /* 浮空全息照片透镜相框 */
+    .holo-floating-photo {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 240, 255, 0.6);
+      box-shadow: 
+        0 0 25px rgba(0, 240, 255, 0.3),
+        inset 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+    .holo-floating-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 240, 255, 0.08) 0px,
+        rgba(0, 240, 255, 0.08) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+
+    /* 全息瞬发脉冲动效 */
+    .holo-burst .holo-volumetric-beam,
+    .holo-burst .holo-stage-volumetric-beam {
+      filter: brightness(1.7);
+      transition: filter 0.2s ease;
+    }
+    .holo-burst .holo-emitter-lens {
+      box-shadow: 0 0 40px #00f0ff, 0 0 80px rgba(0, 240, 255, 1);
+      transition: all 0.2s ease;
+    }
+
+    /* 基准演示大舞台上冲扩散光锥 */
+    .holo-stage-volumetric-beam {
+      position: absolute;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 680px;
+      height: 380px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0, 240, 255, 0.45) 0%, rgba(0, 240, 255, 0.15) 45%, transparent 75%);
+      clip-path: polygon(26% 100%, 74% 100%, 98% 0%, 2% 0%);
+      animation: beamBreathe 4s ease-in-out infinite alternate;
+      z-index: 5;
+    }
+
+    /* 全息光束升空喷射点火动效 */
+    @keyframes beamIgnite {
+      0% {
+        opacity: 0.2;
+        transform: translateX(-50%) scaleY(0.05) scaleX(0.3);
+        filter: brightness(3.5);
+      }
+      40% {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1.12) scaleX(1.08);
+        filter: brightness(2.2);
+      }
+      100% {
+        opacity: 0.85;
+        transform: translateX(-50%) scaleY(1) scaleX(1);
+        filter: brightness(1);
+      }
+    }
+    .holo-beam-igniting {
+      animation: beamIgnite 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    /* 窗格待生成初始隐动态 */
+    .holo-pane-waiting {
+      opacity: 0 !important;
+      transform: translateY(28px) scale(0.96) !important;
+      pointer-events: none;
+    }
+
+    /* 窗格自底向上级联升空凝聚实体化动效 */
+    @keyframes paneMaterialize {
+      0% {
+        opacity: 0;
+        transform: translateY(32px) scale(0.96) translateZ(0px);
+        filter: blur(6px) brightness(2.2);
+      }
+      65% {
+        opacity: 0.95;
+        transform: translateY(-3px) scale(1.01) translateZ(0px);
+        filter: blur(0px) brightness(1.25);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1) translateZ(0px);
+        filter: blur(0px) brightness(1);
+      }
+    }
+    .holo-pane-materializing {
+      animation: paneMaterialize 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards !important;
+    }
+
+    /* 窗格凝聚激光扫描线 (Laser Scanline Sweep) */
+    @keyframes scanlineSweep {
+      0% {
+        top: -8%;
+        opacity: 1;
+      }
+      100% {
+        top: 108%;
+        opacity: 0;
+      }
+    }
+    .holo-scanline-laser {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.8) 20%, #ffffff 50%, rgba(0, 240, 255, 0.8) 80%, transparent 100%);
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      pointer-events: none;
+      animation: scanlineSweep 0.55s ease-out forwards;
+      z-index: 30;
+      border-radius: 9999px;
+    }
+
+    /* 全息打字光标 (Holographic Typing Cursor) */
+    .holo-typing-cursor {
+      display: inline-block;
+      width: 4px;
+      height: 14px;
+      background: #00f0ff;
+      box-shadow: 0 0 8px #00f0ff;
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: holoCursorBlink 0.35s infinite alternate;
+    }
+    @keyframes holoCursorBlink {
+      0% { opacity: 0.1; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans transition-colors duration-300 relative" id="body-root" data-theme="cyber-hud">
+
+  <!-- 方案 C: iOS 流体环境柔光层 (仅在 ios-glass 主题下激活呈现) -->
+  <div id="ios-mesh-bg" class="ios-glass-mesh-layer ios-mesh-mist"></div>
+
+  <!-- =========================================================================
+       顶部全局方案与状态控制器 (Sticky Design Switcher)
+       ========================================================================= -->
+  <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/10 px-4 py-3 shadow-2xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 bg-gradient-to-br from-cyan-500 via-indigo-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div>
+          <h1 class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+            主题 3 深度互动工作台
+            <span class="text-[10px] font-mono bg-cyan-500/20 px-2 py-0.5 rounded text-cyan-300 border border-cyan-500/40">INTERACTIVE WORKBENCH</span>
+          </h1>
+          <p class="text-[11px] text-slate-400">已为方案 A（全息 3D）、方案 B（波普潮玩）与方案 C（白色 iOS 流体玻璃）注入专属交互与研报视窗！</p>
+        </div>
+      </div>
+
+      <!-- 核心风格切换器 -->
+      <div class="flex flex-wrap items-center gap-2 max-w-full">
+        <div class="bg-white/5 p-1 rounded-xl border border-white/10 flex flex-wrap items-center gap-1 max-w-full">
+          <button onclick="setTheme('cyber-hud')" id="btn-theme-cyber" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-cyan-500 text-black shadow-lg shadow-cyan-500/30 flex items-center gap-1.5">
+            <span>⚡ 方案 A: 赛博战术 HUD</span>
+          </button>
+          <button onclick="setTheme('pop-dopamine')" id="btn-theme-pop" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+            <span>🎉 方案 B: 波普潮玩多巴胺</span>
+          </button>
+          <button onclick="setTheme('ios-glass')" id="btn-theme-glass" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+            <span>💎 方案 C: 白色 iOS 流体透明玻璃</span>
+          </button>
+        </div>
+
+        <!-- 状态切换器: 正常态 vs 异常态 -->
+        <div class="bg-white/5 p-1 rounded-xl border border-white/10 flex items-center gap-1">
+          <button onclick="setState('normal')" id="btn-state-normal" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+            ✅ 正常态
+          </button>
+          <button onclick="setState('error')" id="btn-state-error" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-rose-400 transition-all">
+            ⚠️ 容错态
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       方案互动特性讲解 Banner
+       ========================================================================= -->
+  <section class="relative z-10 max-w-7xl mx-auto px-4 pt-6 pb-2">
+    <div id="direction-info-box" class="p-4 rounded-2xl border transition-all">
+      <!-- 动态注入讲解 -->
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       主展示区 (News Dashboard Canvas)
+       ========================================================================= -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 py-6" id="dashboard-canvas">
+    
+    <!-- 1. 顶部 Header / 仪表板工具栏 -->
+    <div id="theme-header-bar" class="mb-6 p-4 rounded-2xl transition-all">
+      <!-- 动态渲染各主题 Header -->
+    </div>
+
+    <!-- 2. 分类胶囊栏 (Category Bar) -->
+    <div id="theme-category-bar" class="mb-6 flex flex-wrap items-center justify-between gap-3 p-2 rounded-2xl transition-all">
+      <!-- 动态渲染分类胶囊 -->
+    </div>
+
+    <!-- 2.5 交互特性速览提示条 (Inline Non-blocking Tip Bar) -->
+    <div class="mb-5 bg-black/60 backdrop-blur-md border border-white/10 px-5 py-2.5 rounded-xl shadow-lg flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-slate-300 font-bold">✨ 方案交互指引:</span>
+        <span class="text-cyan-400 font-medium">1. 方案 A: 3D 原生全息平视视窗</span>
+        <span class="text-slate-600">|</span>
+        <span class="text-pink-400 font-medium">2. 方案 B: 波普潮玩 Q 弹物理交互</span>
+        <span class="text-slate-600">|</span>
+        <span class="text-blue-400 font-medium">3. 方案 C: 白色 iOS 流体透明玻璃 & VisionOS 研报视窗</span>
+      </div>
+      <span class="text-[11px] font-mono text-cyan-300/80 bg-cyan-950/60 px-2.5 py-0.5 rounded border border-cyan-500/30">
+        [THEME WORKBENCH READY]
+      </span>
+    </div>
+
+    <!-- 3. 内容区：正常态 vs 异常容错态 -->
+    <div id="state-normal-container">
+      <!-- 新闻网格 (Bento / 流式卡片) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="theme-news-grid">
+        <!-- 动态渲染新闻卡片 -->
+      </div>
+    </div>
+
+    <div id="state-error-container" class="hidden">
+      <!-- 容错异常态展示面板 -->
+      <div id="theme-error-panel" class="p-8 rounded-2xl border transition-all text-center max-w-2xl mx-auto">
+        <!-- 动态渲染各主题容错卡 -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       方案 A 专属：裸眼 3D 原生全息投影资讯内容生成视窗 (Holographic Dossier Modal)
+       彻底取代传统卡片弹窗！1:1 像素级对标用户上传的实景参考图：
+       1. 底部斜切金属发射底座装置 (Chamfered Metallic Dock)
+       2. 顶部高能发光圆形透镜与垂直扩散体积光锥 (Circular Lens & Volumetric Light Cone)
+       3. 悬浮点阵粒子文字 (Dot-Matrix Holographic Text) + 纯光立体研报全文 (NO BOX, NO BORDERS!)
+       ========================================================================= -->
+  <div id="holo-dossier-modal" class="fixed inset-0 z-50 hidden flex-col justify-between p-3 sm:p-6 md:p-8 bg-slate-950/95 backdrop-blur-2xl overflow-y-auto overflow-x-hidden" onclick="handleModalBackdropClick(event)">
+    
+    <!-- 1. 顶部战术控制悬浮栏 (Minimalist Hologram HUD Header) -->
+    <div class="relative z-30 max-w-5xl w-full mx-auto flex flex-wrap items-center justify-between border-b border-cyan-500/30 pb-3 mb-4 font-mono text-xs gap-2 sm:gap-3">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center text-cyan-300 font-bold shadow-[0_0_15px_rgba(0,240,255,0.4)] shrink-0">
+          ⚡
+        </div>
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-bold text-white tracking-wider">
+            <span class="text-cyan-400 font-mono text-xs sm:text-sm">SYS.3D_HOLO_DOSSIER</span>
+            <span class="text-[9px] sm:text-[10px] text-cyan-300 bg-cyan-950 px-1.5 py-0.5 rounded border border-cyan-500/40" id="holo-modal-meta-tag">[AI // CRITICAL]</span>
+          </div>
+          <p class="text-[9px] sm:text-[10px] text-slate-400 truncate hidden xs:block">裸眼 3D 原生全息投影生成资讯内容 · 等宽玻璃视窗 · 高度自适应</p>
+        </div>
+      </div>
+
+      <!-- 沉浸式 2° 浮空透视全息研报视窗状态徽标 (大屏显示) -->
+      <div class="hidden lg:flex items-center gap-2 bg-black/60 border border-cyan-500/40 rounded-lg px-3 py-1 font-mono text-[11px] text-cyan-300">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00f0ff] animate-pulse"></span>
+        <span class="font-bold">📐 纯粹全息视窗 (聚焦研报正文)</span>
+      </div>
+
+      <!-- 右侧操作按键 -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button onclick="triggerModalPulse()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-2.5 sm:px-3 py-1.5 rounded-lg text-xs transition-all shadow-[0_0_15px_rgba(0,240,255,0.5)] active:scale-95 flex items-center gap-1 cursor-pointer">
+          <span>⚡ <span class="hidden sm:inline">聚焦扫描</span> (PULSE)</span>
+        </button>
+        <button onclick="toggleModalBookmark()" id="btn-modal-bookmark" class="bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1 cursor-pointer">
+          <span id="modal-bookmark-icon">⭐</span>
+          <span id="modal-bookmark-text" class="hidden sm:inline">收藏研报</span>
+        </button>
+        <button onclick="closeHoloDossier()" class="bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 border border-rose-500/60 px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer">
+          <span>✕ <span class="hidden sm:inline">关闭全息</span> (ESC)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. 中央核心：完全浮空于虚空之中的 3D 全息投影内容区 (NO BOX! NO BORDERS! 3D PERSPECTIVE STAGE) -->
+    <div class="relative z-20 max-w-4xl w-full mx-auto my-auto flex flex-col items-center text-center py-4 holo-perspective-stage" id="holo-modal-floating-content">
+      
+      <!-- 全息研报大标题 (纯净极简高透光，字迹清脆锐利，直接作为全息顶层) -->
+      <h2 id="holo-modal-title" class="holo-dot-matrix-title text-lg sm:text-2xl md:text-4xl font-extrabold tracking-wide leading-snug max-w-3xl mb-2 select-none">
+        <!-- 动态注入标题 -->
+      </h2>
+
+      <!-- 全息英文副标题 -->
+      <p id="holo-modal-en" class="holo-sub-glow text-xs sm:text-sm tracking-[0.24em] uppercase mb-5 select-none">
+        <!-- 动态注入英文 -->
+      </p>
+
+      <!-- 浮空纯光研报正文 (无任何黑盒容器包裹，光线照耀，字迹通透清晰) -->
+      <div id="holo-modal-sections" class="w-full max-w-3xl space-y-3.5 text-left select-none">
+        <!-- 动态注入多段深度研报资讯内容 -->
+      </div>
+
+      <!-- 浮空遥测数据仪表槽 (悬浮于正文下方) -->
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3 font-mono text-[10px] sm:text-xs select-none holo-telemetry-dock-3d max-w-full px-2">
+        <div class="px-3 py-1 bg-cyan-950/60 border border-cyan-500/40 rounded-lg text-cyan-300 shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+          <span class="text-slate-400 mr-1.5">置信度:</span>
+          <strong id="holo-modal-score" class="font-bold text-white">98%</strong>
+        </div>
+        <div class="px-3 py-1 bg-cyan-950/60 border border-cyan-500/40 rounded-lg text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+          <span class="text-slate-400 mr-1.5">市场研判:</span>
+          <strong class="font-bold">BULLISH (+0.82)</strong>
+        </div>
+        <div class="px-3 py-1 bg-cyan-950/60 border border-cyan-500/40 rounded-lg text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+          <span class="text-slate-400 mr-1.5">信源网络:</span>
+          <strong id="holo-modal-source" class="font-bold text-white">Google DeepMind</strong>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. 底部：物理级斜切金属发射底座装置 + 圆形透镜 + 向上喷射的体积光锥 (对标参考图) -->
+    <div class="relative w-full flex flex-col items-center mt-4 z-10">
+      
+      <!-- 向上扩散的立体体积光锥 (从发射器透镜向上射向悬浮文字) -->
+      <div class="holo-stage-volumetric-beam"></div>
+
+      <!-- 空间透视地面雷达环网 (Ground Perspective Holographic Grid) -->
+      <div class="holo-ground-perspective-grid"></div>
+
+      <!-- 左右两侧全息透视引导光线 (Projection Perspective Guide Rays) -->
+      <div class="holo-perspective-guide-lines">
+        <svg viewBox="0 0 780 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 左侧光束骨架射线 -->
+          <line x1="390" y1="435" x2="60" y2="20" stroke="#00f0ff" stroke-width="1.2" stroke-opacity="0.35" stroke-dasharray="6 6"/>
+          <!-- 右侧光束骨架射线 -->
+          <line x1="390" y1="435" x2="720" y2="20" stroke="#00f0ff" stroke-width="1.2" stroke-opacity="0.35" stroke-dasharray="6 6"/>
+          <!-- 中部微弱高光骨架 -->
+          <line x1="390" y1="435" x2="390" y2="40" stroke="#00f0ff" stroke-width="0.8" stroke-opacity="0.2" stroke-dasharray="3 8"/>
+        </svg>
+      </div>
+
+      <!-- 物理级斜切金属发射底座装置 (Chamfered Metallic Dock) -->
+      <div class="relative w-[280px] xs:w-[340px] sm:w-[420px] max-w-[92vw] h-[64px] flex items-center justify-center">
+        
+        <!-- 斜切梯形外壳 (Beveled Housing) -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#2d3748] via-[#1a202c] to-[#0d1117] rounded-sm shadow-[0_20px_40px_rgba(0,0,0,0.9),0_0_35px_rgba(0,240,255,0.35)] border-t border-slate-500/60" style="clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);">
+          <div class="absolute inset-x-8 bottom-2 h-2.5 flex items-center justify-between px-4 border-t border-cyan-500/20">
+            <span class="w-1.5 h-1 bg-cyan-400/80 rounded-xs"></span>
+            <span class="w-12 h-[2px] bg-slate-600"></span>
+            <span class="w-1.5 h-1 bg-cyan-400/80 rounded-xs"></span>
+          </div>
+          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-5 bg-[#111827] border-t border-x border-slate-600 flex items-center justify-center">
+            <div class="w-10 h-1 bg-cyan-400/90 shadow-[0_0_6px_#00f0ff]"></div>
+          </div>
+        </div>
+
+        <!-- 顶部发光透镜孔径 (Circular Emitter Lens) -->
+        <div class="absolute -top-3 w-[180px] xs:w-[220px] sm:w-[260px] h-[28px] rounded-[50%] bg-gradient-to-r from-cyan-500 via-white to-cyan-500 p-[1.5px] shadow-[0_0_30px_#00f0ff,0_0_60px_rgba(0,240,255,0.85)] z-20">
+          <div class="w-full h-full rounded-[50%] bg-[radial-gradient(ellipse_at_50%_50%,#ffffff_0%,#00f0ff_50%,#006688_100%)] flex items-center justify-center">
+            <div class="w-[70%] h-[60%] rounded-[50%] bg-white shadow-[0_0_15px_#ffffff]"></div>
+          </div>
+        </div>
+
+        <!-- 水平强光耀斑 (Anamorphic Beam Flare) -->
+        <div class="absolute -top-1 w-[280px] xs:w-[380px] sm:w-[480px] max-w-[95vw] h-[3px] bg-gradient-to-r from-transparent via-[#00f0ff] through-white to-transparent pointer-events-none shadow-[0_0_15px_#00f0ff,0_0_30px_#00f0ff] z-30"></div>
+
+      </div>
+
+      <!-- 控制台水平暗金属桌面基座与暖色 LED 标志灯 -->
+      <div class="relative w-full max-w-4xl h-[16px] bg-gradient-to-b from-[#1e293b] via-[#0f172a] to-[#020617] border-t-2 border-slate-700/80 shadow-[0_-5px_20px_rgba(0,0,0,0.8)] flex items-center justify-between px-3 sm:px-8">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-1 rounded-sm bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+          <span class="text-[8px] font-mono text-slate-500">STATION_DOCK_L</span>
+        </div>
+        <div class="w-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent"></div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-[8px] font-mono text-slate-500">OPTICAL_LINK_R</span>
+          <span class="w-2 h-1 rounded-sm bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       方案 C 专属：白色 iOS 流体透明玻璃研报弹窗 (Apple VisionOS Glass Dossier)
+       ========================================================================= -->
+  <div id="glass-dossier-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 md:p-8 bg-slate-900/35 backdrop-blur-2xl overflow-y-auto" onclick="handleGlassBackdropClick(event)">
+    <div class="ios-modal-window max-w-3xl w-full p-6 sm:p-8 relative my-auto shadow-2xl">
+      <!-- 顶部控制栏 -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/60 mb-5">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 border border-white/40 text-white font-bold flex items-center justify-center text-sm shadow-[0_4px_12px_rgba(37,99,235,0.3)]">
+            
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-800 tracking-wider font-sans">APPLE VISION DOSSIER</span>
+              <span id="glass-modal-tag" class="text-[10px] font-semibold bg-blue-500/10 text-blue-600 px-2.5 py-0.5 rounded-full border border-blue-500/20">[AI // CRITICAL]</span>
+            </div>
+            <p class="text-[11px] text-slate-400 font-medium">iOS 18 液态白玻璃 · 研报深度解构全文</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="toggleGlassBookmark()" id="btn-glass-bookmark" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/70 hover:bg-white text-slate-700 border border-white/80 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer">
+            <span id="glass-bookmark-icon">⭐</span>
+            <span id="glass-bookmark-text">收藏</span>
+          </button>
+          <button onclick="closeGlassDossier()" class="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 text-slate-600 flex items-center justify-center text-sm transition-all cursor-pointer font-bold">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- 标题与副标题 -->
+      <h2 id="glass-modal-title" class="text-lg sm:text-2xl font-bold text-slate-900 leading-snug tracking-tight mb-2 font-sans"></h2>
+      <p id="glass-modal-en" class="text-xs text-slate-500 font-medium mb-5"></p>
+
+      <!-- 3块白色流体毛玻璃窗格 (等宽自适应) -->
+      <div id="glass-modal-sections" class="space-y-3.5 mb-6">
+        <!-- 动态注入 3 块窗格 -->
+      </div>
+
+      <!-- 底部 iOS 遥测栏 -->
+      <div class="pt-4 border-t border-white/60 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-3 sm:gap-5">
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-medium">置信度:</span>
+            <span id="glass-modal-score" class="font-bold text-blue-600">98%</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-medium">市场研判:</span>
+            <span class="font-bold text-emerald-600">BULLISH (+0.82)</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-medium">信源:</span>
+            <span id="glass-modal-source" class="font-bold text-slate-700">Google DeepMind</span>
+          </div>
+        </div>
+        <button onclick="closeGlassDossier()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-5 py-2 rounded-full shadow-[0_4px_14px_rgba(37,99,235,0.3)] active:scale-95 transition-all cursor-pointer">
+          完成阅读
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentTheme = 'cyber-hud';
+    let currentState = 'normal';
+    let glassAtmosphere = 'mist';
+    let isGlassBookmarked = false;
+    let currentSpectrum = 'cyan';
+    let isRadarFast = false;
+
+    const THEME_INFOS = {
+      'cyber-hud': {
+        name: '方案 A: 赛博战术 HUD · 裸眼 3D 原生全息投影研报 (3D Holographic Dossier Viewer)',
+        tagline: '点开资讯概要 · 物理发射台生成 3D 点阵光照全文 · 彻底取代卡片弹窗',
+        desc: '首页保持清爽高效的战术 HUD 信息流；当用户点开任意资讯概要时，屏幕沉浸式展开裸眼 3D 全息投影视窗：底部斜切金属发射台由透镜垂直喷射光锥，研报主标题以细腻点阵粒子光芒悬浮虚空，核心内容以纯光形式立体浮空呈现，彻底终结千篇一律的卡片弹窗！',
+        styleClass: 'bg-sky-950/40 border-cyan-500/40 text-cyan-200'
+      },
+      'pop-dopamine': {
+        name: '方案 B: 波普潮玩多巴胺 (Pop Dopamine Art)',
+        tagline: '视觉冲击感极强 · 超解压果冻回弹交互 · 兼具极佳阅读质感',
+        desc: '3px 实体黑边框搭配高饱和电光紫、多巴胺粉与柠檬黄撞色。正文采用拍立得式高清装裱与纯净排版，右上角带有倾斜趣味贴纸，按键与卡片拥有超Q弹的 Spring Bounce 物理回弹！',
+        styleClass: 'bg-amber-50 border-amber-300 text-slate-800'
+      },
+      'ios-glass': {
+        name: '方案 C: 白色 iOS 流体透明玻璃 (Apple VisionOS / Liquid Glassmorphism)',
+        tagline: '极光流体环境柔光 · 28px 高斯磨砂玻璃 · 镜面边缘光泽 · 原生分段控制器',
+        desc: '对标 Apple 顶级设计语言：高透流体磨砂玻璃、1px 晶莹镜面边缘高光（Specular Rim Light）、柔和景深微浮动与原生分段控制器（Segmented Control）。配以极佳对比度的深色高清晰字系，呈现轻盈、纯净、现代的顶级科技质感！',
+        styleClass: 'bg-white/80 border-white text-slate-900 shadow-xl backdrop-blur-xl'
+      }
+    };
+
+    const NEWS_DATA = [
+      {
+        id: 1,
+        title: 'Google 发布 Gemini 3.1 系列旗舰多模态智能体，端到端长上下文推理飞跃',
+        enTitle: 'Google Unveils Gemini 3.1 Multimodal Agent Architecture with Unprecedented Reasoning',
+        category: 'ai',
+        categoryLabel: '前沿 AI',
+        impact: 'CRITICAL',
+        sentiment: 'positive',
+        sentimentScore: 0.98,
+        summary: 'Google 深度学习实验室今日正式上线新一代多模态推理模型，在长达 200 万 Token 的跨模态复杂代码推理与深度自主规划基准上刷新多项纪录。',
+        source: 'Google DeepMind',
+        time: '10分钟前',
+        image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+        badgeText: '🔥 行业里程碑',
+        cleared: false,
+        dossierContent: {
+          sections: [
+            {
+              tag: '核心突破',
+              text: 'Google 深度学习实验室今日正式上线新一代多模态推理模型 Gemini 3.1。在长达 200 万 Token 的跨模态复杂长序列代码推理、自主多步工具规划基准上刷新 14 项权威指标，并在端到端长上下文无损检索测试中达到 99.8% 的极高召回率。'
+            },
+            {
+              tag: '架构革新',
+              text: '模型创新性引入潜空间动态稀疏激活机制（Sparse Latent Routing），在保持全量上下文感知的同时将前向推理延迟压缩 42%，突破了超长序列计算时的自注意力平方级膨胀瓶颈。'
+            },
+            {
+              tag: '战略影响',
+              text: '全球云计算与企业级 AI 自动化工作流面临代际重构，开发者与研究团队现在能够将整个生产级代码库或数百页行业全景研报一次性喂入，实现跨文档的秒级因果推理与行动决断。'
+            }
+          ]
+        }
+      },
+      {
+        id: 2,
+        title: '全球半导体供应链重组：先进封装与高带宽内存（HBM4）产能争夺战升级',
+        enTitle: 'Global Semiconductor Supply Chains Pivot to HBM4 and Advanced Packaging Expansion',
+        category: 'finance',
+        categoryLabel: '全球宏观',
+        impact: 'HIGH',
+        sentiment: 'neutral',
+        sentimentScore: 0.15,
+        summary: '台积电与美光科技加速推进下一代封装工艺，北美算力集群资本开支大幅上修，全球算力基础设施面临结构性重估与供应链紧平衡。',
+        source: 'Financial Times',
+        time: '35分钟前',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80',
+        badgeText: '⚡ 研报必读',
+        cleared: false,
+        dossierContent: {
+          sections: [
+            {
+              tag: '供需变动',
+              text: '台积电与美光科技加速推进下一代 CoWoS 先进封装工艺，北美头部云厂商算力基础设施资本开支大幅上修 30%，导致 HBM4 高带宽内存预订周期延长至 2027 年第三季度。'
+            },
+            {
+              tag: '工艺竞争',
+              text: '三星与 SK 海力士在 1c nm 节点展开良率攻坚战，混合键合（Hybrid Bonding）技术全面取代传统微凸块互连，垂直堆叠层数首次突破 16 层。'
+            },
+            {
+              tag: '宏观传导',
+              text: '半导体上游关键设备与极紫外光刻耗材供应出现结构性紧平衡，亚洲主要晶圆代工厂商估值中枢上移，地缘供应链冗余成本成为跨国企业财报新焦点。'
+            }
+          ]
+        }
+      },
+      {
+        id: 3,
+        title: '联合国气候峰会达成清洁电网新共识：地热能与第四代核聚变进入加速试点',
+        enTitle: 'Global Clean Grid Accord: Geothermal and Gen-IV Fusion Enter Pilot Deployments',
+        category: 'climate',
+        categoryLabel: '能源气候',
+        impact: 'MEDIUM',
+        sentiment: 'positive',
+        sentimentScore: 0.82,
+        summary: '由 24 国能源主管机构联署的未来清洁电网倡议正式生效，针对新型长时储能与第四代分布式能源给予跨国联合补贴。',
+        source: 'Bloomberg Energy',
+        time: '1小时前',
+        image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=80',
+        badgeText: '🌿 绿色未来',
+        cleared: false,
+        dossierContent: {
+          sections: [
+            {
+              tag: '峰会协议',
+              text: '由 24 国能源主管机构联署的未来清洁电网倡议今日正式生效。针对长时新型储能（LDES）与第四代高温气冷堆分布式能源制定跨国联合补贴标准，规划年投资额达 850 亿美元。'
+            },
+            {
+              tag: '电网扩容',
+              text: '面对算力中心与电动化带来的激增负荷，超高压柔性直流输电（HVDC）与超导电缆被纳入重点新基建支持目录，跨大区绿色能源损耗降低 18%。'
+            },
+            {
+              tag: '产业机遇',
+              text: '全球重工业脱碳与绿氢合成技术在低电价时段迎来规模化商用窗口，新型智能微电网算法调度渗透率预计在三年内提升至 65%。'
+            }
+          ]
+        }
+      }
+    ];
+
+    window.setTheme = function(theme) {
+      currentTheme = theme;
+      document.getElementById('body-root').setAttribute('data-theme', theme);
+      
+      ['btn-theme-pop', 'btn-theme-cyber', 'btn-theme-glass'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1.5';
+      });
+      if (theme === 'pop-dopamine') {
+        const el = document.getElementById('btn-theme-pop');
+        if (el) el.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-pink-500 text-white shadow-lg shadow-pink-500/30 flex items-center gap-1.5';
+      } else if (theme === 'cyber-hud') {
+        const el = document.getElementById('btn-theme-cyber');
+        if (el) el.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-cyan-500 text-black shadow-lg shadow-cyan-500/30 flex items-center gap-1.5';
+      } else if (theme === 'ios-glass') {
+        const el = document.getElementById('btn-theme-glass');
+        if (el) el.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-slate-900 shadow-lg shadow-white/30 flex items-center gap-1.5';
+      }
+
+      render();
+    };
+
+    window.setState = function(state) {
+      currentState = state;
+      const normalBtn = document.getElementById('btn-state-normal');
+      const errorBtn = document.getElementById('btn-state-error');
+      const normalContainer = document.getElementById('state-normal-container');
+      const errorContainer = document.getElementById('state-error-container');
+
+      if (state === 'normal') {
+        normalBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+        errorBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-rose-400 transition-all';
+        normalContainer.classList.remove('hidden');
+        errorContainer.classList.add('hidden');
+      } else {
+        errorBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-rose-500/20 text-rose-400 border border-rose-500/40';
+        normalBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-emerald-400 transition-all';
+        normalContainer.classList.add('hidden');
+        errorContainer.classList.remove('hidden');
+      }
+      renderErrorState();
+    };
+
+    /* =========================================================================
+       方案 A 专属互动函数
+       ========================================================================= */
+    window.toggleRadarPulse = function() {
+      isRadarFast = !isRadarFast;
+      const beam = document.getElementById('radar-beam-el');
+      if (beam) {
+        beam.className = isRadarFast ? 'absolute inset-0 border-t border-cyan-300/80 radar-beam fast' : 'absolute inset-0 border-t border-cyan-300/60 radar-beam';
+      }
+      const statusEl = document.getElementById('radar-status-text');
+      if (statusEl) {
+        statusEl.innerText = isRadarFast ? '[RADAR BURST // HIGH FREQUENCY SCAN]' : '[SAT-LINK: 99.8%]';
+      }
+    };
+
+    window.setCyberSpectrum = function(color) {
+      currentSpectrum = color;
+      const root = document.getElementById('body-root');
+      root.classList.remove('spectrum-amber', 'spectrum-green');
+      if (color === 'amber') root.classList.add('spectrum-amber');
+      if (color === 'green') root.classList.add('spectrum-green');
+      render();
+    };
+
+    window.scrambleTitle = function(el, targetText) {
+      const chars = '░▒▓█01#@$%&*<>+-=/';
+      let iter = 0;
+      const interval = setInterval(() => {
+        el.innerText = targetText.split('').map((char, index) => {
+          if (index < iter) return targetText[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        if (iter >= targetText.length) clearInterval(interval);
+        iter += 2;
+      }, 25);
+    };
+
+    window.triggerHoloScan = function(id) {
+      const card = document.getElementById(`holo-card-${id}`);
+      if (card) {
+        card.classList.add('holo-burst');
+        setTimeout(() => card.classList.remove('holo-burst'), 1200);
+      }
+      const titleEl = document.getElementById(`holo-title-${id}`);
+      const item = NEWS_DATA.find(i => i.id === id);
+      if (titleEl && item) {
+        scrambleTitle(titleEl, item.title);
+      }
+    };
+
+    function initHoloDeckParallax() {
+      document.querySelectorAll('.holo-station-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          const deck = card.querySelector('.holo-floating-deck');
+          if (deck) {
+            deck.style.transform = `translateZ(75px) rotateY(${x * 12}deg) rotateX(${-y * 10}deg)`;
+          }
+        });
+        card.addEventListener('mouseleave', () => {
+          const deck = card.querySelector('.holo-floating-deck');
+          if (deck) {
+            deck.style.transform = 'translateZ(50px) rotateX(0deg) rotateY(0deg)';
+          }
+        });
+      });
+    }
+
+    /* =========================================================================
+       方案 A 专属：裸眼 3D 原生全息投影资讯内容生成视窗控制器 (Holo Dossier Modal)
+       彻底取代传统卡片弹窗！点开资讯概要时启动，1:1 对标用户实景参考图：
+       1. 底部斜切金属发射底座装置
+       2. 顶部高能发光圆形透镜与垂直扩散体积光锥
+       3. 悬浮点阵粒子文字 (Dot-Matrix) + 纯光立体研报全文 (NO BOX, NO BORDERS!)
+       ========================================================================= */
+    let currentActiveNewsId = 1;
+    let isModalBookmarked = false;
+    let holoGenerationTimeouts = [];
+    let isGeneratingHolo = false;
+
+    // 清理并立即跳过生成动画（直接展示最终态）
+    window.finishHoloGenerationImmediately = function() {
+      holoGenerationTimeouts.forEach(t => clearTimeout(t));
+      holoGenerationTimeouts = [];
+      isGeneratingHolo = false;
+
+      const item = NEWS_DATA.find(i => i.id === currentActiveNewsId);
+      if (!item) return;
+
+      const sections = item.dossierContent?.sections || [{ tag: '事件核心细节', text: item.summary }];
+      const cards = document.querySelectorAll('#holo-modal-sections .holo-section-card-3d');
+      cards.forEach((card, idx) => {
+        card.classList.remove('holo-pane-waiting', 'holo-pane-materializing');
+        card.style.opacity = '1';
+        card.style.transform = 'translateZ(0px)';
+        // 移除激光扫描线与光标
+        const lasers = card.querySelectorAll('.holo-scanline-laser');
+        lasers.forEach(l => l.remove());
+        const cursors = card.querySelectorAll('.holo-typing-cursor');
+        cursors.forEach(c => c.remove());
+        // 还原正文与徽标
+        const p = card.querySelector('.holo-body-floating');
+        if (p && sections[idx]) p.innerText = sections[idx].text;
+        const badge = card.querySelector('.holo-pane-idx-badge');
+        if (badge) badge.innerText = `TRANSLUCENT_GLASS // 0${idx + 1}`;
+      });
+
+      // 遥测置信度直接锁定
+      const scoreEl = document.getElementById('holo-modal-score');
+      if (scoreEl) scoreEl.innerText = `${Math.round(item.sentimentScore * 100)}%`;
+      
+      const beam = document.querySelector('.holo-stage-volumetric-beam');
+      if (beam) beam.classList.remove('holo-beam-igniting');
+    };
+
+    // 核心流式文字解码打印器 (快速打字流)
+    function streamTypeHoloText(pEl, fullText, badgeEl, paneIdx, onDone) {
+      pEl.innerHTML = '<span class="holo-typing-cursor"></span>';
+      if (badgeEl) badgeEl.innerText = 'SYNTHESIZING // AI_STREAM';
+
+      let charIndex = 0;
+      const totalChars = fullText.length;
+      const chunkSize = 2; // 每次输出2个字符
+      const intervalMs = 10; // 10ms 快速输出
+
+      function tick() {
+        if (!isGeneratingHolo) return; // 已被中断跳过
+        charIndex += chunkSize;
+        if (charIndex >= totalChars) {
+          pEl.innerText = fullText;
+          if (badgeEl) badgeEl.innerText = `TRANSLUCENT_GLASS // 0${paneIdx + 1}`;
+          if (onDone) onDone();
+        } else {
+          pEl.innerHTML = fullText.slice(0, charIndex) + '<span class="holo-typing-cursor"></span>';
+          const t = setTimeout(tick, intervalMs);
+          holoGenerationTimeouts.push(t);
+        }
+      }
+      const initialTimer = setTimeout(tick, intervalMs);
+      holoGenerationTimeouts.push(initialTimer);
+    }
+
+    // 遥测数字计数动画
+    function animateScoreCounter(scoreEl, targetScore) {
+      if (!scoreEl) return;
+      let currentVal = 0;
+      const step = Math.max(1, Math.round(targetScore / 22));
+      const intervalMs = 22;
+
+      const timer = setInterval(() => {
+        if (!isGeneratingHolo) {
+          clearInterval(timer);
+          scoreEl.innerText = `${targetScore}%`;
+          return;
+        }
+        currentVal += step;
+        if (currentVal >= targetScore) {
+          currentVal = targetScore;
+          clearInterval(timer);
+        }
+        scoreEl.innerText = `${currentVal < 10 ? '0' + currentVal : currentVal}%`;
+      }, intervalMs);
+      holoGenerationTimeouts.push(timer);
+    }
+
+    // 启动全息生成交互序列 (The Hologram Generation Sequence)
+    window.startHoloGenerationSequence = function(item) {
+      finishHoloGenerationImmediately();
+      isGeneratingHolo = true;
+
+      const titleEl = document.getElementById('holo-modal-title');
+      const scoreEl = document.getElementById('holo-modal-score');
+      const beam = document.querySelector('.holo-stage-volumetric-beam');
+      const targetScore = Math.round(item.sentimentScore * 100);
+
+      // 1. 底座光束升空喷射点火
+      if (beam) {
+        beam.classList.add('holo-beam-igniting');
+        holoGenerationTimeouts.push(setTimeout(() => {
+          beam.classList.remove('holo-beam-igniting');
+        }, 700));
+      }
+
+      // 2. 标题黑客解密
+      if (titleEl) {
+        scrambleTitle(titleEl, item.title);
+      }
+
+      // 3. 置信度数字清零并启动计数
+      if (scoreEl) {
+        scoreEl.innerText = '00%';
+        holoGenerationTimeouts.push(setTimeout(() => {
+          animateScoreCounter(scoreEl, targetScore);
+        }, 280));
+      }
+
+      // 4. 3 块窗格自底向上级联升空凝聚实体化
+      const cards = document.querySelectorAll('#holo-modal-sections .holo-section-card-3d');
+      const sections = item.dossierContent?.sections || [{ tag: '事件核心细节', text: item.summary }];
+
+      cards.forEach((card, idx) => {
+        // 初始置为等待态
+        card.classList.add('holo-pane-waiting');
+        const pEl = card.querySelector('.holo-body-floating');
+        if (pEl) pEl.innerHTML = '';
+        const badgeEl = card.querySelector('.holo-pane-idx-badge');
+        if (badgeEl) badgeEl.innerText = 'CALIBRATING...';
+
+        // 级联阶梯启动时间：第1块180ms，第2块380ms，第3块580ms
+        const paneDelay = 180 + idx * 200;
+        holoGenerationTimeouts.push(setTimeout(() => {
+          if (!isGeneratingHolo) return;
+          card.classList.remove('holo-pane-waiting');
+          card.classList.add('holo-pane-materializing');
+
+          // 添加高能激光扫面线
+          const laser = document.createElement('div');
+          laser.className = 'holo-scanline-laser';
+          card.appendChild(laser);
+          holoGenerationTimeouts.push(setTimeout(() => laser.remove(), 550));
+
+          // 启动窗格文字流式生成
+          if (pEl && sections[idx]) {
+            streamTypeHoloText(pEl, sections[idx].text, badgeEl, idx, () => {
+              if (idx === cards.length - 1) {
+                isGeneratingHolo = false;
+              }
+            });
+          }
+        }, paneDelay));
+      });
+    };
+
+    window.openHoloDossier = function(id) {
+      const item = NEWS_DATA.find(i => i.id === id);
+      if (!item) return;
+
+      currentActiveNewsId = id;
+      const modal = document.getElementById('holo-dossier-modal');
+      const titleEl = document.getElementById('holo-modal-title');
+      const enEl = document.getElementById('holo-modal-en');
+      const imgEl = document.getElementById('holo-modal-img');
+      const sectionsEl = document.getElementById('holo-modal-sections');
+      const metaTagEl = document.getElementById('holo-modal-meta-tag');
+      const scoreEl = document.getElementById('holo-modal-score');
+      const sourceEl = document.getElementById('holo-modal-source');
+
+      if (titleEl) {
+        titleEl.innerText = item.title;
+        titleEl.setAttribute('data-text', item.title);
+      }
+      if (enEl) enEl.innerText = item.enTitle;
+      if (imgEl) imgEl.src = item.image;
+      if (metaTagEl) metaTagEl.innerText = `[${item.category.toUpperCase()} // ${item.impact}]`;
+      if (scoreEl) scoreEl.innerText = `${(item.sentimentScore * 100).toFixed(0)}%`;
+      if (sourceEl) sourceEl.innerText = item.source;
+
+      if (sectionsEl) {
+        sectionsEl.innerHTML = `
+          <!-- 顶部生成控制提示条 (实时状态与跳过按键) -->
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1 px-1">
+            <span class="text-cyan-400/90 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              HOLOGRAPHIC_GENERATIVE_STREAM // GEMINI 3.1
+            </span>
+            <button onclick="finishHoloGenerationImmediately()" class="text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer bg-slate-900/60 px-2 py-0.5 rounded border border-slate-700/50">
+              ⚡ 极速呈现 (SKIP)
+            </button>
+          </div>
+
+          <!-- 左右与中轴全息透视引导虚线 (规整垂直导轨) -->
+          <div class="absolute inset-x-0 sm:-inset-x-1 md:-inset-x-3 lg:-inset-x-5 -top-6 -bottom-6 pointer-events-none z-0 overflow-hidden">
+            <svg class="w-full h-full" viewBox="0 0 820 400" fill="none" preserveAspectRatio="none">
+              <!-- 左侧垂直引导虚线导轨 -->
+              <line x1="8" y1="400" x2="8" y2="0" stroke="#00f0ff" stroke-width="1.2" stroke-dasharray="6 6" stroke-opacity="0.45"/>
+              <!-- 右侧垂直引导虚线导轨 -->
+              <line x1="812" y1="400" x2="812" y2="0" stroke="#00f0ff" stroke-width="1.2" stroke-dasharray="6 6" stroke-opacity="0.45"/>
+              <!-- 中轴垂直校准虚线 -->
+              <line x1="410" y1="400" x2="410" y2="0" stroke="#00f0ff" stroke-width="1" stroke-dasharray="4 8" stroke-opacity="0.25"/>
+            </svg>
+          </div>
+          <div class="relative z-10 space-y-4 w-full">
+            ${(item.dossierContent?.sections || [
+              { tag: '事件核心细节', text: item.summary }
+            ]).map((s, idx) => `
+              <div class="holo-section-card-3d w-full h-auto" style="transform: translateZ(0px); --target-z: 0px;">
+                <!-- 玻璃窗口顶栏标签与编号 -->
+                <div class="flex items-center justify-between mb-2.5">
+                  <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-cyan-950/40 border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#00f0ff] animate-pulse"></span>
+                    <span class="font-mono text-xs font-bold text-cyan-200 tracking-wider">
+                      【${s.tag}】
+                    </span>
+                  </div>
+                  <span class="font-mono text-[10px] text-cyan-300/70 tracking-widest bg-cyan-950/30 px-2 py-0.5 rounded border border-cyan-500/20 holo-pane-idx-badge">
+                    TRANSLUCENT_GLASS // 0${idx+1}
+                  </span>
+                </div>
+                <!-- 玻璃窗口内正文内容：高度自适应 -->
+                <p class="holo-body-floating text-xs sm:text-sm md:text-[14px] text-slate-100 leading-relaxed font-sans select-none">
+                  ${s.text}
+                </p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        modal.scrollTop = 0;
+      }
+
+      // 启动全息生成交互动效流！
+      startHoloGenerationSequence(item);
+    };
+
+    window.closeHoloDossier = function() {
+      finishHoloGenerationImmediately();
+      const modal = document.getElementById('holo-dossier-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    };
+
+    window.handleModalBackdropClick = function(e) {
+      if (e.target.id === 'holo-dossier-modal') {
+        closeHoloDossier();
+      } else if (isGeneratingHolo) {
+        finishHoloGenerationImmediately();
+      }
+    };
+
+    window.triggerModalPulse = function() {
+      const item = NEWS_DATA.find(i => i.id === currentActiveNewsId);
+      if (item) {
+        startHoloGenerationSequence(item);
+      }
+    };
+
+    window.toggleModalBookmark = function() {
+      isModalBookmarked = !isModalBookmarked;
+      const textEl = document.getElementById('modal-bookmark-text');
+      const btn = document.getElementById('btn-modal-bookmark');
+      if (textEl) textEl.innerText = isModalBookmarked ? '已收藏研报' : '收藏研报';
+      if (btn) {
+        btn.className = isModalBookmarked
+          ? 'bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition-all shadow-[0_0_15px_rgba(245,158,11,0.5)] flex items-center gap-1.5 cursor-pointer'
+          : 'bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1.5 cursor-pointer';
+      }
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeHoloDossier();
+        closeGlassDossier();
+      } else if ((e.key === ' ' || e.key === 'Enter') && isGeneratingHolo) {
+        finishHoloGenerationImmediately();
+      }
+    });
+
+    // 沉浸式 0° 浮空全息研报视窗（绝对平视纯平稳态：固定 0° 绝对垂直正视，Z 轴位移 0px，文字纯正挺拔，无任何倾斜压迫与梯形形变）
+    window.currentPerspectiveAngle = 0;
+
+    /* =========================================================================
+       方案 C 专属互动函数：白色 iOS 流体透明玻璃 (Apple VisionOS / Liquid Glass)
+       ========================================================================= */
+    window.setGlassAtmosphere = function(mode) {
+      glassAtmosphere = mode;
+      const bg = document.getElementById('ios-mesh-bg');
+      if (bg) {
+        bg.className = 'ios-glass-mesh-layer ios-mesh-' + mode;
+      }
+      renderCategoryBar();
+    };
+
+    window.openGlassDossier = function(id) {
+      const item = NEWS_DATA.find(i => i.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('glass-dossier-modal');
+      const titleEl = document.getElementById('glass-modal-title');
+      const enEl = document.getElementById('glass-modal-en');
+      const tagEl = document.getElementById('glass-modal-tag');
+      const scoreEl = document.getElementById('glass-modal-score');
+      const sourceEl = document.getElementById('glass-modal-source');
+      const sectionsEl = document.getElementById('glass-modal-sections');
+
+      if (titleEl) titleEl.innerText = item.title;
+      if (enEl) enEl.innerText = item.enTitle;
+      if (tagEl) tagEl.innerText = `[${item.category.toUpperCase()} // ${item.impact}]`;
+      if (scoreEl) scoreEl.innerText = `${Math.round(item.sentimentScore * 100)}%`;
+      if (sourceEl) sourceEl.innerText = item.source;
+
+      if (sectionsEl) {
+        const sections = item.dossierContent?.sections || [
+          { tag: '核心细节', text: item.summary }
+        ];
+        sectionsEl.innerHTML = sections.map((s, idx) => `
+          <div class="ios-modal-pane p-4 sm:p-5 w-full">
+            <div class="flex items-center justify-between mb-2">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 text-xs font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span>【${s.tag}】</span>
+              </div>
+              <span class="text-[10px] font-semibold text-slate-400">
+                FROSTED_GLASS // 0${idx + 1}
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
+              ${s.text}
+            </p>
+          </div>
+        `).join('');
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        modal.scrollTop = 0;
+      }
+    };
+
+    window.closeGlassDossier = function() {
+      const modal = document.getElementById('glass-dossier-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    };
+
+    window.handleGlassBackdropClick = function(e) {
+      if (e.target.id === 'glass-dossier-modal') {
+        closeGlassDossier();
+      }
+    };
+
+    window.toggleGlassBookmark = function() {
+      isGlassBookmarked = !isGlassBookmarked;
+      const textEl = document.getElementById('glass-bookmark-text');
+      const btn = document.getElementById('btn-glass-bookmark');
+      if (textEl) textEl.innerText = isGlassBookmarked ? '已收藏' : '收藏';
+      if (btn) {
+        btn.className = isGlassBookmarked
+          ? 'px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-600 text-white shadow-md transition-all flex items-center gap-1.5 cursor-pointer'
+          : 'px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/70 hover:bg-white text-slate-700 border border-white/80 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer';
+      }
+    };
+
+    function render() {
+      const info = THEME_INFOS[currentTheme];
+      document.getElementById('direction-info-box').className = `p-4 rounded-2xl border transition-all ${info.styleClass}`;
+      document.getElementById('direction-info-box').innerHTML = `
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-extrabold">${info.name}</span>
+              <span class="text-xs font-medium opacity-80 px-2 py-0.5 rounded bg-black/10">${info.tagline}</span>
+            </div>
+            <p class="text-xs mt-1.5 leading-relaxed opacity-90 max-w-4xl">${info.desc}</p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-black/10 border border-black/10">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              正文头图 100% 超高清保真
+            </span>
+          </div>
+        </div>
+      `;
+
+      renderHeader();
+      renderCategoryBar();
+      renderNewsCards();
+      renderErrorState();
+    }
+
+    function renderHeader() {
+      const headerEl = document.getElementById('theme-header-bar');
+      if (currentTheme === 'cyber-hud') {
+        headerEl.className = 'bg-slate-900/90 border border-cyan-500/60 shadow-[0_0_20px_-5px_rgba(0,240,255,0.4)] rounded-xl p-4 flex flex-wrap items-center justify-between gap-4 text-cyan-400 cyber-corner-bracket';
+        headerEl.innerHTML = `
+          <div class="flex items-center gap-4">
+            <!-- 动态雷达微组件（点击加速扫盘） -->
+            <button onclick="toggleRadarPulse()" title="点击触发雷达脉冲" class="group relative w-12 h-12 rounded-full border border-cyan-500/80 bg-cyan-950/40 flex items-center justify-center overflow-hidden shadow-[inset_0_0_10px_rgba(0,240,255,0.3)] hover:scale-105 transition-transform cursor-pointer">
+              <div id="radar-beam-el" class="absolute inset-0 border-t border-cyan-300/60 radar-beam" style="background: conic-gradient(from 0deg, rgba(0,240,255,0.45) 0deg, transparent 60deg);"></div>
+              <div class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00f0ff] z-10 group-hover:bg-amber-400"></div>
+              <div class="absolute w-7 h-7 rounded-full border border-cyan-500/30"></div>
+            </button>
+
+            <div>
+              <div class="flex items-center gap-2 font-['Chakra_Petch']">
+                <span class="text-lg font-bold tracking-wider text-white">SYS.TACTICAL_INTEL // HUD_V3</span>
+                <span id="radar-status-text" class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">[SAT-LINK: 99.8%]</span>
+              </div>
+              <p class="text-xs text-slate-400 font-mono break-all sm:break-normal">LAT 31.23°N · LON 121.47°E // BATCH: 2026-09-30-0830 // FREQ: 128.4MHz</p>
+            </div>
+          </div>
+
+          <!-- 右侧交互控件：音频跳动柱 + 光谱切换 -->
+          <div class="flex items-center gap-4">
+            <!-- 音频频谱跳动器 -->
+            <div class="flex items-end gap-1 h-5 px-3 py-1 bg-black/40 rounded border border-cyan-500/20">
+              <span class="w-1 bg-cyan-400 eq-bar-1 rounded-sm"></span>
+              <span class="w-1 bg-cyan-300 eq-bar-2 rounded-sm"></span>
+              <span class="w-1 bg-cyan-400 eq-bar-3 rounded-sm"></span>
+              <span class="w-1 bg-emerald-400 eq-bar-4 rounded-sm"></span>
+              <span class="w-1 bg-cyan-300 eq-bar-1 rounded-sm"></span>
+              <span class="w-1 bg-amber-400 eq-bar-3 rounded-sm"></span>
+            </div>
+
+            <!-- 光谱切换胶囊 -->
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-cyan-500/30 font-mono text-[10px]">
+              <span class="text-slate-400 px-1">SPECTRUM:</span>
+              <button onclick="setCyberSpectrum('cyan')" class="px-2 py-0.5 rounded ${currentSpectrum === 'cyan' ? 'bg-cyan-500 text-black font-bold' : 'text-cyan-400'}">CYAN</button>
+              <button onclick="setCyberSpectrum('amber')" class="px-2 py-0.5 rounded ${currentSpectrum === 'amber' ? 'bg-amber-400 text-black font-bold' : 'text-amber-400'}">AMBER</button>
+              <button onclick="setCyberSpectrum('green')" class="px-2 py-0.5 rounded ${currentSpectrum === 'green' ? 'bg-emerald-400 text-black font-bold' : 'text-emerald-400'}">NIGHT</button>
+            </div>
+          </div>
+        `;
+      } else if (currentTheme === 'ios-glass') {
+        headerEl.className = 'ios-glass-card p-5 flex flex-wrap items-center justify-between gap-4 text-slate-800';
+        headerEl.innerHTML = `
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-lg shadow-[0_6px_16px_rgba(37,99,235,0.3)] border border-white/50">
+              
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-base font-bold text-slate-900 tracking-tight font-sans">iOS 流体磨砂玻璃工作台</span>
+                <span class="text-[11px] font-semibold bg-blue-500/10 text-blue-600 px-2.5 py-0.5 rounded-full border border-blue-500/20">VISION OS · V3</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5 font-medium flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                高斯模糊 28px · 饱和度 190% · 镜面边缘折射 · WCAG AAA 高清字系
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <!-- 切换流体光晕背景 -->
+            <div class="ios-segmented-capsule flex items-center gap-1 text-xs">
+              <span class="text-slate-400 text-[11px] px-2 font-medium">环境光晕:</span>
+              <button onclick="setGlassAtmosphere('mist')" class="px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${glassAtmosphere === 'mist' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}">晨雾清白</button>
+              <button onclick="setGlassAtmosphere('aurora')" class="px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${glassAtmosphere === 'aurora' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}">极光流体</button>
+              <button onclick="setGlassAtmosphere('pearl')" class="px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${glassAtmosphere === 'pearl' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}">暖珠白金</button>
+            </div>
+          </div>
+        `;
+      } else if (currentTheme === 'pop-dopamine') {
+        headerEl.className = 'bg-white border-[3px] border-slate-900 shadow-[6px_6px_0px_0px_#111827] rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 text-slate-900';
+        headerEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-yellow-400 border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#111827] rounded-xl flex items-center justify-center font-black text-xl rotate-[-3deg]">
+              ⚡
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-['Fredoka'] text-xl font-bold tracking-tight text-slate-900">GEMINI SPARK // 24H 潮玩情报</span>
+                <span class="bg-pink-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">LIVE</span>
+              </div>
+              <p class="text-xs text-slate-600 font-medium font-['Plus_Jakarta_Sans']">2026-09-30 每日智库全景 · 50 份全球突破已归档</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="pop-btn bg-violet-500 text-white font-bold text-xs px-4 py-2 rounded-xl border-[2px] border-slate-900 shadow-[3px_3px_0px_0px_#111827]">
+              🎲 随机抽卡
+            </button>
+            <button class="pop-btn bg-yellow-400 text-slate-900 font-bold text-xs px-4 py-2 rounded-xl border-[2px] border-slate-900 shadow-[3px_3px_0px_0px_#111827]">
+              ✨ 智能研报导出
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function renderCategoryBar() {
+      const catEl = document.getElementById('theme-category-bar');
+      const categories = [
+        { id: 'all', name: '全部情报', count: 50 },
+        { id: 'ai', name: '前沿 AI', count: 18 },
+        { id: 'finance', name: '全球宏观', count: 14 },
+        { id: 'climate', name: '能源气候', count: 10 },
+        { id: 'fav', name: '我的收藏', count: 8 }
+      ];
+
+      if (currentTheme === 'cyber-hud') {
+        catEl.className = 'bg-slate-900/80 border border-cyan-500/40 rounded-xl p-2 flex flex-wrap items-center justify-between gap-2 font-mono';
+        catEl.innerHTML = `
+          <div class="flex flex-wrap items-center gap-1.5">
+            ${categories.map((c, i) => `
+              <button onclick="scrambleAllTitles()" class="${i === 1 ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_10px_#00f0ff]' : 'bg-slate-950 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400'} text-xs px-3 py-1.5 rounded transition-all flex items-center gap-1.5">
+                <span>[0${i+1}] ${c.name}</span>
+                <span class="opacity-70 text-[10px]">(${c.count})</span>
+              </button>
+            `).join('')}
+          </div>
+          <div class="text-xs text-cyan-300 flex items-center gap-2">
+            <span class="text-slate-400">TELEMETRY:</span>
+            <span class="text-emerald-400 font-bold font-mono">BULLISH 82%</span>
+          </div>
+        `;
+      } else if (currentTheme === 'ios-glass') {
+        catEl.className = 'ios-glass-card p-3 flex flex-wrap items-center justify-between gap-3';
+        catEl.innerHTML = `
+          <!-- iOS 原生分段控制器 (Segmented Control) -->
+          <div class="ios-segmented-capsule flex flex-wrap items-center gap-1">
+            ${categories.map((c, i) => `
+              <button class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${i === 1 ? 'bg-white text-slate-900 shadow-[0_2px_8px_rgba(0,0,0,0.06)]' : 'text-slate-500 hover:text-slate-900'}">
+                <span>${c.name}</span>
+                <span class="${i === 1 ? 'bg-blue-500/10 text-blue-600' : 'bg-slate-200/60 text-slate-500'} text-[10px] px-1.5 py-0.2 rounded-full font-bold">${c.count}</span>
+              </button>
+            `).join('')}
+          </div>
+          <!-- iOS 优雅情绪指标药丸 -->
+          <div class="flex items-center gap-2 px-3.5 py-1.5 bg-white/70 rounded-full border border-white/80 shadow-sm text-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
+            <span class="text-slate-500 font-medium">市场情绪:</span>
+            <span class="text-slate-900 font-bold font-sans">极度乐观 (+0.82)</span>
+          </div>
+        `;
+      } else if (currentTheme === 'pop-dopamine') {
+        catEl.className = 'bg-white border-[3px] border-slate-900 shadow-[4px_4px_0px_0px_#111827] rounded-2xl p-2 flex flex-wrap items-center justify-between gap-2';
+        catEl.innerHTML = `
+          <div class="flex flex-wrap items-center gap-2 font-['Fredoka']">
+            ${categories.map((c, i) => `
+              <button class="pop-btn ${i === 1 ? 'bg-pink-500 text-white' : 'bg-slate-100 text-slate-800'} text-xs font-bold px-3.5 py-1.5 rounded-xl border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] flex items-center gap-1.5">
+                <span>${c.name}</span>
+                <span class="${i === 1 ? 'bg-white/30 text-white' : 'bg-slate-200 text-slate-700'} text-[10px] px-1.5 py-0.2 rounded-full font-bold">${c.count}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-500 font-['Plus_Jakarta_Sans']">情绪指数:</span>
+            <span class="bg-emerald-400 text-slate-950 font-black text-xs px-2.5 py-0.5 rounded-full border border-slate-900 shadow-[2px_2px_0px_0px_#111827]">+0.82 极度乐观</span>
+          </div>
+        `;
+      }
+    }
+
+    function renderNewsCards() {
+      const gridEl = document.getElementById('theme-news-grid');
+
+      if (currentTheme === 'ios-glass') {
+        const item1 = NEWS_DATA[0];
+        const item2 = NEWS_DATA[1];
+        const item3 = NEWS_DATA[2];
+
+        gridEl.innerHTML = `
+          <!-- 1. iOS 杂志级头条聚焦大卡 (Hero Editorial Lead Story - 跨 2 列横向大排版) -->
+          <article class="ios-glass-card p-6 md:p-8 rounded-xl lg:col-span-2 md:col-span-2 flex flex-col md:flex-row justify-between gap-6 group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden" onclick="openGlassDossier(${item1.id})">
+            <div class="flex-1 flex flex-col justify-between min-w-0">
+              <div>
+                <!-- iOS 经典头条 Eyebrow 标签栏 -->
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-600 text-white font-semibold text-[11px] shadow-sm">
+                     今日头条 · TOP STORY
+                  </span>
+                  <span class="text-[11px] font-semibold text-slate-600 bg-black/[0.04] px-2.5 py-1 rounded-full border border-black/5">
+                    ${item1.categoryLabel}
+                  </span>
+                  <span class="text-[11px] font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
+                    CRITICAL
+                  </span>
+                </div>
+
+                <!-- iOS 纯正大标题与副标题 -->
+                <h3 class="text-lg md:text-xl font-bold text-slate-900 leading-snug tracking-tight mb-2 group-hover:text-blue-600 transition-colors font-sans">
+                  ${item1.title}
+                </h3>
+                <h4 class="text-xs font-medium text-slate-400 mb-3.5 leading-relaxed font-sans line-clamp-1">
+                  ${item1.enTitle}
+                </h4>
+
+                <!-- iOS 核心精要微圆角凹槽容器 -->
+                <p class="text-xs text-slate-600 leading-relaxed font-normal bg-black/[0.02] p-3.5 rounded-lg border border-white/80 mb-5 font-sans line-clamp-3">
+                  ${item1.summary}
+                </p>
+              </div>
+
+              <!-- 底部 iOS 原生操作底栏 -->
+              <div class="pt-3 border-t border-slate-200/50 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2 text-slate-400 text-[11px] font-medium">
+                  <span class="font-semibold text-slate-700">${item1.source}</span>
+                  <span>·</span>
+                  <span>${item1.time}</span>
+                  <span>·</span>
+                  <span class="inline-flex items-center gap-1 text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                    ${Math.round(item1.sentimentScore * 100)}% 置信度
+                  </span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="event.stopPropagation(); toggleGlassBookmark(${item1.id});" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 border border-slate-200/70 shadow-sm flex items-center justify-center transition-all cursor-pointer" title="收藏">
+                    ♡
+                  </button>
+                  <button onclick="event.stopPropagation(); openGlassDossier(${item1.id});" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-semibold text-xs px-4 py-2 rounded-full transition-all shadow-[0_4px_12px_rgba(37,99,235,0.3)] flex items-center gap-1 cursor-pointer">
+                    <span>查看详情</span>
+                    <span>›</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 右侧专属微圆角封面大图 -->
+            <div class="w-full md:w-5/12 h-52 md:h-auto min-h-[200px] rounded-lg overflow-hidden border border-white/80 shadow-sm shrink-0 relative bg-slate-100">
+              <img src="${item1.image}" alt="${item1.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div class="absolute bottom-2 left-2 bg-white/85 backdrop-blur-md text-slate-800 text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-white/90 shadow-sm">
+                RAW FEED · 100% HI-RES
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. iOS 右侧精选速览卡 (Spotlight Column Card - 占据 1 列微圆角竖卡) -->
+          <article class="ios-glass-card p-6 rounded-xl lg:col-span-1 md:col-span-1 flex flex-col justify-between group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300" onclick="openGlassDossier(${item2.id})">
+            <div>
+              <!-- 顶部微圆角封面图 -->
+              <div class="relative w-full h-44 rounded-lg overflow-hidden border border-white/70 shadow-sm mb-4 bg-slate-100">
+                <img src="${item2.image}" alt="${item2.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div class="absolute top-2 left-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md text-white font-semibold text-[10px]">
+                  <span>MARKET FOCUS</span>
+                </div>
+              </div>
+
+              <!-- 类别与标题 -->
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[11px] font-semibold text-slate-600 bg-black/[0.04] px-2 py-0.5 rounded-full">
+                  ${item2.categoryLabel}
+                </span>
+                <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                  HIGH IMPACT
+                </span>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 leading-snug tracking-tight mb-1.5 font-sans group-hover:text-blue-600 transition-colors line-clamp-2">
+                ${item2.title}
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal bg-black/[0.02] p-3 rounded-lg border border-white/60 mb-4 font-sans line-clamp-3">
+                ${item2.summary}
+              </p>
+            </div>
+
+            <!-- 底部操作底栏 -->
+            <div class="pt-3 border-t border-slate-200/50 flex items-center justify-between text-xs gap-2">
+              <div class="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium truncate">
+                <span class="truncate">${item2.source}</span>
+                <span>·</span>
+                <span>${item2.time}</span>
+              </div>
+              <button onclick="event.stopPropagation(); openGlassDossier(${item2.id});" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-semibold text-xs px-3.5 py-1.5 rounded-full transition-all shadow-[0_4px_12px_rgba(37,99,235,0.3)] flex items-center gap-1 cursor-pointer shrink-0">
+                <span>查看详情</span>
+                <span>›</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- 3. iOS 智库内参横向行 (Horizontal Inset Editorial Row - 跨 3 列微圆角铺开) -->
+          <article class="ios-glass-card p-6 rounded-xl lg:col-span-3 md:col-span-2 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300" onclick="openGlassDossier(${item3.id})">
+            <!-- 左侧微圆角缩略图 -->
+            <div class="w-full md:w-56 h-40 md:h-32 rounded-lg overflow-hidden border border-white/70 shadow-sm shrink-0 relative bg-slate-100">
+              <img src="${item3.image}" alt="${item3.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute bottom-2 left-2 bg-white/85 backdrop-blur-md text-slate-800 text-[9px] font-semibold px-2.5 py-0.5 rounded-full border border-white/90 shadow-sm">
+                GLOBAL BRIEF
+              </div>
+            </div>
+
+            <!-- 中间故事文案与排版 -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-semibold text-[10px]">
+                  🌿 深度洞察
+                </span>
+                <span class="text-[11px] font-semibold text-slate-600 bg-black/[0.04] px-2 py-0.5 rounded-full">
+                  ${item3.categoryLabel}
+                </span>
+                <span class="text-[11px] font-medium text-slate-400">
+                  ID: SPARK-00${item3.id}
+                </span>
+              </div>
+              <h3 class="text-base md:text-lg font-bold text-slate-900 leading-snug tracking-tight mb-1.5 font-sans group-hover:text-blue-600 transition-colors">
+                ${item3.title}
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal line-clamp-2 mb-3 font-sans">
+                ${item3.summary}
+              </p>
+              <div class="flex flex-wrap items-center gap-2 text-slate-400 text-[11px] font-medium">
+                <span class="font-semibold text-slate-700">${item3.source}</span>
+                <span>·</span>
+                <span>${item3.time}</span>
+                <span>·</span>
+                <span class="inline-flex items-center gap-1 text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  ${Math.round(item3.sentimentScore * 100)}% 确定性
+                </span>
+              </div>
+            </div>
+
+            <!-- 右侧操作区 -->
+            <div class="flex items-center gap-3 shrink-0 self-end md:self-center">
+              <button onclick="event.stopPropagation(); toggleGlassBookmark(${item3.id});" class="w-9 h-9 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 border border-slate-200/70 shadow-sm flex items-center justify-center transition-all cursor-pointer" title="收藏">
+                ♡
+              </button>
+              <button onclick="event.stopPropagation(); openGlassDossier(${item3.id});" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-semibold text-xs px-5 py-2.5 rounded-full transition-all shadow-[0_4px_12px_rgba(37,99,235,0.3)] flex items-center gap-1.5 cursor-pointer">
+                <span>查看详情</span>
+                <span>›</span>
+              </button>
+            </div>
+          </article>
+        `;
+        return;
+      }
+
+      gridEl.innerHTML = NEWS_DATA.map((item, idx) => {
+        if (currentTheme === 'cyber-hud') {
+          return `
+            <article class="bg-slate-900/85 border border-cyan-500/40 hover:border-cyan-400/90 rounded-2xl p-5 shadow-[0_0_20px_rgba(0,240,255,0.12)] hover:shadow-[0_0_30px_rgba(0,240,255,0.35)] transition-all duration-300 flex flex-col justify-between cyber-corner-bracket group cursor-pointer" onclick="openHoloDossier(${item.id})">
+              <div>
+                <!-- 顶部情报标签栏 -->
+                <div class="flex items-center justify-between font-mono text-[10px] text-cyan-400 mb-3">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span class="font-bold tracking-wider">[ID: SPARK-00${item.id}]</span>
+                    <span class="text-cyan-300/60">//</span>
+                    <span class="text-cyan-300 font-semibold">${item.categoryLabel}</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                      3D HOLO READY
+                    </span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">
+                      ${item.impact}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 高清封面图 (纯净高清大图，全局取消十字准心) -->
+                <div class="relative w-full h-44 rounded-xl overflow-hidden mb-4 bg-slate-950 border border-cyan-500/30">
+                  <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute bottom-1.5 left-2 bg-slate-950/80 border border-cyan-400/50 px-2 py-0.5 rounded text-[8px] font-mono text-cyan-300 backdrop-blur-sm">
+                    RAW INTEL FEED // 100% HI-RES
+                  </div>
+                </div>
+
+                <!-- 标题与副标题 -->
+                <h3 class="text-base font-bold text-white leading-snug tracking-wide mb-1.5 font-['Chakra_Petch'] group-hover:text-cyan-200 transition-colors line-clamp-2">
+                  ${item.title}
+                </h3>
+                <h4 class="text-[11px] font-mono text-cyan-300/80 mb-3 leading-tight tracking-tight line-clamp-1">
+                  ${item.enTitle}
+                </h4>
+
+                <!-- 研报核心摘要预览 -->
+                <p class="text-xs text-slate-300 leading-relaxed font-sans line-clamp-2 mb-4">
+                  ${item.summary}
+                </p>
+              </div>
+
+              <!-- 重新排版：一体化遥测与操作底栏（移除红框无意义指标，融合蓝框信源时间与查看详情操作按键） -->
+              <div class="pt-3 border-t border-cyan-500/30 flex items-center justify-between font-mono text-[10px] gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="py-1 px-2 bg-cyan-950/60 border border-cyan-500/40 rounded flex items-center gap-1.5 shrink-0">
+                    <span class="text-slate-400 text-[8px]">置信度</span>
+                    <span class="text-cyan-300 font-bold font-mono text-xs">${(item.sentimentScore * 100).toFixed(0)}%</span>
+                  </div>
+                  <span class="text-slate-400 truncate text-[11px]">${item.source} · ${item.time}</span>
+                </div>
+                <button onclick="event.stopPropagation(); openHoloDossier(${item.id});" class="bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition-all shadow-[0_0_15px_rgba(0,240,255,0.6)] active:scale-95 flex items-center justify-center cursor-pointer flex-shrink-0">
+                  <span>查看详情</span>
+                </button>
+              </div>
+            </article>
+          `;
+        } else if (currentTheme === 'pop-dopamine') {
+          return `
+            <article class="bg-white border-[3px] border-slate-900 shadow-[6px_6px_0px_0px_#111827] rounded-3xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_#111827] text-slate-900 relative group overflow-hidden">
+              <div class="absolute -top-1 -right-1 z-20 pop-sticker">
+                <span class="bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] text-slate-900 font-['Fredoka'] font-black text-[11px] px-3 py-1 rounded-lg block">
+                  ${item.badgeText}
+                </span>
+              </div>
+
+              <div>
+                <div class="relative w-full h-48 rounded-2xl overflow-hidden border-[2.5px] border-slate-900 shadow-[3px_3px_0px_0px_#111827] mb-4 bg-slate-100">
+                  <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute bottom-2 left-2 bg-slate-900/90 text-white font-['Fredoka'] text-[11px] font-bold px-2.5 py-0.5 rounded-lg border border-slate-700">
+                    🏷️ ${item.categoryLabel}
+                  </div>
+                </div>
+
+                <h3 class="text-base font-extrabold text-slate-900 leading-snug tracking-tight mb-1.5 font-['Plus_Jakarta_Sans'] hover:text-pink-600 transition-colors">
+                  ${item.title}
+                </h3>
+                <h4 class="text-xs font-semibold text-slate-600 mb-3 leading-relaxed">
+                  ${item.enTitle}
+                </h4>
+
+                <p class="text-xs text-slate-700 leading-relaxed font-normal bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 mb-4">
+                  ${item.summary}
+                </p>
+              </div>
+
+              <div class="pt-3 border-t-2 border-slate-200 flex items-center justify-between">
+                <span class="text-[11px] font-bold text-slate-500 flex items-center gap-1">
+                  📡 ${item.source} · ${item.time}
+                </span>
+                <div class="flex items-center gap-2">
+                  <button class="pop-btn bg-pink-100 hover:bg-pink-200 text-pink-600 font-black text-xs p-2 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]" title="收藏">
+                    ❤️
+                  </button>
+                  <button class="pop-btn bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-extrabold text-xs px-3 py-1.5 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
+                    解读全文 →
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        }
+      }).join('');
+      if (currentTheme === 'cyber-hud') {
+        setTimeout(() => initHoloDeckParallax(), 50);
+      }
+    }
+
+    function scrambleAllTitles() {
+      NEWS_DATA.forEach((item, idx) => {
+        const titles = document.querySelectorAll('#theme-news-grid h3');
+        if (titles[idx]) scrambleTitle(titles[idx], item.title);
+      });
+    }
+
+    function renderErrorState() {
+      const errorEl = document.getElementById('theme-error-panel');
+      if (currentTheme === 'cyber-hud') {
+        errorEl.className = 'bg-slate-900/95 border-2 border-rose-500/80 shadow-[0_0_30px_rgba(244,63,94,0.3)] rounded-xl p-8 max-w-xl mx-auto text-cyan-400 font-mono text-center cyber-corner-bracket';
+        errorEl.innerHTML = `
+          <div class="w-16 h-16 rounded-full border-2 border-rose-500 bg-rose-950/40 flex items-center justify-center text-rose-400 text-2xl mx-auto mb-4 animate-pulse">
+            ⚠️
+          </div>
+          <div class="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/40 px-3 py-1 rounded inline-block mb-2">
+            [SYS_ERR: SATELLITE_LINK_LOST // 503]
+          </div>
+          <h3 class="font-['Chakra_Petch'] text-xl font-bold text-white mb-2">卫星加密信道握手超时</h3>
+          <p class="text-xs text-slate-400 leading-relaxed max-w-md mx-auto mb-6 font-sans">
+            远端数据节点未响应校验探针。安全网关已自动进入只读防御缓存模式，未发生任何数据损毁。
+          </p>
+          <div class="flex items-center justify-center gap-3 font-mono">
+            <button onclick="setState('normal')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-5 py-2.5 rounded shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
+              [ RE-CALIBRATE LINK / 重新校准信道 ]
+            </button>
+          </div>
+        `;
+      } else if (currentTheme === 'ios-glass') {
+        errorEl.className = 'ios-glass-card p-8 max-w-xl mx-auto text-slate-800 text-center shadow-2xl';
+        errorEl.innerHTML = `
+          <div class="w-16 h-16 rounded-3xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+            ⚠️
+          </div>
+          <span class="text-xs font-semibold bg-amber-500/10 text-amber-700 px-3 py-1 rounded-full border border-amber-500/20">
+            CONNECTIVITY // 503 ERROR
+          </span>
+          <h3 class="text-xl font-bold text-slate-900 mt-3 mb-2 font-sans">
+            Apple 神经引擎数据链路重试
+          </h3>
+          <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed mb-6 font-medium">
+            网络瞬时波动。本地沙盒安全防护机制已启动，你的收藏与历史缓存完好无损，轻触下方按键立即重新握手。
+          </p>
+          <div class="flex items-center justify-center gap-3">
+            <button onclick="setState('normal')" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-6 py-2.5 rounded-full shadow-[0_4px_14px_rgba(37,99,235,0.3)] transition-all cursor-pointer">
+              重新连接信道
+            </button>
+          </div>
+        `;
+      } else if (currentTheme === 'pop-dopamine') {
+        errorEl.className = 'bg-white border-[3px] border-slate-900 shadow-[8px_8px_0px_0px_#111827] rounded-3xl p-8 max-w-xl mx-auto text-slate-900 text-center';
+        errorEl.innerHTML = `
+          <div class="w-20 h-20 bg-pink-100 border-[3px] border-slate-900 shadow-[4px_4px_0px_0px_#111827] rounded-2xl flex items-center justify-center text-4xl mx-auto mb-4 animate-bounce">
+            🧩
+          </div>
+          <span class="bg-yellow-300 text-slate-900 font-['Fredoka'] font-black text-xs px-3 py-1 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] uppercase">
+            Oops! 积木零件散落了
+          </span>
+          <h3 class="font-['Fredoka'] text-2xl font-bold text-slate-900 mt-3 mb-2">情报流水线暂时连接中断</h3>
+          <p class="text-xs text-slate-600 max-w-md mx-auto leading-relaxed mb-6 font-medium">
+            网络波动或云端同步受阻。别担心，你的本地收藏与历史缓存完好无损，轻触下方按键立即重新拼装！
+          </p>
+          <div class="flex items-center justify-center gap-3">
+            <button onclick="setState('normal')" class="pop-btn bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-black text-sm px-6 py-2.5 rounded-xl border-[2px] border-slate-900 shadow-[4px_4px_0px_0px_#111827]">
+              🧩 重新拼装（重试自愈）
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
