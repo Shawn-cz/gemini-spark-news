@@ -92,6 +92,8 @@ export const SparkNewsDashboard: React.FC = () => {
   const [isImportModalOpen, setIsImportModalOpen] = useState<boolean>(false);
   const [isDevToolsOpen, setIsDevToolsOpen] = useState<boolean>(false);
   const [silentCountdown, setSilentCountdown] = useState<number>(30);
+  const [isRunningTransitionActive, setIsRunningTransitionActive] = useState<boolean>(false);
+  const wasRunningRef = useRef<boolean>(false);
 
   // 4. 引用持久化，防止竞态条件与内存泄漏
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -132,6 +134,15 @@ export const SparkNewsDashboard: React.FC = () => {
         }, controller.signal)
       ]);
 
+      if (batchStatusRes && (batchStatusRes.status === 'RUNNING' || batchStatusRes.status === 'PENDING')) {
+        wasRunningRef.current = true;
+      } else if (batchStatusRes && batchStatusRes.status === 'COMPLETED') {
+        if (wasRunningRef.current) {
+          // 若之前处于生成运行中，刚收到完成响应，启动 100% 冲刺过渡
+          setIsRunningTransitionActive(true);
+        }
+      }
+
       setStatusInfo(batchStatusRes);
       setRawBatchNews(newsRes.items);
       setRawBatchStats(newsRes.stats);
@@ -168,6 +179,8 @@ export const SparkNewsDashboard: React.FC = () => {
   // 日期步进切换与跳转至最新批次
   const handleDateChange = useCallback((newDate: string) => {
     setHasNewerBatchAvailable(false);
+    wasRunningRef.current = false;
+    setIsRunningTransitionActive(false);
     if (newDate === selectedDate) return;
     setSelectedDate(newDate);
     setPage(1);
@@ -324,6 +337,10 @@ export const SparkNewsDashboard: React.FC = () => {
               })
               .catch(() => {});
 
+            if (wasRunningRef.current) {
+              setIsRunningTransitionActive(true);
+            }
+
             setStatusInfo((prev) => {
               const base = prev || buildFallbackStatus(
                 payload.date || selectedDate, 
@@ -344,6 +361,7 @@ export const SparkNewsDashboard: React.FC = () => {
             loadDashboardDataRef.current(true);
             showToastRef.current('⚡ Gemini Spark 今日简报生产完毕，大屏已自动同步');
           } else if (payload.type === 'STATUS_UPDATE' && payload.status === 'RUNNING') {
+            wasRunningRef.current = true;
             setStatusInfo((prev) => {
               const base = prev || buildFallbackStatus(
                 payload.date || selectedDate, 
@@ -361,6 +379,7 @@ export const SparkNewsDashboard: React.FC = () => {
               };
             });
           } else if (payload.type === 'PROGRESS') {
+            wasRunningRef.current = true;
             setStatusInfo((prev) => {
               const base = prev || buildFallbackStatus(
                 selectedDate, 
@@ -535,6 +554,9 @@ export const SparkNewsDashboard: React.FC = () => {
   // 调试状态切换 (COMPLETED <-> RUNNING)
   const handleToggleStatus = async (targetStatus?: BatchStatusType) => {
     try {
+      if (targetStatus === 'RUNNING') {
+        wasRunningRef.current = true;
+      }
       const res = await toggleSparkStatus(selectedDate, targetStatus);
       showToast(res.message);
       await loadDashboardData(false);
@@ -560,8 +582,13 @@ export const SparkNewsDashboard: React.FC = () => {
     setPage(1);
   };
 
+  const handleFinishTransition = useCallback(() => {
+    wasRunningRef.current = false;
+    setIsRunningTransitionActive(false);
+  }, []);
+
   const isCurrentBatchRunningOrPending = 
-    statusInfo && statusInfo.status !== 'COMPLETED';
+    (statusInfo && statusInfo.status !== 'COMPLETED') || isRunningTransitionActive;
 
   return (
     <div className={`min-h-screen flex flex-col font-sans transition-colors relative ${
@@ -654,7 +681,9 @@ export const SparkNewsDashboard: React.FC = () => {
           <RunningStateView
             statusInfo={statusInfo}
             onViewPreviousDay={handleViewPreviousDay}
-            previousDateStr="2026-09-23"
+            previousDateStr={availableDates[1] || '2026-09-23'}
+            isFinishing={isRunningTransitionActive}
+            onFinishTransition={handleFinishTransition}
           />
         ) : isInitialLoading ? (
           /* 3. 边界状态处理 2: 初次加载骨架屏 (Skeleton Loading) */
