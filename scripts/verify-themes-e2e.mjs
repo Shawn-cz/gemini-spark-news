@@ -139,8 +139,16 @@ async function run() {
     });
     await new Promise(r => setTimeout(r, 1000));
     const pathC = path.join(ARTIFACT_DIR, 'react_theme_c_ios_glass.png');
-    await page.screenshot({ path: pathC });
-    console.log(`   📸 方案C全景截图已保存: ${pathC}`);
+    await page.screenshot({ path: pathC, fullPage: true });
+    console.log(`   📸 方案C全景完整截图 (含全部下方窗格) 已保存: ${pathC}`);
+
+    // 滚动并截取下方窗格近景
+    await page.evaluate(() => window.scrollTo(0, 600));
+    await new Promise(r => setTimeout(r, 500));
+    const pathCRow2 = path.join(ARTIFACT_DIR, 'react_theme_c_cards_row2.png');
+    await page.screenshot({ path: pathCRow2 });
+    console.log(`   📸 方案C下方窗格特写截图已保存: ${pathCRow2}`);
+    await page.evaluate(() => window.scrollTo(0, 0));
 
     // 4. 验证卡片内“查看详情”按钮与 10px 微圆角，以及分类胶囊度量
     const cardMetrics = await page.evaluate(() => {

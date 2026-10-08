@@ -183,7 +183,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
 
         {/* 卡片主体内容 */}
         <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
-          <div>
+          <div className={`flex flex-col ${isHero ? 'flex-1' : ''}`}>
             {/* 中文主标题 */}
             <h3 className={`font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug mb-1 line-clamp-2 ${
               isHero ? 'text-base sm:text-lg' : 'text-sm'
@@ -198,16 +198,20 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
               </p>
             )}
 
-            {/* 摘要 (8px 微圆角流体框) */}
-            <div className={`bg-slate-900/[0.02] border border-slate-200/60 rounded-[8px] p-2.5 my-2 text-slate-600 text-xs leading-relaxed ${
-              isHero ? 'line-clamp-3' : 'line-clamp-2'
+            {/* 摘要 (8px 微圆角流体框：将 line-clamp 放置于内部 p 标签彻底杜绝边框切断半行文字 Bug，同时 Hero 卡片支持 flex-1 自适应拉伸填充) */}
+            <div className={`bg-slate-900/[0.02] border border-slate-200/60 rounded-[8px] p-2.5 my-2 ${
+              isHero ? 'flex-1 flex flex-col justify-center my-3' : ''
             }`}>
-              {news.summary}
+              <p className={`text-slate-600 text-xs leading-relaxed m-0 ${
+                isHero ? 'line-clamp-4 sm:line-clamp-6' : 'line-clamp-2'
+              }`}>
+                {news.summary}
+              </p>
             </div>
           </div>
 
           {/* 底部操作区：单一“查看详情”按钮 (符合需求：红框内容太冗长，只要写“查看详情”就行) */}
-          <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2 mt-auto">
             {/* Spark 实体标签 */}
             <div className="flex items-center gap-1 overflow-hidden">
               {(news.nlpKeyEntities || news.tags).slice(0, 2).map((entity, i) => (
@@ -277,7 +281,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
           </span>
         </div>
 
-        <div>
+        <div className={`flex flex-col ${isHero ? 'flex-1' : ''}`}>
           {/* 拍立得式粗黑边框封面图 */}
           <div className={`relative w-full rounded-2xl overflow-hidden border-[2.5px] border-slate-900 shadow-[3px_3px_0px_0px_#111827] mb-4 bg-slate-100 ${
             isHero ? 'h-56 sm:h-64' : 'h-48'
@@ -315,10 +319,16 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
             </h4>
           )}
 
-          {/* 暖调淡黄摘要窗格 */}
-          <p className="text-xs text-slate-700 leading-relaxed font-normal bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 mb-4 line-clamp-2">
-            {news.summary}
-          </p>
+          {/* 暖调淡黄摘要窗格：将 line-clamp 放置于内部 p 标签彻底杜绝底边截断半行文字 Bug */}
+          <div className={`bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 mb-4 ${
+            isHero ? 'flex-1 flex flex-col justify-center my-2' : ''
+          }`}>
+            <p className={`text-xs text-slate-700 leading-relaxed font-normal m-0 ${
+              isHero ? 'line-clamp-4 sm:line-clamp-6' : 'line-clamp-2'
+            }`}>
+              {news.summary}
+            </p>
+          </div>
         </div>
 
         {/* 底部波普弹润交互底栏 */}
@@ -368,7 +378,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
         isHero ? 'md:col-span-2 md:row-span-2' : ''
       }`}
     >
-      <div>
+      <div className={`flex flex-col ${isHero ? 'flex-1' : ''}`}>
         {/* 顶部战术情报标签栏 */}
         <div className="flex items-center justify-between font-mono text-[10px] text-cyan-400 mb-3">
           <div className="flex items-center gap-1.5 min-w-0">
@@ -423,13 +433,17 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
         )}
 
         {/* 研报核心摘要预览 */}
-        <p className="text-xs text-slate-300 leading-relaxed font-sans line-clamp-2 mb-4">
-          {news.summary}
-        </p>
+        <div className={`${isHero ? 'flex-1 flex flex-col justify-center my-2' : 'mb-4'}`}>
+          <p className={`text-xs text-slate-300 leading-relaxed font-sans m-0 ${
+            isHero ? 'line-clamp-4 sm:line-clamp-6' : 'line-clamp-2'
+          }`}>
+            {news.summary}
+          </p>
+        </div>
       </div>
 
       {/* 一体化遥测与操作底栏 */}
-      <div className="pt-3 border-t border-cyan-500/30 flex items-center justify-between font-mono text-[10px] gap-2">
+      <div className="pt-3 border-t border-cyan-500/30 flex items-center justify-between font-mono text-[10px] gap-2 mt-auto">
         <div className="flex items-center gap-2 min-w-0">
           <div className="py-1 px-2 bg-cyan-950/60 border border-cyan-500/40 rounded flex items-center gap-1.5 shrink-0">
             <span className="text-slate-400 text-[8px]">置信度</span>
