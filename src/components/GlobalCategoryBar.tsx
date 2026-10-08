@@ -76,100 +76,66 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
   return (
     <div className="space-y-3 mb-6">
       
-      {/* 第一行：领域胶囊切换与右侧视图模式切换 (Bento/Matrix/Timeline) */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3 min-w-0">
-        
-        {/* 领域胶囊 + 我的收藏 */}
-        <div className="category-scroll-container flex items-center gap-1.5 overflow-x-auto pb-1 xl:pb-0 scrollbar-none min-w-0 flex-1">
-          {categories.map((cat) => {
-            const isSelected = selectedCategory === cat.key;
-            const Icon = cat.icon;
-            const isBm = (cat as any).isBookmark;
+      {/* 第一行：全量领域与收藏胶囊栏 (6 颗胶囊独享整行，彻底杜绝任何右侧视图按钮挤压与遮挡) */}
+      <div className="category-scroll-container w-full flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none min-w-0">
+        {categories.map((cat) => {
+          const isSelected = selectedCategory === cat.key;
+          const Icon = cat.icon;
+          const isBm = (cat as any).isBookmark;
 
-            const selectedStyle = isIosGlass
-              ? isBm
-                ? 'category-pill-selected category-pill-bookmarks bg-amber-500 text-white border border-amber-500 shadow-md font-semibold'
-                : 'category-pill-selected bg-blue-600 text-white border border-blue-600 shadow-md font-semibold'
-              : isPopDopamine
-              ? isBm
-                ? 'pop-btn bg-yellow-400 text-slate-900 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
-                : 'pop-btn bg-pink-500 text-white border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
-              : isBm
-              ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold font-mono'
-              : 'category-pill-selected bg-cyan-500 text-slate-950 font-bold border border-cyan-400 shadow-[0_0_10px_#00f0ff] font-mono';
+          const selectedStyle = isIosGlass
+            ? isBm
+              ? 'category-pill-selected category-pill-bookmarks bg-amber-500 text-white border border-amber-500 shadow-md font-semibold'
+              : 'category-pill-selected bg-blue-600 text-white border border-blue-600 shadow-md font-semibold'
+            : isPopDopamine
+            ? isBm
+              ? 'pop-btn bg-yellow-400 text-slate-900 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
+              : 'pop-btn bg-pink-500 text-white border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
+            : isBm
+            ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold font-mono'
+            : 'category-pill-selected bg-cyan-500 text-slate-950 font-bold border border-cyan-400 shadow-[0_0_10px_#00f0ff] font-mono';
 
-            const unselectedStyle = isIosGlass
-              ? isBm
-                ? 'category-pill-unselected bg-amber-50/90 text-amber-800 border border-amber-200/80 hover:bg-amber-100 hover:text-amber-900 shadow-sm'
-                : 'category-pill-unselected bg-white/85 text-slate-700 border border-slate-200/80 hover:bg-white hover:text-slate-900 shadow-sm'
-              : isPopDopamine
-              ? 'pop-btn bg-slate-100 text-slate-800 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-[\'Fredoka\']'
-              : isBm
-              ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30 font-mono'
-              : 'category-pill-unselected bg-slate-950 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400 font-mono';
+          const unselectedStyle = isIosGlass
+            ? isBm
+              ? 'category-pill-unselected bg-amber-50/90 text-amber-800 border border-amber-200/80 hover:bg-amber-100 hover:text-amber-900 shadow-sm'
+              : 'category-pill-unselected bg-white/85 text-slate-700 border border-slate-200/80 hover:bg-white hover:text-slate-900 shadow-sm'
+            : isPopDopamine
+            ? 'pop-btn bg-slate-100 text-slate-800 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-[\'Fredoka\']'
+            : isBm
+            ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30 font-mono'
+            : 'category-pill-unselected bg-slate-950 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400 font-mono';
 
-            return (
-              <button
-                key={cat.key}
-                type="button"
-                onClick={() => onSelectCategory(cat.key)}
-                className={`category-pill-btn inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 ${
-                  isPopDopamine ? 'rounded-xl' : 'rounded-lg'
-                } text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
-                  isSelected ? selectedStyle : unselectedStyle
-                }`}
-              >
-                <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
-                  isSelected 
-                    ? isIosGlass ? 'text-white' : isPopDopamine ? 'text-slate-900' : 'text-slate-950'
-                    : isIosGlass ? (isBm ? 'text-amber-600' : 'text-slate-600') : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
-                }`} />
-                <span>{cat.label}</span>
-                <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
-                  isSelected 
-                    ? isIosGlass ? 'bg-white/25 text-white' : isPopDopamine ? 'bg-white/40 text-slate-900 font-bold' : 'bg-slate-950/30 text-slate-950 font-bold'
-                    : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600') : isPopDopamine ? 'bg-slate-200 text-slate-700' : 'bg-cyan-500/10 text-cyan-300'
-                }`}>
-                  {cat.count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 3 种视图模式切换 */}
-        <div className={`viewmode-container inline-flex p-1 rounded-xl self-start xl:self-auto flex-shrink-0 transition-colors ${
-          isIosGlass ? 'bg-white/80 border border-slate-200/80 shadow-sm' : isPopDopamine ? 'bg-white border-[2.5px] border-slate-900 shadow-[3px_3px_0px_0px_#111827]' : 'bg-obsidian-card border border-white/10 shadow-inner'
-        }`}>
-          {viewModes.map((vm) => {
-            const isSelected = viewMode === vm.key;
-            const Icon = vm.icon;
-            return (
-              <button
-                key={vm.key}
-                type="button"
-                onClick={() => onSelectViewMode(vm.key)}
-                className={`viewmode-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
-                  isSelected
-                    ? isIosGlass
-                      ? 'viewmode-btn-active bg-blue-600 text-white shadow-md font-semibold'
-                      : 'viewmode-btn-active bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
-                    : isIosGlass
-                    ? 'text-slate-600 hover:text-slate-900'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                <span className="whitespace-nowrap">{vm.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
+          return (
+            <button
+              key={cat.key}
+              type="button"
+              onClick={() => onSelectCategory(cat.key)}
+              className={`category-pill-btn inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 ${
+                isPopDopamine ? 'rounded-xl' : 'rounded-lg'
+              } text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
+                isSelected ? selectedStyle : unselectedStyle
+              }`}
+            >
+              <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
+                isSelected 
+                  ? isIosGlass ? 'text-white' : isPopDopamine ? 'text-slate-900' : 'text-slate-950'
+                  : isIosGlass ? (isBm ? 'text-amber-600' : 'text-slate-600') : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
+              }`} />
+              <span>{cat.label}</span>
+              <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
+                isSelected 
+                  ? isIosGlass ? 'bg-white/25 text-white' : isPopDopamine ? 'bg-white/40 text-slate-900 font-bold' : 'bg-slate-950/30 text-slate-950 font-bold'
+                : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600') : isPopDopamine ? 'bg-slate-200 text-slate-700' : 'bg-cyan-500/10 text-cyan-300'
+              }`}>
+                {cat.count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* 第二行：情绪快速滤镜与检索框 */}
-      <div className={`p-2 sm:p-2.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-colors ${
+      {/* 第二行：情绪快速滤镜、3 种视图模式切换 (Bento/Matrix/Timeline) 与全站检索框 */}
+      <div className={`p-2 sm:p-2.5 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3 transition-colors ${
         isIosGlass
           ? 'bg-white/80 border border-slate-200/80 shadow-sm'
           : isPopDopamine
@@ -207,35 +173,69 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
           })}
         </div>
 
-        {/* 全球多语种检索框 */}
-        <div className="relative w-full sm:w-64 flex-shrink-0">
-          <Search className={`category-search-icon w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${
-            isIosGlass ? 'text-slate-500' : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
-          }`} />
-          <input
-            type="text"
-            placeholder={isCyberHud ? "[QUERY: SEARCH_INTEL]..." : "检索全球实体、机构或标签..."}
-            value={searchValue}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className={`category-search-input w-full pl-8 pr-3 py-1.5 text-xs rounded-lg focus:outline-none transition font-mono ${
-              isIosGlass
-                ? 'bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500 shadow-inner'
-                : isPopDopamine
-                ? 'bg-white border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] text-slate-900 placeholder-slate-400 font-[\'Plus_Jakarta_Sans\'] rounded-xl'
-                : 'bg-slate-950/80 border border-cyan-500/40 text-cyan-200 placeholder-cyan-500/40 focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-400 font-mono'
-            }`}
-          />
-          {searchValue && (
-            <button
-              type="button"
-              onClick={() => onSearchChange('')}
-              className={`category-search-clear absolute right-2.5 top-1/2 -translate-y-1/2 text-xs transition ${
-                isIosGlass ? 'text-slate-400 hover:text-slate-700' : isPopDopamine ? 'text-slate-500 hover:text-black font-bold' : 'text-cyan-400 hover:text-cyan-200 font-mono'
+        {/* 右侧工具组：3 种视图模式切换 (Bento/Matrix/Timeline) + 检索框 */}
+        <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap flex-shrink-0">
+          {/* 3 种视图模式切换 */}
+          <div className={`viewmode-container inline-flex p-1 rounded-xl flex-shrink-0 transition-colors ${
+            isIosGlass ? 'bg-white/80 border border-slate-200/80 shadow-sm' : isPopDopamine ? 'bg-white border-[2.5px] border-slate-900 shadow-[3px_3px_0px_0px_#111827]' : 'bg-obsidian-card border border-white/10 shadow-inner'
+          }`}>
+            {viewModes.map((vm) => {
+              const isSelected = viewMode === vm.key;
+              const Icon = vm.icon;
+              return (
+                <button
+                  key={vm.key}
+                  type="button"
+                  onClick={() => onSelectViewMode(vm.key)}
+                  className={`viewmode-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                    isSelected
+                      ? isIosGlass
+                        ? 'viewmode-btn-active bg-blue-600 text-white shadow-md font-semibold'
+                        : isPopDopamine
+                        ? 'viewmode-btn-active bg-pink-500 text-white shadow-md font-bold'
+                        : 'viewmode-btn-active bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md font-semibold'
+                      : isIosGlass
+                      ? 'text-slate-600 hover:text-slate-900'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="whitespace-nowrap">{vm.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 全球多语种检索框 */}
+          <div className="relative w-full sm:w-56 flex-shrink-0">
+            <Search className={`category-search-icon w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${
+              isIosGlass ? 'text-slate-500' : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
+            }`} />
+            <input
+              type="text"
+              placeholder={isCyberHud ? "[QUERY: SEARCH]..." : "检索实体或标签..."}
+              value={searchValue}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className={`category-search-input w-full pl-8 pr-3 py-1.5 text-xs rounded-lg focus:outline-none transition font-mono ${
+                isIosGlass
+                  ? 'bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500 shadow-inner'
+                  : isPopDopamine
+                  ? 'bg-white border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] text-slate-900 placeholder-slate-400 font-[\'Plus_Jakarta_Sans\'] rounded-xl'
+                  : 'bg-slate-950/80 border border-cyan-500/40 text-cyan-200 placeholder-cyan-500/40 focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-400 font-mono'
               }`}
-            >
-              ×
-            </button>
-          )}
+            />
+            {searchValue && (
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className={`category-search-clear absolute right-2.5 top-1/2 -translate-y-1/2 text-xs transition ${
+                  isIosGlass ? 'text-slate-400 hover:text-slate-700' : isPopDopamine ? 'text-slate-500 hover:text-black font-bold' : 'text-cyan-400 hover:text-cyan-200 font-mono'
+                }`}
+              >
+                ×
+              </button>
+            )}
+          </div>
         </div>
 
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loader2, ArrowRight, ShieldAlert, Cpu, Radio, Sparkles, CheckCircle2, Globe2, Brain, Database, Activity } from 'lucide-react';
 import { SparkBatchStatusInfo } from '../types/news';
 import { useTheme } from '../context/ThemeContext';
@@ -17,9 +17,43 @@ export const RunningStateView: React.FC<RunningStateViewProps> = ({
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
   const isRunning = statusInfo?.status === 'RUNNING';
-  const remainingMinutes = statusInfo?.estimatedRemainingMinutes ?? 18;
-  const progress = statusInfo?.progress ?? 68;
-  const currentStage = statusInfo?.currentStage ?? '阶段 2/4: Gemini 深度多语种提炼与情绪实体抽取';
+  
+  // 动态推进的流水线实时进度值 (即使初始为 0% 或排队中，也会展现出智能体实时提炼的推进质感)
+  const serverProgress = statusInfo?.progress ?? 0;
+  const initialBase = Math.max(serverProgress, isRunning ? 28 : 12);
+  const [activeProgress, setActiveProgress] = useState<number>(initialBase);
+  const [remainingMinutes, setRemainingMinutes] = useState<number>(
+    statusInfo?.estimatedRemainingMinutes && statusInfo.estimatedRemainingMinutes > 0
+      ? statusInfo.estimatedRemainingMinutes
+      : isRunning ? 18 : 36
+  );
+
+  // 1. 同步服务端下发的新进度 (若 SSE / API 推送了更高进度，优先接轨)
+  useEffect(() => {
+    if (serverProgress > activeProgress) {
+      setActiveProgress(serverProgress);
+    }
+  }, [serverProgress]);
+
+  // 2. 模拟高科技智能体流水线的自主推进动画 (平滑递增 1~3%，直至 94% 预备就绪)
+  useEffect(() => {
+    const progressTimer = setInterval(() => {
+      setActiveProgress((prev) => {
+        if (prev >= 94) return prev;
+        const step = Math.floor(Math.random() * 3) + 1;
+        return Math.min(prev + step, 94);
+      });
+    }, 1400);
+
+    const minTimer = setInterval(() => {
+      setRemainingMinutes((prev) => (prev > 1 ? prev - 1 : 1));
+    }, 50000);
+
+    return () => {
+      clearInterval(progressTimer);
+      clearInterval(minTimer);
+    };
+  }, []);
 
   const stages = [
     { id: 1, name: '全球资讯信源抓取', en: 'Global Crawl & Ingestion', icon: Globe2, threshold: 25 },
@@ -27,6 +61,13 @@ export const RunningStateView: React.FC<RunningStateViewProps> = ({
     { id: 3, name: '情感极性与实体打分', en: 'Sentiment & Entity Extraction', icon: Activity, threshold: 75 },
     { id: 4, name: '智库多维档案结构化入库', en: 'Multi-Modal Archive DB', icon: Database, threshold: 100 },
   ];
+
+  // 动态感知当前所处阶段的详细描述
+  const activeStageDescription = 
+    activeProgress < 25 ? '阶段 1/4: 全网路透/彭博多源信源检索与长文拉取中' :
+    activeProgress < 50 ? '阶段 2/4: Gemini 深度跨语种提炼与核心事实结构化' :
+    activeProgress < 75 ? '阶段 3/4: 全球宏观情感极性与知识实体图谱打分中' :
+    '阶段 4/4: 智库多维档案归档校验与持久化中';
 
   return (
     <div className={`relative max-w-3xl mx-auto my-10 overflow-hidden transition-all duration-300 ${
@@ -98,29 +139,41 @@ export const RunningStateView: React.FC<RunningStateViewProps> = ({
           <span className={`font-semibold flex items-center gap-1.5 ${isIosGlass ? 'text-slate-700' : 'text-slate-300'}`}>
             <span className={`w-2 h-2 rounded-full animate-pulse ${isIosGlass ? 'bg-blue-600' : 'bg-cyan-400'}`}></span>
             全局流水线计算进度
+            <span className={`text-[10px] font-normal opacity-75 hidden sm:inline ml-1 ${isIosGlass ? 'text-slate-500' : 'text-cyan-300/70'}`}>
+              ({activeStageDescription})
+            </span>
           </span>
-          <span className={`font-bold ${isIosGlass ? 'text-blue-600' : 'text-cyan-400'}`}>{progress}%</span>
+          <span className={`font-bold font-mono text-sm ${isIosGlass ? 'text-blue-600' : 'text-cyan-400'}`}>
+            {activeProgress}%
+          </span>
         </div>
 
-        {/* 动态进度条 */}
-        <div className={`w-full rounded-full h-2 overflow-hidden mb-5 border ${
-          isIosGlass ? 'bg-slate-200 border-slate-200' : 'bg-slate-900 border-white/5'
+        {/* 动态进度条 (具备平滑移动过渡、脉冲光子头部与能量光束扫掠) */}
+        <div className={`w-full rounded-full h-2.5 overflow-hidden mb-5 border relative ${
+          isIosGlass ? 'bg-slate-200/90 border-slate-200' : 'bg-slate-950 border-cyan-500/25'
         }`}>
+          {/* 实时推进高发光进度柱 */}
           <div
-            className={`h-full rounded-full transition-all duration-700 ease-out ${
+            className={`h-full rounded-full transition-all duration-700 ease-out relative ${
               isIosGlass 
-                ? 'bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md' 
-                : 'bg-gradient-to-r from-cyan-500 to-blue-600 shadow-glow-blue'
+                ? 'bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-400 shadow-[0_0_12px_rgba(37,99,235,0.4)]' 
+                : 'bg-gradient-to-r from-cyan-500 via-blue-500 to-emerald-400 shadow-[0_0_14px_#00f0ff]'
             }`}
-            style={{ width: `${progress}%` }}
-          ></div>
+            style={{ width: `${activeProgress}%` }}
+          >
+            {/* 顶端发光脉冲光子 */}
+            <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-ping" />
+          </div>
+
+          {/* 持续扫掠的流体能量光束 (高科技脉冲推进动效) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse pointer-events-none" />
         </div>
 
         {/* 4 阶段流水卡片 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {stages.map((stage) => {
-            const isDone = progress >= stage.threshold;
-            const isCurrent = progress < stage.threshold && progress >= stage.threshold - 25;
+            const isDone = activeProgress >= stage.threshold;
+            const isCurrent = activeProgress < stage.threshold && (stage.id === 1 || activeProgress >= stage.threshold - 25);
             const StageIcon = stage.icon;
 
             return (

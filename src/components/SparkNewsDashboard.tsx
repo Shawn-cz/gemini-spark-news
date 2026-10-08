@@ -343,6 +343,23 @@ export const SparkNewsDashboard: React.FC = () => {
             // 收到 COMPLETED 时，平滑无感重新拉取最新数据
             loadDashboardDataRef.current(true);
             showToastRef.current('⚡ Gemini Spark 今日简报生产完毕，大屏已自动同步');
+          } else if (payload.type === 'STATUS_UPDATE' && payload.status === 'RUNNING') {
+            setStatusInfo((prev) => {
+              const base = prev || buildFallbackStatus(
+                payload.date || selectedDate, 
+                'RUNNING', 
+                '智能体生成中', 
+                28, 
+                ''
+              );
+              return {
+                ...base,
+                status: 'RUNNING',
+                statusText: payload.statusText || '智能体生成中',
+                progress: typeof payload.progress === 'number' ? payload.progress : 28,
+                currentStage: payload.currentStage || '阶段 2/4: Gemini Spark 全球多源交叉校验与结构化提炼'
+              };
+            });
           } else if (payload.type === 'PROGRESS') {
             setStatusInfo((prev) => {
               const base = prev || buildFallbackStatus(

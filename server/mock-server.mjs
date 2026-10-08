@@ -177,6 +177,7 @@ app.post('/api/spark/toggle-status', async (req, res) => {
   try {
     const { date = '2026-09-24', status } = req.body;
     const updated = await toggleBatchStatus(date, status);
+    broadcastSSEEvent('STATUS_UPDATE', { date, ...updated });
     res.json({
       code: 200,
       message: `已将 [${date}] 简报状态更新为: ${updated.statusText}`,

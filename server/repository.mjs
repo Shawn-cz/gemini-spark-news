@@ -288,7 +288,7 @@ export async function getBatchStatus(date = '2026-09-24') {
   const localBriefing = readLocalBriefingFile(date);
   let statusInfo = memoryBatchStatusMap[date];
 
-  if (localBriefing && localBriefing.batchStatus) {
+  if (!statusInfo && localBriefing && localBriefing.batchStatus) {
     statusInfo = { ...localBriefing.batchStatus };
   } else if (!statusInfo) {
     statusInfo = localBriefing ? {
@@ -680,6 +680,21 @@ export async function toggleBatchStatus(date = '2026-09-24', targetStatus) {
       await BatchStatusModel.findOneAndUpdate({ date }, updated, { upsert: true });
     } catch (e) {
       console.error('[Repository] 更新 MongoDB 状态失败:', e);
+    }
+  }
+
+  // 同时也同步更新本地文件，确保无论是否连接 Mongo 都保持状态一致
+  const filePath = path.join(BRIEFINGS_DIR, `${date}.json`);
+  if (fs.existsSync(filePath)) {
+    try {
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (parsed && typeof parsed === 'object') {
+        parsed.batchStatus = { ...(parsed.batchStatus || {}), ...updated, date };
+        fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
+      }
+    } catch (e) {
+      console.error('[Repository] 更新本地简报文件状态异常:', e);
     }
   }
 
