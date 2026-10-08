@@ -80,7 +80,26 @@ async function run() {
     await new Promise(r => setTimeout(r, 800));
     const pathA = path.join(ARTIFACT_DIR, 'react_theme_a_cyber_hud.png');
     await page.screenshot({ path: pathA });
-    console.log(`   📸 方案A截图已保存: ${pathA}`);
+    console.log(`   📸 方案A卡片网格截图已保存: ${pathA}`);
+
+    // 点击方案 A 卡片唤起 3D 全息发射台视窗
+    console.log('[E2E] 点击方案A卡片唤起 3D 全息投影发射台视窗...');
+    await page.evaluate(() => {
+      const card = document.querySelector('article.cyber-corner-bracket');
+      if (card) {
+        const btn = Array.from(card.querySelectorAll('button')).find(b => b.innerText.includes('查看详情'));
+        if (btn) btn.click();
+        else card.click();
+      }
+    });
+    await new Promise(r => setTimeout(r, 1200));
+    const pathAHolo = path.join(ARTIFACT_DIR, 'react_theme_a_holo_modal.png');
+    await page.screenshot({ path: pathAHolo });
+    console.log(`   📸 方案A 3D 全息投影发射台视窗截图已保存: ${pathAHolo}`);
+
+    // 关闭全息视窗
+    await page.keyboard.press('Escape');
+    await new Promise(r => setTimeout(r, 600));
 
     // 2. 验证方案 B (Pop Dopamine)
     console.log('[E2E] 切换并校验 方案B·波普...');
@@ -91,7 +110,26 @@ async function run() {
     await new Promise(r => setTimeout(r, 800));
     const pathB = path.join(ARTIFACT_DIR, 'react_theme_b_pop_dopamine.png');
     await page.screenshot({ path: pathB });
-    console.log(`   📸 方案B截图已保存: ${pathB}`);
+    console.log(`   📸 方案B卡片网格截图已保存: ${pathB}`);
+
+    // 点击方案 B 卡片唤起波普研报视窗
+    console.log('[E2E] 点击方案B卡片唤起波普研报视窗...');
+    await page.evaluate(() => {
+      const card = document.querySelector('article.pop-sticker, article:has(.pop-sticker)');
+      if (card) {
+        const btn = Array.from(card.querySelectorAll('button')).find(b => b.innerText.includes('解读全文'));
+        if (btn) btn.click();
+        else card.click();
+      }
+    });
+    await new Promise(r => setTimeout(r, 1200));
+    const pathBPop = path.join(ARTIFACT_DIR, 'react_theme_b_pop_modal.png');
+    await page.screenshot({ path: pathBPop });
+    console.log(`   📸 方案B 波普研报视窗截图已保存: ${pathBPop}`);
+
+    // 关闭波普视窗
+    await page.keyboard.press('Escape');
+    await new Promise(r => setTimeout(r, 600));
 
     // 3. 验证方案 C (iOS Glass)
     console.log('[E2E] 切换并校验 方案C·iOS 流体微圆角...');
@@ -138,10 +176,10 @@ async function run() {
 
     // 6. 验证视窗 Z 轴角度 (0° 平视视窗 transform: none) 与 12px 外圆角
     const drawerMetrics = await page.evaluate(() => {
-      const modal = document.querySelector('.dossier-modal-window');
+      const modal = document.querySelector('.dossier-modal-window, .ios-modal-window');
       if (!modal) return { hasModal: false };
       const comp = window.getComputedStyle(modal);
-      const summaryCard = modal.querySelector('.dossier-summary-card');
+      const summaryCard = modal.querySelector('.dossier-summary-card, .ios-modal-pane');
       const sumComp = summaryCard ? window.getComputedStyle(summaryCard) : null;
       return {
         hasModal: true,

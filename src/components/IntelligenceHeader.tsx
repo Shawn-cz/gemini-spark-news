@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Globe, 
   Activity, 
@@ -51,44 +51,101 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
   const pulse = getPulseMeta(sentimentScore);
 
+  const [isRadarFast, setIsRadarFast] = useState(false);
+  const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
+  const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
+
   return (
     <header className={`sticky top-0 z-30 backdrop-blur-xl transition-colors border-b ${
       isIosGlass 
         ? 'bg-white/80 border-slate-200/60 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.04)] text-slate-900' 
-        : 'bg-obsidian-950/95 border-white/10 shadow-lg text-white'
+        : isPopDopamine
+        ? 'bg-white border-b-[3px] border-slate-900 shadow-[0_4px_0px_#111827] text-slate-900'
+        : 'bg-obsidian-950/95 border-cyan-500/40 shadow-[0_0_20px_-5px_rgba(0,240,255,0.3)] text-white cyber-corner-bracket'
     }`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5">
         
-        {/* 全响应式自适应布局：
-            - 大屏/中屏桌面 (lg+): 单行平铺居中对齐，左侧品牌，右侧控制区 (日期步进 + 情绪脉搏 + 主题 + 操作)
-            - 移动端/平板 (<lg): 优雅双行排版，第一行品牌+主题+同步，第二行日期步进+情绪脉搏，高度极致紧凑
-        */}
+        {/* 全响应式自适应布局 */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 sm:gap-2.5">
           
-          {/* 第一行 (移动端) / 左侧 (桌面端)：Logo 与智库品牌标识 + (移动端右浮 ThemeSwitcher 与同步) */}
+          {/* 第一行 (移动端) / 左侧 (桌面端)：Logo 与智库品牌标识 */}
           <div className="flex items-center justify-between min-w-0">
             {/* 品牌标识 */}
             <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
-              <div className="header-logo-icon w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-md shadow-cyan-500/20 flex-shrink-0">
-                <div className={`w-full h-full rounded-[11px] flex items-center justify-center transition-colors ${
-                  isIosGlass ? 'bg-white text-blue-600' : 'bg-obsidian-950 text-cyan-400'
-                }`}>
-                  <Globe className="w-4 h-4 sm:w-4.5 sm:h-4.5 animate-spin-slow" />
+              {isCyberHud ? (
+                /* 方案 A: 动态雷达微组件（点击加速扫盘） */
+                <button
+                  type="button"
+                  onClick={() => setIsRadarFast(prev => !prev)}
+                  title="点击触发雷达脉冲"
+                  className="group relative w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-cyan-500/80 bg-cyan-950/40 flex items-center justify-center overflow-hidden shadow-[inset_0_0_10px_rgba(0,240,255,0.3)] hover:scale-105 transition-transform cursor-pointer flex-shrink-0"
+                >
+                  <div
+                    className={`absolute inset-0 border-t border-cyan-300/60 radar-beam ${isRadarFast ? 'fast' : ''}`}
+                    style={{ background: 'conic-gradient(from 0deg, rgba(0,240,255,0.45) 0deg, transparent 60deg)' }}
+                  />
+                  <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00f0ff] z-10 group-hover:bg-amber-400" />
+                  <div className="absolute w-6 h-6 rounded-full border border-cyan-500/30" />
+                </button>
+              ) : isPopDopamine ? (
+                /* 方案 B: 黄色 3D 实体徽章 */
+                <div className="w-10 h-10 bg-yellow-400 border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#111827] rounded-xl flex items-center justify-center font-black text-xl rotate-[-3deg] flex-shrink-0">
+                  ⚡
                 </div>
-              </div>
+              ) : (
+                /* 方案 C: iOS 流体微圆角 Logo */
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-500 via-indigo-600 to-blue-700 p-[1px] shadow-md shadow-blue-500/20 flex-shrink-0">
+                  <div className="w-full h-full rounded-[11px] flex items-center justify-center bg-white text-blue-600 font-bold text-sm">
+                    
+                  </div>
+                </div>
+              )}
+
               <div className="min-w-0">
-                <h1 className={`text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap transition-colors ${
-                  isIosGlass 
-                    ? 'text-slate-900' 
-                    : 'text-white bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent'
-                }`}>
-                  <span className="sm:hidden">Spark</span>
-                  <span className="hidden sm:inline">Gemini Spark Intelligence</span>
-                </h1>
+                <div className="flex items-center gap-2">
+                  <h1 className={`text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap transition-colors ${
+                    isIosGlass 
+                      ? 'text-slate-900 font-sans' 
+                      : isPopDopamine
+                      ? 'text-slate-900 font-[\'Fredoka\']'
+                      : 'text-white font-[\'Chakra_Petch\']'
+                  }`}>
+                    {isCyberHud ? 'SYS.TACTICAL_INTEL // HUD_V3' : isPopDopamine ? 'GEMINI SPARK // 24H 潮玩情报' : 'Gemini Spark Intelligence'}
+                  </h1>
+                  {isPopDopamine && (
+                    <span className="bg-pink-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
+                      LIVE
+                    </span>
+                  )}
+                  {isCyberHud && (
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hidden sm:inline">
+                      {isRadarFast ? '[RADAR BURST]' : '[SAT-LINK 99.8%]'}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-slate-400 truncate hidden xs:block font-mono">
+                  {isCyberHud 
+                    ? 'LAT 31.23°N · LON 121.47°E // BATCH: DAILY // FREQ: 128.4MHz' 
+                    : isPopDopamine 
+                    ? '2026 每日智库全景 · 50 份全球突破已归档' 
+                    : 'Apple VisionOS 18 · 液态高斯模糊 · WCAG AAA 高清字系'}
+                </p>
               </div>
+
+              {/* 方案 A 专属：音频均衡器跳动微柱 */}
+              {isCyberHud && (
+                <div className="hidden xl:flex items-end gap-1 h-5 px-2.5 py-1 bg-black/40 rounded border border-cyan-500/20 flex-shrink-0">
+                  <span className="w-1 bg-cyan-400 eq-bar-1 rounded-sm"></span>
+                  <span className="w-1 bg-cyan-300 eq-bar-2 rounded-sm"></span>
+                  <span className="w-1 bg-cyan-400 eq-bar-3 rounded-sm"></span>
+                  <span className="w-1 bg-emerald-400 eq-bar-4 rounded-sm"></span>
+                  <span className="w-1 bg-cyan-300 eq-bar-1 rounded-sm"></span>
+                  <span className="w-1 bg-amber-400 eq-bar-3 rounded-sm"></span>
+                </div>
+              )}
             </div>
 
-            {/* 移动端专属第一行右侧控制：主题切换器 + 紧凑 DevTools 按键 (含导入与同步) */}
+            {/* 移动端专属第一行右侧控制 */}
             <div className="flex items-center gap-1.5 lg:hidden flex-shrink-0">
               <ThemeSwitcher />
 

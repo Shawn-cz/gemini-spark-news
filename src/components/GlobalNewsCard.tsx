@@ -34,6 +34,8 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
   const [imgError, setImgError] = useState(false);
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
+  const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
+  const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
 
   // 领域图标与色彩配置
   const getCategoryMeta = (cat: CategoryType) => {
@@ -257,108 +259,73 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
     );
   }
 
-  return (
-    <article
-      onClick={onClick}
-      className={`glass-card glass-card-hover rounded-2xl overflow-hidden cursor-pointer flex flex-col justify-between group relative border border-white/10 ${
-        isHero ? 'md:col-span-2 md:row-span-2 bg-gradient-to-br from-obsidian-card to-obsidian-950/90' : ''
-      }`}
-    >
-      {/* 顶部媒体流展示 (Hero 模式大图，普通卡片紧凑图) */}
-      <div className={`relative w-full bg-slate-900 card-media-frame ${isHero ? 'h-64 sm:h-72' : 'h-40'}`}>
-        {news.coverUrl && !imgError ? (
-          <img
-            src={news.coverUrl}
-            alt={news.title}
-            onError={() => setImgError(true)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100 will-change-transform"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-tr from-obsidian-950 to-slate-900 text-slate-600">
-            <CatIcon className="w-12 h-12 mb-1 opacity-30 text-cyan-400" />
-            <span className="text-[11px] font-mono tracking-widest text-slate-500 uppercase">Global Ingestion</span>
-          </div>
-        )}
+  // 方案 B: 波普潮玩多巴胺 (Pop Dopamine Art) 专属卡片架构
+  if (isPopDopamine) {
+    const badgeText = news.impactLevel === 'critical' ? '🔥 行业里程碑' : news.impactLevel === 'high' ? '⚡ 研报必读' : '✨ 深度发现';
 
-        {/* 顶部环境渐变蒙层 (向下延伸 2px，彻底阻断任何缩放底边缘漏色) */}
-        <div className="absolute inset-0 -bottom-1 bg-gradient-to-t from-obsidian-950 via-transparent to-black/60 pointer-events-none"></div>
-
-        {/* 左上角：领域与影响等级徽标 */}
-        <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
-          <span className={`card-category-badge card-cat-${news.category} inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${catMeta.badge}`}>
-            <CatIcon className="w-3 h-3 flex-shrink-0" />
-            <span className="whitespace-nowrap">{catMeta.label}</span>
-          </span>
-
-          <span className={`card-impact-badge card-impact-${news.impactLevel} inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border backdrop-blur-md whitespace-nowrap flex-shrink-0 ${impactMeta.style}`}>
-            <ImpactIcon className="w-3 h-3 animate-pulse flex-shrink-0" />
-            <span className="whitespace-nowrap">{impactMeta.label}</span>
+    return (
+      <article
+        onClick={onClick}
+        className={`bg-white border-[3px] border-slate-900 shadow-[6px_6px_0px_0px_#111827] rounded-3xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_#111827] text-slate-900 relative group overflow-hidden cursor-pointer ${
+          isHero ? 'md:col-span-2 md:row-span-2' : ''
+        }`}
+      >
+        {/* 右上角倾斜趣味潮玩贴纸 */}
+        <div className="absolute -top-1 -right-1 z-20 pop-sticker">
+          <span className="bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] text-slate-900 font-['Fredoka'] font-black text-[11px] px-3 py-1 rounded-lg block">
+            {badgeText}
           </span>
         </div>
 
-        {/* 右上角：全球情绪极性微量尺 */}
-        <div className="card-score-badge absolute top-3 right-3 bg-black/70 backdrop-blur-md border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-mono text-[11px] whitespace-nowrap flex-shrink-0">
-          <span className="text-slate-400 text-[10px] whitespace-nowrap">NLP SCORE:</span>
-          <span className={`font-bold whitespace-nowrap ${scoreColor}`}>{scoreFormatted}</span>
-        </div>
-
-        {/* 底部浮层：媒体源、国别与时钟 */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-slate-300 font-mono">
-          <div className="card-source-pill flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/5">
-            <span className="font-bold text-white tracking-wide">{news.source}</span>
-            {news.sourceCountry && (
-              <span className="card-source-country text-[10px] px-1 py-0.2 rounded bg-white/10 text-slate-300 font-mono">
-                {news.sourceCountry}
-              </span>
-            )}
-          </div>
-
-          <div className="card-date-pill flex items-center gap-1 text-[11px] text-slate-400 bg-black/60 px-2 py-1 rounded-md backdrop-blur-md border border-white/5">
-            <Calendar className="w-3 h-3 text-cyan-400" />
-            <span>{formatPublishTime(news.publishTime)}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 卡片主体内容 (建立独立 z-10 层级与负外边距无缝覆盖，杜绝底层图层穿透) */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between relative z-10 bg-inherit -mt-px">
         <div>
-          {/* 中文主标题 (严格限制两行省略，防长文本撑破屏幕) */}
-          <h3 className={`card-title font-bold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug mb-1.5 line-clamp-2 break-words ${
-            isHero ? 'text-base sm:text-lg' : 'text-sm'
+          {/* 拍立得式粗黑边框封面图 */}
+          <div className={`relative w-full rounded-2xl overflow-hidden border-[2.5px] border-slate-900 shadow-[3px_3px_0px_0px_#111827] mb-4 bg-slate-100 ${
+            isHero ? 'h-56 sm:h-64' : 'h-48'
+          }`}>
+            {news.coverUrl && !imgError ? (
+              <img
+                src={news.coverUrl}
+                alt={news.title}
+                onError={() => setImgError(true)}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-500">
+                <CatIcon className="w-12 h-12 mb-1 opacity-40 text-pink-500" />
+                <span className="text-[11px] font-['Fredoka'] font-bold text-slate-600 uppercase">POP INTELLIGENCE</span>
+              </div>
+            )}
+            <div className="absolute bottom-2 left-2 bg-slate-900/90 text-white font-['Fredoka'] text-[11px] font-bold px-2.5 py-0.5 rounded-lg border border-slate-700">
+              🏷️ {catMeta.label}
+            </div>
+          </div>
+
+          {/* 纯正波普字系主标题 */}
+          <h3 className={`font-extrabold text-slate-900 leading-snug tracking-tight mb-1.5 font-['Plus_Jakarta_Sans'] hover:text-pink-600 transition-colors line-clamp-2 ${
+            isHero ? 'text-lg sm:text-xl' : 'text-base'
           }`}>
             {news.title}
           </h3>
 
-          {/* 英文副标题 (国际化原源) */}
+          {/* 英文副标题 */}
           {news.englishTitle && (
-            <p className="card-subtitle text-[11px] font-mono text-slate-400/90 line-clamp-1 italic mb-2.5 tracking-tight">
+            <h4 className="text-xs font-semibold text-slate-600 mb-3 leading-relaxed line-clamp-1">
               {news.englishTitle}
-            </p>
+            </h4>
           )}
 
-          {/* 摘要 */}
-          <p className={`card-summary text-xs text-slate-400 leading-relaxed ${isHero ? 'line-clamp-3 mb-4' : 'line-clamp-2 mb-3'}`}>
+          {/* 暖调淡黄摘要窗格 */}
+          <p className="text-xs text-slate-700 leading-relaxed font-normal bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 mb-4 line-clamp-2">
             {news.summary}
           </p>
         </div>
 
-        {/* 底部实体标签与展开触发指引 */}
-        <div className="card-footer-divider pt-3 border-t border-white/5 flex items-center justify-between gap-2">
-          {/* Spark NLP 实体标签 */}
-          <div className="flex items-center gap-1.5 flex-wrap overflow-hidden">
-            {(news.nlpKeyEntities || news.tags).slice(0, 3).map((entity, i) => (
-              <span
-                key={i}
-                className="card-entity-tag px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-white/[0.04] border border-white/5 truncate max-w-[110px]"
-              >
-                #{entity}
-              </span>
-            ))}
-          </div>
-
-          {/* 操作区：快捷收藏与查看研报微链接 */}
+        {/* 底部波普弹润交互底栏 */}
+        <div className="pt-3 border-t-2 border-slate-200 flex items-center justify-between">
+          <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1 font-['Plus_Jakarta_Sans'] truncate mr-2">
+            📡 {news.source} · {formatPublishTime(news.publishTime)}
+          </span>
           <div className="flex items-center gap-2 flex-shrink-0">
             {onToggleBookmark && (
               <button
@@ -367,25 +334,140 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
                   e.stopPropagation();
                   onToggleBookmark(news);
                 }}
-                className={`card-bookmark-btn p-1.5 rounded-lg transition-all flex items-center justify-center ${
+                className={`pop-btn p-2 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] cursor-pointer ${
                   isBookmarked
-                    ? 'text-amber-400 bg-amber-500/15 border border-amber-500/40 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-300 hover:bg-white/5 border border-transparent'
+                    ? 'bg-pink-500 text-white font-black'
+                    : 'bg-pink-100 hover:bg-pink-200 text-pink-600 font-black'
                 }`}
-                title={isBookmarked ? "已收藏 (点击取消)" : "收藏该研报"}
+                title={isBookmarked ? "取消收藏" : "收藏"}
               >
-                <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-current text-amber-400' : ''}`} />
+                ❤️
               </button>
             )}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick();
+              }}
+              className="pop-btn bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-extrabold text-xs px-3.5 py-1.5 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] cursor-pointer font-['Fredoka'] flex items-center gap-1"
+            >
+              <span>解读全文 →</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    );
+  }
 
-            {/* 查看研报微链接 */}
-            <div className="card-action-link text-[11px] font-mono text-cyan-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
-              <span className="whitespace-nowrap">深度解析</span>
-              <ExternalLink className="w-3 h-3 flex-shrink-0" />
-            </div>
+  // 方案 A: 赛博战术极客 HUD (Cyber Tactical HUD) 专属卡片架构
+  return (
+    <article
+      onClick={onClick}
+      className={`bg-slate-900/85 border border-cyan-500/40 hover:border-cyan-400/90 rounded-2xl p-5 shadow-[0_0_20px_rgba(0,240,255,0.12)] hover:shadow-[0_0_30px_rgba(0,240,255,0.35)] transition-all duration-300 flex flex-col justify-between cyber-corner-bracket group cursor-pointer ${
+        isHero ? 'md:col-span-2 md:row-span-2' : ''
+      }`}
+    >
+      <div>
+        {/* 顶部战术情报标签栏 */}
+        <div className="flex items-center justify-between font-mono text-[10px] text-cyan-400 mb-3">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse flex-shrink-0"></span>
+            <span className="font-bold tracking-wider font-mono">[ID: SPARK-00{news.id}]</span>
+            <span className="text-cyan-300/60 font-mono">//</span>
+            <span className="text-cyan-300 font-semibold truncate">{catMeta.label}</span>
+          </div>
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+              3D HOLO READY
+            </span>
+            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold uppercase">
+              {news.impactLevel}
+            </span>
           </div>
         </div>
 
+        {/* 高清封面图 (纯净高清大图，全局取消十字准心) */}
+        <div className={`relative w-full rounded-xl overflow-hidden mb-4 bg-slate-950 border border-cyan-500/30 ${
+          isHero ? 'h-56 sm:h-64' : 'h-44'
+        }`}>
+          {news.coverUrl && !imgError ? (
+            <img
+              src={news.coverUrl}
+              alt={news.title}
+              onError={() => setImgError(true)}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 text-cyan-400">
+              <CatIcon className="w-10 h-10 mb-1 opacity-40" />
+              <span className="text-[10px] font-mono tracking-widest text-cyan-500/70 uppercase">TACTICAL INTEL FEED</span>
+            </div>
+          )}
+          <div className="absolute bottom-1.5 left-2 bg-slate-950/80 border border-cyan-400/50 px-2 py-0.5 rounded text-[8px] font-mono text-cyan-300 backdrop-blur-sm">
+            RAW INTEL FEED // 100% HI-RES
+          </div>
+        </div>
+
+        {/* 标题与副标题 */}
+        <h3 className={`font-bold text-white leading-snug tracking-wide mb-1.5 font-['Chakra_Petch'] group-hover:text-cyan-200 transition-colors line-clamp-2 ${
+          isHero ? 'text-lg sm:text-xl' : 'text-base'
+        }`}>
+          {news.title}
+        </h3>
+        {news.englishTitle && (
+          <h4 className="text-[11px] font-mono text-cyan-300/80 mb-3 leading-tight tracking-tight line-clamp-1">
+            {news.englishTitle}
+          </h4>
+        )}
+
+        {/* 研报核心摘要预览 */}
+        <p className="text-xs text-slate-300 leading-relaxed font-sans line-clamp-2 mb-4">
+          {news.summary}
+        </p>
+      </div>
+
+      {/* 一体化遥测与操作底栏 */}
+      <div className="pt-3 border-t border-cyan-500/30 flex items-center justify-between font-mono text-[10px] gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="py-1 px-2 bg-cyan-950/60 border border-cyan-500/40 rounded flex items-center gap-1.5 shrink-0">
+            <span className="text-slate-400 text-[8px]">置信度</span>
+            <span className="text-cyan-300 font-bold font-mono text-xs">{scoreFormatted}</span>
+          </div>
+          <span className="text-slate-400 truncate text-[11px] font-mono">
+            {news.source} · {formatPublishTime(news.publishTime)}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {onToggleBookmark && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleBookmark(news);
+              }}
+              className={`p-1.5 rounded-lg border transition-all flex items-center justify-center cursor-pointer ${
+                isBookmarked
+                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+                  : 'bg-slate-950/60 text-slate-400 hover:text-cyan-300 border-cyan-500/30'
+              }`}
+              title={isBookmarked ? "取消收藏" : "收藏研报"}
+            >
+              <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-current text-amber-400' : ''}`} />
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+            }}
+            className="bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition-all shadow-[0_0_15px_rgba(0,240,255,0.6)] active:scale-95 flex items-center justify-center cursor-pointer flex-shrink-0 font-mono"
+          >
+            <span>查看详情</span>
+          </button>
+        </div>
       </div>
     </article>
   );

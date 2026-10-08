@@ -3630,6 +3630,410 @@ html, body {
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
 }
 
+/* =========================================================================
+   方案 A: 赛博战术极客 HUD (Cyber Tactical HUD) · 1:1 SHOWCASE 落地
+   ========================================================================= */
+.cyber-corner-bracket {
+  position: relative;
+}
+.cyber-corner-bracket::before,
+.cyber-corner-bracket::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: #00f0ff;
+  pointer-events: none;
+}
+.cyber-corner-bracket::before {
+  top: -1px; left: -1px;
+  border-top: 2px solid #00f0ff;
+  border-left: 2px solid #00f0ff;
+}
+.cyber-corner-bracket::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid #00f0ff;
+  border-right: 2px solid #00f0ff;
+}
+
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.radar-beam {
+  animation: radarSweep 3.5s linear infinite;
+  transform-origin: center center;
+}
+.radar-beam.fast {
+  animation: radarSweep 1.2s linear infinite;
+}
+
+/* 音频均衡器跳动 */
+@keyframes eqBar1 { 0%, 100% { height: 4px; } 50% { height: 16px; } }
+@keyframes eqBar2 { 0%, 100% { height: 14px; } 50% { height: 6px; } }
+@keyframes eqBar3 { 0%, 100% { height: 8px; } 50% { height: 20px; } }
+@keyframes eqBar4 { 0%, 100% { height: 18px; } 50% { height: 10px; } }
+.eq-bar-1 { animation: eqBar1 0.7s ease-in-out infinite; }
+.eq-bar-2 { animation: eqBar2 0.5s ease-in-out infinite; }
+.eq-bar-3 { animation: eqBar3 0.9s ease-in-out infinite; }
+.eq-bar-4 { animation: eqBar4 0.6s ease-in-out infinite; }
+
+/* =========================================================================
+   方案 B: 波普潮玩多巴胺 (Pop Dopamine Art) · 1:1 SHOWCASE 落地
+   ========================================================================= */
+.pop-btn {
+  transition: all 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pop-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #111827;
+}
+.pop-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #111827;
+}
+.pop-sticker {
+  transform: rotate(-6deg);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pop-sticker:hover {
+  transform: rotate(4deg) scale(1.08);
+}
+
+/* =========================================================================
+   方案 A: 物理级 3D 全息投影技术架构 (Cinematic Holographic Projection)
+   ========================================================================= */
+#holo-dossier-modal {
+  perspective: 1100px;
+  perspective-origin: 50% 65%;
+}
+
+.holo-perspective-stage {
+  transform-style: preserve-3d;
+  transform-origin: 50% 85%;
+  transform: perspective(1200px) rotateX(0deg) translateY(0px) translateZ(0px);
+  animation: holoSpatialFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes holoSpatialFloat {
+  0% {
+    transform: perspective(1200px) rotateX(0deg) translateY(0px) translateZ(0px);
+  }
+  100% {
+    transform: perspective(1200px) rotateX(0deg) translateY(-4px) translateZ(0px);
+  }
+}
+
+.holo-dot-matrix-title {
+  font-family: 'Chakra Petch', 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  position: relative;
+  display: inline-block;
+  transform: translateZ(0px);
+  text-shadow: 
+    0 0 10px rgba(0, 240, 255, 0.75),
+    0 0 20px rgba(0, 240, 255, 0.35);
+}
+
+.holo-sub-glow {
+  font-family: 'Chakra Petch', monospace, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #38bdf8;
+  transform: translateZ(0px);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.45);
+}
+
+.holo-floating-photo-3d {
+  transform: translateZ(0px) rotateX(0deg);
+  transform-style: preserve-3d;
+  box-shadow: 0 15px 35px rgba(0, 240, 255, 0.35), 0 0 20px rgba(0, 240, 255, 0.25);
+}
+
+.holo-section-card-3d {
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: fit-content;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg, 
+    rgba(14, 38, 70, 0.38) 0%, 
+    rgba(7, 22, 44, 0.32) 50%, 
+    rgba(10, 32, 60, 0.38) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 240, 255, 0.18);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.40);
+  border-left: 3px solid rgba(0, 240, 255, 0.45);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  box-shadow: 
+    0 14px 32px -4px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(0, 240, 255, 0.10),
+    inset 0 1px 1px rgba(255, 255, 255, 0.30),
+    inset 0 0 15px rgba(0, 240, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 16px;
+}
+@media (min-width: 640px) {
+  .holo-section-card-3d {
+    padding: 18px 24px;
+  }
+}
+.holo-section-card-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(0, 240, 255, 0.04) 25%,
+    transparent 55%
+  );
+  pointer-events: none;
+}
+.holo-section-card-3d::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid rgba(255, 255, 255, 0.45);
+  border-left: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-left-radius: 12px;
+  pointer-events: none;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.35);
+}
+.holo-section-card-3d:hover {
+  transform: translateZ(0px) translateY(-3px) scale(1.01) !important;
+  background: linear-gradient(
+    135deg, 
+    rgba(18, 48, 85, 0.48) 0%, 
+    rgba(9, 28, 54, 0.42) 50%, 
+    rgba(14, 40, 75, 0.48) 100%
+  );
+  border-color: rgba(0, 240, 255, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.60);
+  box-shadow: 
+    0 20px 40px -4px rgba(0, 0, 0, 0.65),
+    0 0 25px rgba(0, 240, 255, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.50),
+    inset 0 0 20px rgba(0, 240, 255, 0.10);
+}
+
+.holo-body-floating {
+  color: #f8fafc;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.holo-telemetry-dock-3d {
+  transform: translateZ(0px) rotateX(0deg);
+  transform-style: preserve-3d;
+}
+
+.holo-ground-perspective-grid {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%) rotateX(75deg);
+  width: min(600px, 92vw);
+  max-width: 100%;
+  height: 280px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 240, 255, 0.4);
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 240, 255, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 6;
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
+}
+.holo-ground-perspective-grid::before {
+  content: '';
+  position: absolute;
+  inset: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+.holo-ground-perspective-grid::after {
+  content: '';
+  position: absolute;
+  inset: 55px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 240, 255, 0.22);
+}
+
+.holo-perspective-guide-lines {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(780px, 96vw);
+  max-width: 100%;
+  height: 440px;
+  pointer-events: none;
+  z-index: 7;
+  overflow: hidden;
+}
+
+.holo-projector-dock {
+  position: relative;
+  width: 210px;
+  height: 48px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #334155 0%, #0f172a 40%, #020617 100%);
+  clip-path: polygon(14% 0%, 86% 0%, 100% 100%, 0% 100%);
+  box-shadow: 
+    0 15px 30px rgba(0, 0, 0, 0.95),
+    0 0 35px rgba(0, 240, 255, 0.35);
+  border-bottom: 2px solid #00f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.holo-emitter-lens {
+  position: absolute;
+  top: -12px;
+  width: 130px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, #ffffff 0%, #00f0ff 45%, rgba(0, 240, 255, 0.2) 75%, transparent 100%);
+  box-shadow: 
+    0 0 20px #00f0ff,
+    0 0 45px rgba(0, 240, 255, 0.85),
+    0 0 75px rgba(0, 240, 255, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+}
+
+.holo-lens-flare {
+  position: absolute;
+  top: 2px;
+  left: -35px;
+  right: -35px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.6) 20%, #ffffff 50%, rgba(0, 240, 255, 0.6) 80%, transparent 100%);
+  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+  pointer-events: none;
+}
+
+.holo-stage-volumetric-beam {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 680px;
+  height: 380px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 100%, rgba(0, 240, 255, 0.45) 0%, rgba(0, 240, 255, 0.15) 45%, transparent 75%);
+  clip-path: polygon(26% 100%, 74% 100%, 98% 0%, 2% 0%);
+  animation: beamBreathe 4s ease-in-out infinite alternate;
+  z-index: 5;
+}
+
+@keyframes beamBreathe {
+  0% { opacity: 0.75; transform: translateX(-50%) scaleX(0.96); }
+  100% { opacity: 1; transform: translateX(-50%) scaleX(1.04); }
+}
+
+@keyframes beamIgnite {
+  0% {
+    opacity: 0.2;
+    transform: translateX(-50%) scaleY(0.05) scaleX(0.3);
+    filter: brightness(3.5);
+  }
+  40% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1.12) scaleX(1.08);
+    filter: brightness(2.2);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateX(-50%) scaleY(1) scaleX(1);
+    filter: brightness(1);
+  }
+}
+.holo-beam-igniting {
+  animation: beamIgnite 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.holo-pane-waiting {
+  opacity: 0 !important;
+  transform: translateY(28px) scale(0.96) !important;
+  pointer-events: none;
+}
+
+@keyframes paneMaterialize {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96) translateZ(0px);
+    filter: blur(6px) brightness(2.2);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translateY(-3px) scale(1.01) translateZ(0px);
+    filter: blur(0px) brightness(1.25);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1) translateZ(0px);
+    filter: blur(0px) brightness(1);
+  }
+}
+.holo-pane-materializing {
+  animation: paneMaterialize 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards !important;
+}
+
+@keyframes scanlineSweep {
+  0% {
+    top: -8%;
+    opacity: 1;
+  }
+  100% {
+    top: 108%;
+    opacity: 0;
+  }
+}
+.holo-scanline-laser {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.8) 20%, #ffffff 50%, rgba(0, 240, 255, 0.8) 80%, transparent 100%);
+  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+  pointer-events: none;
+  animation: scanlineSweep 0.55s ease-out forwards;
+  z-index: 30;
+  border-radius: 9999px;
+}
+
+.holo-typing-cursor {
+  display: inline-block;
+  width: 4px;
+  height: 14px;
+  background: #00f0ff;
+  box-shadow: 0 0 8px #00f0ff;
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: holoCursorBlink 0.35s infinite alternate;
+}
+@keyframes holoCursorBlink {
+  0% { opacity: 0.1; }
+  100% { opacity: 1; }
+}
+
+
 
 
 
