@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -p \"[{name}]\" -n \"MOCK,VITE\" -c \"yellow.bold,cyan.bold\" \"npm run mock\" \"npm run vite\"",
-    "vite": "vite",
+    "vite": "vite --host 0.0.0.0",
     "mock": "node server/mock-server.mjs",
     "db:seed": "node scripts/seed-mongo.mjs",
     "build": "vite build",
