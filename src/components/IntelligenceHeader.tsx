@@ -65,11 +65,11 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
     }`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5">
         
-        {/* 全响应式自适应布局 */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 sm:gap-2.5">
+        {/* 全响应式自适应双层架构：Row 1 品牌与全局系统控制，Row 2 时间步进与全球情绪遥测 */}
+        <div className="flex flex-col gap-2 sm:gap-2.5">
           
-          {/* 第一行 (移动端) / 左侧 (桌面端)：Logo 与智库品牌标识 */}
-          <div className="flex items-center justify-between min-w-0">
+          {/* Row 1: 左侧 Logo 与品牌，右侧 主题切换器与 DevTools */}
+          <div className="flex items-center justify-between min-w-0 gap-3">
             {/* 品牌标识 */}
             <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
               {isCyberHud ? (
@@ -103,22 +103,37 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <h1 className={`text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap transition-colors ${
+                  <h1 className={`text-xs sm:text-base font-black tracking-wider uppercase whitespace-nowrap truncate transition-colors ${
                     isIosGlass 
                       ? 'text-slate-900 font-sans' 
                       : isPopDopamine
                       ? 'text-slate-900 font-[\'Fredoka\']'
                       : 'text-white font-[\'Chakra_Petch\']'
                   }`}>
-                    {isCyberHud ? 'SYS.TACTICAL_INTEL // HUD_V3' : isPopDopamine ? 'GEMINI SPARK // 24H 潮玩情报' : 'Gemini Spark Intelligence'}
+                    {isCyberHud ? (
+                      <>
+                        <span className="sm:hidden">TACTICAL_INTEL</span>
+                        <span className="hidden sm:inline">SYS.TACTICAL_INTEL // HUD_V3</span>
+                      </>
+                    ) : isPopDopamine ? (
+                      <>
+                        <span className="sm:hidden">GEMINI SPARK</span>
+                        <span className="hidden sm:inline">GEMINI SPARK // 24H 潮玩情报</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="sm:hidden">Gemini Spark</span>
+                        <span className="hidden sm:inline">Gemini Spark Intelligence</span>
+                      </>
+                    )}
                   </h1>
                   {isPopDopamine && (
-                    <span className="bg-pink-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
+                    <span className="bg-pink-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] flex-shrink-0">
                       LIVE
                     </span>
                   )}
                   {isCyberHud && (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hidden sm:inline">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hidden sm:inline flex-shrink-0">
                       {isRadarFast ? '[RADAR BURST]' : '[SAT-LINK 99.8%]'}
                     </span>
                   )}
@@ -134,7 +149,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
               {/* 方案 A 专属：音频均衡器跳动微柱 */}
               {isCyberHud && (
-                <div className="hidden xl:flex items-end gap-1 h-5 px-2.5 py-1 bg-black/40 rounded border border-cyan-500/20 flex-shrink-0">
+                <div className="hidden lg:flex items-end gap-1 h-5 px-2.5 py-1 bg-black/40 rounded border border-cyan-500/20 flex-shrink-0">
                   <span className="w-1 bg-cyan-400 eq-bar-1 rounded-sm"></span>
                   <span className="w-1 bg-cyan-300 eq-bar-2 rounded-sm"></span>
                   <span className="w-1 bg-cyan-400 eq-bar-3 rounded-sm"></span>
@@ -145,31 +160,34 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               )}
             </div>
 
-            {/* 移动端专属第一行右侧控制 */}
-            <div className="flex items-center gap-1.5 lg:hidden flex-shrink-0">
+            {/* 第一行右侧：主题切换器 + DevTools */}
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               <ThemeSwitcher />
 
-              {/* 移动端紧凑 DevTools 按键 */}
+              {/* 调试面板 */}
               {onOpenDevTools && (
                 <button
                   type="button"
                   onClick={onOpenDevTools}
-                  className={`header-action-btn p-1.5 rounded-lg transition-all flex items-center justify-center flex-shrink-0 shadow-sm ${
+                  className={`header-action-btn header-btn-devtools p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-mono rounded-lg transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0 ${
                     isIosGlass
                       ? 'text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200'
-                      : 'text-amber-300 bg-amber-950/70 border border-amber-800'
+                      : 'text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800'
                   }`}
-                  title="DevTools 开发者控制台 (含导入简报与批次同步)"
+                  title="打开全栈开发者控制台 (DevTools · 含导入简报与批次同步)"
                 >
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500" />
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                  <span className="hidden sm:inline">DevTools</span>
+                  <span className={`font-bold hidden md:inline ${isRunning ? "text-amber-600" : (isIosGlass ? "text-emerald-700" : "text-emerald-400")}`}>
+                    [{isRunning ? "计算中" : "已归档"}]
+                  </span>
                 </button>
               )}
             </div>
           </div>
 
-          {/* 第二行 (移动端) / 右侧 (桌面端)：核心业务控制器 (日期步进 + 情绪指标脉搏 + 桌面端操作) */}
-          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap lg:flex-nowrap justify-between lg:justify-end min-w-0">
-            
+          {/* Row 2: 左侧 日期步进选择胶囊，右侧 全球宏观情绪极性指标 */}
+          <div className="flex items-center justify-between gap-2 sm:gap-2.5 min-w-0 flex-shrink-0">
             {/* 1. 历史日期步进选择胶囊 */}
             <DateStepperCapsule
               currentDate={currentDate}
@@ -181,7 +199,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               onDismissNewerBatch={onDismissNewerBatch}
             />
 
-            {/* 2. 全球宏观情绪极性指标 (唯一保留且精简的高价值情报胶囊) */}
+            {/* 2. 全球宏观情绪极性指标 */}
             <div 
               className={`header-sentiment-capsule inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-mono flex-shrink-0 transition-all shadow-sm ${
                 isIosGlass
@@ -191,7 +209,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               title={`全球宏观情绪极性: ${sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`} (${pulse.label} / ${pulse.en})`}
             >
               <Activity className={`w-3.5 h-3.5 flex-shrink-0 ${pulse.color} animate-pulse`} />
-              <span className={`text-[10px] uppercase tracking-wider hidden md:inline ${
+              <span className={`text-[10px] uppercase tracking-wider hidden sm:inline ${
                 isIosGlass ? 'text-slate-500' : 'text-slate-400'
               }`}>情绪脉搏:</span>
               <span className={`font-black ${pulse.color} text-xs`}>
@@ -209,32 +227,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 />
               </div>
             </div>
-
-            {/* 桌面端专属操作区：主题切换器 + DevTools (导入简报与同步批次已收纳至 DevTools 抽屉，彻底解放顶栏横向排盘空间) */}
-            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
-              <ThemeSwitcher />
-
-              {/* 调试面板 */}
-              {onOpenDevTools && (
-                <button
-                  type="button"
-                  onClick={onOpenDevTools}
-                  className={`header-action-btn header-btn-devtools px-2.5 py-1.5 text-xs font-mono rounded-lg transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0 ${
-                    isIosGlass
-                      ? 'text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200'
-                      : 'text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800'
-                  }`}
-                  title="打开全栈开发者控制台 (DevTools · 含导入简报与批次同步)"
-                >
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                  <span>DevTools</span>
-                  <span className={`font-bold hidden xl:inline ${isRunning ? "text-amber-600" : (isIosGlass ? "text-emerald-700" : "text-emerald-400")}`}>
-                    [{isRunning ? "计算中" : "已归档"}]
-                  </span>
-                </button>
-              )}
-            </div>
-
           </div>
 
         </div>

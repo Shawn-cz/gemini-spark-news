@@ -116,23 +116,23 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
   }, [hasNewerBatchAvailable, isLatest, isDismissed]);
 
   return (
-    <div ref={containerRef} className="relative inline-flex items-center select-none font-mono">
+    <div ref={containerRef} className="relative inline-flex items-center select-none font-mono flex-shrink-0 whitespace-nowrap">
       {/* 实体胶囊主外壳 */}
-      <div className="date-stepper-capsule flex items-center bg-black/90 dark:bg-black/90 text-white rounded-lg p-0.5 border-2 border-black dark:border-cyan-500/40 shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_rgba(6,182,212,0.3)]">
+      <div className="date-stepper-capsule flex items-center bg-black/90 dark:bg-black/90 text-white rounded-lg p-0.5 border-2 border-black dark:border-cyan-500/40 shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_rgba(6,182,212,0.3)] flex-shrink-0 whitespace-nowrap">
         {/* 左箭头：前一日 (更早) */}
         <button
           type="button"
           onClick={handlePrevious}
           disabled={!canGoPrevious}
           title={canGoPrevious ? "查看前一日历史简报" : "已是系统内最早归档简报"}
-          className={`stepper-btn-prev p-1.5 rounded transition-all duration-150 flex items-center justify-center ${
+          className={`stepper-btn-prev p-1.5 rounded transition-all duration-150 flex items-center justify-center flex-shrink-0 ${
             canGoPrevious
               ? 'hover:bg-white/20 active:translate-y-0.5 cursor-pointer text-white'
               : 'opacity-30 cursor-not-allowed text-white/50'
           }`}
           aria-label="前一日"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-4 h-4 flex-shrink-0" />
         </button>
 
         {/* 中间日期徽章按钮：展开日期下拉列表 */}
@@ -142,17 +142,17 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           disabled={isLoading}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
-          className="stepper-btn-date px-2.5 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 hover:bg-white/10 rounded transition-colors cursor-pointer text-white"
+          className="stepper-btn-date px-2.5 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 hover:bg-white/10 rounded transition-colors cursor-pointer text-white flex-shrink-0 whitespace-nowrap"
           title="点击展开选择历史简报日期"
         >
-          <Calendar className="stepper-icon-calendar w-3.5 h-3.5 text-cyan-400" />
-          <span className="stepper-date-text">{currentDate}</span>
+          <Calendar className="stepper-icon-calendar w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+          <span className="stepper-date-text whitespace-nowrap font-mono">{currentDate}</span>
           {isLatest ? (
-            <span className="badge-status badge-status-latest text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+            <span className="badge-status badge-status-latest text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter whitespace-nowrap flex-shrink-0">
               最新
             </span>
           ) : (
-            <span className="badge-status badge-status-archive text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter">
+            <span className="badge-status badge-status-archive text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter whitespace-nowrap flex-shrink-0">
               归档
             </span>
           )}
