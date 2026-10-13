@@ -3301,6 +3301,8 @@ html, body {
 .category-scroll-container {
   min-width: 0 !important;
   flex: 1 1 auto !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 
 .viewmode-container {
@@ -3327,7 +3329,7 @@ html, body {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   filter: blur(50px);
   transition: all 0.8s ease;
 }
@@ -3429,27 +3431,34 @@ html, body {
 
 /* 分类与胶囊栏适配 (10px 微圆角外框，药丸状内项) */
 [data-theme="ios-glass"] .category-scroll-container .category-pill-btn {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border: 1px solid rgba(226, 232, 240, 0.9) !important;
-  color: #334155 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1.5px solid rgba(203, 213, 225, 0.9) !important;
+  color: #0f172a !important;
   border-radius: 9999px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-btn:hover {
   background: #ffffff !important;
   color: #0f172a !important;
+  border-color: #94a3b8 !important;
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-btn .category-pill-icon {
-  color: #64748b !important;
+  color: #334155 !important;
+}
+
+[data-theme="ios-glass"] .category-scroll-container .category-pill-btn span {
+  color: #0f172a !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected:not(.category-pill-bookmarks) {
   background: #2563eb !important;
   color: #ffffff !important;
   border-color: #2563eb !important;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected:not(.category-pill-bookmarks) .category-pill-icon,
@@ -3461,7 +3470,7 @@ html, body {
   background: #f59e0b !important;
   color: #ffffff !important;
   border-color: #f59e0b !important;
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4) !important;
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-btn.category-pill-selected.category-pill-bookmarks .category-pill-icon,
@@ -3470,13 +3479,16 @@ html, body {
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-selected .category-pill-count {
-  background: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
+  font-weight: 700 !important;
 }
 
 [data-theme="ios-glass"] .category-scroll-container .category-pill-unselected .category-pill-count {
-  background: rgba(0, 0, 0, 0.06) !important;
-  color: #475569 !important;
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+  font-weight: 700 !important;
 }
 
 /* 视图模式切换器 */

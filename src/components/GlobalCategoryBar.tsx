@@ -97,8 +97,8 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
 
           const unselectedStyle = isIosGlass
             ? isBm
-              ? 'category-pill-unselected bg-amber-50/90 text-amber-800 border border-amber-200/80 hover:bg-amber-100 hover:text-amber-900 shadow-sm'
-              : 'category-pill-unselected bg-white/85 text-slate-700 border border-slate-200/80 hover:bg-white hover:text-slate-900 shadow-sm'
+              ? 'category-pill-unselected bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 hover:text-amber-950 shadow-sm font-semibold'
+              : 'category-pill-unselected bg-white text-slate-900 border border-slate-300 hover:bg-white hover:text-slate-950 shadow-sm font-semibold'
             : isPopDopamine
             ? 'pop-btn bg-slate-100 text-slate-800 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-[\'Fredoka\']'
             : isBm
@@ -119,13 +119,13 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
               <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
                 isSelected 
                   ? isIosGlass ? 'text-white' : isPopDopamine ? 'text-slate-900' : 'text-slate-950'
-                  : isIosGlass ? (isBm ? 'text-amber-600' : 'text-slate-600') : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
+                  : isIosGlass ? (isBm ? 'text-amber-700' : 'text-slate-700') : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
               }`} />
-              <span>{cat.label}</span>
+              <span className={isSelected ? 'text-white font-bold' : (isIosGlass ? 'text-slate-900 font-semibold' : '')}>{cat.label}</span>
               <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
                 isSelected 
-                  ? isIosGlass ? 'bg-white/25 text-white' : isPopDopamine ? 'bg-white/40 text-slate-900 font-bold' : 'bg-slate-950/30 text-slate-950 font-bold'
-                : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600') : isPopDopamine ? 'bg-slate-200 text-slate-700' : 'bg-cyan-500/10 text-cyan-300'
+                  ? isIosGlass ? 'bg-white/25 text-white font-bold' : isPopDopamine ? 'bg-white/40 text-slate-900 font-bold' : 'bg-slate-950/30 text-slate-950 font-bold'
+                : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-900 font-bold border border-amber-300' : 'bg-slate-100 text-slate-800 font-bold border border-slate-300') : isPopDopamine ? 'bg-slate-200 text-slate-700' : 'bg-cyan-500/10 text-cyan-300'
               }`}>
                 {cat.count}
               </span>
