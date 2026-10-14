@@ -1,8 +1,10 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
+import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { app } from '../server/mock-server.mjs';
 import { getDailyNobelQuote, NOBEL_QUOTES_ARCHIVE } from '../server/services/nobelQuoteService.mjs';
 import { saveBriefing, getBatchStatus, getNewsList } from '../server/repository.mjs';
 
@@ -117,5 +119,65 @@ describe('Nobel Quote Pipeline & Persistence Suite', () => {
     const status = await getBatchStatus(TEST_DATE_2);
     assert.equal(status.nobelQuote.zh, customQuote.zh);
     assert.equal(status.nobelQuote.work, '局外人');
+  });
+
+  test('5. Webhook 摄取端点：支持携带自定义 nobelQuote 写入并返回', async () => {
+    const TEST_DATE_3 = '2099-01-03';
+    const TEST_FILE_3 = path.resolve(__dirname, `../data/briefings/${TEST_DATE_3}.json`);
+    const server = http.createServer(app);
+    await new Promise(r => server.listen(0, r));
+    const port = server.address().port;
+    const adminKey = process.env.ADMIN_KEY || 'default-dev-admin-key-2026';
+
+    const webhookPayload = {
+      date: TEST_DATE_3,
+      nobelQuote: {
+        year: '1982 诺贝尔文学奖',
+        author: '加西亚·马尔克斯',
+        work: '霍乱时期的爱情',
+        enAuthor: 'Gabriel García Márquez',
+        enWork: 'Love in the Time of Cholera',
+        zh: '“真正的爱情需要跨越一生的等待。”',
+        en: '“Real love takes a lifetime of waiting.”',
+        batchDate: TEST_DATE_3
+      },
+      items: [
+        {
+          id: `item-${TEST_DATE_3}-01`,
+          title: '全球前沿 AI 模型在生物医药领域的突破性应用',
+          category: 'ai',
+          impactLevel: 'critical',
+          summary: '深度自包含研报内容...',
+          sentiment: 'positive',
+          sentimentScore: 0.95
+        }
+      ]
+    };
+
+    try {
+      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Key': adminKey
+        },
+        body: JSON.stringify(webhookPayload)
+      });
+
+      assert.equal(res.status, 200);
+      const body = await res.json();
+      assert.equal(body.code, 200);
+      assert.ok(body.data.nobelQuote, '响应体中必须包含已持久化的 nobelQuote');
+      assert.equal(body.data.nobelQuote.work, '霍乱时期的爱情');
+
+      // 验证通过 getBatchStatus 能读出该自定义名言
+      const batchStatus = await getBatchStatus(TEST_DATE_3);
+      assert.equal(batchStatus.nobelQuote.work, '霍乱时期的爱情');
+    } finally {
+      server.close();
+      if (fs.existsSync(TEST_FILE_3)) {
+        try { fs.unlinkSync(TEST_FILE_3); } catch {}
+      }
+    }
   });
 });

@@ -586,9 +586,23 @@ export async function saveBriefing(date, rawData) {
   const batchStatus = Array.isArray(parsed) ? null : (parsed.batchStatus || null);
   const nobelQuote = (parsed && parsed.nobelQuote) ? parsed.nobelQuote : getDailyNobelQuote(date);
 
-  if (!Array.isArray(parsed) && !parsed.nobelQuote) {
-    parsed.nobelQuote = nobelQuote;
-  }
+  const payloadToSave = Array.isArray(parsed)
+    ? { batchDate: date, items: parsed, nobelQuote }
+    : { ...parsed, nobelQuote };
+
+  // 更新内存中的降级存储
+  memoryNewsStore[date] = items;
+  memoryBatchStatusMap[date] = {
+    date,
+    status: batchStatus?.status || 'COMPLETED',
+    statusText: batchStatus?.statusText || '已完成归档',
+    generatedTime: batchStatus?.generatedTime || `${date} 08:30:00`,
+    nextScheduleTime: batchStatus?.nextScheduleTime || '明日 08:30:00 (每日晨报)',
+    progress: typeof batchStatus?.progress === 'number' ? batchStatus.progress : 100,
+    currentStage: batchStatus?.currentStage || 'Gemini Spark 智能体 24H 简报生成与交叉校验完成',
+    batchNewsCount: items.length,
+    nobelQuote
+  };
 
   // 1. 物理文件持久化（备份保障，Serverless 只读环境容错）
   let targetFile = null;
@@ -597,7 +611,7 @@ export async function saveBriefing(date, rawData) {
       fs.mkdirSync(BRIEFINGS_DIR, { recursive: true });
     }
     targetFile = path.join(BRIEFINGS_DIR, `${date}.json`);
-    fs.writeFileSync(targetFile, JSON.stringify(parsed, null, 2), 'utf-8');
+    fs.writeFileSync(targetFile, JSON.stringify(payloadToSave, null, 2), 'utf-8');
   } catch (fsErr) {
     console.warn(`[Repository] 本地磁盘只读或无写权限 (Serverless 生产环境)，跳过本地文件备份: ${fsErr.message}`);
   }
@@ -656,7 +670,8 @@ export async function saveBriefing(date, rawData) {
     date,
     filePath: targetFile,
     itemCount: items.length,
-    savedToMongo: isMongoConnected
+    savedToMongo: isMongoConnected,
+    nobelQuote
   };
 }
 

@@ -318,10 +318,12 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
       stage: 'COMPLETED',
       progress: 100,
       message: `Gemini Spark [${targetDate}] 最新简报已成功摄取入库`,
+      nobelQuote: saveResult.nobelQuote,
       data: {
         date: targetDate,
         total: parsedData.items.length,
-        source: 'webhook'
+        source: 'webhook',
+        nobelQuote: saveResult.nobelQuote
       }
     });
 
@@ -331,6 +333,7 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
       data: {
         date: targetDate,
         total: parsedData.items.length,
+        nobelQuote: saveResult.nobelQuote,
         saveResult
       }
     });

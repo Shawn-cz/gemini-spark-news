@@ -82,8 +82,9 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
     }
 
     // 双写持久化至 MongoDB 与 本地文件
-    await saveBriefing(targetDate, {
+    const saved = await saveBriefing(targetDate, {
       items: result.items,
+      nobelQuote: result.nobelQuote,
       batchStatus: {
         date: targetDate,
         status: 'COMPLETED',
@@ -103,6 +104,7 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
       date: targetDate,
       itemCount: result.items.length,
       model: result.model,
+      nobelQuote: saved.nobelQuote,
       message: `Gemini Spark (${result.model}) 24H 简报生成与落盘归档完成`
     });
 
@@ -113,6 +115,7 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
       date: targetDate,
       model: result.model,
       itemCount: result.items.length,
+      nobelQuote: saved.nobelQuote,
       mode: result.mode
     };
   } catch (err) {
