@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { NewsItemModel } from './models/NewsItem.mjs';
 import { BatchStatusModel } from './models/BatchStatus.mjs';
 import { GLOBAL_CORPUS, createGlobalDailyBatch } from './corpus.mjs';
+import { getDailyNobelQuote } from './services/nobelQuoteService.mjs';
 
 dotenv.config();
 
@@ -126,11 +127,12 @@ function readLocalBriefingFile(date) {
     try {
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = JSON.parse(content);
+      const nobelQuote = (parsed && parsed.nobelQuote) || getDailyNobelQuote(date);
       if (Array.isArray(parsed)) {
-        return { items: parsed, batchStatus: null };
+        return { items: parsed, batchStatus: null, nobelQuote };
       }
       if (parsed && Array.isArray(parsed.items)) {
-        return { items: parsed.items, batchStatus: parsed.batchStatus || null };
+        return { items: parsed.items, batchStatus: parsed.batchStatus || null, nobelQuote };
       }
     } catch (e) {
       console.error(`[Repository] 读取本地简报文件异常 (${date}):`, e);
@@ -277,6 +279,7 @@ export async function getBatchStatus(date = '2026-09-24') {
         ...statusDoc,
         batchNewsCount: newsItems.length,
         globalSentimentIndex: sentimentIndex,
+        nobelQuote: statusDoc.nobelQuote || getDailyNobelQuote(date),
         dataSource: 'MONGODB_ATLAS'
       };
     } catch (err) {
@@ -330,6 +333,7 @@ export async function getBatchStatus(date = '2026-09-24') {
     ...statusInfo,
     batchNewsCount: currentNews.length,
     globalSentimentIndex: sentimentIndex,
+    nobelQuote: (localBriefing && localBriefing.nobelQuote) || statusInfo.nobelQuote || getDailyNobelQuote(date),
     dataSource: 'LOCAL_FALLBACK'
   };
 }
@@ -428,6 +432,7 @@ export async function getNewsList(params = {}) {
           totalPages
         },
         batchStatus: statusInfo,
+        nobelQuote: (statusInfo && statusInfo.nobelQuote) || getDailyNobelQuote(date),
         stats: {
           total,
           positive,
@@ -503,6 +508,7 @@ export async function getNewsList(params = {}) {
       totalPages
     },
     batchStatus: statusInfo,
+    nobelQuote: (localBriefing && localBriefing.nobelQuote) || (statusInfo && statusInfo.nobelQuote) || getDailyNobelQuote(date),
     stats: {
       total,
       positive,
@@ -578,6 +584,11 @@ export async function saveBriefing(date, rawData) {
 
   const items = Array.isArray(parsed) ? parsed : (parsed.items || []);
   const batchStatus = Array.isArray(parsed) ? null : (parsed.batchStatus || null);
+  const nobelQuote = (parsed && parsed.nobelQuote) ? parsed.nobelQuote : getDailyNobelQuote(date);
+
+  if (!Array.isArray(parsed) && !parsed.nobelQuote) {
+    parsed.nobelQuote = nobelQuote;
+  }
 
   // 1. 物理文件持久化（备份保障，Serverless 只读环境容错）
   let targetFile = null;
@@ -598,7 +609,7 @@ export async function saveBriefing(date, rawData) {
       if (batchStatus) {
         await BatchStatusModel.findOneAndUpdate(
           { date },
-          { ...batchStatus, date },
+          { ...batchStatus, date, nobelQuote },
           { upsert: true, new: true }
         );
       } else {
@@ -610,7 +621,8 @@ export async function saveBriefing(date, rawData) {
             statusText: '已完成归档',
             generatedTime: `${date} 08:30:00`,
             nextScheduleTime: '明日 08:30:00 (每日晨报)',
-            batchNewsCount: items.length
+            batchNewsCount: items.length,
+            nobelQuote
           },
           { upsert: true, new: true }
         );

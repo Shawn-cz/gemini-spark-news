@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Sparkles, Check, X } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export interface DateStepperCapsuleProps {
   currentDate: string;
@@ -23,6 +24,11 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+
+  const isIosGlass = theme === 'ios-glass' || theme === 'light';
+  const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
+  const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
 
   // 计算当前日期索引 (availableDates 严格降序：索引 0 为最新)
   const currentIndex = availableDates.indexOf(currentDate);
@@ -117,8 +123,14 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
 
   return (
     <div ref={containerRef} className="relative inline-flex items-center select-none font-mono flex-shrink-0 whitespace-nowrap">
-      {/* 实体胶囊主外壳 */}
-      <div className="date-stepper-capsule flex items-center bg-black/90 dark:bg-black/90 text-white rounded-lg p-0.5 border-2 border-black dark:border-cyan-500/40 shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_rgba(6,182,212,0.3)] flex-shrink-0 whitespace-nowrap">
+      {/* 实体胶囊主外壳 (与分类胶囊完美高度对齐与主题协调) */}
+      <div className={`date-stepper-capsule flex items-center p-0.5 whitespace-nowrap flex-shrink-0 transition-all ${
+        isPopDopamine
+          ? 'bg-white text-slate-900 rounded-xl border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827]'
+          : isIosGlass
+          ? 'bg-white text-slate-900 rounded-lg border border-slate-300 shadow-sm'
+          : 'bg-slate-950 text-cyan-300 rounded-lg border border-cyan-500/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+      }`}>
         {/* 左箭头：前一日 (更早) */}
         <button
           type="button"
@@ -127,8 +139,12 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           title={canGoPrevious ? "查看前一日历史简报" : "已是系统内最早归档简报"}
           className={`stepper-btn-prev p-1.5 rounded transition-all duration-150 flex items-center justify-center flex-shrink-0 ${
             canGoPrevious
-              ? 'hover:bg-white/20 active:translate-y-0.5 cursor-pointer text-white'
-              : 'opacity-30 cursor-not-allowed text-white/50'
+              ? isPopDopamine
+                ? 'hover:bg-slate-100 active:translate-y-0.5 cursor-pointer text-slate-900'
+                : isIosGlass
+                ? 'hover:bg-slate-100 active:translate-y-0.5 cursor-pointer text-slate-800'
+                : 'hover:bg-cyan-500/20 active:translate-y-0.5 cursor-pointer text-cyan-400'
+              : 'opacity-30 cursor-not-allowed text-slate-400'
           }`}
           aria-label="前一日"
         >
@@ -142,17 +158,37 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           disabled={isLoading}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
-          className="stepper-btn-date px-2.5 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 hover:bg-white/10 rounded transition-colors cursor-pointer text-white flex-shrink-0 whitespace-nowrap"
+          className={`stepper-btn-date px-2 py-1 text-xs font-bold tracking-wider flex items-center gap-1.5 rounded transition-colors cursor-pointer flex-shrink-0 whitespace-nowrap ${
+            isPopDopamine
+              ? 'hover:bg-slate-100 text-slate-900'
+              : isIosGlass
+              ? 'hover:bg-slate-100 text-slate-900'
+              : 'hover:bg-white/10 text-white'
+          }`}
           title="点击展开选择历史简报日期"
         >
-          <Calendar className="stepper-icon-calendar w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+          <Calendar className={`stepper-icon-calendar w-3.5 h-3.5 flex-shrink-0 ${
+            isPopDopamine ? 'text-pink-500' : isIosGlass ? 'text-blue-600' : 'text-cyan-400'
+          }`} />
           <span className="stepper-date-text whitespace-nowrap font-mono">{currentDate}</span>
           {isLatest ? (
-            <span className="badge-status badge-status-latest text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter whitespace-nowrap flex-shrink-0">
+            <span className={`badge-status badge-status-latest text-[10px] font-black px-1.5 py-0.2 rounded uppercase tracking-tighter whitespace-nowrap flex-shrink-0 ${
+              isPopDopamine
+                ? 'bg-emerald-500 text-black border border-slate-900 shadow-[1px_1px_0px_#000]'
+                : isIosGlass
+                ? 'bg-blue-600 text-white'
+                : 'bg-emerald-500 text-black'
+            }`}>
               最新
             </span>
           ) : (
-            <span className="badge-status badge-status-archive text-[10px] bg-slate-700 text-white font-medium px-1.5 py-0.5 rounded uppercase tracking-tighter whitespace-nowrap flex-shrink-0">
+            <span className={`badge-status badge-status-archive text-[10px] font-medium px-1.5 py-0.2 rounded uppercase tracking-tighter whitespace-nowrap flex-shrink-0 ${
+              isPopDopamine
+                ? 'bg-slate-200 text-slate-800'
+                : isIosGlass
+                ? 'bg-slate-100 text-slate-600 border border-slate-200'
+                : 'bg-slate-800 text-slate-300'
+            }`}>
               归档
             </span>
           )}
@@ -164,21 +200,37 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
           onClick={handleNext}
           disabled={!canGoNext}
           title={canGoNext ? "查看后一日简报" : "已是最新批次简报"}
-          className={`stepper-btn-next p-1.5 rounded transition-all duration-150 flex items-center justify-center ${
+          className={`stepper-btn-next p-1.5 rounded transition-all duration-150 flex items-center justify-center flex-shrink-0 ${
             canGoNext
-              ? 'hover:bg-white/20 active:translate-y-0.5 cursor-pointer text-white'
-              : 'opacity-30 cursor-not-allowed text-white/50'
+              ? isPopDopamine
+                ? 'hover:bg-slate-100 active:translate-y-0.5 cursor-pointer text-slate-900'
+                : isIosGlass
+                ? 'hover:bg-slate-100 active:translate-y-0.5 cursor-pointer text-slate-800'
+                : 'hover:bg-cyan-500/20 active:translate-y-0.5 cursor-pointer text-cyan-400'
+              : 'opacity-30 cursor-not-allowed text-slate-400'
           }`}
           aria-label="后一日"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4 flex-shrink-0" />
         </button>
       </div>
 
-      {/* 下拉历史日期选择列表浮层 */}
+      {/* 下拉历史日期选择列表浮层 (left-0 保证在分类栏最左端时完全可视) */}
       {isOpen && (
-        <div className="date-stepper-dropdown absolute top-full right-0 mt-2 w-56 max-h-64 overflow-y-auto bg-slate-900 dark:bg-slate-900 text-white border-2 border-black dark:border-cyan-500/50 rounded-lg shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_rgba(6,182,212,0.4)] z-50 p-1.5 flex flex-col gap-1">
-          <div className="date-dropdown-header px-2 py-1 text-[11px] font-bold text-slate-400 dark:text-cyan-400/80 border-b border-white/10 flex items-center justify-between">
+        <div className={`date-stepper-dropdown absolute top-full left-0 mt-2 w-56 max-h-64 overflow-y-auto rounded-lg z-50 p-1.5 flex flex-col gap-1 ${
+          isPopDopamine
+            ? 'bg-white text-slate-900 border-2 border-slate-900 shadow-[4px_4px_0px_#000]'
+            : isIosGlass
+            ? 'bg-white text-slate-900 border border-slate-200 shadow-xl'
+            : 'bg-slate-900 text-white border-2 border-black dark:border-cyan-500/50 shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_rgba(6,182,212,0.4)]'
+        }`}>
+          <div className={`date-dropdown-header px-2 py-1 text-[11px] font-bold border-b flex items-center justify-between ${
+            isPopDopamine
+              ? 'text-slate-600 border-slate-200'
+              : isIosGlass
+              ? 'text-slate-500 border-slate-100'
+              : 'text-slate-400 dark:text-cyan-400/80 border-white/10'
+          }`}>
             <span>历史简报归档库</span>
             <span className="text-[10px] opacity-75">{availableDates.length} 批次</span>
           </div>
@@ -197,21 +249,39 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
                 }}
                 className={`date-dropdown-item w-full text-left px-2.5 py-1.5 rounded text-xs flex items-center justify-between transition-colors font-mono cursor-pointer ${
                   isSelected
-                    ? 'is-selected bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
+                    ? isPopDopamine
+                      ? 'bg-pink-100 text-pink-700 font-bold border border-pink-300'
+                      : isIosGlass
+                      ? 'bg-blue-50 text-blue-600 font-bold border border-blue-200'
+                      : 'is-selected bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
+                    : isPopDopamine
+                    ? 'hover:bg-slate-100 text-slate-800'
+                    : isIosGlass
+                    ? 'hover:bg-slate-100 text-slate-700'
                     : 'hover:bg-white/10 text-slate-200'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-3.5 h-3.5 opacity-60" />
+                  <Calendar className="w-3.5 h-3.5 opacity-60 flex-shrink-0" />
                   <span>{date}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   {isDateLatest && (
-                    <span className="text-[9px] bg-emerald-500/30 text-emerald-300 border border-emerald-500/50 px-1 rounded">
+                    <span className={`text-[9px] px-1 rounded flex-shrink-0 ${
+                      isPopDopamine
+                        ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-400'
+                        : isIosGlass
+                        ? 'bg-blue-100 text-blue-700'
+                        : 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/50'
+                    }`}>
                       LATEST
                     </span>
                   )}
-                  {isSelected && <Check className="w-3.5 h-3.5 text-cyan-400" />}
+                  {isSelected && (
+                    <Check className={`w-3.5 h-3.5 flex-shrink-0 ${
+                      isPopDopamine ? 'text-pink-600' : isIosGlass ? 'text-blue-600' : 'text-cyan-400'
+                    }`} />
+                  )}
                 </div>
               </button>
             );
@@ -221,7 +291,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
 
       {/* 实时新批次漂浮轻提示 (当用户回溯历史，且后台生成完毕最新批次时呈现；支持手动点击关闭与8秒自动退出) */}
       {!isOpen && hasNewerBatchAvailable && !isLatest && !isDismissed && onJumpToLatest && (
-        <div className="absolute top-full right-0 mt-2 z-40 flex items-center shadow-[3px_3px_0px_#000] rounded-md border-2 border-black bg-amber-400 text-black font-mono overflow-hidden whitespace-nowrap animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute top-full left-0 mt-2 z-40 flex items-center shadow-[3px_3px_0px_#000] rounded-md border-2 border-black bg-amber-400 text-black font-mono overflow-hidden whitespace-nowrap animate-in fade-in zoom-in-95 duration-200">
           <button
             type="button"
             onClick={() => {

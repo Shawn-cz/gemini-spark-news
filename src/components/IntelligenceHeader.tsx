@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { 
-  Globe, 
   Activity, 
   SlidersHorizontal 
 } from 'lucide-react';
-import { SparkBatchStatusInfo } from '../types/news';
+import { SparkBatchStatusInfo, NobelQuote } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { DateStepperCapsule } from './DateStepperCapsule';
 import { useTheme } from '../context/ThemeContext';
+import { getDailyNobelQuote } from '../utils/nobelQuotes';
 
 export interface IntelligenceHeaderProps {
   statusInfo: SparkBatchStatusInfo | null;
@@ -15,9 +14,11 @@ export interface IntelligenceHeaderProps {
   isSyncing: boolean;
   onOpenImportModal?: () => void;
   onOpenDevTools: () => void;
-  currentDate: string;
-  availableDates: string[];
-  onDateChange: (date: string) => void;
+  nobelQuote?: NobelQuote | null;
+  onShuffleQuote?: () => void;
+  currentDate?: string;
+  availableDates?: string[];
+  onDateChange?: (date: string) => void;
   hasNewerBatchAvailable?: boolean;
   onJumpToLatest?: () => void;
   onDismissNewerBatch?: () => void;
@@ -25,35 +26,32 @@ export interface IntelligenceHeaderProps {
 
 export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   statusInfo,
-  onManualSync,
   isSyncing,
-  onOpenImportModal,
   onOpenDevTools,
-  currentDate,
-  availableDates,
-  onDateChange,
-  hasNewerBatchAvailable = false,
-  onJumpToLatest,
-  onDismissNewerBatch
+  nobelQuote,
+  onShuffleQuote,
 }) => {
   const isRunning = statusInfo?.status === 'RUNNING';
   const sentimentScore = statusInfo?.globalSentimentIndex ?? 28;
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
+  const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
+  const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
 
-  // 根据极性分判定文案与色彩 (拆分中英文，支持自适应紧凑排版)
+  const [isRadarFast, setIsRadarFast] = useState(false);
+
+  // 判定当前名言数据（优先使用外部传入，其次状态对象，最后离线保底）
+  const activeQuote: NobelQuote = nobelQuote || statusInfo?.nobelQuote || getDailyNobelQuote();
+
+  // 极性指标判定
   const getPulseMeta = (score: number) => {
-    if (score >= 30) return { label: '显著积极', en: 'Risk-On', color: isIosGlass ? 'text-emerald-600' : 'text-emerald-400', bar: 'bg-emerald-500' };
-    if (score >= 0) return { label: '谨慎乐观', en: 'Mild Optimism', color: isIosGlass ? 'text-cyan-600' : 'text-cyan-400', bar: 'bg-cyan-500' };
-    if (score >= -30) return { label: '中性观望', en: 'Neutral Watch', color: isIosGlass ? 'text-slate-500' : 'text-slate-400', bar: 'bg-slate-500' };
-    return { label: '避险预警', en: 'Risk-Off', color: isIosGlass ? 'text-rose-600' : 'text-rose-400', bar: 'bg-rose-500' };
+    if (score >= 30) return { label: '显著积极', en: 'Risk-On', color: isIosGlass ? 'text-emerald-600' : isPopDopamine ? 'text-emerald-600' : 'text-emerald-400', bar: 'bg-emerald-500' };
+    if (score >= 0) return { label: '谨慎乐观', en: 'Mild Optimism', color: isIosGlass ? 'text-cyan-600' : isPopDopamine ? 'text-cyan-600' : 'text-cyan-400', bar: 'bg-cyan-500' };
+    if (score >= -30) return { label: '中性观望', en: 'Neutral Watch', color: isIosGlass ? 'text-slate-500' : isPopDopamine ? 'text-slate-600' : 'text-slate-400', bar: 'bg-slate-500' };
+    return { label: '避险预警', en: 'Risk-Off', color: isIosGlass ? 'text-rose-600' : isPopDopamine ? 'text-rose-600' : 'text-rose-400', bar: 'bg-rose-500' };
   };
 
   const pulse = getPulseMeta(sentimentScore);
-
-  const [isRadarFast, setIsRadarFast] = useState(false);
-  const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
-  const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
 
   return (
     <header className={`sticky top-0 z-30 backdrop-blur-xl transition-colors border-b ${
@@ -65,20 +63,20 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
     }`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5">
         
-        {/* 全响应式自适应双层架构：Row 1 品牌与全局系统控制，Row 2 时间步进与全球情绪遥测 */}
+        {/* 全响应式自适应双层架构：统一锁定 Bento 度量衡 h-[42px] */}
         <div className="flex flex-col gap-2 sm:gap-2.5">
           
-          {/* Row 1: 左侧 Logo 与品牌，右侧 主题切换器与 DevTools */}
-          <div className="flex items-center justify-between min-w-0 gap-3">
+          {/* Row 1 (h-[42px]): 左侧品牌标识与标题，右侧 主题切换器与 DevTools 控制台 */}
+          <div className="flex items-center justify-between min-w-0 gap-3 h-[42px]">
             {/* 品牌标识 */}
-            <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+            <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0 h-full">
               {isCyberHud ? (
                 /* 方案 A: 动态雷达微组件（点击加速扫盘） */
                 <button
                   type="button"
                   onClick={() => setIsRadarFast(prev => !prev)}
                   title="点击触发雷达脉冲"
-                  className="group relative w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-cyan-500/80 bg-cyan-950/40 flex items-center justify-center overflow-hidden shadow-[inset_0_0_10px_rgba(0,240,255,0.3)] hover:scale-105 transition-transform cursor-pointer flex-shrink-0"
+                  className="group relative w-10 h-10 rounded-full border border-cyan-500/80 bg-cyan-950/40 flex items-center justify-center overflow-hidden shadow-[inset_0_0_10px_rgba(0,240,255,0.3)] hover:scale-105 transition-transform cursor-pointer flex-shrink-0"
                 >
                   <div
                     className={`absolute inset-0 border-t border-cyan-300/60 radar-beam ${isRadarFast ? 'fast' : ''}`}
@@ -160,17 +158,21 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               )}
             </div>
 
-            {/* 第一行右侧：主题切换器 + DevTools */}
-            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-              <ThemeSwitcher />
+            {/* 第一行右侧：主题切换器 + DevTools (统一严格高度 h-[42px]) */}
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0 h-[42px]">
+              <div className="h-[42px] flex items-center">
+                <ThemeSwitcher />
+              </div>
 
-              {/* 调试面板 */}
+              {/* 开发者调试面板按钮 */}
               {onOpenDevTools && (
                 <button
                   type="button"
                   onClick={onOpenDevTools}
-                  className={`header-action-btn header-btn-devtools p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-mono rounded-lg transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0 ${
-                    isIosGlass
+                  className={`header-action-btn header-btn-devtools h-[42px] px-2.5 sm:px-3 text-xs font-mono rounded-xl transition-all flex items-center gap-1.5 shadow-sm whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                    isPopDopamine
+                      ? 'text-slate-900 bg-yellow-300 hover:bg-yellow-400 border-2 border-slate-900 shadow-[2px_2px_0px_#000] font-bold'
+                      : isIosGlass
                       ? 'text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200'
                       : 'text-amber-300 bg-amber-950/70 hover:bg-amber-900 border border-amber-800'
                   }`}
@@ -178,7 +180,11 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                   <span className="hidden sm:inline">DevTools</span>
-                  <span className={`font-bold hidden md:inline ${isRunning ? "text-amber-600" : (isIosGlass ? "text-emerald-700" : "text-emerald-400")}`}>
+                  <span className={`font-bold hidden md:inline ${
+                    isRunning 
+                      ? "text-amber-600" 
+                      : (isPopDopamine ? "text-emerald-800" : isIosGlass ? "text-emerald-700" : "text-emerald-400")
+                  }`}>
                     [{isRunning ? "计算中" : "已归档"}]
                   </span>
                 </button>
@@ -186,40 +192,96 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             </div>
           </div>
 
-          {/* Row 2: 左侧 日期步进选择胶囊，右侧 全球宏观情绪极性指标 */}
-          <div className="flex items-center justify-between gap-2 sm:gap-2.5 min-w-0 flex-shrink-0">
-            {/* 1. 历史日期步进选择胶囊 */}
-            <DateStepperCapsule
-              currentDate={currentDate}
-              availableDates={availableDates}
-              onDateChange={onDateChange}
-              isLoading={isSyncing}
-              hasNewerBatchAvailable={hasNewerBatchAvailable}
-              onJumpToLatest={onJumpToLatest}
-              onDismissNewerBatch={onDismissNewerBatch}
-            />
-
-            {/* 2. 全球宏观情绪极性指标 */}
+          {/* Row 2 (h-[42px]): 左侧【诺贝尔文学奖名言灵感胶囊】，右侧【全球宏观情绪极性指标】 */}
+          <div className="flex items-center justify-between gap-2 sm:gap-2.5 min-w-0 h-[42px]">
+            
+            {/* 1. 诺贝尔文学奖名言灵感胶囊 (统一高度 h-[42px]，单行不折叠，字号平滑自适应，作者紧随彻底消除空白) */}
             <div 
-              className={`header-sentiment-capsule inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-mono flex-shrink-0 transition-all shadow-sm ${
-                isIosGlass
-                  ? 'bg-white/80 border-slate-200/80 text-slate-800'
-                  : 'border-white/10 bg-white/[0.03] text-slate-300'
+              className={`h-[42px] flex-1 min-w-0 rounded-xl px-2.5 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden whitespace-nowrap transition-all ${
+                isPopDopamine
+                  ? 'border-2 border-slate-900 bg-yellow-50/90 shadow-[2px_2px_0px_#000] text-slate-900'
+                  : isCyberHud
+                  ? 'border border-cyan-500/40 bg-cyan-950/30 text-cyan-100 shadow-[inset_0_0_12px_rgba(0,240,255,0.1)]'
+                  : 'border border-slate-200/80 bg-white/80 text-slate-800 shadow-sm'
+              }`}
+              title={`${activeQuote.year} · ${activeQuote.author}《${activeQuote.work}》: ${activeQuote.zh}`}
+            >
+              {/* 诺奖专属徽章 */}
+              <div className={`flex-shrink-0 flex items-center gap-1 text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
+                isPopDopamine
+                  ? 'bg-pink-500 text-white border border-slate-900 shadow-[1px_1px_0px_#000]'
+                  : isCyberHud
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono'
+                  : 'bg-blue-600 text-white font-semibold'
+              }`}>
+                <span className="text-xs">🕊️</span>
+                <span className="hidden xs:inline">{activeQuote.year}</span>
+                <span className="xs:hidden font-mono">诺奖</span>
+              </div>
+
+              {/* 箴言正文与作者紧随行内排列 (彻底消除视觉割裂与大片空白) */}
+              <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden whitespace-nowrap">
+                <span 
+                  className={`font-serif font-bold whitespace-nowrap tracking-wide leading-none truncate min-w-0 ${
+                    activeQuote.zh.length > 38 ? 'text-[11.5px]' : activeQuote.zh.length > 25 ? 'text-xs' : 'text-xs sm:text-[13px]'
+                  } ${
+                    isPopDopamine ? 'text-slate-900' : isCyberHud ? 'text-cyan-100' : 'text-slate-900'
+                  }`}
+                >
+                  {activeQuote.zh}
+                </span>
+
+                <span className={`flex-shrink-0 text-[11px] font-bold whitespace-nowrap leading-none ${
+                  isPopDopamine ? 'text-slate-700' : isCyberHud ? 'text-cyan-400/80 font-mono' : 'text-slate-600'
+                }`}>
+                  <span className="hidden sm:inline">—— {activeQuote.author}《{activeQuote.work}》</span>
+                  <span className="sm:hidden">—— {activeQuote.author.split('·').pop() || activeQuote.author}</span>
+                </span>
+              </div>
+
+              {/* 换一句微交互按键 */}
+              {onShuffleQuote && (
+                <button
+                  type="button"
+                  onClick={onShuffleQuote}
+                  className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-xs transition-transform active:rotate-45 cursor-pointer ml-auto ${
+                    isPopDopamine
+                      ? 'bg-black/5 hover:bg-black/10 text-slate-800'
+                      : isCyberHud
+                      ? 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                  title="点击换一句诺奖名言"
+                  aria-label="换一句诺贝尔文学奖名言"
+                >
+                  🎲
+                </button>
+              )}
+            </div>
+
+            {/* 2. 全球宏观情绪极性指标 (与名言胶囊严格统一度量衡 h-[42px]) */}
+            <div 
+              className={`header-sentiment-capsule h-[42px] inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 rounded-xl border text-xs font-mono flex-shrink-0 transition-all ${
+                isPopDopamine
+                  ? 'border-2 border-slate-900 bg-white text-slate-900 shadow-[2px_2px_0px_#000]'
+                  : isCyberHud
+                  ? 'border border-cyan-500/40 bg-black/40 text-cyan-300 shadow-sm'
+                  : 'border border-slate-200/80 bg-white/80 text-slate-800 shadow-sm'
               }`}
               title={`全球宏观情绪极性: ${sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`} (${pulse.label} / ${pulse.en})`}
             >
               <Activity className={`w-3.5 h-3.5 flex-shrink-0 ${pulse.color} animate-pulse`} />
               <span className={`text-[10px] uppercase tracking-wider hidden sm:inline ${
-                isIosGlass ? 'text-slate-500' : 'text-slate-400'
+                isPopDopamine ? 'text-slate-600 font-bold' : isCyberHud ? 'text-slate-400' : 'text-slate-500'
               }`}>情绪脉搏:</span>
               <span className={`font-black ${pulse.color} text-xs`}>
                 {sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`}
               </span>
-              <span className={`font-semibold text-[11px] whitespace-nowrap ${
-                isIosGlass ? 'text-slate-700' : 'text-slate-300'
+              <span className={`font-semibold text-[11px] whitespace-nowrap hidden xs:inline ${
+                isPopDopamine ? 'text-slate-800' : isCyberHud ? 'text-slate-300' : 'text-slate-700'
               }`}>{pulse.label}</span>
               <div className={`w-8 sm:w-10 rounded-full h-1 overflow-hidden hidden sm:block flex-shrink-0 ${
-                isIosGlass ? 'bg-slate-200' : 'bg-slate-800'
+                isPopDopamine ? 'bg-slate-200' : isCyberHud ? 'bg-slate-800' : 'bg-slate-200'
               }`}>
                 <div
                   className={`h-full rounded-full ${pulse.bar}`}
@@ -227,6 +289,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
                 />
               </div>
             </div>
+
           </div>
 
         </div>

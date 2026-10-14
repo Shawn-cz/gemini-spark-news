@@ -30,6 +30,17 @@ export interface GlobalNewsItem {
   batchId?: string;
 }
 
+export interface NobelQuote {
+  year: string;
+  author: string;
+  work: string;
+  enAuthor?: string;
+  enWork?: string;
+  zh: string;
+  en?: string;
+  batchDate?: string;
+}
+
 export interface SparkBatchStatusInfo {
   queryDate: string;
   isToday: boolean;
@@ -46,6 +57,7 @@ export interface SparkBatchStatusInfo {
   totalArchivedDays: number;
   batchNewsCount: number;
   globalSentimentIndex?: number; // 全球宏观情绪极性指标 -100 到 +100
+  nobelQuote?: NobelQuote;
 }
 
 export interface NewsQueryParams {
@@ -82,6 +94,7 @@ export interface NewsResponseData {
   };
   batchStatus: SparkBatchStatusInfo;
   stats: GlobalNewsStats;
+  nobelQuote?: NobelQuote;
 }
 
 export interface AvailableDatesData {

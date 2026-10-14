@@ -56,6 +56,16 @@ const BatchStatusSchema = new mongoose.Schema(
     batchNewsCount: {
       type: Number,
       default: 0
+    },
+    nobelQuote: {
+      year: { type: String },
+      author: { type: String },
+      work: { type: String },
+      enAuthor: { type: String },
+      enWork: { type: String },
+      zh: { type: String },
+      en: { type: String },
+      batchDate: { type: String }
     }
   },
   {

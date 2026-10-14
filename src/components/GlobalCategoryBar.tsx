@@ -13,8 +13,9 @@ import {
 } from 'lucide-react';
 import { CategoryType, ViewMode, SentimentType, GlobalNewsStats } from '../types/news';
 import { useTheme } from '../context/ThemeContext';
+import { DateStepperCapsule } from './DateStepperCapsule';
 
-interface GlobalCategoryBarProps {
+export interface GlobalCategoryBarProps {
   selectedCategory: CategoryType;
   onSelectCategory: (cat: CategoryType) => void;
   viewMode: ViewMode;
@@ -28,6 +29,10 @@ interface GlobalCategoryBarProps {
   onSearchChange: (value: string) => void;
   stats: GlobalNewsStats | null;
   bookmarkCount?: number;
+  isLoading?: boolean;
+  hasNewerBatchAvailable?: boolean;
+  onJumpToLatest?: () => void;
+  onDismissNewerBatch?: () => void;
 }
 
 export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
@@ -43,7 +48,11 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
   searchValue,
   onSearchChange,
   stats,
-  bookmarkCount = 0
+  bookmarkCount = 0,
+  isLoading = false,
+  hasNewerBatchAvailable = false,
+  onJumpToLatest,
+  onDismissNewerBatch
 }) => {
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
@@ -76,62 +85,82 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
   return (
     <div className="space-y-3 mb-6">
       
-      {/* 第一行：全量领域与收藏胶囊栏 (6 颗胶囊独享整行，彻底杜绝任何右侧视图按钮挤压与遮挡) */}
-      <div className="category-scroll-container w-full flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none min-w-0">
-        {categories.map((cat) => {
-          const isSelected = selectedCategory === cat.key;
-          const Icon = cat.icon;
-          const isBm = (cat as any).isBookmark;
+      {/* 第一行：前置日期步进器 + 全量领域与收藏胶囊栏 (方案 C：筛选项一体化，彻底消灭顶栏空白) */}
+      <div className="w-full flex items-center gap-2 min-w-0">
+        
+        {/* 方案 C 核心：日期步进器前置嵌入分类筛选栏 (非 overflow 容器内，下拉菜单不被截断) */}
+        <DateStepperCapsule
+          currentDate={selectedDate}
+          availableDates={availableDates}
+          onDateChange={onSelectDate}
+          isLoading={isLoading}
+          hasNewerBatchAvailable={hasNewerBatchAvailable}
+          onJumpToLatest={onJumpToLatest}
+          onDismissNewerBatch={onDismissNewerBatch}
+        />
 
-          const selectedStyle = isIosGlass
-            ? isBm
-              ? 'category-pill-selected category-pill-bookmarks bg-amber-500 text-white border border-amber-500 shadow-md font-semibold'
-              : 'category-pill-selected bg-blue-600 text-white border border-blue-600 shadow-md font-semibold'
-            : isPopDopamine
-            ? isBm
-              ? 'pop-btn bg-yellow-400 text-slate-900 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
-              : 'pop-btn bg-pink-500 text-white border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
-            : isBm
-            ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold font-mono'
-            : 'category-pill-selected bg-cyan-500 text-slate-950 font-bold border border-cyan-400 shadow-[0_0_10px_#00f0ff] font-mono';
+        {/* 垂直微分割线 */}
+        <div className={`h-6 w-[2px] flex-shrink-0 ${
+          isPopDopamine ? 'bg-slate-300' : isIosGlass ? 'bg-slate-200' : 'bg-cyan-500/20'
+        }`} />
 
-          const unselectedStyle = isIosGlass
-            ? isBm
-              ? 'category-pill-unselected bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 hover:text-amber-950 shadow-sm font-semibold'
-              : 'category-pill-unselected bg-white text-slate-900 border border-slate-300 hover:bg-white hover:text-slate-950 shadow-sm font-semibold'
-            : isPopDopamine
-            ? 'pop-btn bg-slate-100 text-slate-800 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-[\'Fredoka\']'
-            : isBm
-            ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30 font-mono'
-            : 'category-pill-unselected bg-slate-950 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400 font-mono';
+        {/* 分类领域胶囊水平滚动区 */}
+        <div className="category-scroll-container flex-1 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none min-w-0">
+          {categories.map((cat) => {
+            const isSelected = selectedCategory === cat.key;
+            const Icon = cat.icon;
+            const isBm = (cat as any).isBookmark;
 
-          return (
-            <button
-              key={cat.key}
-              type="button"
-              onClick={() => onSelectCategory(cat.key)}
-              className={`category-pill-btn inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 ${
-                isPopDopamine ? 'rounded-xl' : 'rounded-lg'
-              } text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
-                isSelected ? selectedStyle : unselectedStyle
-              }`}
-            >
-              <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
-                isSelected 
-                  ? isIosGlass ? 'text-white' : isPopDopamine ? 'text-slate-900' : 'text-slate-950'
-                  : isIosGlass ? (isBm ? 'text-amber-700' : 'text-slate-700') : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
-              }`} />
-              <span className={isSelected ? 'text-white font-bold' : (isIosGlass ? 'text-slate-900 font-semibold' : '')}>{cat.label}</span>
-              <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
-                isSelected 
-                  ? isIosGlass ? 'bg-white/25 text-white font-bold' : isPopDopamine ? 'bg-white/40 text-slate-900 font-bold' : 'bg-slate-950/30 text-slate-950 font-bold'
-                : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-900 font-bold border border-amber-300' : 'bg-slate-100 text-slate-800 font-bold border border-slate-300') : isPopDopamine ? 'bg-slate-200 text-slate-700' : 'bg-cyan-500/10 text-cyan-300'
-              }`}>
-                {cat.count}
-              </span>
-            </button>
-          );
-        })}
+            const selectedStyle = isIosGlass
+              ? isBm
+                ? 'category-pill-selected category-pill-bookmarks bg-amber-500 text-white border border-amber-500 shadow-md font-semibold'
+                : 'category-pill-selected bg-blue-600 text-white border border-blue-600 shadow-md font-semibold'
+              : isPopDopamine
+              ? isBm
+                ? 'pop-btn bg-yellow-400 text-slate-900 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
+                : 'pop-btn bg-pink-500 text-white border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-bold font-[\'Fredoka\']'
+              : isBm
+              ? 'category-pill-selected category-pill-bookmarks bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-glow-amber font-semibold font-mono'
+              : 'category-pill-selected bg-cyan-500 text-slate-950 font-bold border border-cyan-400 shadow-[0_0_10px_#00f0ff] font-mono';
+
+            const unselectedStyle = isIosGlass
+              ? isBm
+                ? 'category-pill-unselected bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 hover:text-amber-950 shadow-sm font-semibold'
+                : 'category-pill-unselected bg-white text-slate-900 border border-slate-300 hover:bg-white hover:text-slate-950 shadow-sm font-semibold'
+              : isPopDopamine
+              ? 'pop-btn bg-slate-100 text-slate-800 border-[2px] border-slate-900 shadow-[2px_2px_0px_0px_#111827] font-[\'Fredoka\']'
+              : isBm
+              ? 'category-pill-unselected bg-amber-950/20 text-amber-400/80 hover:text-amber-300 hover:bg-amber-950/40 border border-amber-700/30 font-mono'
+              : 'category-pill-unselected bg-slate-950 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400 font-mono';
+
+            return (
+              <button
+                key={cat.key}
+                type="button"
+                onClick={() => onSelectCategory(cat.key)}
+                className={`category-pill-btn inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 ${
+                  isPopDopamine ? 'rounded-xl' : 'rounded-lg'
+                } text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
+                  isSelected ? selectedStyle : unselectedStyle
+                }`}
+              >
+                <Icon className={`category-pill-icon w-3.5 h-3.5 flex-shrink-0 ${
+                  isSelected 
+                    ? isIosGlass ? 'text-white' : isPopDopamine ? 'text-slate-900' : 'text-slate-950'
+                    : isIosGlass ? (isBm ? 'text-amber-700' : 'text-slate-700') : isPopDopamine ? 'text-slate-700' : 'text-cyan-400'
+                }`} />
+                <span className={isSelected ? 'text-white font-bold' : (isIosGlass ? 'text-slate-900 font-semibold' : '')}>{cat.label}</span>
+                <span className={`category-pill-count px-1.5 py-0.2 rounded-md text-[10px] font-mono flex-shrink-0 ${
+                  isSelected 
+                    ? isIosGlass ? 'bg-white/25 text-white font-bold' : isPopDopamine ? 'bg-white/40 text-slate-900 font-bold' : 'bg-slate-950/30 text-slate-950 font-bold'
+                  : isIosGlass ? (isBm ? 'bg-amber-100 text-amber-900 font-bold border border-amber-300' : 'bg-slate-100 text-slate-800 font-bold border border-slate-300') : isPopDopamine ? 'bg-slate-200 text-slate-700' : 'bg-cyan-500/10 text-cyan-300'
+                }`}>
+                  {cat.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* 第二行：情绪快速滤镜、3 种视图模式切换 (Bento/Matrix/Timeline) 与全站检索框 */}

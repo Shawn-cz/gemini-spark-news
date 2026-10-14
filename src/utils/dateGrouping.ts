@@ -30,6 +30,14 @@ export interface PaginatedDatesResult {
  * 将平铺日期数组聚合为年份与月份桶
  */
 export function groupDatesByYearAndMonth(dates: string[] = []): DateGroupingResult {
+  if (!Array.isArray(dates) || dates.length === 0) {
+    return {
+      years: [],
+      monthMapByYear: {},
+      totalCountByYear: {}
+    };
+  }
+
   const yearSet = new Set<string>();
   const yearMonthCounts: Record<string, Record<string, number>> = {};
   const yearTotals: Record<string, number> = {};
@@ -94,6 +102,7 @@ export function filterAndPaginateDates(
     pageSize = 6
   } = options;
 
+  const validPageSize = Math.max(1, pageSize);
   let filtered = dates;
 
   if (year) {
@@ -106,11 +115,11 @@ export function filterAndPaginateDates(
   }
 
   const totalCount = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+  const totalPages = Math.max(1, Math.ceil(totalCount / validPageSize));
   const currentPage = Math.min(Math.max(1, page), totalPages);
 
-  const startIndex = (currentPage - 1) * pageSize;
-  const pagedDates = filtered.slice(startIndex, startIndex + pageSize);
+  const startIndex = (currentPage - 1) * validPageSize;
+  const pagedDates = filtered.slice(startIndex, startIndex + validPageSize);
 
   return {
     filteredDates: filtered,
@@ -118,6 +127,6 @@ export function filterAndPaginateDates(
     totalCount,
     totalPages,
     currentPage,
-    pageSize
+    pageSize: validPageSize
   };
 }

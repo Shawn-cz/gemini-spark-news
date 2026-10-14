@@ -14,7 +14,8 @@ import {
   ViewMode, 
   SparkBatchStatusInfo, 
   GlobalNewsStats,
-  BatchStatusType 
+  BatchStatusType,
+  NobelQuote
 } from '../types/news';
 import { 
   fetchNewsList, 
@@ -29,6 +30,7 @@ import {
   subscribeBookmarks 
 } from '../services/bookmarkStorage';
 import { filterBatchNews, calculateBatchStats } from '../utils/batchFiltering';
+import { getDailyNobelQuote, getRandomNobelQuote } from '../utils/nobelQuotes';
 import { IntelligenceHeader } from './IntelligenceHeader';
 import { GlobalCategoryBar } from './GlobalCategoryBar';
 import { BentoView } from './views/BentoView';
@@ -77,6 +79,7 @@ export const SparkNewsDashboard: React.FC = () => {
   const [rawBatchNews, setRawBatchNews] = useState<GlobalNewsItem[]>([]);
   const [rawBatchStats, setRawBatchStats] = useState<GlobalNewsStats | null>(null);
   const [statusInfo, setStatusInfo] = useState<SparkBatchStatusInfo | null>(null);
+  const [nobelQuote, setNobelQuote] = useState<NobelQuote>(() => getDailyNobelQuote(selectedDate));
   const [selectedNews, setSelectedNews] = useState<GlobalNewsItem | null>(null);
 
   const rawBatchNewsRef = useRef(rawBatchNews);
@@ -146,6 +149,13 @@ export const SparkNewsDashboard: React.FC = () => {
       setStatusInfo(batchStatusRes);
       setRawBatchNews(newsRes.items);
       setRawBatchStats(newsRes.stats);
+      if (newsRes.nobelQuote) {
+        setNobelQuote(newsRes.nobelQuote);
+      } else if (batchStatusRes?.nobelQuote) {
+        setNobelQuote(batchStatusRes.nobelQuote);
+      } else {
+        setNobelQuote(getDailyNobelQuote(selectedDate));
+      }
       setErrorMessage(null);
 
       if (isSilent) {
@@ -183,8 +193,14 @@ export const SparkNewsDashboard: React.FC = () => {
     setIsRunningTransitionActive(false);
     if (newDate === selectedDate) return;
     setSelectedDate(newDate);
+    setNobelQuote(getDailyNobelQuote(newDate));
     setPage(1);
   }, [selectedDate]);
+
+  // 换一句诺奖名言随机微交互
+  const handleShuffleQuote = useCallback(() => {
+    setNobelQuote(prev => getRandomNobelQuote(prev?.zh));
+  }, []);
 
   const handleJumpToLatest = useCallback(() => {
     setHasNewerBatchAvailable(false);
@@ -601,19 +617,15 @@ export const SparkNewsDashboard: React.FC = () => {
         <div id="ios-mesh-bg" className="ios-glass-mesh-layer ios-mesh-mist pointer-events-none fixed inset-0 z-0" />
       )}
       
-      {/* 1. 顶部 Header (含情绪极性心电图与 24H 调度监控) */}
+      {/* 1. 顶部 Header (含情绪极性心电图、24H 调度监控与每日诺贝尔文学奖名言灵感胶囊) */}
       <IntelligenceHeader
         statusInfo={statusInfo}
         onManualSync={handleRetry}
         isSyncing={isSilentRefreshing || isInitialLoading}
         onOpenImportModal={() => setIsImportModalOpen(true)}
         onOpenDevTools={() => setIsDevToolsOpen(true)}
-        currentDate={selectedDate}
-        availableDates={availableDates}
-        onDateChange={handleDateChange}
-        hasNewerBatchAvailable={hasNewerBatchAvailable}
-        onJumpToLatest={handleJumpToLatest}
-        onDismissNewerBatch={handleDismissNewerBatch}
+        nobelQuote={nobelQuote}
+        onShuffleQuote={handleShuffleQuote}
       />
 
       {/* 静默刷新指示呼吸指示条 (触发时不打扰正常浏览) */}
@@ -637,7 +649,7 @@ export const SparkNewsDashboard: React.FC = () => {
       {/* 主体视窗容器 */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
         
-        {/* 2. 领域分类与新奇视图控制栏 */}
+        {/* 2. 领域分类与新奇视图控制栏 (方案 C：前置日期步进器与分类筛选一体化) */}
         <GlobalCategoryBar
           selectedCategory={category}
           onSelectCategory={(cat) => { setCategory(cat); setPage(1); }}
@@ -652,6 +664,10 @@ export const SparkNewsDashboard: React.FC = () => {
           onSearchChange={(val) => { setSearch(val); setPage(1); }}
           stats={currentStats}
           bookmarkCount={bookmarks.length}
+          isLoading={isSilentRefreshing || isInitialLoading}
+          hasNewerBatchAvailable={hasNewerBatchAvailable}
+          onJumpToLatest={handleJumpToLatest}
+          onDismissNewerBatch={handleDismissNewerBatch}
         />
 
         {/* 3. 边界状态处理 1: 接口错误捕获与“点击重试”按钮 */}
@@ -703,14 +719,26 @@ export const SparkNewsDashboard: React.FC = () => {
           </div>
         ) : isBookmarksMode && currentItems.length === 0 ? (
           /* 3. 边界状态处理 3A: 收藏夹为空提示 */
-          <div className="glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border border-amber-500/20 shadow-glow-amber bg-amber-950/10">
-            <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4 text-amber-400">
+          <div className={`glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border ${
+            isIosGlass
+              ? 'bg-white/95 border-amber-300 shadow-sm'
+              : 'border-amber-500/20 shadow-glow-amber bg-amber-950/10'
+          }`}>
+            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
+              isIosGlass
+                ? 'bg-amber-100 border border-amber-300 text-amber-600'
+                : 'bg-amber-500/10 border border-amber-500/20 text-amber-400'
+            }`}>
               <Bookmark className="w-8 h-8 fill-current opacity-80" />
             </div>
-            <h3 className="text-base font-bold text-white mb-2 font-mono">
+            <h3 className={`text-base font-bold mb-2 font-mono ${
+              isIosGlass ? 'text-slate-900' : 'text-white'
+            }`}>
               您的全球智库收藏夹目前为空
             </h3>
-            <p className="text-xs text-slate-300 mb-6 font-mono leading-relaxed">
+            <p className={`text-xs mb-6 font-mono leading-relaxed ${
+              isIosGlass ? 'text-slate-600' : 'text-slate-300'
+            }`}>
               在浏览任何研报卡片或打开深度解析档案时，点击 ⭐ 收藏按钮即可将核心宏观情报永久留存在本地浏览器中，跨越历史批次随时温故复盘。
             </p>
             <button
@@ -719,27 +747,45 @@ export const SparkNewsDashboard: React.FC = () => {
                 setCategory('all');
                 setPage(1);
               }}
-              className="px-5 py-2.5 text-xs font-mono font-bold text-amber-300 bg-amber-950/80 hover:bg-amber-900 border border-amber-700/60 rounded-xl transition shadow-md shadow-amber-950/40"
+              className={`px-5 py-2.5 text-xs font-mono font-bold rounded-xl transition ${
+                isIosGlass
+                  ? 'text-white bg-amber-600 hover:bg-amber-700 shadow-sm'
+                  : 'text-amber-300 bg-amber-950/80 hover:bg-amber-900 border border-amber-700/60 shadow-md shadow-amber-950/40'
+              }`}
             >
               浏览全部领域研报
             </button>
           </div>
         ) : currentItems.length === 0 ? (
           /* 3. 边界状态处理 3B: 当 Spark 批次为空时的“暂无资讯”空状态 */
-          <div className="glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border border-white/10 shadow-inner">
-            <div className="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4 text-slate-500">
-              <Inbox className="w-8 h-8 text-cyan-400 opacity-60" />
+          <div className={`glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border ${
+            isIosGlass
+              ? 'bg-white/95 border-slate-200 shadow-sm'
+              : 'border-white/10 shadow-inner bg-white/[0.03]'
+          }`}>
+            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
+              isIosGlass ? 'bg-slate-100 text-slate-500' : 'bg-white/[0.03] text-slate-500'
+            }`}>
+              <Inbox className={`w-8 h-8 opacity-70 ${isIosGlass ? 'text-blue-600' : 'text-cyan-400'}`} />
             </div>
-            <h3 className="text-base font-bold text-white mb-2 font-mono">
+            <h3 className={`text-base font-bold mb-2 font-mono ${
+              isIosGlass ? 'text-slate-900' : 'text-white'
+            }`}>
               当前 Gemini Spark 批次暂无资讯产物
             </h3>
-            <p className="text-xs text-slate-400 mb-6 font-mono leading-relaxed">
+            <p className={`text-xs mb-6 font-mono leading-relaxed ${
+              isIosGlass ? 'text-slate-600' : 'text-slate-400'
+            }`}>
               在所选日期 [{selectedDate}] 或当前检索过滤条件下，Gemini Spark 智能体未产生符合条件的输出。您可切换历史简报或重置筛选条件。
             </p>
             <button
               type="button"
               onClick={handleResetFilter}
-              className="px-4 py-2 text-xs font-mono font-semibold text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800 rounded-xl transition"
+              className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition ${
+                isIosGlass
+                  ? 'text-white bg-blue-600 hover:bg-blue-700 shadow-sm'
+                  : 'text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800'
+              }`}
             >
               重置所有过滤与检索条件
             </button>
