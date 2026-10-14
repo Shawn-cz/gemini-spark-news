@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Spark Intelligence · 顶栏重构与诺贝尔文学奖名言胶囊排版预览台</title>
+  <script src="./tailwindcss.cdn.js"></script>
+  <script>
+    if (typeof tailwind === 'undefined') {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.tailwindcss.com';
+      document.head.appendChild(s);
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Fredoka:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    .font-serif-quote {
+      font-family: 'Noto Serif SC', 'Georgia', 'Songti SC', serif;
+    }
+    
+    /* 方案 A: 赛博 HUD */
+    [data-theme="cyber-hud"] {
+      --bg-base: #060913;
+      --card-bg: rgba(9, 14, 26, 0.95);
+      --border-color: rgba(0, 240, 255, 0.4);
+      --text-main: #ffffff;
+      --text-sub: #94a3b8;
+      --accent: #00f0ff;
+    }
+    [data-theme="cyber-hud"] .cyber-bracket {
+      position: relative;
+    }
+    [data-theme="cyber-hud"] .cyber-bracket::before,
+    [data-theme="cyber-hud"] .cyber-bracket::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-color: #00f0ff;
+      pointer-events: none;
+    }
+    [data-theme="cyber-hud"] .cyber-bracket::before {
+      top: -1px; left: -1px;
+      border-top: 2px solid #00f0ff;
+      border-left: 2px solid #00f0ff;
+    }
+    [data-theme="cyber-hud"] .cyber-bracket::after {
+      bottom: -1px; right: -1px;
+      border-bottom: 2px solid #00f0ff;
+      border-right: 2px solid #00f0ff;
+    }
+
+    /* 方案 B: 波普潮玩 */
+    [data-theme="pop-dopamine"] {
+      --bg-base: #fdfaf3;
+      --card-bg: #ffffff;
+      --border-color: #111827;
+      --text-main: #111827;
+      --text-sub: #4b5563;
+      --accent: #ff007f;
+    }
+
+    /* 方案 C: iOS 流体玻璃 */
+    [data-theme="ios-glass"] {
+      --bg-base: #f1f5f9;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --border-color: rgba(226, 232, 240, 0.9);
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --accent: #2563eb;
+    }
+
+    /* 极光微柔光 */
+    .ios-mesh-ambient {
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(219, 234, 254, 0.8) 0%, transparent 40%),
+        radial-gradient(circle at 85% 15%, rgba(243, 232, 255, 0.75) 0%, transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(254, 243, 199, 0.6) 0%, transparent 50%),
+        #f1f5f9;
+    }
+
+    /* 平滑过渡 */
+    .theme-transition {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans" id="body-app">
+
+  <!-- 顶部控制条：主题与视口尺寸切换器 -->
+  <div class="bg-slate-950/90 border-b border-slate-800 px-4 py-3 sticky top-0 z-50 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 shadow-lg">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-400 to-pink-500 flex items-center justify-center font-black text-sm text-slate-950 shadow-md">
+        ★
+      </div>
+      <div>
+        <h2 class="text-sm font-bold text-white tracking-wide flex items-center gap-2">
+          <span>顶栏重构与诺贝尔文学奖名言胶囊排版展示台</span>
+          <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] px-2 py-0.5 rounded-full font-mono">LAYOUT_V4</span>
+        </h2>
+        <p class="text-[11px] text-slate-400 font-mono">日期步进移至顶栏中区 · 下方配置诺贝尔文学奖名言及中英互译</p>
+      </div>
+    </div>
+
+    <!-- 交互切换组 -->
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+      <!-- 1. 主题切换器 -->
+      <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-1 flex items-center gap-1 text-xs">
+        <button onclick="setTheme('pop-dopamine')" id="btn-theme-b" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-[#ff007f] text-white shadow-sm">
+          方案B·波普
+        </button>
+        <button onclick="setTheme('cyber-hud')" id="btn-theme-a" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          方案A·HUD
+        </button>
+        <button onclick="setTheme('ios-glass')" id="btn-theme-c" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          方案C·iOS
+        </button>
+      </div>
+
+      <!-- 2. 随机切换下一句名言 -->
+      <button onclick="nextQuote()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer" title="随机切换下一句诺奖名言">
+        <span>🎲 换一句诺奖名言</span>
+      </button>
+
+      <!-- 2.5 布局模式切换器 (解决名言红框空白) -->
+      <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-1 flex items-center gap-1 text-xs">
+        <button onclick="setLayoutMode('flow')" id="btn-mode-flow" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-600 text-white shadow-sm">
+          名言紧随(无空白)
+        </button>
+        <button onclick="setLayoutMode('bilingual')" id="btn-mode-bilingual" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          双语填补
+        </button>
+      </div>
+
+      <!-- 2.6 日期位置方案切换器 (解决日期两侧空白 & 避免主视觉争夺) -->
+      <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-1 flex items-center gap-1 text-xs">
+        <span class="text-slate-400 font-bold px-1.5 text-[11px]">日期位:</span>
+        <button onclick="setDatePosition('right-toolbar')" id="btn-date-right" class="px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-600 text-white shadow-sm">
+          方案A: 右侧控制区(推荐)
+        </button>
+        <button onclick="setDatePosition('left-brand')" id="btn-date-left" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          方案B: 紧随左侧品牌
+        </button>
+        <button onclick="setDatePosition('filter-bar')" id="btn-date-filter" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          方案C: 下沉至分类筛选栏
+        </button>
+        <button onclick="setDatePosition('center')" id="btn-date-center" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">
+          原版: 居中浮空
+        </button>
+      </div>
+
+      <!-- 3. 视口宽度模拟切换 -->
+      <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-1 flex items-center gap-1 text-xs font-mono">
+        <button onclick="setViewport('100%')" id="btn-vp-full" class="px-2 py-1 rounded-lg bg-blue-600 text-white font-bold transition-all">
+          自适应 100%
+        </button>
+        <button onclick="setViewport('1146px')" id="btn-vp-1146" class="px-2 py-1 rounded-lg text-slate-400 hover:text-white transition-all">
+          笔记本 1146px
+        </button>
+        <button onclick="setViewport('390px')" id="btn-vp-390" class="px-2 py-1 rounded-lg text-slate-400 hover:text-white transition-all">
+          手机 390px
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主展示沙盒视窗外框 -->
+  <div class="flex-1 p-3 sm:p-6 lg:p-8 flex justify-center items-start overflow-x-auto bg-[#070b14]">
+    
+    <!-- 模拟视口容器 -->
+    <div id="sandbox-viewport" class="w-full transition-all duration-300 mx-auto" style="max-width: 100%;">
+
+      <!-- 沙盒主体页面内容 -->
+      <div id="theme-frame" class="theme-transition rounded-2xl overflow-hidden shadow-2xl border-2" data-theme="pop-dopamine">
+        
+        <!-- ============================================================== -->
+        <!-- 核心重构区：INTELLIGENCE HEADER (双行高阶自适应结构)             -->
+        <!-- ============================================================== -->
+        <header id="app-header" class="theme-transition border-b px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 relative z-30">
+          <div class="max-w-7xl mx-auto flex flex-col gap-2.5">
+            
+            <!-- Row 1: 左侧 品牌标题 | 中间 历史日期步进选择胶囊 | 右侧 主题切换器与 DevTools -->
+            <div class="flex items-center justify-between gap-3 min-w-0">
+              
+              <!-- 1.1 品牌标识 (左侧) -->
+              <div id="header-brand-group" class="flex items-center gap-3 flex-shrink-0">
+                <div id="brand-logo" class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center font-black text-xl flex-shrink-0">
+                  ⚡
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5 sm:gap-2">
+                    <h1 id="brand-title" class="text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap">
+                      GEMINI SPARK // 24H 潮玩情报
+                    </h1>
+                    <span id="brand-badge" class="bg-pink-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_#000] flex-shrink-0">
+                      LIVE
+                    </span>
+                  </div>
+                  <p id="brand-sub" class="text-[11px] text-slate-500 truncate hidden md:block font-mono">
+                    2026 每日智库全景 · 50 份全球突破已归档
+                  </p>
+                </div>
+              </div>
+
+              <!-- 1.2 移至中区的【历史日期步进选择胶囊】(蓝框新位置 · 统一高度 h-[42px]) -->
+              <div id="header-center-date" class="hidden sm:flex items-center justify-center flex-shrink-0">
+                <div id="date-stepper-capsule" class="h-[42px] flex items-center rounded-xl p-1 border-2 border-slate-900 bg-white shadow-[2px_2px_0px_#000] text-xs font-mono font-bold whitespace-nowrap">
+                  <button class="h-full px-2 rounded hover:bg-black/10 active:translate-y-0.5 transition-all text-slate-800 cursor-pointer flex items-center justify-center" title="查看前一日">
+                    &lt;
+                  </button>
+                  <button class="h-full px-2.5 rounded flex items-center gap-1.5 hover:bg-black/5 cursor-pointer">
+                    <span class="text-pink-500">📅</span>
+                    <span id="current-date-text" class="tracking-wider">2026-10-13</span>
+                    <span id="date-badge" class="text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                      最新
+                    </span>
+                  </button>
+                  <button class="h-full px-2 rounded hover:bg-black/10 active:translate-y-0.5 transition-all text-slate-800 cursor-pointer flex items-center justify-center" title="查看后一日">
+                    &gt;
+                  </button>
+                </div>
+              </div>
+
+              <!-- 1.3 顶栏右侧：风格切换器 + 开发者控制台 (统一高度 h-[42px]) -->
+              <div id="header-right-tools" class="flex items-center gap-2 flex-shrink-0">
+                <div id="header-theme-switcher" class="h-[42px] flex items-center p-1 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_#000] text-xs font-mono">
+                  <button class="h-full px-2.5 rounded-lg font-bold bg-[#ff007f] text-white flex items-center">方案B</button>
+                  <button class="h-full px-2.5 rounded-lg text-slate-700 hover:text-black flex items-center">A·HUD</button>
+                  <button class="h-full px-2.5 rounded-lg text-slate-700 hover:text-black flex items-center">C·iOS</button>
+                </div>
+                <button id="header-devtools-btn" class="h-[42px] px-3 text-xs font-mono rounded-xl border-2 border-slate-900 bg-yellow-300 text-slate-900 font-bold shadow-[2px_2px_0px_#000] flex items-center gap-1.5 whitespace-nowrap">
+                  <span>⚙️</span>
+                  <span class="hidden md:inline">DevTools</span>
+                  <span class="text-emerald-700 font-black">[已归档]</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- 手机端屏幕时，日期步进胶囊与情绪脉搏并排紧凑放置 (统一高度 h-[42px]) -->
+            <div class="sm:hidden flex items-center justify-between gap-2 pt-1 border-t border-slate-200/40">
+              <div id="mobile-date-capsule" class="h-[42px] flex items-center rounded-xl p-1 border-2 border-slate-900 bg-white shadow-[2px_2px_0px_#000] text-xs font-mono font-bold flex-1 justify-between">
+                <button class="h-full px-2.5 text-slate-800 cursor-pointer flex items-center">&lt;</button>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-pink-500">📅</span>
+                  <span class="tracking-wider">2026-10-13</span>
+                  <span class="text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded">最新</span>
+                </div>
+                <button class="h-full px-2.5 text-slate-800 cursor-pointer flex items-center">&gt;</button>
+              </div>
+              <div id="mobile-sentiment-capsule" class="h-[42px] flex-shrink-0 flex items-center gap-1.5 px-3 rounded-xl border-2 border-slate-900 bg-white text-xs font-mono shadow-[2px_2px_0px_#000] text-slate-900">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] text-slate-500 hidden xs:inline">脉搏</span>
+                <span class="font-black text-emerald-500 text-xs">+24%</span>
+                <span class="text-[10px] text-slate-700 font-bold">乐观</span>
+              </div>
+            </div>
+
+            <!-- Row 2: 【黑框位置】每日诺贝尔文学奖名言灵感胶囊 (左侧主区) + 全球宏观情绪极性指标 (统一严格高度 h-[42px]) -->
+            <div class="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
+              
+              <!-- 2.1 每日诺贝尔文学奖名言横幅胶囊 (严密统一锁定高度 h-[42px]，单行不换行，字号自适应缩放) -->
+              <div id="nobel-quote-capsule" class="h-[42px] flex-1 min-w-0 theme-transition rounded-xl px-3 sm:px-3.5 border-2 border-slate-900 bg-yellow-50/80 shadow-[2px_2px_0px_#000] flex items-center gap-2.5 sm:gap-3 text-slate-900 overflow-hidden whitespace-nowrap">
+                
+                <!-- 诺奖专属徽章 -->
+                <div id="quote-badge" class="flex-shrink-0 flex items-center gap-1 text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-pink-500 text-white border border-slate-900 shadow-[1px_1px_0px_#000]">
+                  <span>🕊️</span>
+                  <span id="quote-year">1957 诺贝尔文学奖</span>
+                </div>
+
+                <!-- 箴言正文与作者容器 (方案1紧随 / 方案2双语 / 方案3两端对齐) -->
+                <div id="quote-text-container" class="flex-1 min-w-0 flex items-center gap-2.5 overflow-hidden whitespace-nowrap">
+                  <!-- 中文译文 (自适应微调字号，诗意典雅) -->
+                  <span id="quote-zh" class="font-serif-quote font-bold whitespace-nowrap tracking-wide leading-none text-slate-900 transition-all duration-150 inline-block truncate min-w-0 flex-shrink-0">
+                    “在隆冬，我终于知道，我身上有一个不可战胜的夏天。”
+                  </span>
+                  
+                  <!-- 方案1: 来源与作者直接紧随名言，彻底消除红框空白！ -->
+                  <span id="quote-author-inline" class="flex-shrink-0 text-[11px] font-black whitespace-nowrap text-slate-700 leading-none">
+                    <span class="hidden sm:inline">—— 阿尔贝·加缪《夏天集》</span>
+                    <span class="sm:hidden">—— 加缪</span>
+                  </span>
+
+                  <!-- 方案2: 英文原句 (半透明斜体，优雅填补中区大片空白) -->
+                  <span id="quote-en" class="italic text-[11px] whitespace-nowrap opacity-60 hidden font-serif-quote leading-none truncate flex-1 min-w-0 pl-1">
+                    “In the depth of winter, I finally learned that within me there lay an invincible summer.”
+                  </span>
+                </div>
+
+                <!-- 方案2与原版方案3使用的右侧独立作者 (方案1时隐藏) -->
+                <div id="quote-author-right" class="hidden flex-shrink-0 text-[11px] font-bold whitespace-nowrap pl-2.5 border-l-2 border-slate-900 text-slate-900 leading-none">
+                  <span class="hidden sm:inline">—— 阿尔贝·加缪《夏天集》</span>
+                  <span class="sm:hidden">—— 加缪</span>
+                </div>
+
+                <!-- 方案1右侧微型换句触点 (平衡胶囊右侧视觉重心) -->
+                <button id="quote-dice-btn" onclick="nextQuote()" class="flex-shrink-0 w-6 h-6 rounded-md bg-black/5 hover:bg-black/10 flex items-center justify-center text-xs text-slate-700 transition-all cursor-pointer ml-auto" title="点击换一句诺奖名言">
+                  🎲
+                </button>
+
+              </div>
+
+              <!-- 2.2 全球宏观情绪极性指标脉搏 (与名言胶囊严格统一高度 h-[42px]，绝不参差错落) -->
+              <div id="sentiment-pulse-capsule" class="h-[42px] hidden sm:inline-flex flex-shrink-0 theme-transition items-center gap-1.5 sm:gap-2 px-3 rounded-xl border-2 border-slate-900 bg-white text-xs font-mono shadow-[2px_2px_0px_#000] text-slate-900">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+                <span class="text-[10px] uppercase tracking-wider hidden md:inline text-slate-500">情绪脉搏:</span>
+                <span class="font-black text-emerald-500 text-xs">+24%</span>
+                <span class="font-semibold text-[11px] text-slate-700 whitespace-nowrap">谨慎乐观</span>
+                <div class="w-8 sm:w-10 rounded-full h-1 overflow-hidden hidden sm:block flex-shrink-0 bg-slate-200">
+                  <div class="h-full rounded-full bg-emerald-500" style="width: 64%;"></div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </header>
+
+        <!-- ============================================================== -->
+        <!-- 下方内容区：分类选择栏、情绪滤镜与 Bento 研报卡片网格            -->
+        <!-- ============================================================== -->
+        <main id="app-main" class="p-4 sm:p-6 lg:p-8 theme-transition min-h-[500px]">
+          <div class="max-w-7xl mx-auto space-y-4">
+            
+            <!-- 分类胶囊栏 (6 颗分类) -->
+            <div id="category-bar-preview" class="flex items-center gap-1.5 overflow-x-auto pb-1">
+              <button class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-pink-500 text-white border-2 border-slate-900 shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                全部领域 12
+              </button>
+              <button class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-white text-slate-800 border-2 border-slate-900 shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                全球 AI 算力 4
+              </button>
+              <button class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-white text-slate-800 border-2 border-slate-900 shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                宏观金融 3
+              </button>
+              <button class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-white text-slate-800 border-2 border-slate-900 shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                地缘经贸 3
+              </button>
+              <button class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-white text-slate-800 border-2 border-slate-900 shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                气候能源 2
+              </button>
+              <button class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-white text-slate-800 border-2 border-slate-900 shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                我的收藏 0
+              </button>
+            </div>
+
+            <!-- Bento 模拟卡片区 (展示纵向间距与呼吸感) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              
+              <!-- Bento 主卡 (2列) -->
+              <div id="bento-hero" class="md:col-span-2 rounded-2xl p-4 sm:p-5 border-2 shadow-md theme-transition flex flex-col justify-between min-h-[220px]">
+                <div>
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-yellow-400 text-slate-950 border border-slate-900 shadow-[1px_1px_0px_#000]">行业里程碑</span>
+                    <span class="text-xs font-mono text-slate-500">Reuters · 00:00 UTC</span>
+                  </div>
+                  <h3 class="text-base sm:text-lg font-black leading-snug mb-2">
+                    OpenAI 与 Anthropic 新一代前沿模型评测曝光：自主智能体推理跃迁与安全红线对决
+                  </h3>
+                  <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                    据路透社援引硅谷独家测试备忘录，新一代前沿架构在多步复杂软件工程与科研假设推演任务中达成 82% 自主解决率。
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-3 mt-3 border-t border-slate-200/60 text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[11px]">#OpenAI</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[11px]">#自主智能体</span>
+                  </div>
+                  <span class="text-pink-600 font-bold font-mono">置信度: 94% · 极度积极</span>
+                </div>
+              </div>
+
+              <!-- Bento 边卡 (1列) -->
+              <div id="bento-side" class="rounded-2xl p-4 sm:p-5 border-2 shadow-md theme-transition flex flex-col justify-between min-h-[220px]">
+                <div>
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-pink-400 text-white border border-slate-900 shadow-[1px_1px_0px_#000]">研报必读</span>
+                    <span class="text-xs font-mono text-slate-500">Bloomberg · 18:07 UTC</span>
+                  </div>
+                  <h3 class="text-sm font-black leading-snug mb-2">
+                    国际能源署 (IEA) 发布新能源并网瓶颈预警：全球超 1500 吉瓦清洁电力等待电网扩容
+                  </h3>
+                  <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                    IEA 指出，尽管太阳能与风电装机复合增速超 25%，但传统输电网接入排队时间长达 4~6 年。
+                  </p>
+                </div>
+                <div class="pt-2 text-right">
+                  <span class="text-blue-600 font-bold text-xs">查看详情 →</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </main>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // 诺贝尔文学奖经典传世名言库
+    const NOBEL_QUOTES = [
+      {
+        year: '1957 诺贝尔文学奖',
+        author: '阿尔贝·加缪',
+        work: '夏天集',
+        enAuthor: 'Albert Camus',
+        enWork: 'Return to Tipasa',
+        zh: '“在隆冬，我终于知道，我身上有一个不可战胜的夏天。”',
+        en: '“In the depth of winter, I finally learned that within me there lay an invincible summer.”'
+      },
+      {
+        year: '1982 诺贝尔文学奖',
+        author: '加西亚·马尔克斯',
+        work: '百年孤独',
+        enAuthor: 'Gabriel García Márquez',
+        enWork: 'One Hundred Years of Solitude',
+        zh: '“多年以后，面对行刑队，奥雷里亚诺·布恩迪亚上校将会回想起父亲带他去见识冰块的那个遥远的下午。”',
+        en: '“Many years later, as he faced the firing squad, Colonel Aureliano Buendía was to remember that distant afternoon when his father took him to discover ice.”'
+      },
+      {
+        year: '1954 诺贝尔文学奖',
+        author: '欧内斯特·海明威',
+        work: '老人与海',
+        enAuthor: 'Ernest Hemingway',
+        enWork: 'The Old Man and the Sea',
+        zh: '“人不是为了失败而生的。一个人可以被毁灭，但绝不能被击败。”',
+        en: '“Man is not made for defeat. A man can be destroyed but not defeated.”'
+      },
+      {
+        year: '1993 诺贝尔文学奖',
+        author: '托妮·莫里森',
+        work: '所罗门之歌',
+        enAuthor: 'Toni Morrison',
+        enWork: 'Song of Solomon',
+        zh: '“要想展翅高飞，就必须抛弃那些拖累你的沉重负荷。”',
+        en: '“If you wanna fly, you got to give up the stuff that weighs you down.”'
+      },
+      {
+        year: '2016 诺贝尔文学奖',
+        author: '鲍勃·迪伦',
+        work: '答案在风中飘',
+        enAuthor: 'Bob Dylan',
+        enWork: 'Blowin\' in the Wind',
+        zh: '“不忙着求生的人，便忙着死去。”',
+        en: '“He not busy being born is busy dying.”'
+      },
+      {
+        year: '1946 诺贝尔文学奖',
+        author: '赫尔曼·黑塞',
+        work: '悉达多',
+        enAuthor: 'Hermann Hesse',
+        enWork: 'Siddhartha',
+        zh: '“知识可以传授，但智慧不能。一个人可以找到智慧，在智慧中生活，但却无法言说和传授智慧。”',
+        en: '“Knowledge can be communicated, but not wisdom. One can find it, live it, but cannot speak or teach it.”'
+      },
+      {
+        year: '1968 诺贝尔文学奖',
+        author: '川端康成',
+        work: '雪国',
+        enAuthor: 'Yasunari Kawabata',
+        enWork: 'Snow Country',
+        zh: '“穿过县界长长的隧道，便是雪国。夜空下一片白茫茫。”',
+        en: '“The train came out of the long tunnel into the snow country. The earth lay white under the night sky.”'
+      }
+    ];
+
+    let currentQuoteIndex = 0;
+    let currentTheme = 'pop-dopamine';
+
+    window.setQuoteIndex = function(index) {
+      currentQuoteIndex = index % NOBEL_QUOTES.length;
+      updateQuoteUI();
+    };
+
+    let currentLayoutMode = 'flow'; // 'flow' (方案1: 紧随消除空白), 'bilingual' (方案2: 英文填补空白), 'split' (方案3: 两端对齐)
+
+    window.setLayoutMode = function(mode) {
+      currentLayoutMode = mode;
+      const btnFlow = document.getElementById('btn-mode-flow');
+      const btnBi = document.getElementById('btn-mode-bilingual');
+      const btnSplit = document.getElementById('btn-mode-split');
+      if (btnFlow) btnFlow.className = mode === 'flow' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      if (btnBi) btnBi.className = mode === 'bilingual' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-indigo-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      if (btnSplit) btnSplit.className = mode === 'split' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-amber-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+
+      applyLayoutMode();
+      fitQuoteTypography();
+    };
+
+    let currentDatePos = 'right-toolbar'; // 'right-toolbar' (方案A), 'left-brand' (方案B), 'filter-bar' (方案C), 'center' (原版)
+
+    window.setDatePosition = function(pos) {
+      currentDatePos = pos;
+      const btnRight = document.getElementById('btn-date-right');
+      const btnLeft = document.getElementById('btn-date-left');
+      const btnFilter = document.getElementById('btn-date-filter');
+      const btnCenter = document.getElementById('btn-date-center');
+      if (btnRight) btnRight.className = pos === 'right-toolbar' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      if (btnLeft) btnLeft.className = pos === 'left-brand' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      if (btnFilter) btnFilter.className = pos === 'filter-bar' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      if (btnCenter) btnCenter.className = pos === 'center' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-amber-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+
+      applyDatePosition();
+    };
+
+    function applyDatePosition() {
+      const dateCapsule = document.getElementById('date-stepper-capsule');
+      const brandGroup = document.getElementById('header-brand-group');
+      const rightGroup = document.getElementById('header-right-tools');
+      const centerContainer = document.getElementById('header-center-date');
+      const categoryBar = document.getElementById('category-bar-preview');
+      if (!dateCapsule) return;
+
+      if (currentDatePos === 'right-toolbar') {
+        if (rightGroup) rightGroup.prepend(dateCapsule);
+        if (centerContainer) centerContainer.style.display = 'none';
+      } else if (currentDatePos === 'left-brand') {
+        if (brandGroup) brandGroup.appendChild(dateCapsule);
+        if (centerContainer) centerContainer.style.display = 'none';
+      } else if (currentDatePos === 'filter-bar') {
+        if (categoryBar) categoryBar.prepend(dateCapsule);
+        if (centerContainer) centerContainer.style.display = 'none';
+      } else { // center
+        if (centerContainer) {
+          centerContainer.appendChild(dateCapsule);
+          centerContainer.style.display = 'flex';
+        }
+      }
+    }
+
+    function applyLayoutMode() {
+      const authorInline = document.getElementById('quote-author-inline');
+      const authorRight = document.getElementById('quote-author-right');
+      const enEl = document.getElementById('quote-en');
+      const diceBtn = document.getElementById('quote-dice-btn');
+
+      if (currentLayoutMode === 'flow') {
+        if (authorInline) authorInline.style.display = 'inline-block';
+        if (authorRight) authorRight.style.display = 'none';
+        if (enEl) enEl.style.display = 'none';
+        if (diceBtn) diceBtn.style.display = 'flex';
+      } else if (currentLayoutMode === 'bilingual') {
+        if (authorInline) authorInline.style.display = 'none';
+        if (authorRight) authorRight.style.display = 'flex';
+        if (enEl) enEl.style.display = 'inline-block';
+        if (diceBtn) diceBtn.style.display = 'none';
+      } else { // split
+        if (authorInline) authorInline.style.display = 'none';
+        if (authorRight) authorRight.style.display = 'flex';
+        if (enEl) enEl.style.display = 'none';
+        if (diceBtn) diceBtn.style.display = 'none';
+      }
+    }
+
+    function fitQuoteTypography() {
+      const q = NOBEL_QUOTES[currentQuoteIndex];
+      const zhEl = document.getElementById('quote-zh');
+      const enEl = document.getElementById('quote-en');
+      const container = document.getElementById('quote-text-container');
+      if (!zhEl || !container) return;
+
+      const charCount = q.zh.length;
+
+      // 1. 字号基准：默认 13px 清晰易读，超长句微紧凑
+      let baseSize = 13;
+      let letterSpacing = '0px';
+
+      if (charCount > 40) {
+        baseSize = 12.2;
+        letterSpacing = '-0.02em';
+      } else if (charCount > 25) {
+        baseSize = 12.6;
+        letterSpacing = '-0.01em';
+      }
+
+      zhEl.style.fontSize = baseSize + 'px';
+      zhEl.style.letterSpacing = letterSpacing;
+
+      // 2. 动态物理容器宽度测量与自适应递减微调（防极窄断点溢出）
+      const maxW = container.clientWidth;
+      if (maxW > 30) {
+        let size = baseSize;
+        while (zhEl.scrollWidth > maxW && size > 9.5) {
+          size -= 0.2;
+          zhEl.style.fontSize = size + 'px';
+        }
+      }
+    }
+
+    function updateQuoteUI() {
+      const q = NOBEL_QUOTES[currentQuoteIndex];
+      const yearShort = q.year.replace(' 诺贝尔文学奖', ' 诺奖');
+      document.getElementById('quote-year').innerHTML = `<span class="hidden sm:inline">${q.year}</span><span class="sm:hidden">${yearShort}</span>`;
+      const zhEl = document.getElementById('quote-zh');
+      zhEl.innerText = q.zh;
+      zhEl.title = `${q.zh} (${q.en}) —— ${q.author}《${q.work}》`; // 鼠标悬停支持查看完整双语及出处
+      const enEl = document.getElementById('quote-en');
+      if (enEl) enEl.innerText = q.en;
+      
+      const shortAuthor = q.author.split('·').pop() || q.author;
+      const authorHtml = `<span class="hidden sm:inline">—— ${q.author}《${q.work}》</span><span class="sm:hidden">—— ${shortAuthor}</span>`;
+      const authorInline = document.getElementById('quote-author-inline');
+      if (authorInline) authorInline.innerHTML = authorHtml;
+      const authorRight = document.getElementById('quote-author-right');
+      if (authorRight) authorRight.innerHTML = authorHtml;
+
+      const mobileAuth = document.getElementById('quote-author-mobile');
+      if (mobileAuth) mobileAuth.innerText = `—— ${q.author}《${q.work}》`;
+
+      applyLayoutMode();
+      fitQuoteTypography();
+    }
+
+    function nextQuote() {
+      currentQuoteIndex = (currentQuoteIndex + 1) % NOBEL_QUOTES.length;
+      updateQuoteUI();
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      const frame = document.getElementById('theme-frame');
+      const header = document.getElementById('app-header');
+      const main = document.getElementById('app-main');
+      const logo = document.getElementById('brand-logo');
+      const title = document.getElementById('brand-title');
+      const sub = document.getElementById('brand-sub');
+      const badge = document.getElementById('brand-badge');
+      const centerDate = document.getElementById('date-stepper-capsule');
+      const dateText = document.getElementById('current-date-text');
+      const dateBadge = document.getElementById('date-badge');
+      const switcher = document.getElementById('header-theme-switcher');
+      const devtools = document.getElementById('header-devtools-btn');
+      const quoteCapsule = document.getElementById('nobel-quote-capsule');
+      const quoteBadge = document.getElementById('quote-badge');
+      const authorInline = document.getElementById('quote-author-inline');
+      const authorRight = document.getElementById('quote-author-right');
+      const diceBtn = document.getElementById('quote-dice-btn');
+      const pulseCapsule = document.getElementById('sentiment-pulse-capsule');
+      const hero = document.getElementById('bento-hero');
+      const side = document.getElementById('bento-side');
+      const mobileDate = document.getElementById('mobile-date-capsule');
+      const mobileSentiment = document.getElementById('mobile-sentiment-capsule');
+
+      // 更新按钮高亮
+      document.getElementById('btn-theme-a').className = theme === 'cyber-hud' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-cyan-500 text-slate-950 shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      document.getElementById('btn-theme-b').className = theme === 'pop-dopamine' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-[#ff007f] text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+      document.getElementById('btn-theme-c').className = theme === 'ios-glass' ? 'px-2.5 py-1 rounded-lg font-bold transition-all bg-blue-600 text-white shadow-sm' : 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all';
+
+      if (theme === 'pop-dopamine') {
+        frame.className = 'theme-transition rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-900 bg-[#fdfaf3] text-slate-900';
+        header.className = 'border-b-[3px] border-slate-900 bg-white px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 relative z-30 shadow-[0_4px_0px_#111827]';
+        main.className = 'p-4 sm:p-6 lg:p-8 bg-[#fdfaf3] text-slate-900';
+        
+        logo.className = 'w-9 h-9 sm:w-10 sm:h-10 bg-yellow-400 border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#111827] rounded-xl flex items-center justify-center font-black text-xl rotate-[-3deg] flex-shrink-0';
+        logo.innerHTML = '⚡';
+        title.className = 'text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap text-slate-900 font-[\'Fredoka\']';
+        title.innerText = 'GEMINI SPARK // 24H 潮玩情报';
+        badge.className = 'bg-pink-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_#111827] flex-shrink-0';
+        badge.innerText = 'LIVE';
+        sub.innerText = '2026 每日智库全景 · 50 份全球突破已归档';
+
+        centerDate.className = 'h-[42px] flex items-center rounded-xl p-1 border-2 border-slate-900 bg-white shadow-[2px_2px_0px_#000] text-xs font-mono font-bold whitespace-nowrap text-slate-900';
+        dateBadge.className = 'text-[10px] bg-emerald-500 text-black font-black px-1.5 py-0.5 rounded uppercase tracking-tighter';
+
+        quoteCapsule.className = 'h-[42px] flex-1 min-w-0 theme-transition rounded-xl px-3 sm:px-3.5 border-2 border-slate-900 bg-yellow-50/80 shadow-[2px_2px_0px_#000] flex items-center gap-2.5 sm:gap-3 text-slate-900 overflow-hidden whitespace-nowrap';
+        quoteBadge.className = 'flex-shrink-0 flex items-center gap-1 text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-pink-500 text-white border border-slate-900 shadow-[1px_1px_0px_#000]';
+        
+        if (authorInline) authorInline.className = 'flex-shrink-0 text-[11px] font-black whitespace-nowrap text-slate-700 leading-none';
+        if (authorRight) authorRight.className = 'flex-shrink-0 text-[11px] font-black whitespace-nowrap pl-2.5 border-l-2 border-slate-900 text-slate-900 leading-none';
+        if (diceBtn) diceBtn.className = 'flex-shrink-0 w-6 h-6 rounded-md bg-black/5 hover:bg-black/10 flex items-center justify-center text-xs text-slate-700 transition-all cursor-pointer ml-auto';
+
+        const zhElPop = document.getElementById('quote-zh');
+        if (zhElPop) zhElPop.className = 'font-serif-quote font-bold whitespace-nowrap tracking-wide leading-none text-slate-900 transition-all duration-150 inline-block truncate min-w-0 flex-shrink-0';
+
+        pulseCapsule.className = 'h-[42px] hidden sm:inline-flex flex-shrink-0 theme-transition items-center gap-1.5 sm:gap-2 px-3 rounded-xl border-2 border-slate-900 bg-white text-xs font-mono shadow-[2px_2px_0px_#000] text-slate-900';
+        
+        if (mobileDate) mobileDate.className = 'h-[42px] flex items-center rounded-xl p-1 border-2 border-slate-900 bg-white shadow-[2px_2px_0px_#000] text-xs font-mono font-bold flex-1 justify-between text-slate-900';
+        if (mobileSentiment) mobileSentiment.className = 'h-[42px] flex-shrink-0 flex items-center gap-1.5 px-3 rounded-xl border-2 border-slate-900 bg-white text-xs font-mono shadow-[2px_2px_0px_#000] text-slate-900';
+
+        hero.className = 'md:col-span-2 rounded-2xl p-4 sm:p-5 border-[3px] border-slate-900 bg-white shadow-[4px_4px_0px_#111827] flex flex-col justify-between min-h-[220px]';
+        side.className = 'rounded-2xl p-4 sm:p-5 border-[3px] border-slate-900 bg-white shadow-[4px_4px_0px_#111827] flex flex-col justify-between min-h-[220px]';
+
+      } else if (theme === 'cyber-hud') {
+        frame.className = 'theme-transition rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/50 bg-[#060913] text-white';
+        header.className = 'border-b border-cyan-500/40 bg-slate-950/95 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 relative z-30 shadow-[0_0_20px_-5px_rgba(0,240,255,0.3)] text-white';
+        main.className = 'p-4 sm:p-6 lg:p-8 bg-[#060913] text-white';
+
+        logo.className = 'w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-cyan-500/80 bg-cyan-950/40 flex items-center justify-center overflow-hidden shadow-[inset_0_0_10px_rgba(0,240,255,0.3)] flex-shrink-0';
+        logo.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00f0ff]"></div>';
+        title.className = 'text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap text-white font-[\'Chakra_Petch\']';
+        title.innerText = 'SYS.TACTICAL_INTEL // HUD_V4';
+        badge.className = 'bg-cyan-500/20 text-cyan-300 font-mono text-[10px] px-2 py-0.5 rounded border border-cyan-500/40 flex-shrink-0';
+        badge.innerText = 'SAT-LINK 99.8%';
+        sub.innerText = 'LAT 31.23°N · LON 121.47°E // BATCH: DAILY // NOBEL ARCHIVE LIVE';
+
+        centerDate.className = 'h-[42px] flex items-center rounded-xl p-1 border border-cyan-500/50 bg-black/90 shadow-[0_0_10px_rgba(0,240,255,0.2)] text-xs font-mono font-bold whitespace-nowrap text-cyan-300';
+        dateBadge.className = 'text-[10px] bg-cyan-400 text-slate-950 font-black px-1.5 py-0.5 rounded uppercase tracking-tighter';
+
+        quoteCapsule.className = 'h-[42px] flex-1 min-w-0 theme-transition rounded-xl px-3 sm:px-3.5 border border-cyan-500/40 bg-cyan-950/20 shadow-[inset_0_0_15px_rgba(0,240,255,0.08)] flex items-center gap-2.5 sm:gap-3 text-cyan-100 cyber-bracket overflow-hidden whitespace-nowrap';
+        quoteBadge.className = 'flex-shrink-0 flex items-center gap-1 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+        
+        if (authorInline) authorInline.className = 'flex-shrink-0 text-[11px] font-mono whitespace-nowrap text-cyan-400/80 leading-none';
+        if (authorRight) authorRight.className = 'flex-shrink-0 text-[11px] font-mono whitespace-nowrap pl-2.5 border-l border-cyan-500/30 text-cyan-400 leading-none';
+        if (diceBtn) diceBtn.className = 'flex-shrink-0 w-6 h-6 rounded-md bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-xs text-cyan-300 transition-all cursor-pointer ml-auto';
+
+        const zhElHud = document.getElementById('quote-zh');
+        if (zhElHud) zhElHud.className = 'font-serif-quote font-bold whitespace-nowrap tracking-wide leading-none text-cyan-100 transition-all duration-150 inline-block truncate min-w-0 flex-shrink-0';
+
+        pulseCapsule.className = 'h-[42px] hidden sm:inline-flex flex-shrink-0 theme-transition items-center gap-1.5 sm:gap-2 px-3 rounded-xl border border-cyan-500/40 bg-black/40 text-xs font-mono text-cyan-300 shadow-sm';
+
+        if (mobileDate) mobileDate.className = 'h-[42px] flex items-center rounded-xl p-1 border border-cyan-500/50 bg-black/90 shadow-[0_0_10px_rgba(0,240,255,0.2)] text-xs font-mono font-bold flex-1 justify-between text-cyan-300';
+        if (mobileSentiment) mobileSentiment.className = 'h-[42px] flex-shrink-0 flex items-center gap-1.5 px-3 rounded-xl border border-cyan-500/40 bg-black/60 text-xs font-mono text-cyan-300 shadow-sm';
+
+        hero.className = 'md:col-span-2 rounded-2xl p-4 sm:p-5 border border-cyan-500/40 bg-slate-950/80 shadow-[0_0_15px_rgba(0,240,255,0.15)] cyber-bracket flex flex-col justify-between min-h-[220px]';
+        side.className = 'rounded-2xl p-4 sm:p-5 border border-cyan-500/40 bg-slate-950/80 shadow-[0_0_15px_rgba(0,240,255,0.15)] cyber-bracket flex flex-col justify-between min-h-[220px]';
+
+      } else if (theme === 'ios-glass') {
+        frame.className = 'theme-transition rounded-2xl overflow-hidden shadow-2xl border border-slate-200/80 ios-mesh-ambient text-slate-900';
+        header.className = 'border-b border-slate-200/70 bg-white/80 backdrop-blur-xl px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 relative z-30 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] text-slate-900';
+        main.className = 'p-4 sm:p-6 lg:p-8 bg-transparent text-slate-900';
+
+        logo.className = 'w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-500 via-indigo-600 to-blue-700 p-[1px] shadow-md shadow-blue-500/20 flex-shrink-0 flex items-center justify-center';
+        logo.innerHTML = '<div class="w-full h-full rounded-[11px] flex items-center justify-center bg-white text-blue-600 font-bold text-sm"></div>';
+        title.className = 'text-sm sm:text-base font-black tracking-wider uppercase whitespace-nowrap text-slate-900 font-sans';
+        title.innerText = 'Gemini Spark Intelligence';
+        badge.className = 'bg-blue-500/10 text-blue-600 font-semibold text-[10px] px-2 py-0.5 rounded-full border border-blue-500/20 flex-shrink-0';
+        badge.innerText = 'VisionOS';
+        sub.innerText = 'Apple VisionOS 18 · 液态高斯模糊 · 诺贝尔文学名言每日推流';
+
+        centerDate.className = 'h-[42px] flex items-center rounded-full p-1 border border-slate-200/90 bg-white shadow-sm text-xs font-mono font-bold whitespace-nowrap text-slate-800';
+        dateBadge.className = 'text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded-full uppercase tracking-tighter';
+
+        quoteCapsule.className = 'h-[42px] flex-1 min-w-0 theme-transition rounded-full px-3.5 border border-white/90 bg-white/85 backdrop-blur-lg shadow-[0_2px_10px_rgba(0,0,0,0.04)] flex items-center gap-2.5 sm:gap-3 text-slate-800 overflow-hidden whitespace-nowrap';
+        quoteBadge.className = 'flex-shrink-0 flex items-center gap-1 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200/80';
+        
+        if (authorInline) authorInline.className = 'flex-shrink-0 text-[11px] font-semibold whitespace-nowrap text-slate-600 leading-none';
+        if (authorRight) authorRight.className = 'flex-shrink-0 text-[11px] font-semibold whitespace-nowrap pl-2.5 border-l border-slate-200 text-slate-600 leading-none';
+        if (diceBtn) diceBtn.className = 'flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-xs text-slate-600 transition-all cursor-pointer ml-auto shadow-sm';
+
+        const zhElIos = document.getElementById('quote-zh');
+        if (zhElIos) zhElIos.className = 'font-serif-quote font-bold whitespace-nowrap tracking-wide leading-none text-slate-800 transition-all duration-150 inline-block truncate min-w-0 flex-shrink-0';
+
+        pulseCapsule.className = 'h-[42px] hidden sm:inline-flex flex-shrink-0 theme-transition items-center gap-1.5 sm:gap-2 px-3.5 rounded-full border border-white/90 bg-white/80 text-xs font-mono text-slate-800 shadow-sm';
+
+        if (mobileDate) mobileDate.className = 'h-[42px] flex items-center rounded-full p-1 border border-slate-200/90 bg-white shadow-sm text-xs font-mono font-bold flex-1 justify-between text-slate-800';
+        if (mobileSentiment) mobileSentiment.className = 'h-[42px] flex-shrink-0 flex items-center gap-1.5 px-3 rounded-full border border-white/90 bg-white/80 text-xs font-mono text-slate-800 shadow-sm';
+
+        hero.className = 'md:col-span-2 rounded-2xl p-4 sm:p-5 border border-white/90 bg-white/80 backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px]';
+        side.className = 'rounded-2xl p-4 sm:p-5 border border-white/90 bg-white/80 backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px]';
+      }
+
+      applyLayoutMode();
+      applyDatePosition();
+      fitQuoteTypography();
+    }
+
+    function setViewport(width) {
+      const sandbox = document.getElementById('sandbox-viewport');
+      sandbox.style.maxWidth = width;
+      document.getElementById('btn-vp-full').className = width === '100%' ? 'px-2 py-1 rounded-lg bg-blue-600 text-white font-bold transition-all' : 'px-2 py-1 rounded-lg text-slate-400 hover:text-white transition-all';
+      document.getElementById('btn-vp-1146').className = width === '1146px' ? 'px-2 py-1 rounded-lg bg-blue-600 text-white font-bold transition-all' : 'px-2 py-1 rounded-lg text-slate-400 hover:text-white transition-all';
+      document.getElementById('btn-vp-390').className = width === '390px' ? 'px-2 py-1 rounded-lg bg-blue-600 text-white font-bold transition-all' : 'px-2 py-1 rounded-lg text-slate-400 hover:text-white transition-all';
+      setTimeout(fitQuoteTypography, 50);
+    }
+
+    // 监听视口容器尺寸变化，自适应重绘字号
+    window.addEventListener('resize', fitQuoteTypography);
+    const containerObserver = new ResizeObserver(() => fitQuoteTypography());
+    const quoteContainerEl = document.getElementById('quote-text-container');
+    if (quoteContainerEl) containerObserver.observe(quoteContainerEl);
+
+    // 初始化
+    updateQuoteUI();
+    applyDatePosition();
+    setTheme('pop-dopamine');
+  </script>
+</body>
+</html>

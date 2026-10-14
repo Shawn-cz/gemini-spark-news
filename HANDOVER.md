@@ -1,29 +1,27 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-09-30 14:00 (UTC+8)
+- **交接归档时间**: 2026-10-14 17:30 (UTC+8)
 - **当前 Git 主线**: `master` (工作区干净，所有里程碑已全量合并与回归验证)
 - **系统运行状态**: 
   - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常)
-  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 可用日期聚合 + SSE 实时推流 + Webhook 外部摄取 + MongoDB Atlas 双模持久化 + 生产静态资源直出)
+  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 可用日期聚合 + SSE 实时推流 + Webhook 外部摄取 + MongoDB Atlas 双模持久化 + 诺奖名言每日生产流水线 + 生产静态资源直出)
   - Linux 云原生监听: 显式绑定 `0.0.0.0:$PORT`，适配各类云原生容器与 PaaS 反向代理网关
   - 云容器健康探针: `/api/health` 导出状态、运行时间、内存开销、数据库与激活模型全维度健康度
 - **生产构建验证**: `npm run build` (TypeScript 严格检查 + Vite 6 打包 100% 成功，0 错误 0 警告)
 - **测试验证覆盖**: 
-  - 10 套单元与安全集成测试全部通过 (**46/46 passing, 100% 绿灯**)
+  - 12 套单元与安全集成测试全部通过 (**55+ passing, 100% 绿灯**)
   - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过（外部 Webhook 双模鉴权与容错清洗校验）
   - 客户端网络拦截端到端自动化脚本 [`scripts/verify-client-cache-network.mjs`](scripts/verify-client-cache-network.mjs) 100% 通过（验证切换分类/情绪/搜索产生 0 次多余网络请求）
-  - 全套 9 张 Retina 高清无头截图自动化回归测试套件 100% 通过
-- **专项缺陷与性能优化归档**: 
-  - Issue #PERF-001 **单日批次客户端内存全量驻留与 0ms 响应式切片架构** (用户提问“每次切换分类胶囊是否都需要调用接口”；重构为“单日批次单次拉取 50 篇全量入内存、客户端纯响应式切片与衍生计算”，彻底消除分类切换时的网络请求与骨架屏闪烁，桌面级 0ms 瞬间响应；端到端无头浏览器网络截包验证通过)
-  - Issue #UI-001 淡色主题与波普主题实体按钮文字低对比度不可读缺陷已 100% 修复并验证归档 (WCAG AAA 21:1)
-  - Issue #UI-002 日期步进胶囊黑底白字高对比度强守护与淡色羊皮纸下拉浮层已 100% 修复归档 (WCAG AAA 21:1)
-  - Issue #UI-003 多巴胺波普与淡色羊皮纸主题下日期步进胶囊深色背景与深色字体视觉融合缺陷彻底修复 (重构为新粗野主义纯白实体按键卡片、粗黑边框、波普粉硬阴影与纯黑高对比度文字，达成 WCAG AAA 21:1 极限清晰度)
-  - Issue #UI-004 顶部工具栏胶囊与品牌徽章重叠碰撞、情绪滤镜按键文字与浅粉背景对比度过低白字不可读缺陷彻底修复 (解耦自适应断点与平铺换行约束，消除胶囊空间挤压重叠；消除 bg-white/10 浅粉染色，重构为高对比度黑底白字实体按键，对比度 21:1)
-  - Issue #UI-005 页面冗余解释性注释文本与徽章精简清理 (移除顶部标题副标题描述与 GEMINI AGENT 24H 徽章、移除 Bento 视图 Global Sector Heat 解释性长文本，页面信息层级大幅净化、视觉呼吸感与专业度显著提升)
-  - Issue #UI-006 导航栏“我的收藏”胶囊与视图切换器物理碰撞遮挡彻底修复，并确立**全版面布局合理性审阅铁律** (规范文案长度与全套卡片严格对齐、引入 `min-w-0 flex-1` 与 `flex-shrink-0` 容器解耦、断点升级为 `xl:`；确立全版面多断点、多主题与真机无头渲染审阅验收流程，已写入工程根级规范 `GEMINI.md`)
-  - Issue #UI-007 微信分享与桌面端 `navigator.share` 系统弹窗“共享失败”彻底根除 (重构为纯前端离线专属 `ShareModal.tsx`，融合手机微信「扫一扫」高清二维码、一键复制格式化微信研报图文文案与专属直达深链；在 1146px、390px 移动端及暗夜/羊皮纸多主题下均通过自动化真实快照审阅)
-  - Issue #UI-008 移动端吸顶过高挤压主体空间根治与顶部指标胶囊精简重构 (用户反馈吸顶占用过多屏幕导致信息主体严重挤压；果断剔除 4 个无阅读价值的运维胶囊，保留并重构唯一高价值「情绪脉搏」为极简高对比度独立胶囊；剔除与日期步进 100% 重复的批次日期按钮横条；移动端吸顶高度从 ~365px 锐减至 93px，桌面端 1146px 单行高度降至 76px；多断点 390px/1146px 及三套主题真机无头渲染自动化快照审阅 100% 验证通过)
-- **云原生 PaaS 部署与运维就绪 (MVP 3)**: 
+  - 日期下拉高级筛选与分页无头端到端脚本 [`scripts/verify-date-dropdown-advanced.mjs`](scripts/verify-date-dropdown-advanced.mjs) 100% 通过
+  - 全套多视口（1440px / 1146px / 390px）与三大主题无头浏览器真实截图凭证 100% 归档
+- **专项缺陷与特性迭代归档 (MVP 4)**: 
+  - Issue #FEAT-001 **历史归档日期下拉菜单高级筛选与微型翻页步进器（方案 1）** (从已归档的 24+ 期简报中动态聚合提取有效年份与实际包含简报的有效月份；年/月双层微胶囊过滤横向滑动条，支持 `[全部 (24)]`、`[10月 (14)]`、`[09月 (10)]` 毫秒级即时纯内存切片；固定单页展示 6 条归档批次锁定高度消除弹窗抖动；底部微型翻页器 `< 第 x / y 页 >`；三大主题 WCAG AAA 实体按键对比度认证；端到端自动化真机无头截图审阅通过)
+  - Issue #FEAT-002 **诺贝尔文学奖每日名言自动化更新、云原生双模持久化与全链路推流（方案 A）** (闭环用户最初提出的“名言更新、存储逻辑与页面内资讯逻辑一样”要求；确定性哈希派发算法 `getDailyNobelQuote` 保障同日期绝对幂等可溯；`saveBriefing` 实现本地 JSON 与 MongoDB Atlas `BatchStatusModel.nobelQuote` 双模双写持久化；`scheduler.mjs` 每日 08:30 随当期简报打包落盘；`POST /api/spark/webhook/ingest` 支持传入自定义名言与保底补齐；SSE 实时广播与前端无感刷新；配套测试套件 `tests/nobelQuotePersistence.test.mjs` 5 项全绿)
+  - Issue #UI-009 **Header 顶栏规整度重构与 Bento 双行统一度量衡 (`h-[42px]`)** (根治 Header 各 Bento 高度参差不齐与自适应高度导致的零乱问题；第一行统一锁定为 42px 品牌标识、主题切换与 DevTools 控制舱；第二行统一锁定为 42px 诺奖文学名言灵感胶囊与情绪脉搏；字符溢出自适应平滑调小字号，作者名紧随单行排版，彻底消除横向断层与大片空白)
+  - Issue #UI-010 **日期步进筛选项迁移至分类控制栏（方案 C）** (将日期步进器从 Header 中移入分类控制栏首位，使日期作为筛选项与分类、情绪、搜索处于同一视觉逻辑层级，解耦水平滚动容器，彻底杜绝横向裁剪与溢出挤压)
+  - Issue #PERF-001 **单日批次客户端内存全量驻留与 0ms 响应式切片架构** (重构为“单日批次单次拉取 50 篇全量入内存、客户端纯响应式切片与衍生计算”，彻底消除分类切换时的网络请求与骨架屏闪烁，桌面级 0ms 瞬间响应)
+  - Issue #UI-001 ~ Issue #UI-008 (对比度 AAA 修复、胶囊碰撞隔离、冗余文字清理、移动端吸顶瘦身、纯前端离线专属微信分享二维码等均持续在保)
+- **云原生 PaaS 部署与运维就绪 (MVP 3 & MVP 4)**: 
   - 基础设施代码 (IaC) 清单就绪：[`render.yaml`](render.yaml)、[`railway.json`](railway.json)、[`fly.toml`](fly.toml)
   - 全面详尽的部署操作指南：[`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md)
   - 生产级多阶段 Alpine [`Dockerfile`](Dockerfile)（非 root `USER node` 最小特权、仅打包生产依赖、一体化直出 SPA 与 API）
@@ -67,8 +65,9 @@ flowchart TD
     subgraph Client["客户端与表现层 (Browser)"]
         UI["全球前沿智库看板\n(SparkNewsDashboard.tsx)"]
         Theme["新野兽派/波普/黑曜石三主题系统\n(ThemeSwitcher & index.css)"]
-        Header["实时 5 维脉冲指标栏\n(IntelligenceHeader.tsx)"]
-        Stepper["实体机械按键日期胶囊\n(DateStepperCapsule.tsx)\n[◀ 前一日 / 📅 日期与下拉 / 后一日 ▶]"]
+        Header["统一度量衡双行指标栏\n(IntelligenceHeader.tsx)\n[品牌行 42px / 诺奖名言 42px + 情绪脉搏]"]
+        Bar["领域分类控制栏\n(GlobalCategoryBar.tsx)"]
+        Stepper["分类栏前置日期胶囊与高级下拉\n(DateStepperCapsule.tsx)\n[◀ 步进 / 年月微胶囊 / 6条微分页]"]
         Views["三大多维视图\n(BentoView / MatrixStreamView / TimelineScrubber)"]
         Modal["物理调查卷宗机密弹窗\n(IntelligenceDrawer.tsx)"]
         HUD["极客 HUD 控制舱\n(DevToolsPanel.tsx)\n[包含 X-Admin-Key 密码箱]"]
@@ -85,19 +84,19 @@ flowchart TD
     subgraph BackendCore["服务端核心服务与调度"]
         StaticServe["SPA 生产静态资源直出\n(Express 托管 dist/ 与 index.html 路由兜底)"]
         DatesRoute["可用简报日期聚合接口\n(GET /api/spark/available-dates)"]
-        WebhookRoute["Webhook 自动摄取与容错清洗\n(POST /api/spark/webhook/ingest\nMarkdown 提取 + 日期自动推导)"]
+        WebhookRoute["Webhook 自动摄取与容错清洗\n(POST /api/spark/webhook/ingest\nMarkdown 提取 + 名言自动补齐)"]
         Scheduler["08:30 定时调度引擎 & 并发互斥锁\n(HTTP 409 Conflict 防重入 + 120s 死锁看门狗)"]
-        Agent["Gemini Spark 智能体核心引擎\n(geminiSparkAgent.mjs)"]
+        Agent["Gemini Spark 智能体核心引擎\n(geminiSparkAgent.mjs & nobelQuoteService.mjs)"]
         SSE["原生 HTTP SSE 实时推流中心\n(sseManager.mjs, 15s 心跳保活)"]
-        Repo["双模自适应数据仓库\n(repository.mjs, 4级降级链条)"]
+        Repo["双模自适应数据仓库\n(repository.mjs, 简报与诺奖名言双模落盘)"]
         HealthProbe["云容器全维度健康探针\n(GET /api/health: 内存/时钟/状态/SSE客户数)"]
     end
 
     subgraph Persistence["持久化与高可用"]
         GoogleAPI["Google Gemini 官方 API\n(Google Search Grounding 联网检索)"]
         CorpusFallback["本地高保真智库语料引擎\n(corpus.mjs 容灾保底 0 崩溃)"]
-        MongoDB["MongoDB Atlas 云数据库\n(Mongoose 生产集群)"]
-        LocalFile["本地物理磁盘备份\n(data/briefings/*.json)"]
+        MongoDB["MongoDB Atlas 云数据库\n(Mongoose 生产集群 · 资讯与名言持久化)"]
+        LocalFile["本地物理磁盘备份\n(data/briefings/*.json · 资讯与名言持久化)"]
     end
 
     subgraph ProductionRuntime["生产守护与云原生 PaaS (Docker / PM2 / PaaS)"]
@@ -109,7 +108,7 @@ flowchart TD
     UI --> H1
     HUD --> H1
     SparkAgent -->|POST /api/spark/webhook/ingest\n(X-Admin-Key 或 ?key= 鉴权)| H1
-    Header -.-> Stepper
+    Bar --> Stepper
     Header -.->|EventSource /api/spark/stream| H1
     H1 --> CORS --> RL1
     RL1 -->|普通读取端点| StaticServe
