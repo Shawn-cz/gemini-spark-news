@@ -328,7 +328,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
               className={`month-filter-pill month-pill-all px-2 py-0.5 rounded-full text-xs flex items-center gap-1 flex-shrink-0 transition-all cursor-pointer ${
                 filterMonth === 'all'
                   ? isPopDopamine
-                    ? 'bg-pink-500 text-white font-bold border border-slate-900 shadow-[1px_1px_0px_#000]'
+                    ? 'bg-pink-500 text-slate-950 font-black border border-slate-900 shadow-[1px_1px_0px_#000]'
                     : isCyberHud
                     ? 'bg-cyan-500 text-slate-950 font-bold border border-cyan-400'
                     : 'bg-blue-600 text-white font-semibold shadow-sm'
@@ -342,7 +342,9 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
               <span>全部</span>
               <span className={`text-[10px] px-1 py-0.2 rounded-full font-mono ${
                 filterMonth === 'all'
-                  ? isCyberHud
+                  ? isPopDopamine
+                    ? 'bg-black/15 text-slate-950 font-bold'
+                    : isCyberHud
                     ? 'bg-slate-950/20 text-slate-950'
                     : 'bg-black/20 text-white'
                   : isCyberHud
@@ -364,7 +366,7 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
                   className={`month-filter-pill px-2 py-0.5 rounded-full text-xs flex items-center gap-1 flex-shrink-0 transition-all cursor-pointer ${
                     isActive
                       ? isPopDopamine
-                        ? 'bg-pink-500 text-white font-bold border border-slate-900 shadow-[1px_1px_0px_#000]'
+                        ? 'bg-pink-500 text-slate-950 font-black border border-slate-900 shadow-[1px_1px_0px_#000]'
                         : isCyberHud
                         ? 'bg-cyan-500 text-slate-950 font-bold border border-cyan-400'
                         : 'bg-blue-600 text-white font-semibold shadow-sm'
@@ -378,7 +380,9 @@ export const DateStepperCapsule: React.FC<DateStepperCapsuleProps> = ({
                   <span>{m.label}</span>
                   <span className={`text-[10px] px-1 py-0.2 rounded-full font-mono ${
                     isActive
-                      ? isCyberHud
+                      ? isPopDopamine
+                        ? 'bg-black/15 text-slate-950 font-bold'
+                        : isCyberHud
                         ? 'bg-slate-950/20 text-slate-950'
                         : 'bg-black/20 text-white'
                       : isCyberHud

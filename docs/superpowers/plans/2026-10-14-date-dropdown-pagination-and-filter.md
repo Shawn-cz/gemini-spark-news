@@ -246,12 +246,12 @@ export function filterAndPaginateDates(
 }
 ```
 
-- [ ] **Step 4: 运行测试验证通过**
+- [x] **Step 4: 运行测试验证通过**
 
 运行：`node tests/dateGrouping.test.mjs`  
 预期：PASS（3 项子测试全部通过）
 
-- [ ] **Step 5: 提交代码**
+- [x] **Step 5: 提交代码**
 
 ```bash
 git add src/utils/dateGrouping.ts tests/dateGrouping.test.mjs
@@ -265,7 +265,7 @@ git commit -m "feat(date): implement date grouping, year-month filtering, and pa
 **Files:**
 - Modify: `src/components/DateStepperCapsule.tsx`
 
-- [ ] **Step 1: 引入 `dateGrouping` 并在组件内部绑定状态**
+- [x] **Step 1: 引入 `dateGrouping` 并在组件内部绑定状态**
 
 在 `src/components/DateStepperCapsule.tsx` 中：
 1. 导入 `groupDatesByYearAndMonth, filterAndPaginateDates`；
@@ -286,7 +286,7 @@ git commit -m "feat(date): implement date grouping, year-month filtering, and pa
 3. 联动响应：当外部 `availableDates` 或 `currentDate` 变更，且当前 `filterYear` 不在可用年份中时，自动校正 `filterYear`。
 4. 切换年/月时自动将 `page` 重置为 `1`。
 
-- [ ] **Step 2: 重构下拉弹窗渲染结构**
+- [x] **Step 2: 重构下拉弹窗渲染结构**
 
 替换原来的简单的平铺列表，构建包含三大层级的结构：
 1. **顶栏 Header**：
@@ -307,14 +307,14 @@ git commit -m "feat(date): implement date grouping, year-month filtering, and pa
    - 中间 `第 ${page} / ${totalPages} 页`；
    - 右侧 `>` 下一页（`page === totalPages` 时禁用）。
 
-- [ ] **Step 3: 针对三大主题（波普、暗黑 HUD、羊皮纸）核验实体黑框与对比度**
+- [x] **Step 3: 针对三大主题（波普、暗黑 HUD、羊皮纸）核验实体黑框与对比度**
 
-- [ ] **Step 4: 编译检查**
+- [x] **Step 4: 编译检查**
 
 运行：`npm run build`  
 预期：Vite 编译通过，0 错误 0 警告。
 
-- [ ] **Step 5: 提交代码**
+- [x] **Step 5: 提交代码**
 
 ```bash
 git add src/components/DateStepperCapsule.tsx
@@ -328,7 +328,7 @@ git commit -m "feat(capsule): enrich date dropdown with year-month capsule filte
 **Files:**
 - Create: `scripts/verify-date-dropdown-advanced.mjs`
 
-- [ ] **Step 1: 编写无头浏览器自动化验证脚本**
+- [x] **Step 1: 编写无头浏览器自动化验证脚本**
 
 覆盖以下核心交互用例：
 1. 打开页面，点击展开日期步进器下拉浮层；
@@ -337,19 +337,19 @@ git commit -m "feat(capsule): enrich date dropdown with year-month capsule filte
 4. 点击 `[全部]` 切换回全量模式，点击底部分页器 `>` 步进到第 2 页，验证列表呈现第 7~12 条数据；
 5. 在三大主题（波普、HUD 暗黑、iOS Glass）及多视口（1440px / 1146px / 390px）下抓取真实截图并保存至 artifact 目录。
 
-- [ ] **Step 2: 执行全量自动化验证脚本**
+- [x] **Step 2: 执行全量自动化验证脚本**
 
 运行：`node scripts/verify-date-dropdown-advanced.mjs`  
 预期：所有断点截图成功生成，无截断无溢出，控制台输出 `🎉 日期下拉高级筛选与分页验证全部通过`。
 
-- [ ] **Step 3: 执行生产构建与全量单元测试回归**
+- [x] **Step 3: 执行生产构建与全量单元测试回归**
 
 运行：
 `node --test tests/*.test.mjs`  
 `npm run build`  
 预期：全部绿灯通过。
 
-- [ ] **Step 4: 提交并交付最终代码**
+- [x] **Step 4: 提交并交付最终代码**
 
 ```bash
 git add scripts/verify-date-dropdown-advanced.mjs
