@@ -357,6 +357,12 @@ export const SparkNewsDashboard: React.FC = () => {
               setIsRunningTransitionActive(true);
             }
 
+            const incomingQuote = payload.nobelQuote || payload.data?.nobelQuote;
+            const eventDate = payload.date || payload.data?.date;
+            if (incomingQuote && (!eventDate || eventDate === selectedDate)) {
+              setNobelQuote(incomingQuote);
+            }
+
             setStatusInfo((prev) => {
               const base = prev || buildFallbackStatus(
                 payload.date || selectedDate, 
@@ -370,7 +376,8 @@ export const SparkNewsDashboard: React.FC = () => {
                 status: 'COMPLETED',
                 statusText: '已完成归档',
                 progress: 100,
-                currentStage: payload.message || 'Gemini Spark 简报生成完成'
+                currentStage: payload.message || 'Gemini Spark 简报生成完成',
+                nobelQuote: incomingQuote || base.nobelQuote
               };
             });
             // 收到 COMPLETED 时，平滑无感重新拉取最新数据
