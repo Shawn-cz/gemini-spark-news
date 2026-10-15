@@ -94,7 +94,11 @@ export async function initDatabase() {
     mongoose.connection.on('reconnected', () => {
       console.log('[Repository] 🔄 MongoDB 重新连通，恢复【MONGODB_ATLAS】模式');
       isMongoConnected = true;
+      syncLocalBriefingsToDatabase().catch(e => console.warn('[Repository] 自动同步本地简报异常:', e.message));
     });
+
+    // 连通后立即执行本地未入库历史简报的幂等自动同步
+    syncLocalBriefingsToDatabase().catch(e => console.warn('[Repository] 自动同步本地简报异常:', e.message));
 
     return true;
   } catch (err) {
@@ -103,6 +107,44 @@ export async function initDatabase() {
     console.warn(`[Repository] ⚠️ MongoDB 连接失败: ${err.message}`);
     console.log('[Repository] 🛡️ 启用双模防灾降级：已自动切换至【LOCAL_FALLBACK (本地文件模式)】，业务不受影响');
     return false;
+  }
+}
+
+/**
+ * 自动同步本地 briefings 目录下存在但 MongoDB 中尚未录入的历史或最新简报
+ */
+export async function syncLocalBriefingsToDatabase() {
+  if (!isMongoConnected) return;
+  try {
+    if (!fs.existsSync(BRIEFINGS_DIR)) return;
+    const files = fs.readdirSync(BRIEFINGS_DIR);
+    for (const file of files) {
+      const match = file.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
+      if (!match) continue;
+      const date = match[1];
+      const count = await NewsItemModel.countDocuments({ batchDate: date });
+      if (count === 0) {
+        const localData = readLocalBriefingFile(date);
+        if (localData && Array.isArray(localData.items) && localData.items.length > 0) {
+          console.log(`[Repository] 🚀 自动同步本地简报至 MongoDB Atlas: ${date} (${localData.items.length} 篇)`);
+          await saveBriefing(date, {
+            items: localData.items,
+            batchStatus: localData.batchStatus || {
+              date,
+              status: 'COMPLETED',
+              statusText: '已完成归档',
+              generatedTime: `${date} 08:30:00`,
+              nextScheduleTime: '明日 08:30:00 (每日晨报)',
+              progress: 100,
+              currentStage: 'Gemini Spark 智能体 24H 简报归档完成'
+            },
+            nobelQuote: localData.nobelQuote
+          });
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('[Repository] 自动同步本地简报至 MongoDB Atlas 异常:', err.message);
   }
 }
 
@@ -142,37 +184,11 @@ function readLocalBriefingFile(date) {
 }
 
 /**
- * 获取所有可用历史归档日期
+ * 获取所有可用历史归档日期 (统一数据源)
  */
 export async function getAvailableDates() {
-  const dateSet = new Set(['2026-09-24', '2026-09-23', '2026-09-22', '2026-09-21']);
-
-  // 1. 本地目录中的日期文件
-  if (fs.existsSync(BRIEFINGS_DIR)) {
-    try {
-      const files = fs.readdirSync(BRIEFINGS_DIR);
-      for (const file of files) {
-        const match = file.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
-        if (match) dateSet.add(match[1]);
-      }
-    } catch (err) {
-      console.error('[Repository] 扫描本地 briefings 目录失败:', err);
-    }
-  }
-
-  // 2. 若连通 MongoDB，聚合数据库中的日期
-  if (isMongoConnected) {
-    try {
-      const dbDates = await NewsItemModel.distinct('batchDate');
-      for (const d of dbDates) {
-        if (d) dateSet.add(d);
-      }
-    } catch (err) {
-      console.error('[Repository] 查询 MongoDB 日期列表异常:', err);
-    }
-  }
-
-  return Array.from(dateSet).sort().reverse();
+  const res = await getAvailableBriefingDates();
+  return res.dates;
 }
 
 /**
@@ -205,7 +221,16 @@ export async function getAvailableBriefingDates() {
       files.forEach(file => {
         const match = file.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
         if (match) {
-          dateSet.add(match[1]);
+          try {
+            const content = fs.readFileSync(path.join(BRIEFINGS_DIR, file), 'utf-8');
+            const parsed = JSON.parse(content);
+            const items = Array.isArray(parsed) ? parsed : (parsed?.items || []);
+            if (items.length > 0) {
+              dateSet.add(match[1]);
+            }
+          } catch {
+            // 忽略损坏的文件
+          }
         }
       });
     }
@@ -213,9 +238,9 @@ export async function getAvailableBriefingDates() {
     console.warn('[Repository] 读取 BRIEFINGS_DIR 异常:', err.message);
   }
 
-  // 3. 读取内存降级存储中的日期
+  // 3. 读取内存降级存储中的有效日期
   Object.keys(memoryNewsStore).forEach(d => {
-    if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d) && Array.isArray(memoryNewsStore[d]) && memoryNewsStore[d].length > 0) {
       dateSet.add(d);
     }
   });
@@ -269,9 +294,15 @@ export async function getBatchStatus(date = '2026-09-24') {
         };
       }
 
+      const isFallback = (statusDoc.status !== 'COMPLETED' || newsItems.length === 0) && allDates.length > 0 && allDates[0] !== date;
+      const effectiveDate = isFallback ? allDates[0] : date;
+
       return {
         queryDate: date,
         isToday: date === allDates[0],
+        isFallback,
+        effectiveDate,
+        fallbackNotice: isFallback ? `[${date}] 晨报正在深度提炼中，当前为您呈现最新一期已归档智库内参 [${effectiveDate}]` : null,
         scheduleInterval: statusDoc.scheduleInterval || '每 24 小时由 Gemini Spark 生成一次 (每天 08:30 AM 晨报)',
         scheduleCron: statusDoc.scheduleCron || '30 8 * * *',
         availableDates: allDates,
@@ -323,9 +354,15 @@ export async function getBatchStatus(date = '2026-09-24') {
     sentimentIndex = Math.round((totalScore / currentNews.length) * 100);
   }
 
+  const isFallback = (statusInfo.status !== 'COMPLETED' || currentNews.length === 0) && allDates.length > 0 && allDates[0] !== date;
+  const effectiveDate = isFallback ? allDates[0] : date;
+
   return {
     queryDate: date,
     isToday: date === allDates[0],
+    isFallback,
+    effectiveDate,
+    fallbackNotice: isFallback ? `[${date}] 晨报正在深度提炼中，当前为您呈现最新一期已归档智库内参 [${effectiveDate}]` : null,
     scheduleInterval: '每 24 小时由 Gemini Spark 生成一次 (每天 08:30 AM 晨报)',
     scheduleCron: '30 8 * * *',
     availableDates: allDates,
@@ -355,22 +392,43 @@ export async function getNewsList(params = {}) {
   const sizeNum = Math.max(1, parseInt(pageSize, 10) || 12);
   const statusInfo = await getBatchStatus(date);
 
-  // 若批次仍处于计算中，返回空流
+  // 若批次仍处于计算中，或所选日期暂无有效研报，面向读者大屏提供智能穿透保底 (Always-Available Result Fallback)
   if (statusInfo.status !== 'COMPLETED') {
-    return {
-      items: [],
-      pagination: { page: 1, pageSize: sizeNum, total: 0, totalPages: 0 },
-      batchStatus: statusInfo,
-      stats: {
-        total: 0,
-        positive: 0,
-        neutral: 0,
-        negative: 0,
-        avgSentimentScore: 0,
-        categoryCounts: { ai: 0, finance: 0, geopolitics: 0, climate: 0 },
-        batchDate: date
+    if (params.strictDate === 'true' || params.strictDate === true) {
+      return {
+        items: [],
+        pagination: { page: 1, pageSize: sizeNum, total: 0, totalPages: 0 },
+        batchStatus: statusInfo,
+        stats: {
+          total: 0,
+          positive: 0,
+          neutral: 0,
+          negative: 0,
+          avgSentimentScore: 0,
+          categoryCounts: { ai: 0, finance: 0, geopolitics: 0, climate: 0 },
+          batchDate: date
+        }
+      };
+    }
+
+    // 智能穿透保底：获取系统内最近一期拥有完整资讯的有效归档日期
+    const available = await getAvailableBriefingDates();
+    const fallbackDate = available.dates.find(d => d !== date) || available.latestDate;
+    if (fallbackDate && fallbackDate !== date) {
+      const fallbackResult = await getNewsList({ ...params, date: fallbackDate, strictDate: true });
+      if (fallbackResult.items && fallbackResult.items.length > 0) {
+        return {
+          ...fallbackResult,
+          batchStatus: {
+            ...statusInfo,
+            isFallback: true,
+            effectiveDate: fallbackDate,
+            requestedDate: date,
+            fallbackNotice: `[${date}] 晨报正在深度提炼中，当前为您呈现最新一期已归档智库内参 [${fallbackDate}]`
+          }
+        };
       }
-    };
+    }
   }
 
   // A. MongoDB 模式
@@ -397,7 +455,38 @@ export async function getNewsList(params = {}) {
       }
 
       // 获取当前日期的全量统计
-      const allDayNews = await NewsItemModel.find({ batchDate: date }).lean();
+      let allDayNews = await NewsItemModel.find({ batchDate: date }).lean();
+
+      if (allDayNews.length === 0 && params.strictDate !== 'true' && params.strictDate !== true) {
+        // 如果 MongoDB 中无数据，先看本地文件是否存在
+        const localBriefing = readLocalBriefingFile(date);
+        if (localBriefing && Array.isArray(localBriefing.items) && localBriefing.items.length > 0) {
+          // 本地存在，立刻同步进 MongoDB
+          syncLocalBriefingsToDatabase().catch(() => {});
+          // 降级至本地模式直接读取
+          allDayNews = localBriefing.items;
+        } else {
+          // 本地也没有，穿透到最近有效归档
+          const available = await getAvailableBriefingDates();
+          const fallbackDate = available.dates.find(d => d !== date) || available.latestDate;
+          if (fallbackDate && fallbackDate !== date) {
+            const fallbackResult = await getNewsList({ ...params, date: fallbackDate, strictDate: true });
+            if (fallbackResult.items && fallbackResult.items.length > 0) {
+              return {
+                ...fallbackResult,
+                batchStatus: {
+                  ...statusInfo,
+                  isFallback: true,
+                  effectiveDate: fallbackDate,
+                  requestedDate: date,
+                  fallbackNotice: `[${date}] 晨报正在深度提炼中，当前为您呈现最新一期已归档智库内参 [${fallbackDate}]`
+                }
+              };
+            }
+          }
+        }
+      }
+
       const filteredTotal = await NewsItemModel.countDocuments(query);
       const totalPages = Math.ceil(filteredTotal / sizeNum) || 1;
 
@@ -451,6 +540,26 @@ export async function getNewsList(params = {}) {
   // B. 本地文件/内存模式
   const localBriefing = readLocalBriefingFile(date);
   let rawList = localBriefing ? [...localBriefing.items] : [...(memoryNewsStore[date] || [])];
+
+  if (rawList.length === 0 && params.strictDate !== 'true' && params.strictDate !== true) {
+    const available = await getAvailableBriefingDates();
+    const fallbackDate = available.dates.find(d => d !== date) || available.latestDate;
+    if (fallbackDate && fallbackDate !== date) {
+      const fallbackResult = await getNewsList({ ...params, date: fallbackDate, strictDate: true });
+      if (fallbackResult.items && fallbackResult.items.length > 0) {
+        return {
+          ...fallbackResult,
+          batchStatus: {
+            ...statusInfo,
+            isFallback: true,
+            effectiveDate: fallbackDate,
+            requestedDate: date,
+            fallbackNotice: `[${date}] 晨报正在深度提炼中，当前为您呈现最新一期已归档智库内参 [${fallbackDate}]`
+          }
+        };
+      }
+    }
+  }
 
   const total = rawList.length;
   const positive = rawList.filter(i => i.sentiment === 'positive').length;

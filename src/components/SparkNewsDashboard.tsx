@@ -5,7 +5,8 @@ import {
   Inbox, 
   WifiOff, 
   Radio,
-  Bookmark
+  Bookmark,
+  Sparkles
 } from 'lucide-react';
 import { 
   GlobalNewsItem, 
@@ -46,19 +47,20 @@ import { useTheme } from '../context/ThemeContext';
 export const SparkNewsDashboard: React.FC = () => {
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
+  const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
   // 1. URL Deep-Linking 初始参数提取 (支持通过 ?date=...&newsId=... 免翻直达)
   const pendingDeepLinkRef = useRef<{ date: string | null; newsId: string | null }>({
     date: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('date') : null,
     newsId: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('newsId') : null
   });
 
-  // 过滤与查询条件状态 (若 URL 含有合法日期参数，优先读取)
+  // 过滤与查询条件状态 (若 URL 含有合法日期参数，优先读取；默认定位至最新一期已归档智库成果)
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       const d = new URLSearchParams(window.location.search).get('date');
       if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
     }
-    return '2026-09-24';
+    return '2026-10-14';
   });
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [hasNewerBatchAvailable, setHasNewerBatchAvailable] = useState<boolean>(false);
@@ -109,13 +111,15 @@ export const SparkNewsDashboard: React.FC = () => {
   }, []);
 
   // 核心拉取函数：集成 AbortController 严格取消旧请求
-  const loadDashboardData = useCallback(async (isSilent = false) => {
-    // 若已有正在发起的请求，立即中断取消
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
+  const loadDashboardData = useCallback(async (isSilent = false, customSignal?: AbortSignal) => {
+    // 若已有正在发起的内部请求且未提供 customSignal，中断取消
+    if (!customSignal) {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      abortControllerRef.current = new AbortController();
     }
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+    const signal = customSignal || abortControllerRef.current?.signal;
 
     if (!isSilent && rawBatchNewsRef.current.length === 0) {
       setIsInitialLoading(true);
@@ -127,14 +131,14 @@ export const SparkNewsDashboard: React.FC = () => {
     try {
       // 并发拉取批次状态与全量新闻列表 (一次拉取全部领域、全情绪、单日全量 50 篇)
       const [batchStatusRes, newsRes] = await Promise.all([
-        fetchSparkBatchStatus(selectedDate, controller.signal),
+        fetchSparkBatchStatus(selectedDate, signal),
         fetchNewsList({
           date: selectedDate,
           category: 'all',
           sentiment: 'all',
           page: 1,
           pageSize: 50
-        }, controller.signal)
+        }, signal)
       ]);
 
       if (batchStatusRes && (batchStatusRes.status === 'RUNNING' || batchStatusRes.status === 'PENDING')) {
@@ -146,9 +150,14 @@ export const SparkNewsDashboard: React.FC = () => {
         }
       }
 
-      setStatusInfo(batchStatusRes);
-      setRawBatchNews(newsRes.items);
-      setRawBatchStats(newsRes.stats);
+      // 优先采纳 newsRes.batchStatus 中附带的智能穿透保底元数据 (isFallback, effectiveDate, fallbackNotice)
+      const mergedStatus = {
+        ...batchStatusRes,
+        ...(newsRes.batchStatus || {})
+      };
+      setStatusInfo(mergedStatus);
+      setRawBatchNews(newsRes.items || []);
+      setRawBatchStats(newsRes.stats || null);
       if (newsRes.nobelQuote) {
         setNobelQuote(newsRes.nobelQuote);
       } else if (batchStatusRes?.nobelQuote) {
@@ -159,7 +168,7 @@ export const SparkNewsDashboard: React.FC = () => {
       setErrorMessage(null);
 
       if (isSilent) {
-        showToast('批次数据同步完成：已载入最新 Gemini Spark 情报');
+        showToast('智库内参已更新：已就绪最新全球前沿情报');
       }
     } catch (err: any) {
       // 若为主动取消的中断错误，则静默忽略，不污染状态
@@ -174,10 +183,13 @@ export const SparkNewsDashboard: React.FC = () => {
         showToast('后台定时同步遇到偶发异常，继续保留当前数据');
       }
     } finally {
-      if (!isSilent) {
-        setIsInitialLoading(false);
+      // 关键保护：若当前请求已被中止（例如 StrictMode 模拟挂载或用户快速切换日期），绝不能提前结束加载态
+      if (!signal?.aborted) {
+        if (!isSilent) {
+          setIsInitialLoading(false);
+        }
+        setIsSilentRefreshing(false);
       }
-      setIsSilentRefreshing(false);
     }
   }, [selectedDate, showToast]);
 
@@ -233,36 +245,44 @@ export const SparkNewsDashboard: React.FC = () => {
     };
   }, []);
 
-  // 效应：依赖变更即时拉取 + 智能事件驱动唤醒 (COMPLETED 状态下 0 轮询休眠) + 组件销毁时彻底清理
+  // 主数据拉取效应：仅随 selectedDate 变更触发，解耦状态轮询
   useEffect(() => {
-    // 首次/查询依赖变更时立即拉取
-    loadDashboardData(false);
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
-    // 清理既有定时器
-    if (silentTimerRef.current) {
-      clearInterval(silentTimerRef.current);
-      silentTimerRef.current = null;
-    }
+    loadDashboardData(false, controller.signal);
 
-    // 关键优化：只有在当前批次处于“计算中/排队中”时，才启动 30s 倒计时轮询直到生成完毕
+    return () => {
+      controller.abort();
+    };
+  }, [selectedDate, loadDashboardData]);
+
+  // 状态轮询效应：仅在当前批次处于 RUNNING 或 PENDING 时启动 30s 倒计时轮询，COMPLETED 状态下 0 轮询零开销
+  useEffect(() => {
     const isGenerating = statusInfo?.status === 'RUNNING' || statusInfo?.status === 'PENDING';
-    if (isGenerating) {
-      setSilentCountdown(30);
-      silentTimerRef.current = setInterval(() => {
-        setSilentCountdown((prev) => {
-          if (prev <= 1) {
-            loadDashboardData(true);
-            return 30;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } else {
-      // 批次已完成 (COMPLETED)：彻底关闭定时器，0 轮询零开销
+    if (!isGenerating) {
       setSilentCountdown(0);
+      return;
     }
 
-    // 事件唤醒 1：用户从其他应用/网页切回当前大屏标签页时，自动静默同步一次
+    setSilentCountdown(30);
+    const timer = setInterval(() => {
+      setSilentCountdown((prev) => {
+        if (prev <= 1) {
+          loadDashboardData(true);
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [statusInfo?.status, loadDashboardData]);
+
+  // 事件唤醒效应：页面可见性恢复及系统自然日跨天检测
+  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         loadDashboardData(true);
@@ -270,7 +290,6 @@ export const SparkNewsDashboard: React.FC = () => {
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    // 事件唤醒 2：每分钟轻量检测本地系统自然日跨天 (针对通宵开机不关电脑的用户)
     const dayCheckTimer = setInterval(() => {
       const todayStr = new Date().toISOString().slice(0, 10);
       if (todayStr > selectedDate) {
@@ -280,20 +299,11 @@ export const SparkNewsDashboard: React.FC = () => {
       }
     }, 60000);
 
-    // 关键安全清理：组件卸载或依赖重置时清理所有定时器并中止在飞请求
     return () => {
-      if (silentTimerRef.current) {
-        clearInterval(silentTimerRef.current);
-        silentTimerRef.current = null;
-      }
-      clearInterval(dayCheckTimer);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-        abortControllerRef.current = null;
-      }
+      clearInterval(dayCheckTimer);
     };
-  }, [loadDashboardData, statusInfo?.status, selectedDate, showToast]);
+  }, [selectedDate, loadDashboardData, showToast]);
 
   // 4.1 保持对高频变更函数的持久引用，防止 SSE 长连接因筛选/分页变更频繁重建
   const loadDashboardDataRef = useRef(loadDashboardData);
@@ -542,6 +552,15 @@ export const SparkNewsDashboard: React.FC = () => {
 
   const currentItems = currentDisplayItems;
 
+  // 智库结果大屏核心保障：当特定筛选无结果时，自动提取本批次核心头条进行智能推荐展示
+  const recommendedHeadlineItems = useMemo(() => {
+    if (rawBatchNews.length > 0) {
+      const topItems = rawBatchNews.filter(i => i.impactLevel === 'critical' || i.impactLevel === 'high');
+      return topItems.length >= 4 ? topItems.slice(0, 8) : rawBatchNews.slice(0, 8);
+    }
+    return [];
+  }, [rawBatchNews]);
+
   const currentStats = useMemo<GlobalNewsStats | null>(() => {
     if (isBookmarksMode) {
       return calculateBatchStats(bookmarks, selectedDate);
@@ -635,15 +654,7 @@ export const SparkNewsDashboard: React.FC = () => {
         onShuffleQuote={handleShuffleQuote}
       />
 
-      {/* 静默刷新指示呼吸指示条 (触发时不打扰正常浏览) */}
-      {isSilentRefreshing && (
-        <div className="w-full bg-cyan-950/60 border-b border-cyan-500/20 py-1 px-4 text-center">
-          <span className="inline-flex items-center gap-2 text-[11px] font-mono text-cyan-300">
-            <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
-            <span>智能事件驱动机制生效中：正在后台静默同步最新 Gemini Spark 批次...</span>
-          </span>
-        </div>
-      )}
+
 
       {/* 悬浮 Toast 消息 */}
       {toastMsg && (
@@ -677,7 +688,43 @@ export const SparkNewsDashboard: React.FC = () => {
           onDismissNewerBatch={handleDismissNewerBatch}
         />
 
-        {/* 3. 边界状态处理 1: 接口错误捕获与“点击重试”按钮 */}
+        {/* 智库成果页面专属：非侵入式晨报提炼与穿透提示微胶囊 */}
+        {(statusInfo?.isFallback || isCurrentBatchRunningOrPending) && (
+          <div className={`mb-4 px-4 py-3 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono transition border ${
+            isPopDopamine
+              ? 'bg-amber-100 border-[2.5px] border-slate-900 shadow-[3px_3px_0px_#000] text-slate-900 font-bold'
+              : isIosGlass
+              ? 'bg-amber-500/10 border border-amber-500/20 text-amber-900 shadow-sm font-semibold'
+              : 'bg-amber-950/40 border border-amber-500/40 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.15)] font-semibold'
+          }`}>
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping flex-shrink-0" />
+              <span className="font-bold whitespace-nowrap flex-shrink-0">
+                {statusInfo?.isFallback ? '⚡ 智库内参穿透归档' : '🚀 晨报调度提炼中'}
+              </span>
+              <span className="truncate">
+                {statusInfo?.fallbackNotice || `[${selectedDate}] 晨报正在深度提炼中，当前为您呈现最新一期已归档智库成果`}
+              </span>
+            </div>
+            {statusInfo?.isFallback && statusInfo.effectiveDate && (
+              <button
+                type="button"
+                onClick={() => handleDateChange(statusInfo.effectiveDate!)}
+                className={`px-2.5 py-1 text-[11px] rounded-lg transition whitespace-nowrap cursor-pointer ${
+                  isPopDopamine
+                    ? 'bg-white border-2 border-slate-900 shadow-[1px_1px_0px_#000] text-slate-900 hover:bg-yellow-200'
+                    : isIosGlass
+                    ? 'bg-white text-blue-600 border border-slate-200 shadow-xs'
+                    : 'bg-black/60 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-950'
+                }`}
+              >
+                切换至该期 [{statusInfo.effectiveDate}]
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* 3. 边界状态处理 1: 网络错误捕获与“点击重试”按钮 */}
         {errorMessage ? (
           <div className="glass-card rounded-2xl p-10 text-center max-w-lg mx-auto my-12 border border-rose-500/30 shadow-glow-rose">
             <div className="w-16 h-16 rounded-2xl bg-rose-950/60 border border-rose-500/40 flex items-center justify-center mx-auto mb-4 text-rose-400">
@@ -685,7 +732,7 @@ export const SparkNewsDashboard: React.FC = () => {
             </div>
             <h3 className="text-base font-bold text-white mb-2 font-mono flex items-center justify-center gap-1.5">
               <AlertTriangle className="w-4 h-4 text-rose-400" />
-              <span>数据拉取异常 / 管道通信中断</span>
+              <span>智库情报网络连接超时</span>
             </h3>
             <p className="text-xs text-rose-300/80 mb-6 font-mono leading-relaxed bg-black/40 p-3 rounded-lg border border-rose-900/40">
               {errorMessage}
@@ -696,11 +743,11 @@ export const SparkNewsDashboard: React.FC = () => {
               className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-mono font-bold text-white bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 rounded-xl transition shadow-lg active:scale-95 border border-rose-400/30"
             >
               <RotateCw className="w-4 h-4" />
-              <span>点击重新尝试拉取</span>
+              <span>点击重试加载</span>
             </button>
           </div>
-        ) : isCurrentBatchRunningOrPending ? (
-          /* 批次计算中状态 */
+        ) : (isCurrentBatchRunningOrPending && rawBatchNews.length === 0) ? (
+          /* 仅在完全没有历史或穿透缓存可用时才呈现过程态 */
           <RunningStateView
             statusInfo={statusInfo}
             onViewPreviousDay={handleViewPreviousDay}
@@ -713,7 +760,7 @@ export const SparkNewsDashboard: React.FC = () => {
           <div className="space-y-6">
             <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              <span>正在从 Gemini Spark 智能体管道初始化加载全球新闻元数据...</span>
+              <span>正在载入全球智库前沿内参...</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="md:col-span-2 md:row-span-2 h-96 glass-card rounded-2xl animate-pulse bg-white/[0.02]"></div>
@@ -763,39 +810,67 @@ export const SparkNewsDashboard: React.FC = () => {
               浏览全部领域研报
             </button>
           </div>
-        ) : currentItems.length === 0 ? (
-          /* 3. 边界状态处理 3B: 当 Spark 批次为空时的“暂无资讯”空状态 */
-          <div className={`glass-card rounded-2xl p-12 text-center max-w-lg mx-auto my-12 border ${
-            isIosGlass
-              ? 'bg-white/95 border-slate-200 shadow-sm'
-              : 'border-white/10 shadow-inner bg-white/[0.03]'
-          }`}>
-            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
-              isIosGlass ? 'bg-slate-100 text-slate-500' : 'bg-white/[0.03] text-slate-500'
+        ) : (currentItems.length === 0 && rawBatchNews.length > 0) ? (
+          /* 3. 边界状态处理 3B: 结果优先的智能推荐引导 (Zero-Dead-End Discovery: 仅在筛选/检索未命中时激活) */
+          <div className="space-y-6">
+            <div className={`glass-card rounded-2xl p-6 sm:p-8 border transition-all ${
+              isPopDopamine
+                ? 'bg-white border-[3px] border-slate-900 shadow-[4px_4px_0px_#000]'
+                : isIosGlass
+                ? 'bg-white/95 border-slate-200 shadow-md'
+                : 'border-cyan-500/30 bg-slate-900/60 shadow-[0_0_20px_rgba(0,240,255,0.1)]'
             }`}>
-              <Inbox className={`w-8 h-8 opacity-70 ${isIosGlass ? 'text-blue-600' : 'text-cyan-400'}`} />
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    isPopDopamine
+                      ? 'bg-yellow-300 border-2 border-slate-900 text-slate-900'
+                      : isIosGlass
+                      ? 'bg-blue-50 text-blue-600 border border-blue-200'
+                      : 'bg-cyan-950/60 text-cyan-400 border border-cyan-500/40'
+                  }`}>
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className={`text-sm sm:text-base font-bold font-mono ${
+                      isPopDopamine || isIosGlass ? 'text-slate-900' : 'text-white'
+                    }`}>
+                      当前筛选暂无匹配项 · 为您推荐今日全领域核心头条
+                    </h3>
+                    <p className={`text-xs mt-1 font-mono leading-relaxed ${
+                      isPopDopamine || isIosGlass ? 'text-slate-600' : 'text-slate-400'
+                    }`}>
+                      在当前条件「{category !== 'all' ? (category === 'bookmarks' ? '我的收藏' : category) : '全领域'}{search ? ` · 搜索: ${search}` : ''}{sentiment !== 'all' ? ` · 情绪: ${sentiment}` : ''}」下未检索到条目，已自动为您精选今日重磅前沿内参：
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleResetFilter}
+                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl whitespace-nowrap transition-all flex-shrink-0 cursor-pointer ${
+                    isPopDopamine
+                      ? 'bg-pink-500 text-white border-2 border-slate-900 shadow-[2px_2px_0px_#000] hover:translate-y-[-1px]'
+                      : isIosGlass
+                      ? 'text-white bg-blue-600 hover:bg-blue-700 shadow-sm'
+                      : 'text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800'
+                  }`}
+                >
+                  重置筛选 · 浏览全领域
+                </button>
+              </div>
             </div>
-            <h3 className={`text-base font-bold mb-2 font-mono ${
-              isIosGlass ? 'text-slate-900' : 'text-white'
-            }`}>
-              当前 Gemini Spark 批次暂无资讯产物
-            </h3>
-            <p className={`text-xs mb-6 font-mono leading-relaxed ${
-              isIosGlass ? 'text-slate-600' : 'text-slate-400'
-            }`}>
-              在所选日期 [{selectedDate}] 或当前检索过滤条件下，Gemini Spark 智能体未产生符合条件的输出。您可切换历史简报或重置筛选条件。
-            </p>
-            <button
-              type="button"
-              onClick={handleResetFilter}
-              className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition ${
-                isIosGlass
-                  ? 'text-white bg-blue-600 hover:bg-blue-700 shadow-sm'
-                  : 'text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800'
-              }`}
-            >
-              重置所有过滤与检索条件
-            </button>
+
+            {/* 直接呈现核心头条推荐流，杜绝任何形式的空白死胡同 */}
+            {recommendedHeadlineItems.length > 0 && (
+              <BentoView
+                items={recommendedHeadlineItems}
+                loading={false}
+                onSelectNews={(news) => setSelectedNews(news)}
+                onResetFilter={handleResetFilter}
+                bookmarkedIdSet={bookmarkedIdSet}
+                onToggleBookmark={handleToggleBookmark}
+              />
+            )}
           </div>
         ) : (
           /* 正常呈现新闻卡片流 (支持 Bento / Matrix / Timeline 视图) */

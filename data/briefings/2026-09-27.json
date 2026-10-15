@@ -356,5 +356,15 @@
     "nextScheduleTime": "明日 08:30:00 (每日晨报)",
     "progress": 100,
     "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1925 诺贝尔文学奖",
+    "author": "乔治·萧伯纳",
+    "work": "人与超人",
+    "enAuthor": "George Bernard Shaw",
+    "enWork": "Man and Superman",
+    "zh": "“理性的人让自己适应世界；非理性的人坚持让世界适应自己。”",
+    "en": "“The reasonable man adapts himself to the world: the unreasonable one persists in trying to adapt the world to himself.”",
+    "batchDate": "2026-09-27"
   }
 }
