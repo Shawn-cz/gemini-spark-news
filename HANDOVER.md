@@ -1,26 +1,34 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-10-14 17:30 (UTC+8)
-- **当前 Git 主线**: `master` (工作区干净，所有里程碑已全量合并与回归验证)
+- **交接归档时间**: 2026-10-15 11:00 (UTC+8)
+- **当前 Git 主线**: `master` (工作区干净，MVP 5 跨时空智库连接与架构加固全量合并并通过 64 项全绿回归验证)
 - **系统运行状态**: 
-  - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常)
-  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 可用日期聚合 + SSE 实时推流 + Webhook 外部摄取 + MongoDB Atlas 双模持久化 + 诺奖名言每日生产流水线 + 生产静态资源直出)
+  - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常，纯原生 SVG 心电图与 Web Speech 早茶播放器运行顺畅)
+  - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 跨期轻量索引清单 + 跨期全文检索 + 研报历史演化脉络算法 + 宏观情绪心电图趋势 + 3分钟早茶文稿合成 + SSE 实时推流 + Webhook 外部摄取 + MongoDB Atlas 双模持久化 + 诺奖名言每日生产流水线)
   - Linux 云原生监听: 显式绑定 `0.0.0.0:$PORT`，适配各类云原生容器与 PaaS 反向代理网关
   - 云容器健康探针: `/api/health` 导出状态、运行时间、内存开销、数据库与激活模型全维度健康度
 - **生产构建验证**: `npm run build` (TypeScript 严格检查 + Vite 6 打包 100% 成功，0 错误 0 警告)
 - **测试验证覆盖**: 
-  - 12 套单元与安全集成测试全部通过 (**55+ passing, 100% 绿灯**)
+  - 18 套单元与安全集成测试全部通过 (**64 passing, 100% 绿灯**)
+  - 全链路 MVP 5 E2E 闭环脚本 [`scripts/verify-mvp5-features.mjs`](scripts/verify-mvp5-features.mjs) 100% 通过（归档索引、跨期全文检索、历史脉络时间轴、宏观心电图、3分钟早茶合成全链路校验）
   - 全链路 E2E 闭环自动化脚本 [`scripts/verify-spark-pipeline.mjs`](scripts/verify-spark-pipeline.mjs) 100% 通过（外部 Webhook 双模鉴权与容错清洗校验）
   - 客户端网络拦截端到端自动化脚本 [`scripts/verify-client-cache-network.mjs`](scripts/verify-client-cache-network.mjs) 100% 通过（验证切换分类/情绪/搜索产生 0 次多余网络请求）
   - 日期下拉高级筛选与分页无头端到端脚本 [`scripts/verify-date-dropdown-advanced.mjs`](scripts/verify-date-dropdown-advanced.mjs) 100% 通过
   - 全套多视口（1440px / 1146px / 390px）与三大主题无头浏览器真实截图凭证 100% 归档
-- **专项缺陷与特性迭代归档 (MVP 4)**: 
-  - Issue #FEAT-001 **历史归档日期下拉菜单高级筛选与微型翻页步进器（方案 1）** (从已归档的 24+ 期简报中动态聚合提取有效年份与实际包含简报的有效月份；年/月双层微胶囊过滤横向滑动条，支持 `[全部 (24)]`、`[10月 (14)]`、`[09月 (10)]` 毫秒级即时纯内存切片；固定单页展示 6 条归档批次锁定高度消除弹窗抖动；底部微型翻页器 `< 第 x / y 页 >`；三大主题 WCAG AAA 实体按键对比度认证；端到端自动化真机无头截图审阅通过)
-  - Issue #FEAT-002 **诺贝尔文学奖每日名言自动化更新、云原生双模持久化与全链路推流（方案 A）** (闭环用户最初提出的“名言更新、存储逻辑与页面内资讯逻辑一样”要求；确定性哈希派发算法 `getDailyNobelQuote` 保障同日期绝对幂等可溯；`saveBriefing` 实现本地 JSON 与 MongoDB Atlas `BatchStatusModel.nobelQuote` 双模双写持久化；`scheduler.mjs` 每日 08:30 随当期简报打包落盘；`POST /api/spark/webhook/ingest` 支持传入自定义名言与保底补齐；SSE 实时广播与前端无感刷新；配套测试套件 `tests/nobelQuotePersistence.test.mjs` 5 项全绿)
-  - Issue #UI-009 **Header 顶栏规整度重构与 Bento 双行统一度量衡 (`h-[42px]`)** (根治 Header 各 Bento 高度参差不齐与自适应高度导致的零乱问题；第一行统一锁定为 42px 品牌标识、主题切换与 DevTools 控制舱；第二行统一锁定为 42px 诺奖文学名言灵感胶囊与情绪脉搏；字符溢出自适应平滑调小字号，作者名紧随单行排版，彻底消除横向断层与大片空白)
-  - Issue #UI-010 **日期步进筛选项迁移至分类控制栏（方案 C）** (将日期步进器从 Header 中移入分类控制栏首位，使日期作为筛选项与分类、情绪、搜索处于同一视觉逻辑层级，解耦水平滚动容器，彻底杜绝横向裁剪与溢出挤压)
-  - Issue #PERF-001 **单日批次客户端内存全量驻留与 0ms 响应式切片架构** (重构为“单日批次单次拉取 50 篇全量入内存、客户端纯响应式切片与衍生计算”，彻底消除分类切换时的网络请求与骨架屏闪烁，桌面级 0ms 瞬间响应)
-  - Issue #UI-001 ~ Issue #UI-008 (对比度 AAA 修复、胶囊碰撞隔离、冗余文字清理、移动端吸顶瘦身、纯前端离线专属微信分享二维码等均持续在保)
+- **专项缺陷与特性迭代归档 (MVP 5: 跨时空智库连接与架构加固)**: 
+  - Issue #FEAT-003 **三套主题 0 抖动边框治理与物理盒模型加固** (统一三套主题基础 `border-width: 1px`，Pop Dopamine 粗野主义硬描边改用多重阴影扩散 `box-shadow: 0 0 0 2px #0f172a, 6px 6px 0px 0px #0f172a`，实现 Cyber HUD、Pop Dopamine、iOS Glass 热切换时卡片与容器 0px 几何位移与零布局抖动)
+  - Issue #FEAT-004 **轻量化归档索引清单 (Archive Manifest)** (`GET /api/archive/manifest`，服务端维护预聚合年月映射，响应耗时 < 25ms，并与 `saveBriefing` / `toggleBatchStatus` 实现缓存失效主动闭环)
+  - Issue #FEAT-005 **零死角探索二级穿透 —— 跨期历史全文深度检索** (`GET /api/news/search?q={query}`，MongoDB 跨集合多字段检索与本地 JSON 降级扫描双模一致，精准打标每篇研报的 `briefingDate`；在 0 命中探索横幅中一键直达历史穿透结果)
+  - Issue #FEAT-006 **深度研报抽屉 —— 历史演化脉络时间轴 (Event Threading)** (`GET /api/news/:id/timeline`，基于 NLP 实体 (+5)、标签 (+3)、领域 (+1) 加权评分算法匹配 Top 4 关联研报，二次降序时间排序彻底消除日期错乱；抽屉底部直接平滑跳转溯源阅读)
+  - Issue #FEAT-007 **宏观情绪与核心板块热度“跨期心电图”** (`GET /api/stats/pulse?days=7` 输出近 7 期归一化情绪指数与领域分布；前端纯原生轻量 SVG `<MacroPulseSparkline />` 零第三方图表依赖，自适应三大主题并提供冷暖基调徽章与悬停浮层)
+  - Issue #FEAT-008 **每日 3 分钟“智库早茶”播客模式与原生语音播放器** (`server/services/audioBriefingService.mjs` 串联 Top 3 焦点研报与诺奖金句自动生成播报文稿；`<AudioBriefingModal />` 基于浏览器原生 Web Speech API 实现分句队列接力朗读防 Chrome 15s 中断 Bug，配齐 1.0x~1.5x 倍速切换、提词器动态高亮自动滚动与 12 柱等离子音频波形动效)
+- **历史特性与迭代归档 (MVP 1 ~ MVP 4)**: 
+  - Issue #FEAT-001 (历史归档日期下拉菜单高级筛选与微型翻页步进器)
+  - Issue #FEAT-002 (诺贝尔文学奖每日名言自动化更新、云原生双模持久化与全链路推流)
+  - Issue #UI-009 (Header 顶栏规整度重构与 Bento 双行统一度量衡 `h-[42px]`)
+  - Issue #UI-010 (日期步进筛选项迁移至分类控制栏)
+  - Issue #PERF-001 (单日批次客户端内存全量驻留与 0ms 响应式切片架构)
+  - Issue #UI-001 ~ Issue #UI-008 (对比度 AAA 修复、胶囊碰撞隔离、冗余文字清理等持续在保)
 - **云原生 PaaS 部署与运维就绪 (MVP 3 & MVP 4)**: 
   - 基础设施代码 (IaC) 清单就绪：[`render.yaml`](render.yaml)、[`railway.json`](railway.json)、[`fly.toml`](fly.toml)
   - 全面详尽的部署操作指南：[`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md)
@@ -288,15 +296,16 @@ flowchart TD
 
 | 操作目标 | 终端命令 | 预期结果与说明 |
 | :--- | :--- | :--- |
-| **本地全栈调试** | `npm run dev` (同时拉起后端 3001 与前端 5173) | 前端 5173，后端 3001 |
-| **全站构建验证** | `npm run build` | `tsc -b && vite build`，0 错误 0 警告 |
+| **本地全栈调试** | `npm run dev` (同时拉起后端 3001 与前端 5173) | 前端 5173，后端 3001，纯原生 SVG 与 Web Speech 正常工作 |
+| **全站生产构建** | `npm run build` | `tsc -b && vite build`，0 错误 0 警告 |
+| **MVP 5 E2E 闭环验证** | `node scripts/verify-mvp5-features.mjs` | 验证 Manifest、跨期全文检索、历史演化脉络、宏观心电图、3分钟早茶文稿 5 大模块 100% 绿灯 |
 | **E2E 闭环全链路验证** | `node scripts/verify-spark-pipeline.mjs` | 自愈探测挂载，含 Webhook 摄取与可用日期等 8 阶段全部绿灯输出 |
-| **外部 Webhook 摄取单测** | `node tests/webhookIngest.test.mjs` | 7/7 tests pass (双模鉴权、Markdown提取清洗、容错推导) |
-| **可用日期单元/集成单测** | `node tests/availableDates.test.mjs` | 2/2 tests pass (含降序排序与 API 端点) |
-| **限流防刷单测** | `node tests/rateLimiter.test.mjs` | 3/3 tests pass (含 429 与白名单豁免) |
-| **管理员鉴权单测** | `node tests/adminAuth.test.mjs` | 5/5 tests pass (含常数时间比对与 Bearer) |
-| **安全集成与标头测试** | `node tests/serverSecurityIntegration.test.mjs` | 4/4 tests pass (含 Helmet 标头与鉴权守卫) |
-| **全量核心测试套件** | `node --test tests/webhookIngest.test.mjs tests/apiEndpoints.test.mjs tests/availableDates.test.mjs tests/adminAuth.test.mjs tests/rateLimiter.test.mjs tests/serverSecurityIntegration.test.mjs tests/geminiSparkAgent.test.mjs tests/sseManager.test.mjs tests/scheduler.test.mjs` | 40/40 tests 100% pass (9 大测试套件全绿) |
+| **全量 18 套单元与安全测试** | `node --test tests/adminAuth.test.mjs tests/apiEndpoints.test.mjs tests/archiveManifest.test.mjs tests/audioBriefing.test.mjs tests/availableDates.test.mjs tests/bookmarkStorage.test.mjs tests/clientBatchFiltering.test.mjs tests/crossArchiveSearch.test.mjs tests/dateGrouping.test.mjs tests/eventTimeline.test.mjs tests/geminiSparkAgent.test.mjs tests/macroPulse.test.mjs tests/nobelQuotePersistence.test.mjs tests/rateLimiter.test.mjs tests/scheduler.test.mjs tests/serverSecurityIntegration.test.mjs tests/sseManager.test.mjs tests/webhookIngest.test.mjs` | 64/64 tests 100% pass (18 套测试套件全部绿灯) |
+| **轻量归档清单单测** | `node tests/archiveManifest.test.mjs` | 1/1 test pass (极速响应与年月预聚合) |
+| **跨期深度检索单测** | `node tests/crossArchiveSearch.test.mjs` | 1/1 test pass (MongoDB/本地双模匹配与 briefingDate 标识) |
+| **历史演化脉络算法单测** | `node tests/eventTimeline.test.mjs` | 1/1 test pass (NLP 实体/标签多维加权与时间排序) |
+| **宏观情绪心电图单测** | `node tests/macroPulse.test.mjs` | 1/1 test pass (归一化情绪指数与领域热度) |
+| **智库早茶文稿合成单测** | `node tests/audioBriefing.test.mjs` | 1/1 test pass (结构化文稿、分句队列与时常估算) |
 | **主题截图自动化回归** | `node scripts/verify-themes.mjs` | 生成 9 张高清无头截图至 `screenshots/` |
 | **PM2 守护生产运行** | `npx pm2 start ecosystem.config.cjs` | 启动单实例守护，崩溃自愈，500M 限制 |
 | **Docker 镜像构建与运行** | `docker build -t gemini-spark-news:latest .`<br>`docker run -d -p 3001:3001 --env-file .env gemini-spark-news:latest` | 非 root node 用户运行，一体化输出 SPA 与 API |
@@ -336,17 +345,22 @@ SCHEDULE_TIME=08:30
 
 ---
 
-## 七、 下一阶段路线图规划 (Next Milestone: MVP 4)
+## 七、 下一阶段路线图规划 (Roadmap & Next Milestones)
 
-以**“全球高可用高并发与全球 CDN 边缘加速”**为后续演进目标，MVP 1、MVP 2、历史日期回溯与 MVP 3（云原生 PaaS 部署与外部 Webhook 自动化）已全部顺利闭环交付上线。后续演进建议推进 **MVP 4: 自定义独立域名、边缘 CDN 与自动化 CI/CD**：
+系统历经 MVP 1 ~ MVP 5 迭代，已构建起业界领先的宏观决策级现代前端智库架构：
 
 ```mermaid
 flowchart LR
-    MVP1["✅ MVP 1: 真实 Gemini Spark 生产闭环\n(智能体引擎 + 08:30定时 + SSE推流)\n【已全部交付完成】"] --> MVP2["✅ MVP 2: 生产级安全防护与稳定性加固\n(Helmet + 限流防刷 + X-Admin-Key + PM2/Docker)\n【已全部交付完成】"] --> FEATURE3["✅ 看板交互体验增强\n(历史简报日期步进胶囊 + 多日回溯 + 高对比度守护)\n【已全部交付完成】"] --> MVP3["✅ MVP 3: 云原生 PaaS 部署与 Webhook 自动化\n(Render/Railway/Fly.io + Webhook自动摄取 + 健康探针)\n【已全部交付完成】"] --> MVP4["🚀 MVP 4: 自定义域名与全球边缘加速\n(自定义独立域名 + CDN 静态缓存 + GitHub Actions CI/CD 流水线)"]
+    MVP1["✅ MVP 1: 真实生产闭环\n(智能体引擎 + 08:30定时 + SSE推流)"] --> MVP2["✅ MVP 2: 生产安全防线\n(Helmet + 限流防刷 + X-Admin-Key)"]
+    MVP2 --> MVP3["✅ MVP 3: 云原生 PaaS 部署\n(Render/Railway/Fly.io + Webhook)"]
+    MVP3 --> MVP4["✅ MVP 4: 交互体验与智库结果页\n(0ms客户端切片 + 年月高级胶囊 + 诺奖持久化)"]
+    MVP4 --> MVP5["✅ MVP 5: 跨时空智库连接与架构加固\n(跨期全文检索 + 演化脉络时间轴 + 宏观心电图 + 早茶播客)"]
+    MVP5 --> MVP6["🚀 MVP 6: 自定义域名与全球边缘加速\n(企业级独立域名 + Cloudflare 边缘缓存 + CI/CD 流水线)"]
 ```
 
-### MVP 4 核心待办建议：
-1. **自定义域名与 SSL/TLS 证书**：在 PaaS 平台绑定企业级独立域名（如 `sparknews.ai`），自动签发管理 Let's Encrypt 泛域名 HTTPS 证书；
+### MVP 6 建议核心行动项：
+1. **企业级自定义域名与 SSL/TLS 证书**：在 PaaS 平台绑定企业级独立域名（如 `sparknews.ai`），自动签发管理 Let's Encrypt 泛域名 HTTPS 证书；
 2. **边缘 CDN 缓存与路由分流**：接入 Cloudflare，针对前端静态资源（`/assets/*`）开启全球边缘缓存，针对 `/api/*` 与 `/api/spark/stream` 配置直接回源与 `proxy_buffering off` 优化；
-3. **GitHub Actions 持续交付流水线**：配置自动化工作流，在提交到主分支时自动运行全量测试套件、E2E 验证脚本并触发 PaaS 平台自动构建部署；
+3. **GitHub Actions 持续交付流水线**：配置自动化工作流，在提交到主分支时自动运行 18 套全量测试套件、E2E 验证脚本并触发 PaaS 平台自动构建部署；
 4. **外部定时智能体全网打通**：将外部定时 Gemini 任务的 Webhook URL 指向公网线上地址，达成每日无人值守自动摄取与全网毫秒级推流广播。
+
