@@ -1,13 +1,13 @@
 # Gemini Spark News 智库前端系统 · 完整项目研发交接档案 (Comprehensive Handover Document)
 
-- **交接归档时间**: 2026-10-15 11:00 (UTC+8)
-- **当前 Git 主线**: `master` (工作区干净，MVP 5 跨时空智库连接与架构加固全量合并并通过 64 项全绿回归验证)
+- **交接归档时间**: 2026-10-15 17:30 (UTC+8)
+- **当前 Git 主线**: `master` (工作区干净，MVP 6 云端部署上线与 GitOps 流水线全量合并，并通过 GitHub Actions 持续集成与 63 项全绿回归验证)
 - **系统运行状态**: 
   - 前端开发服务: `http://localhost:5173` (Vite 6 HMR 实时热重载正常，纯原生 SVG 宏观情绪心电图与极简新粗野主义专业看板全量呈现)
   - 后端 API 服务: `http://localhost:3001` (Express + Helmet + 分级限流 + X-Admin-Key 守卫 + 跨期轻量索引清单 + 跨期全文检索 + 研报历史演化脉络算法 + 宏观情绪心电图趋势 + SSE 实时推流 + Webhook 外部摄取 + MongoDB Atlas 双模持久化 + 诺奖名言每日生产流水线)
   - Linux 云原生监听: 显式绑定 `0.0.0.0:$PORT`，适配各类云原生容器与 PaaS 反向代理网关
   - 云容器健康探针: `/api/health` 导出状态、运行时间、内存开销、数据库与激活模型全维度健康度
-- **生产构建验证**: `npm run build` (TypeScript 严格检查 + Vite 6 打包 100% 成功，0 错误 0 警告)
+- **生产构建验证**: `npm run build` (强制 `tsc --noEmit` 严格类型检查 + Vite 6 打包 100% 成功，0 错误 0 警告)
 - **测试验证覆盖**: 
   - 17 套单元与安全集成测试全部通过 (**63 passing, 100% 绿灯**)
   - 全链路 MVP 5 E2E 闭环脚本 [`scripts/verify-mvp5-features.mjs`](scripts/verify-mvp5-features.mjs) 100% 通过（归档索引、跨期全文检索、历史脉络时间轴、宏观心电图 4 大模块全链路校验）
@@ -15,6 +15,12 @@
   - 客户端网络拦截端到端自动化脚本 [`scripts/verify-client-cache-network.mjs`](scripts/verify-client-cache-network.mjs) 100% 通过（验证切换分类/情绪/搜索产生 0 次多余网络请求）
   - 日期下拉高级筛选与分页无头端到端脚本 [`scripts/verify-date-dropdown-advanced.mjs`](scripts/verify-date-dropdown-advanced.mjs) 100% 通过
   - 全套多视口（1440px / 1146px / 390px）与三大主题无头浏览器真实截图凭证 100% 归档
+- **专项缺陷与特性迭代归档 (MVP 6: 云端部署上线与 GitOps 流水线)**: 
+  - Issue #DEVOPS-001 **npm 生产运行时指令集规范化** (`package.json` 规范化包含 `start`, `build: tsc --noEmit && vite build`, `test`, `test:e2e`，修复全系统未读变量 TS 严格类型校验错误)
+  - Issue #DEVOPS-002 **GitHub Actions 持续集成与质量防护流水线** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)，在代码提交或 PR 到 `master` 时自动化运行 `npm ci`、`npm run build`、`npm test` 17 套测试套件，并后台启动服务通过探针自检 `/api/health` 与 `/api/archive/manifest`)
+  - Issue #DEVOPS-003 **Render / Fly.io 14 分钟定时心跳防休眠保活脉冲** ([`.github/workflows/keepalive-and-sync.yml`](.github/workflows/keepalive-and-sync.yml)，利用 GitHub Actions 免费 Cron 定时器每 14 分钟发起探针保活，击穿 15 分钟休眠阈值，杜绝冷启动 50s 延迟)
+  - Issue #DEVOPS-004 **Alpine 生产容器健康检查与静态资源缓存强化** (`Dockerfile` 集成 `HEALTHCHECK` 原生探针；`server/mock-server.mjs` 为带有哈希指纹的静态资产分发配置 1 年强缓存，为 `index.html` 配置严格协商缓存确保新版本即刻生效)
+  - Issue #DEVOPS-005 **Render 3 分钟一键 Blueprint 部署指南** ([`docs/deployment/RENDER_ONE_CLICK_DEPLOY.md`](docs/deployment/RENDER_ONE_CLICK_DEPLOY.md)，提供一键导入 `render.yaml`、配置 MongoDB Atlas 与 Gemini Key、打通公网 HTTPS 与 Webhook 直投实操指引)
 - **专项缺陷与特性迭代归档 (MVP 5: 跨时空智库连接与架构加固)**: 
   - Issue #FEAT-003 **三套主题 0 抖动边框治理与物理盒模型加固** (统一三套主题基础 `border-width: 1px`，Pop Dopamine 粗野主义硬描边改用多重阴影扩散 `box-shadow: 0 0 0 2px #0f172a, 6px 6px 0px 0px #0f172a`，实现 Cyber HUD、Pop Dopamine、iOS Glass 热切换时卡片与容器 0px 几何位移与零布局抖动)
   - Issue #FEAT-004 **轻量化归档索引清单 (Archive Manifest)** (`GET /api/archive/manifest`，服务端维护预聚合年月映射，响应耗时 < 25ms，并与 `saveBriefing` / `toggleBatchStatus` 实现缓存失效主动闭环)
@@ -29,10 +35,10 @@
   - Issue #UI-010 (日期步进筛选项迁移至分类控制栏)
   - Issue #PERF-001 (单日批次客户端内存全量驻留与 0ms 响应式切片架构)
   - Issue #UI-001 ~ Issue #UI-008 (对比度 AAA 修复、胶囊碰撞隔离、冗余文字清理等持续在保)
-- **云原生 PaaS 部署与运维就绪 (MVP 3 & MVP 4)**: 
+- **云原生 PaaS 部署与运维就绪 (MVP 3 ~ MVP 6)**: 
   - 基础设施代码 (IaC) 清单就绪：[`render.yaml`](render.yaml)、[`railway.json`](railway.json)、[`fly.toml`](fly.toml)
-  - 全面详尽的部署操作指南：[`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md)
-  - 生产级多阶段 Alpine [`Dockerfile`](Dockerfile)（非 root `USER node` 最小特权、仅打包生产依赖、一体化直出 SPA 与 API）
+  - 全面详尽的部署操作指南：[`docs/deployment/RENDER_ONE_CLICK_DEPLOY.md`](docs/deployment/RENDER_ONE_CLICK_DEPLOY.md) 及 [`docs/deployment/PAAS_DEPLOYMENT_GUIDE.md`](docs/deployment/PAAS_DEPLOYMENT_GUIDE.md)
+  - 生产级多阶段 Alpine [`Dockerfile`](Dockerfile)（非 root `USER node` 最小特权、原生 `HEALTHCHECK` 探针、仅打包生产依赖、一体化直出 SPA 与 API）
   - PM2 进程自愈配置文件 [`ecosystem.config.cjs`](ecosystem.config.cjs) 就绪（500MB 内存阈值自愈、错误与访问日志切分）
   - 完善的配置模版 [`.env.example`](.env.example) 与敏感文件过滤规则 [`.dockerignore`](.dockerignore)
 
