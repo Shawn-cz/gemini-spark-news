@@ -55,7 +55,7 @@
   --token-bg-subtle: rgba(255, 255, 255, 0.08);
 
   --token-border-subtle: #334155;
-  --token-border-card: 3px solid #0f172a;
+  --token-border-card: 1px solid #0f172a;
   --token-border-strong: #000000;
 
   --token-text-primary: #0f172a;
@@ -74,8 +74,8 @@
   --token-radius-modal: 28px;
   --token-radius-pane: 16px;
 
-  --token-shadow-card: 6px 6px 0px 0px #0f172a;
-  --token-shadow-card-hover: 10px 10px 0px 0px #0f172a;
+  --token-shadow-card: 0 0 0 2px #0f172a, 6px 6px 0px 0px #0f172a;
+  --token-shadow-card-hover: 0 0 0 2px #0f172a, 10px 10px 0px 0px #0f172a;
   --token-shadow-btn: 2px 2px 0px 0px #0f172a;
 
   --token-backdrop-blur: 0px;

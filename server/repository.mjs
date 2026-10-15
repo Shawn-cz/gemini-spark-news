@@ -261,6 +261,67 @@ export async function getAvailableBriefingDates() {
   };
 }
 
+let cachedArchiveManifest = null;
+let manifestCacheTimestamp = 0;
+const MANIFEST_CACHE_TTL = 60 * 1000; // 60秒有效
+
+/**
+ * 主动使归档索引缓存失效 (在保存新简报或更新批次时调用)
+ */
+export function invalidateArchiveManifestCache() {
+  cachedArchiveManifest = null;
+  manifestCacheTimestamp = 0;
+}
+
+/**
+ * 获取轻量级归档索引清单 (按年月预聚合与毫秒级内存缓存)
+ */
+export async function getArchiveManifest() {
+  const now = Date.now();
+  if (cachedArchiveManifest && (now - manifestCacheTimestamp) < MANIFEST_CACHE_TTL) {
+    return cachedArchiveManifest;
+  }
+
+  const { dates, latestDate, totalDates } = await getAvailableBriefingDates();
+  const yearSet = new Set();
+  const monthMapByYear = {};
+  const totalCountByYear = {};
+
+  for (const d of dates) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
+    const [year, month] = d.split('-');
+    yearSet.add(year);
+    totalCountByYear[year] = (totalCountByYear[year] || 0) + 1;
+
+    if (!monthMapByYear[year]) monthMapByYear[year] = {};
+    monthMapByYear[year][month] = (monthMapByYear[year][month] || 0) + 1;
+  }
+
+  const years = Array.from(yearSet).sort((a, b) => b.localeCompare(a));
+  const formattedMonthMap = {};
+  for (const y of years) {
+    const months = Object.keys(monthMapByYear[y] || {}).sort((a, b) => b.localeCompare(a));
+    formattedMonthMap[y] = months.map(m => ({
+      month: m,
+      label: `${parseInt(m, 10)}月`,
+      count: monthMapByYear[y][m]
+    }));
+  }
+
+  cachedArchiveManifest = {
+    availableDates: dates,
+    latestDate,
+    totalArchivedDays: totalDates,
+    years,
+    monthMapByYear: formattedMonthMap,
+    totalCountByYear,
+    lastUpdated: new Date().toISOString()
+  };
+  manifestCacheTimestamp = now;
+
+  return cachedArchiveManifest;
+}
+
 /**
  * 获取指定日期的批次监控状态
  */
@@ -775,6 +836,9 @@ export async function saveBriefing(date, rawData) {
     }
   }
 
+  // 主动刷新轻量归档清单缓存
+  invalidateArchiveManifestCache();
+
   return {
     date,
     filePath: targetFile,
@@ -833,6 +897,8 @@ export async function toggleBatchStatus(date = '2026-09-24', targetStatus) {
       console.error('[Repository] 更新本地简报文件状态异常:', e);
     }
   }
+
+  invalidateArchiveManifestCache();
 
   return memoryBatchStatusMap[date];
 }

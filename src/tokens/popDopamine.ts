@@ -52,14 +52,14 @@ export const popDopamineTokens: ThemeTokens = {
       modalPane: '16px',
     },
     border: {
-      width: '3px',
+      width: '1px',
       style: 'solid',
     },
   },
   atmosphere: {
     shadow: {
-      card: '6px 6px 0px 0px #0f172a',
-      cardHover: '10px 10px 0px 0px #0f172a',
+      card: '0 0 0 2px #0f172a, 6px 6px 0px 0px #0f172a',
+      cardHover: '0 0 0 2px #0f172a, 10px 10px 0px 0px #0f172a',
       button: '3px 3px 0px 0px #0f172a',
       modal: '12px 12px 0px 0px #0f172a',
     },

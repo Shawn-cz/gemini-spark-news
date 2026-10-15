@@ -15,7 +15,9 @@ import {
   getNewsById,
   saveBriefing,
   toggleBatchStatus,
-  getAvailableBriefingDates
+  getAvailableBriefingDates,
+  getArchiveManifest,
+  invalidateArchiveManifestCache
 } from './repository.mjs';
 import {
   getActiveModel,
@@ -131,6 +133,21 @@ app.get('/api/spark/available-dates', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/spark/available-dates error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 1.6: 获取轻量级历史归档索引清单 (按年月预聚合与毫秒级内存缓存)
+app.get('/api/archive/manifest', async (req, res) => {
+  try {
+    const data = await getArchiveManifest();
+    res.json({
+      code: 200,
+      message: 'success',
+      data
+    });
+  } catch (err) {
+    console.error('[API] /api/archive/manifest error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });

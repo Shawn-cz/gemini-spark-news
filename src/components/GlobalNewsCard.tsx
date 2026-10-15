@@ -270,7 +270,7 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
     return (
       <article
         onClick={onClick}
-        className={`bg-white border-[3px] border-slate-900 shadow-[6px_6px_0px_0px_#111827] rounded-3xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_#111827] text-slate-900 relative group overflow-hidden cursor-pointer ${
+        className={`bg-white border border-slate-900 shadow-[0_0_0_2px_#0f172a,6px_6px_0px_0px_#111827] rounded-3xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_0_2px_#0f172a,10px_10px_0px_0px_#111827] text-slate-900 relative group overflow-hidden cursor-pointer ${
           isHero ? 'md:col-span-2 md:row-span-2' : ''
         }`}
       >
