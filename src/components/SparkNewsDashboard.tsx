@@ -687,6 +687,7 @@ export const SparkNewsDashboard: React.FC = () => {
         onOpenDevTools={() => setIsDevToolsOpen(true)}
         nobelQuote={nobelQuote}
         onShuffleQuote={handleShuffleQuote}
+        currentDate={selectedDate}
       />
 
 

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { 
   Activity, 
   SlidersHorizontal,
@@ -31,6 +32,7 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   onOpenDevTools,
   nobelQuote,
   onShuffleQuote,
+  currentDate,
 }) => {
   const isRunning = statusInfo?.status === 'RUNNING';
   const sentimentScore = statusInfo?.globalSentimentIndex ?? 28;
