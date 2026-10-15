@@ -18,7 +18,8 @@ import {
   getAvailableBriefingDates,
   getArchiveManifest,
   invalidateArchiveManifestCache,
-  searchCrossArchiveNews
+  searchCrossArchiveNews,
+  getNewsEventTimeline
 } from './repository.mjs';
 import {
   getActiveModel,
@@ -203,6 +204,21 @@ app.get('/api/news/:id', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/news/:id error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 2.2: 获取指定研报的历史演化脉络时间轴 (Event Threading)
+app.get('/api/news/:id/timeline', async (req, res) => {
+  try {
+    const data = await getNewsEventTimeline(req.params.id);
+    res.json({
+      code: 200,
+      message: 'success',
+      data
+    });
+  } catch (err) {
+    console.error('[API] /api/news/:id/timeline error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });

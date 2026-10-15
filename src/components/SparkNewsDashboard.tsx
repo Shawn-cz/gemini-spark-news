@@ -1016,6 +1016,7 @@ export const SparkNewsDashboard: React.FC = () => {
         isBookmarked={selectedNews ? bookmarkedIdSet.has(selectedNews.id) : false}
         onToggleBookmark={handleToggleBookmark}
         onShowToast={showToast}
+        onSelectNews={(item) => setSelectedNews(item)}
       />
 
       {/* 快捷导入 Gemini 简报产物弹窗 */}

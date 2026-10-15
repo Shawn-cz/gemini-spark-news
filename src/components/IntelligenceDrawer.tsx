@@ -24,12 +24,27 @@ import { isNewsBookmarked, toggleBookmarkStorage } from '../services/bookmarkSto
 import { ShareModal } from './ShareModal';
 import { useTheme } from '../context/ThemeContext';
 
+interface TimelineRelatedEvent {
+  id: string;
+  title: string;
+  englishTitle?: string;
+  category: CategoryType;
+  impactLevel: ImpactLevel;
+  sentiment: string;
+  sentimentScore: number;
+  briefingDate: string;
+  publishTime: string;
+  relevanceScore: number;
+  matchedEntities: string[];
+}
+
 interface IntelligenceDrawerProps {
   news: GlobalNewsItem | null;
   onClose: () => void;
   isBookmarked?: boolean;
   onToggleBookmark?: (news: GlobalNewsItem) => void;
   onShowToast?: (msg: string) => void;
+  onSelectNews?: (news: GlobalNewsItem) => void;
 }
 
 export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({ 
@@ -37,12 +52,54 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
   onClose,
   isBookmarked: externalIsBookmarked,
   onToggleBookmark,
-  onShowToast
+  onShowToast,
+  onSelectNews
 }) => {
   const [imgError, setImgError] = useState(false);
   const [internalBookmarked, setInternalBookmarked] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [timelineEvents, setTimelineEvents] = useState<TimelineRelatedEvent[]>([]);
+  const [isLoadingTimeline, setIsLoadingTimeline] = useState(false);
   const { theme } = useTheme();
+
+  // 跨期历史演化脉络溯源拉取
+  useEffect(() => {
+    if (!news?.id) {
+      setTimelineEvents([]);
+      return;
+    }
+    let active = true;
+    setIsLoadingTimeline(true);
+    fetch(`/api/news/${encodeURIComponent(news.id)}/timeline`)
+      .then(r => r.json())
+      .then(body => {
+        if (active && body.code === 200 && body.data) {
+          setTimelineEvents(body.data.relatedEvents || []);
+        }
+      })
+      .catch(() => {
+        if (active) setTimelineEvents([]);
+      })
+      .finally(() => {
+        if (active) setIsLoadingTimeline(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [news?.id]);
+
+  const handleTimelineItemClick = async (event: TimelineRelatedEvent) => {
+    try {
+      const res = await fetch(`/api/news/${encodeURIComponent(event.id)}`);
+      const body = await res.json();
+      if (body.code === 200 && body.data && onSelectNews) {
+        onSelectNews(body.data);
+        if (onShowToast) onShowToast(`⚡ 已跨期穿透至历史研报 [${event.briefingDate}]`);
+      }
+    } catch {
+      if (onShowToast) onShowToast('加载关联研报详情失败');
+    }
+  };
   
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
   const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
@@ -243,6 +300,124 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
     ? `+${Math.round(news.sentimentScore * 100)}%` 
     : `${Math.round(news.sentimentScore * 100)}%`;
 
+  // 渲染历史演化脉络时间轴 (Event Threading)
+  const renderEventTimeline = () => {
+    if (isLoadingTimeline) {
+      return (
+        <div className="my-4 p-3 rounded-xl border border-dashed border-slate-700/60 flex items-center justify-center gap-2 text-xs font-mono text-slate-400">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+          <span>正在溯源历史批次演化脉络...</span>
+        </div>
+      );
+    }
+
+    if (timelineEvents.length === 0) {
+      return (
+        <div className={`my-4 p-3 rounded-xl text-center text-xs font-mono border ${
+          isPopDopamine
+            ? 'bg-amber-50 border-slate-900 text-slate-700'
+            : isIosGlass
+            ? 'bg-slate-50 border-slate-200 text-slate-500'
+            : 'bg-cyan-950/20 border border-cyan-500/20 text-cyan-400/80'
+        }`}>
+          <span>⚡ 该议题为首次录入智库追踪的新兴信号，暂无历史前序演化记录</span>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`my-4 p-3.5 sm:p-4 rounded-2xl transition-all ${
+        isPopDopamine
+          ? 'bg-amber-50/90 border-2 border-slate-900 shadow-[3px_3px_0px_#111827]'
+          : isIosGlass
+          ? 'bg-white/70 border border-white/90 shadow-xs'
+          : 'bg-slate-950/70 border border-cyan-500/30 shadow-[0_0_15px_rgba(0,240,255,0.1)]'
+      }`}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2 font-mono text-xs font-bold">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className={isPopDopamine || isIosGlass ? 'text-slate-900' : 'text-cyan-300'}>
+              ⚡ 历史演化脉络 · EVENT THREADING ({timelineEvents.length} 篇关联)
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-slate-400">
+            时空溯源 · 点击穿透
+          </span>
+        </div>
+
+        {/* 垂直时间轴卡片链 */}
+        <div className="relative pl-5 space-y-3 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-cyan-400 before:via-blue-500 before:to-slate-700">
+          {timelineEvents.map((ev, idx) => (
+            <div 
+              key={ev.id || idx}
+              onClick={() => handleTimelineItemClick(ev)}
+              className={`relative p-3 rounded-xl transition-all cursor-pointer group flex flex-col gap-1.5 ${
+                isPopDopamine
+                  ? 'bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#111827] hover:bg-yellow-100 hover:translate-x-1'
+                  : isIosGlass
+                  ? 'bg-white/95 border border-slate-200/80 shadow-xs hover:shadow-md hover:border-blue-400 hover:translate-x-1'
+                  : 'bg-cyan-950/40 border border-cyan-500/40 hover:bg-cyan-900/40 hover:border-cyan-300 hover:translate-x-1'
+              }`}
+            >
+              {/* 时间轴连线节点圆点 */}
+              <div className={`absolute -left-[23px] top-3.5 w-3 h-3 rounded-full border-2 transition-transform group-hover:scale-125 ${
+                isPopDopamine
+                  ? 'bg-yellow-300 border-slate-900'
+                  : isIosGlass
+                  ? 'bg-blue-600 border-white shadow-xs'
+                  : 'bg-cyan-400 border-slate-950 shadow-[0_0_8px_#00f0ff]'
+              }`} />
+
+              <div className="flex items-center justify-between gap-2 text-[10px] font-mono">
+                <span className={`px-2 py-0.5 rounded-full font-bold ${
+                  isPopDopamine
+                    ? 'bg-pink-100 text-pink-700 border border-pink-300'
+                    : isIosGlass
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'bg-cyan-950 text-cyan-300 border border-cyan-500/30'
+                }`}>
+                  📅 [{ev.briefingDate}]
+                </span>
+
+                <div className="flex items-center gap-1.5">
+                  <span className={`font-semibold ${
+                    ev.sentimentScore > 0 ? 'text-emerald-500' : ev.sentimentScore < 0 ? 'text-rose-500' : 'text-slate-400'
+                  }`}>
+                    {ev.sentimentScore > 0 ? '看多' : ev.sentimentScore < 0 ? '避险' : '中性'} ({Math.round(ev.sentimentScore * 100)}%)
+                  </span>
+                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+
+              <h4 className={`text-xs font-bold leading-snug line-clamp-2 ${
+                isPopDopamine || isIosGlass ? 'text-slate-900 group-hover:text-blue-600' : 'text-slate-100 group-hover:text-cyan-200'
+              }`}>
+                {ev.title}
+              </h4>
+
+              {/* 匹配实体标签 */}
+              {ev.matchedEntities && ev.matchedEntities.length > 0 && (
+                <div className="flex items-center gap-1 flex-wrap mt-0.5">
+                  {ev.matchedEntities.slice(0, 3).map((ent, eIdx) => (
+                    <span 
+                      key={eIdx}
+                      className="text-[9px] px-1.5 py-0.2 rounded bg-slate-200/60 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 font-mono"
+                    >
+                      #{ent}
+                    </span>
+                  ))}
+                  <span className="text-[9px] font-mono text-cyan-500 ml-auto">
+                    相关度: {ev.relevanceScore}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   // =========================================================================
   // 方案 A: 裸眼 3D 原生全息投影资讯研报视窗 (1:1 SHOWCASE 落地)
   // =========================================================================
@@ -399,6 +574,9 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
                 );
               })}
             </div>
+
+            {/* 历史演化脉络时间轴 (Event Threading) */}
+            {renderEventTimeline()}
 
           </div>
 
@@ -586,6 +764,9 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
             ))}
           </div>
 
+          {/* 历史演化脉络时间轴 (Event Threading) */}
+          {renderEventTimeline()}
+
           {/* 底部信息与完成查阅 */}
           <div className="pt-4 border-t-2 border-slate-900 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-3 sm:gap-5">
@@ -708,6 +889,9 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
             </div>
           ))}
         </div>
+
+        {/* 历史演化脉络时间轴 (Event Threading) */}
+        {renderEventTimeline()}
 
         {/* 底部 iOS 遥测栏 */}
         <div className="pt-4 border-t border-slate-200/60 flex flex-wrap items-center justify-between gap-3 text-xs">

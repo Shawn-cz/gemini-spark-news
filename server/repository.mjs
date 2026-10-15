@@ -807,6 +807,155 @@ export async function searchCrossArchiveNews({ query = '', limit = 20 } = {}) {
 }
 
 /**
+ * 获取指定研报在全部历史批次中的“演化脉络”关联事件时间轴 (Event Threading)
+ */
+export async function getNewsEventTimeline(newsId) {
+  if (!newsId || typeof newsId !== 'string') {
+    return { targetId: newsId || '', relatedEvents: [] };
+  }
+  const cleanId = newsId.trim();
+
+  // 1. 获取目标研报详情
+  let targetItem = null;
+  if (isMongoConnected) {
+    try {
+      targetItem = await NewsItemModel.findOne({ id: cleanId }).lean();
+    } catch (err) {
+      console.warn(`[Repository] MongoDB 获取目标研报失败 (${err.message})`);
+    }
+  }
+
+  if (!targetItem) {
+    targetItem = await getNewsById(cleanId);
+  }
+
+  if (!targetItem) {
+    return { targetId: cleanId, targetTitle: '', relatedEvents: [] };
+  }
+
+  const targetEntities = new Set((targetItem.nlpKeyEntities || []).map(e => String(e).toLowerCase().trim()));
+  const targetTags = new Set((targetItem.tags || []).map(t => String(t).toLowerCase().trim()));
+  const targetCategory = targetItem.category;
+
+  const candidateEvents = [];
+
+  // 2. 跨批次匹配候选研报
+  if (isMongoConnected) {
+    try {
+      const allDocs = await NewsItemModel.find({ id: { $ne: cleanId } }).lean();
+      for (const item of allDocs) {
+        let score = 0;
+        const matchedEntities = [];
+
+        // 实体匹配：权重 5
+        for (const e of (item.nlpKeyEntities || [])) {
+          const eLower = String(e).toLowerCase().trim();
+          if (targetEntities.has(eLower)) {
+            score += 5;
+            matchedEntities.push(e);
+          }
+        }
+
+        // 标签匹配：权重 3
+        for (const t of (item.tags || [])) {
+          const tLower = String(t).toLowerCase().trim();
+          if (targetTags.has(tLower)) {
+            score += 3;
+          }
+        }
+
+        // 领域匹配：权重 1
+        if (item.category === targetCategory) {
+          score += 1;
+        }
+
+        if (score >= 3) {
+          candidateEvents.push({
+            id: item.id,
+            title: item.title,
+            englishTitle: item.englishTitle,
+            category: item.category,
+            impactLevel: item.impactLevel,
+            sentiment: item.sentiment,
+            sentimentScore: item.sentimentScore,
+            briefingDate: item.batchDate || item.publishTime?.slice(0, 10) || '',
+            publishTime: item.publishTime,
+            relevanceScore: score,
+            matchedEntities: Array.from(new Set(matchedEntities))
+          });
+        }
+      }
+    } catch (err) {
+      console.warn(`[Repository] MongoDB 关联时间轴匹配失败 (${err.message})，降级为本地扫描`);
+    }
+  }
+
+  // 若 MongoDB 未命中或处于本地模式
+  if (candidateEvents.length === 0) {
+    const { dates } = await getAvailableBriefingDates();
+    for (const d of dates) {
+      const briefing = readLocalBriefingFile(d);
+      const items = briefing ? briefing.items : (memoryNewsStore[d] || []);
+      for (const item of items) {
+        if (item.id === cleanId) continue;
+
+        let score = 0;
+        const matchedEntities = [];
+
+        for (const e of (item.nlpKeyEntities || [])) {
+          const eLower = String(e).toLowerCase().trim();
+          if (targetEntities.has(eLower)) {
+            score += 5;
+            matchedEntities.push(e);
+          }
+        }
+
+        for (const t of (item.tags || [])) {
+          const tLower = String(t).toLowerCase().trim();
+          if (targetTags.has(tLower)) {
+            score += 3;
+          }
+        }
+
+        if (item.category === targetCategory) {
+          score += 1;
+        }
+
+        if (score >= 3) {
+          candidateEvents.push({
+            id: item.id,
+            title: item.title,
+            englishTitle: item.englishTitle,
+            category: item.category,
+            impactLevel: item.impactLevel,
+            sentiment: item.sentiment,
+            sentimentScore: item.sentimentScore,
+            briefingDate: item.batchDate || d,
+            publishTime: item.publishTime,
+            relevanceScore: score,
+            matchedEntities: Array.from(new Set(matchedEntities))
+          });
+        }
+      }
+    }
+  }
+
+  // 3. 先按相关度得分选出最紧密的 Top 4 篇
+  candidateEvents.sort((a, b) => b.relevanceScore - a.relevanceScore);
+  const topEvents = candidateEvents.slice(0, 4);
+
+  // 4. 用户指示加固：对 Top 4 结果进行二次时间排序 (按 briefingDate 降序排列)，确保时间轴连贯无跳跃
+  topEvents.sort((a, b) => b.briefingDate.localeCompare(a.briefingDate));
+
+  return {
+    targetId: cleanId,
+    targetTitle: targetItem.title,
+    targetDate: targetItem.batchDate || targetItem.publishTime?.slice(0, 10) || '',
+    relatedEvents: topEvents
+  };
+}
+
+/**
  * 保存/导入 Gemini Spark 简报
  */
 export async function saveBriefing(date, rawData) {
