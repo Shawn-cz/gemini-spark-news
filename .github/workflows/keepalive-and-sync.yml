@@ -1,0 +1,53 @@
+name: Cloud Keepalive & Heartbeat Ping
+
+on:
+  schedule:
+    # 每天每 14 分钟触发一次，彻底击穿 Render/Fly.io 15 分钟休眠阈值
+    - cron: '*/14 * * * *'
+  workflow_dispatch:
+    inputs:
+      target_host:
+        description: '临时指定测试的目标域名（留空则默认使用 Repository Secret: APP_HOST）'
+        required: false
+        default: ''
+
+concurrency:
+  group: keepalive-heartbeat
+  cancel-in-progress: true
+
+jobs:
+  ping-keepalive:
+    name: Ping Cloud Health Probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Send Heartbeat Ping to App Gateway
+        env:
+          APP_HOST_SECRET: ${{ secrets.APP_HOST }}
+          INPUT_HOST: ${{ github.event.inputs.target_host }}
+        run: |
+          TARGET_HOST="${INPUT_HOST:-$APP_HOST_SECRET}"
+
+          if [ -z "$TARGET_HOST" ]; then
+            echo "ℹ️ 未检测到配置的 APP_HOST Secret 或目标域名。跳过保活心跳。"
+            echo "提示：请在 GitHub 仓库 Settings -> Secrets and variables -> Actions 中添加 APP_HOST（如 your-app.onrender.com）。"
+            exit 0
+          fi
+
+          # 自动去除可能的协议前缀和末尾斜杠
+          CLEAN_HOST=$(echo "$TARGET_HOST" | sed -E 's|^https?://||' | sed -E 's|/+$||')
+          TARGET_URL="https://${CLEAN_HOST}/api/health"
+
+          echo "🚀 正在向云端探针发起防休眠保活脉冲: $TARGET_URL"
+
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 --max-time 45 "$TARGET_URL" || echo "000")
+
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ 保活心跳脉冲成功响应 (HTTP 200)，云端容器处于活跃唤醒状态！"
+          else
+            echo "⚠️ 云端响应异常或正在冷启动唤醒中 (HTTP $HTTP_STATUS)。重试第二次以确保唤醒..."
+            sleep 5
+            RETRY_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 20 --max-time 60 "$TARGET_URL" || echo "000")
+            echo "第二次心跳响应: HTTP $RETRY_STATUS"
+          fi
