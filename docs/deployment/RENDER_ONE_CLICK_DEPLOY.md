@@ -64,23 +64,49 @@
 4. **点击 Apply 开始自动构建**：
    - Render 将自动拉取代码、构建 Alpine 多阶段 Docker 镜像、执行编译并启动服务；
    - 约 1.5 ~ 2 分钟构建完成后，状态将变更为 **Live (Healthy)**；
-   - 顶端将分配专属免费公网 HTTPS 域名，例如：`https://gemini-spark-news.onrender.com`。
+   - 顶端将分配专属免费底层 HTTPS 域名（例如：`https://gemini-spark-news.onrender.com`），该域名作为后续自定义域名 DNS 解析的 CNAME 目标。
 
 ---
 
-## 三、配置 GitHub Actions 14 分钟免休眠全天候保活
+## 三、绑定自定义独立顶级域名（以 `shawn-news.top` 为例）
+
+如果你已拥有个人独立顶级域名（如 `shawn-news.top`），**完全无需使用 Render 分配的二级域名**，按以下 2 步即可直接使用自己的顶级域名访问智库看板：
+
+### 1. 在 Render 控制台添加自定义域名
+1. 点击已部署的服务进入控制台，在左侧导航栏点击 **Settings**；
+2. 滚动找到 **Custom Domains** 区域，点击 **Add Custom Domain**；
+3. 输入你的域名：
+   - 根域名：`shawn-news.top`
+   - （可选）子域名：`www.shawn-news.top`
+4. 点击 **Save**。Render 会自动为你**申请并管理免费的 SSL/TLS 证书（全自动 Let's Encrypt HTTPS）**。
+
+### 2. 在域名 DNS 解析服务商（如腾讯云/阿里云/Cloudflare/DNSPod）添加解析记录
+登录购买 `shawn-news.top` 的 DNS 控制台，添加 1~2 条解析记录：
+
+| 记录类型 | 主机记录 | 记录值 (指向) | 说明 |
+| :--- | :--- | :--- | :--- |
+| **CNAME** (或 ALIAS/ANAME) | `@` (根域名) | `gemini-spark-news.onrender.com` (Render 提供的服务地址) | 访问 `https://shawn-news.top` |
+| **CNAME** | `www` | `gemini-spark-news.onrender.com` | 访问 `https://www.shawn-news.top` |
+
+> [!TIP]
+> - 如果你的 DNS 服务商支持 **CNAME Flattening** 或 **ALIAS 记录**（如 Cloudflare、DNSPod、阿里云），可以直接将根域名 `@` CNAME 到 Render 地址；
+> - 记录添加后，通常 1~5 分钟内生效。Render 自动完成 SSL 证书颁发后，状态即变为 **Verified**。
+
+---
+
+## 四、配置 GitHub Actions 14 分钟免休眠全天候保活
 
 Render Free Tier 实例在连续 15 分钟无外部请求时会自动进入休眠状态（冷启动需 20~50 秒）。本项目内建了全自动心跳保活工作流：
 
 1. 打开 GitHub 仓库页面，进入 **Settings** -> **Secrets and variables** -> **Actions**；
 2. 点击 **New repository secret**，新增：
    - **Name**: `APP_HOST`
-   - **Secret**: 填写你在 Render 上获得的域名（例如 `gemini-spark-news.onrender.com`）；
-3. 保存后，工作流 `.github/workflows/keepalive-and-sync.yml` 将每 14 分钟自动发起健康检查脉冲，彻底击穿休眠阈值，确保用户随时打开均享有 0 毫秒极速首屏！
+   - **Secret**: 直接填入你的独立域名 **`shawn-news.top`**；
+3. 保存后，工作流 `.github/workflows/keepalive-and-sync.yml` 将每 14 分钟自动向 `https://shawn-news.top/api/health` 发起健康检查脉冲，彻底击穿休眠阈值，确保用户随时打开均享有 0 毫秒极速首屏！
 
 ---
 
-## 四、外部 Gemini Spark 智能体 Webhook 直投调用
+## 五、外部 Gemini Spark 智能体 Webhook 直投调用
 
 当线上服务就绪后，任何外部智能体、定时脚本或自动化平台（如 n8n、Zapier、GitHub Actions、Google Apps Script）均可直接将生成的研报推送到云端：
 
