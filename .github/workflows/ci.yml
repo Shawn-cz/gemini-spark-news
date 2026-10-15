@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build, Test & Health Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies (clean)
+        run: npm ci
+
+      - name: Strict TypeScript & Production Build
+        run: npm run build
+
+      - name: Run Unit & Security Test Suites (17 suites)
+        run: npm test
+
+      - name: Start Production Gateway & Validate Probes
+        env:
+          NODE_ENV: production
+          PORT: 3001
+          ADMIN_KEY: ci-secret-test-key
+        run: |
+          npm run start &
+          SERVER_PID=$!
+          echo "Server started with PID $SERVER_PID, waiting for port 3001..."
+
+          # Wait for server to become responsive
+          HEALTH_OK=false
+          for i in {1..30}; do
+            if curl -s -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
+              HEALTH_OK=true
+              echo "Server reached healthy state in ${i}s."
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$HEALTH_OK" != "true" ]; then
+            echo "ERROR: Server failed to become healthy within 30s."
+            kill $SERVER_PID || true
+            exit 1
+          fi
+
+          # 1. Probe /api/health
+          HEALTH=$(curl -s http://127.0.0.1:3001/api/health)
+          echo "Health probe response: $HEALTH"
+          echo "$HEALTH" | grep -q '"status":"ok"' || { echo "Health probe validation failed"; kill $SERVER_PID; exit 1; }
+
+          # 2. Probe /api/archive/manifest
+          MANIFEST=$(curl -s http://127.0.0.1:3001/api/archive/manifest)
+          echo "Manifest probe response: $MANIFEST"
+          echo "$MANIFEST" | grep -q '"code":200' || { echo "Manifest probe validation failed"; kill $SERVER_PID; exit 1; }
+
+          # 3. Clean teardown
+          kill $SERVER_PID
+          echo "All CI probes verified successfully."
