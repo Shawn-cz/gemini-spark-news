@@ -37,6 +37,7 @@ import {
   getSchedulerStatus,
   startDailyScheduler
 } from './services/scheduler.mjs';
+import { generateDailyAudioBriefing } from './services/audioBriefingService.mjs';
 
 dotenv.config();
 
@@ -236,6 +237,22 @@ app.get('/api/stats/pulse', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/stats/pulse error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 2.4: 获取每日 3 分钟智库早茶播报文稿与分句结构
+app.get('/api/briefing/:date/audio', async (req, res) => {
+  try {
+    const { date } = req.params;
+    const data = await generateDailyAudioBriefing(date);
+    res.json({
+      code: 200,
+      message: 'success',
+      data
+    });
+  } catch (err) {
+    console.error('[API] /api/briefing/:date/audio error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });
