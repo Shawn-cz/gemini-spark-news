@@ -266,7 +266,12 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
             {/* 3 分钟智库早茶播客微交互按键 */}
             <button
               type="button"
-              onClick={() => setIsAudioModalOpen(true)}
+              onClick={() => {
+                if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+                  window.speechSynthesis.resume();
+                }
+                setIsAudioModalOpen(true);
+              }}
               className={`h-[42px] px-2.5 sm:px-3 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm whitespace-nowrap flex-shrink-0 cursor-pointer ${
                 isPopDopamine
                   ? 'border-2 border-slate-900 bg-yellow-300 hover:bg-yellow-400 text-slate-900 shadow-[2px_2px_0px_#000]'
