@@ -19,7 +19,8 @@ import {
   getArchiveManifest,
   invalidateArchiveManifestCache,
   searchCrossArchiveNews,
-  getNewsEventTimeline
+  getNewsEventTimeline,
+  getMacroPulseTrends
 } from './repository.mjs';
 import {
   getActiveModel,
@@ -219,6 +220,22 @@ app.get('/api/news/:id/timeline', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/news/:id/timeline error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 2.3: 获取跨期宏观情绪指数与板块热度心电图 (Macro Pulse)
+app.get('/api/stats/pulse', async (req, res) => {
+  try {
+    const { days = 7 } = req.query;
+    const data = await getMacroPulseTrends(days);
+    res.json({
+      code: 200,
+      message: 'success',
+      data
+    });
+  } catch (err) {
+    console.error('[API] /api/stats/pulse error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });

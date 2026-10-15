@@ -956,6 +956,89 @@ export async function getNewsEventTimeline(newsId) {
 }
 
 /**
+ * 跨期宏观情绪指数与核心板块热度趋势聚合 (Macro Pulse 心电图)
+ */
+export async function getMacroPulseTrends(days = 7) {
+  const { dates } = await getAvailableBriefingDates();
+  const parsedDays = parseInt(days, 10);
+  const targetDays = isNaN(parsedDays) ? 7 : Math.min(Math.max(1, parsedDays), 14);
+  const selectedDates = dates.slice(0, targetDays).reverse(); // 严格时间正序排列以供图表从左到右绘制
+
+  const trends = [];
+
+  for (const d of selectedDates) {
+    let items = [];
+
+    if (isMongoConnected) {
+      try {
+        items = await NewsItemModel.find({ batchDate: d }).lean();
+      } catch (err) {
+        console.warn(`[Repository] MongoDB 获取 [${d}] 批次聚合失败 (${err.message})，降级为本地`);
+      }
+    }
+
+    if (items.length === 0) {
+      const briefing = readLocalBriefingFile(d);
+      items = briefing ? briefing.items : (memoryNewsStore[d] || []);
+    }
+
+    let positive = 0, neutral = 0, negative = 0, totalScore = 0;
+    const catCounts = { ai: 0, finance: 0, geopolitics: 0, climate: 0 };
+
+    for (const item of items) {
+      if (item.sentiment === 'positive') positive++;
+      else if (item.sentiment === 'negative') negative++;
+      else neutral++;
+
+      totalScore += (typeof item.sentimentScore === 'number' ? item.sentimentScore : 0);
+      if (item.category && item.category in catCounts) {
+        catCounts[item.category]++;
+      }
+    }
+
+    const total = items.length;
+    const avgScore = total > 0 ? (totalScore / total) : 0;
+    // 将 -1 ~ +1 映射为 0 ~ 100 指数 (0分对应50)
+    const sentimentIndex = Math.min(100, Math.max(0, Math.round(50 + (avgScore * 50))));
+
+    trends.push({
+      date: d,
+      total,
+      avgSentimentScore: Number(avgScore.toFixed(2)),
+      sentimentIndex,
+      distribution: { positive, neutral, negative },
+      categoryCounts: catCounts
+    });
+  }
+
+  if (trends.length === 0) {
+    const today = new Date().toISOString().slice(0, 10);
+    trends.push({
+      date: today,
+      total: 0,
+      avgSentimentScore: 0,
+      sentimentIndex: 50,
+      distribution: { positive: 0, neutral: 0, negative: 0 },
+      categoryCounts: { ai: 0, finance: 0, geopolitics: 0, climate: 0 }
+    });
+  }
+
+  const latestIndex = trends[trends.length - 1].sentimentIndex;
+  const prevIndex = trends.length > 1 ? trends[trends.length - 2].sentimentIndex : latestIndex;
+  const delta = Number((latestIndex - prevIndex).toFixed(1));
+
+  return {
+    days: trends.length,
+    trends,
+    summary: {
+      latestIndex,
+      deltaFromPrevious: delta,
+      overallMood: latestIndex >= 60 ? '积极向好' : latestIndex <= 40 ? '避险谨慎' : '平衡中性'
+    }
+  };
+}
+
+/**
  * 保存/导入 Gemini Spark 简报
  */
 export async function saveBriefing(date, rawData) {

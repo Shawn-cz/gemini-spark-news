@@ -14,6 +14,7 @@ import {
 import { CategoryType, ViewMode, SentimentType, GlobalNewsStats } from '../types/news';
 import { useTheme } from '../context/ThemeContext';
 import { DateStepperCapsule } from './DateStepperCapsule';
+import { MacroPulseSparkline } from './MacroPulseSparkline';
 
 export interface GlobalCategoryBarProps {
   selectedCategory: CategoryType;
@@ -202,11 +203,14 @@ export const GlobalCategoryBar: React.FC<GlobalCategoryBarProps> = ({
           })}
         </div>
 
-        {/* 右侧工具组：3 种视图模式切换 (Bento/Matrix/Timeline) + 检索框 */}
+        {/* 右侧工具组：宏观心电图 + 3 种视图模式切换 + 检索框 */}
         <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap flex-shrink-0">
+          {/* 宏观情绪与板块热度跨期心电图 (Macro Pulse Sparkline) */}
+          <MacroPulseSparkline />
+
           {/* 3 种视图模式切换 */}
           <div className={`viewmode-container inline-flex p-1 rounded-xl flex-shrink-0 transition-colors ${
-            isIosGlass ? 'bg-white/80 border border-slate-200/80 shadow-sm' : isPopDopamine ? 'bg-white border-[2.5px] border-slate-900 shadow-[3px_3px_0px_0px_#111827]' : 'bg-obsidian-card border border-white/10 shadow-inner'
+            isIosGlass ? 'bg-white/80 border border-slate-200/80 shadow-sm' : isPopDopamine ? 'bg-white border border-slate-900 shadow-[0_0_0_1.5px_#111827,3px_3px_0px_0px_#111827]' : 'bg-obsidian-card border border-white/10 shadow-inner'
           }`}>
             {viewModes.map((vm) => {
               const isSelected = viewMode === vm.key;
