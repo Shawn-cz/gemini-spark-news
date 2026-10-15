@@ -522,9 +522,19 @@ const distDir = path.resolve(__dirname, '..', 'dist');
 
 if (process.env.NODE_ENV === 'production') {
   if (fs.existsSync(distDir)) {
-    app.use(express.static(distDir));
+    // 静态资源分发：指纹静态资产强缓存 1 年，其他静态资源缓存 1 天
+    app.use(express.static(distDir, {
+      maxAge: '1d',
+      setHeaders: (res, filePath) => {
+        if (filePath.includes(path.join('dist', 'assets'))) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      }
+    }));
+    // SPA 路由回退：index.html 强制协商缓存/无缓存，确保版本发布秒级生效
     app.get('*', (req, res, next) => {
       if (req.path.startsWith('/api')) return next();
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.sendFile(path.join(distDir, 'index.html'));
     });
   } else {
