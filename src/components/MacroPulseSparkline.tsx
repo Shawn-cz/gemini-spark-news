@@ -97,15 +97,15 @@ export const MacroPulseSparkline: React.FC<MacroPulseSparklineProps> = ({ classN
 
   if (isLoading && !pulseData) {
     return (
-      <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl border font-mono text-[11px] animate-pulse ${
+      <div className={`h-[42px] flex items-center gap-2 px-3 rounded-xl border font-mono text-[11px] animate-pulse flex-shrink-0 ${
         isPopDopamine 
-          ? 'bg-white border-slate-900 shadow-[2px_2px_0px_#000]' 
+          ? 'bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#000]' 
           : isIosGlass 
-          ? 'bg-white/80 border-slate-200' 
-          : 'bg-slate-900/60 border-cyan-500/20 text-cyan-400'
+          ? 'bg-white/80 border border-slate-200/80 shadow-sm' 
+          : 'bg-black/40 border border-cyan-500/40 text-cyan-400 shadow-sm'
       } ${className}`}>
         <Activity className="w-3.5 h-3.5 animate-spin" />
-        <span>脉搏测算中...</span>
+        <span className="hidden sm:inline">脉搏测算中...</span>
       </div>
     );
   }
@@ -120,19 +120,19 @@ export const MacroPulseSparkline: React.FC<MacroPulseSparklineProps> = ({ classN
   const gradientId = `pulse-grad-${theme}`;
 
   return (
-    <div className={`hidden lg:flex items-center gap-2.5 px-3 py-1 rounded-xl transition-all relative select-none group border ${
+    <div className={`h-[42px] flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 rounded-xl transition-all relative select-none group border flex-shrink-0 ${
       isPopDopamine
-        ? 'bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#111827] text-slate-900'
-        : isIosGlass
-        ? 'bg-white/80 border border-slate-200/90 shadow-xs text-slate-800'
-        : 'bg-cyan-950/30 border border-cyan-500/40 shadow-[0_0_12px_rgba(0,240,255,0.15)] text-cyan-300'
+        ? 'border-2 border-slate-900 bg-white text-slate-900 shadow-[2px_2px_0px_#000]'
+        : isCyberHud
+        ? 'border border-cyan-500/40 bg-black/40 text-cyan-300 shadow-sm'
+        : 'border border-slate-200/80 bg-white/80 text-slate-800 shadow-sm'
     } ${className}`}>
       
       {/* 头部微指标 */}
       <div className="flex flex-col text-[10px] font-mono leading-tight flex-shrink-0">
         <div className="flex items-center gap-1">
-          <Activity className={`w-3 h-3 ${isPopDopamine ? 'text-pink-600' : isIosGlass ? 'text-blue-600' : 'text-cyan-400'} animate-pulse`} />
-          <span className="font-bold tracking-tight">宏观心电图</span>
+          <Activity className={`w-3.5 h-3.5 ${isPopDopamine ? 'text-pink-600' : isIosGlass ? 'text-blue-600' : 'text-cyan-400'} animate-pulse flex-shrink-0`} />
+          <span className="font-bold tracking-tight hidden sm:inline">宏观心电图</span>
           <span className="font-extrabold text-[12px] ml-0.5">{latestIndex}</span>
         </div>
 
@@ -141,12 +141,12 @@ export const MacroPulseSparkline: React.FC<MacroPulseSparklineProps> = ({ classN
             {isUp ? <TrendingUp className="w-2.5 h-2.5 mr-0.5" /> : <TrendingDown className="w-2.5 h-2.5 mr-0.5" />}
             {isUp ? `+${deltaFromPrevious}` : deltaFromPrevious}
           </span>
-          <span className="text-slate-400 font-sans">({overallMood})</span>
+          <span className="text-slate-400 font-sans hidden sm:inline">({overallMood})</span>
         </div>
       </div>
 
-      {/* 原生 SVG 矢量折线与渐变填充 */}
-      <div className="relative flex-shrink-0 cursor-crosshair">
+      {/* 原生 SVG 矢量折线与渐变填充 (小屏幕保留微指标，>= sm 展现动态折线) */}
+      <div className="relative flex-shrink-0 cursor-crosshair hidden sm:block">
         <svg 
           width={svgWidth} 
           height={svgHeight} 
@@ -198,7 +198,7 @@ export const MacroPulseSparkline: React.FC<MacroPulseSparklineProps> = ({ classN
         {/* 交互 Tooltip 浮窗 */}
         {hoveredPoint && hoverPos && (
           <div 
-            className={`absolute z-50 pointer-events-none p-2 rounded-lg text-[10px] font-mono whitespace-nowrap shadow-xl transition-opacity border -top-16 left-1/2 -translate-x-1/2 ${
+            className={`absolute z-50 pointer-events-none p-2 rounded-lg text-[10px] font-mono whitespace-nowrap shadow-xl transition-opacity border top-full mt-2 right-0 ${
               isPopDopamine
                 ? 'bg-slate-900 text-white border-slate-700'
                 : isIosGlass
@@ -223,3 +223,4 @@ export const MacroPulseSparkline: React.FC<MacroPulseSparklineProps> = ({ classN
     </div>
   );
 };
+

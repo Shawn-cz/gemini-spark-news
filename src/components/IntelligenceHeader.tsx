@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { 
-  Activity, 
   SlidersHorizontal
 } from 'lucide-react';
 import { SparkBatchStatusInfo, NobelQuote } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { MacroPulseSparkline } from './MacroPulseSparkline';
 import { useTheme } from '../context/ThemeContext';
 import { getDailyNobelQuote } from '../utils/nobelQuotes';
 
@@ -33,7 +33,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   currentDate,
 }) => {
   const isRunning = statusInfo?.status === 'RUNNING';
-  const sentimentScore = statusInfo?.globalSentimentIndex ?? 28;
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
   const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
@@ -43,16 +42,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
 
   // 判定当前名言数据（优先使用外部传入，其次状态对象，最后离线保底）
   const activeQuote: NobelQuote = nobelQuote || statusInfo?.nobelQuote || getDailyNobelQuote();
-
-  // 极性指标判定
-  const getPulseMeta = (score: number) => {
-    if (score >= 30) return { label: '显著积极', en: 'Risk-On', color: isIosGlass ? 'text-emerald-600' : isPopDopamine ? 'text-emerald-600' : 'text-emerald-400', bar: 'bg-emerald-500' };
-    if (score >= 0) return { label: '谨慎乐观', en: 'Mild Optimism', color: isIosGlass ? 'text-cyan-600' : isPopDopamine ? 'text-cyan-600' : 'text-cyan-400', bar: 'bg-cyan-500' };
-    if (score >= -30) return { label: '中性观望', en: 'Neutral Watch', color: isIosGlass ? 'text-slate-500' : isPopDopamine ? 'text-slate-600' : 'text-slate-400', bar: 'bg-slate-500' };
-    return { label: '避险预警', en: 'Risk-Off', color: isIosGlass ? 'text-rose-600' : isPopDopamine ? 'text-rose-600' : 'text-rose-400', bar: 'bg-rose-500' };
-  };
-
-  const pulse = getPulseMeta(sentimentScore);
 
   return (
     <header className={`sticky top-0 z-30 backdrop-blur-xl transition-colors border-b ${
@@ -260,36 +249,8 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               )}
             </div>
 
-            {/* 2. 全球宏观情绪极性指标 (与名言胶囊严格统一度量衡 h-[42px]) */}
-            <div 
-              className={`header-sentiment-capsule h-[42px] inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 rounded-xl border text-xs font-mono flex-shrink-0 transition-all ${
-                isPopDopamine
-                  ? 'border-2 border-slate-900 bg-white text-slate-900 shadow-[2px_2px_0px_#000]'
-                  : isCyberHud
-                  ? 'border border-cyan-500/40 bg-black/40 text-cyan-300 shadow-sm'
-                  : 'border border-slate-200/80 bg-white/80 text-slate-800 shadow-sm'
-              }`}
-              title={`全球宏观情绪极性: ${sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`} (${pulse.label} / ${pulse.en})`}
-            >
-              <Activity className={`w-3.5 h-3.5 flex-shrink-0 ${pulse.color} animate-pulse`} />
-              <span className={`text-[10px] uppercase tracking-wider hidden sm:inline ${
-                isPopDopamine ? 'text-slate-600 font-bold' : isCyberHud ? 'text-slate-400' : 'text-slate-500'
-              }`}>情绪脉搏:</span>
-              <span className={`font-black ${pulse.color} text-xs`}>
-                {sentimentScore > 0 ? `+${sentimentScore}%` : `${sentimentScore}%`}
-              </span>
-              <span className={`font-semibold text-[11px] whitespace-nowrap hidden xs:inline ${
-                isPopDopamine ? 'text-slate-800' : isCyberHud ? 'text-slate-300' : 'text-slate-700'
-              }`}>{pulse.label}</span>
-              <div className={`w-8 sm:w-10 rounded-full h-1 overflow-hidden hidden sm:block flex-shrink-0 ${
-                isPopDopamine ? 'bg-slate-200' : isCyberHud ? 'bg-slate-800' : 'bg-slate-200'
-              }`}>
-                <div
-                  className={`h-full rounded-full ${pulse.bar}`}
-                  style={{ width: `${Math.min(100, Math.max(10, Math.abs(sentimentScore)))}%` }}
-                />
-              </div>
-            </div>
+            {/* 2. 宏观情绪与板块热度跨期心电图 (统一严格度量衡 h-[42px]) */}
+            <MacroPulseSparkline />
 
           </div>
 

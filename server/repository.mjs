@@ -974,6 +974,7 @@ export async function getMacroPulseTrends(days = 7) {
         items = await NewsItemModel.find({ batchDate: d }).lean();
       } catch (err) {
         console.warn(`[Repository] MongoDB 获取 [${d}] 批次聚合失败 (${err.message})，降级为本地`);
+        isMongoConnected = false;
       }
     }
 

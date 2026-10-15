@@ -413,6 +413,16 @@ html, body {
   box-shadow: 1px 1px 0px #000000 !important;
 }
 
+.filter-sentiment-container {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.filter-sentiment-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
 [data-theme="light"] .filter-sentiment-container {
   border-left-color: rgba(0, 0, 0, 0.2) !important;
 }
