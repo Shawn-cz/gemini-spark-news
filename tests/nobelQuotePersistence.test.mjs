@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { app } from '../server/mock-server.mjs';
+import { getEffectiveAdminKey } from '../server/middleware/adminAuth.mjs';
 import { getDailyNobelQuote, NOBEL_QUOTES_ARCHIVE } from '../server/services/nobelQuoteService.mjs';
 import { saveBriefing, getBatchStatus, getNewsList } from '../server/repository.mjs';
 
@@ -125,9 +126,9 @@ describe('Nobel Quote Pipeline & Persistence Suite', () => {
     const TEST_DATE_3 = '2099-01-03';
     const TEST_FILE_3 = path.resolve(__dirname, `../data/briefings/${TEST_DATE_3}.json`);
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
-    const adminKey = process.env.ADMIN_KEY || 'default-dev-admin-key-2026';
+    const adminKey = getEffectiveAdminKey();
 
     const webhookPayload = {
       date: TEST_DATE_3,
@@ -155,7 +156,7 @@ describe('Nobel Quote Pipeline & Persistence Suite', () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

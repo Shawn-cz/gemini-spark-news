@@ -9,11 +9,11 @@ describe('AdminAuthGuard Middleware', () => {
     const app = express();
     app.post('/api/admin-action', adminAuthGuard, (req, res) => res.json({ ok: true }));
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/admin-action`, { method: 'POST' });
+      const res = await fetch(`http://127.0.0.1:${port}/api/admin-action`, { method: 'POST' });
       assert.strictEqual(res.status, 401);
       const body = await res.json();
       assert.strictEqual(body.code, 401);
@@ -29,11 +29,11 @@ describe('AdminAuthGuard Middleware', () => {
     const app = express();
     app.post('/api/admin-action', adminAuthGuard, (req, res) => res.json({ ok: true }));
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/admin-action`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/admin-action`, {
         method: 'POST',
         headers: { 'X-Admin-Key': 'wrong-password-123' }
       });
@@ -47,12 +47,12 @@ describe('AdminAuthGuard Middleware', () => {
     const app = express();
     app.post('/api/admin-action', adminAuthGuard, (req, res) => res.json({ ok: true }));
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
       const effectiveKey = getEffectiveAdminKey();
-      const res = await fetch(`http://localhost:${port}/api/admin-action`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/admin-action`, {
         method: 'POST',
         headers: { 'X-Admin-Key': `  ${effectiveKey}  ` }
       });
@@ -68,13 +68,13 @@ describe('AdminAuthGuard Middleware', () => {
     const app = express();
     app.post('/api/admin-action', adminAuthGuard, (req, res) => res.json({ ok: true }));
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
       const effectiveKey = getEffectiveAdminKey();
       // 测试小写 bearer
-      const res = await fetch(`http://localhost:${port}/api/admin-action`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/admin-action`, {
         method: 'POST',
         headers: { 'Authorization': `bearer ${effectiveKey}` }
       });
@@ -90,11 +90,11 @@ describe('AdminAuthGuard Middleware', () => {
     const app = express();
     app.post('/api/admin-action', adminAuthGuard, (req, res) => res.json({ ok: true }));
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/admin-action`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/admin-action`, {
         method: 'POST',
         headers: { 'Authorization': 'Basic dXNlcjpwYXNz' }
       });

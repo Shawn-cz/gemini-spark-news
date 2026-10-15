@@ -17,7 +17,7 @@ describe('RateLimiter Middleware', () => {
     });
 
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     let hit429 = false;
@@ -26,7 +26,7 @@ describe('RateLimiter Middleware', () => {
 
     // 敏感限流设为 10次/分，连续发送 15 次请求
     for (let i = 0; i < 15; i++) {
-      const res = await fetch(`http://localhost:${port}/api/test-limit`, { method: 'POST' });
+      const res = await fetch(`http://127.0.0.1:${port}/api/test-limit`, { method: 'POST' });
       if (res.status === 429) {
         hit429 = true;
         rateLimitBody = await res.json();
@@ -53,17 +53,17 @@ describe('RateLimiter Middleware', () => {
     app.get('/api/spark/stream', (req, res) => res.json({ stream: 'active' }));
 
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     // 连续多次请求健康检查与 SSE 保活端点，均应正常响应 200
     for (let i = 0; i < 10; i++) {
-      const healthRes = await fetch(`http://localhost:${port}/api/health`);
+      const healthRes = await fetch(`http://127.0.0.1:${port}/api/health`);
       assert.strictEqual(healthRes.status, 200);
       const healthJson = await healthRes.json();
       assert.strictEqual(healthJson.status, 'ok');
 
-      const streamRes = await fetch(`http://localhost:${port}/api/spark/stream`);
+      const streamRes = await fetch(`http://127.0.0.1:${port}/api/spark/stream`);
       assert.strictEqual(streamRes.status, 200);
       const streamJson = await streamRes.json();
       assert.strictEqual(streamJson.stream, 'active');

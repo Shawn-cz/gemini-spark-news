@@ -27,11 +27,11 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('未提供鉴权密钥时应返回 HTTP 401', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: [] })
@@ -47,11 +47,11 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('提供错误鉴权密钥 (wrong-secret-key) 时应安全拦截并返回 HTTP 401', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,11 +70,11 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('鉴权通过但 payload 为空 items: [] 时应返回 HTTP 400', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('支持通过 X-Admin-Key 请求头鉴权并成功接收纯净 JSON 简报', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     const mockDate = '2026-09-28';
@@ -120,7 +120,7 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('支持直接传入 Content-Type: text/plain 的原始 Markdown 文本并成功清洗入库 (HTTP 200)', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     const mockDate = '2026-09-30';
@@ -172,7 +172,7 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 `;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
@@ -192,7 +192,7 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('支持通过 URL Query ?key= 鉴权并容错清洗包含 ```json Markdown 代码块的内容', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     const mockDate = '2026-09-29';
@@ -224,7 +224,7 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 `;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest?key=${TEST_KEY}`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest?key=${TEST_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ rawContent: rawMarkdownText })
@@ -241,11 +241,11 @@ describe('Gemini Spark Webhook Ingest Endpoint', () => {
 
   it('投递无任何有效新闻条目时应拦截并返回 HTTP 400', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/webhook/ingest?key=${TEST_KEY}`, {
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/webhook/ingest?key=${TEST_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ rawContent: '这不是一个合法的简报' })

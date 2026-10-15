@@ -32,11 +32,11 @@ describe('Available Dates Repository Layer', () => {
 describe('Available Dates API Endpoint', () => {
   it('GET /api/spark/available-dates 应当返回 HTTP 200 与结构化数据', async () => {
     const server = http.createServer(app);
-    await new Promise(r => server.listen(0, r));
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
     const port = server.address().port;
 
     try {
-      const res = await fetch(`http://localhost:${port}/api/spark/available-dates`);
+      const res = await fetch(`http://127.0.0.1:${port}/api/spark/available-dates`);
       assert.strictEqual(res.status, 200);
       const json = await res.json();
       assert.strictEqual(json.code, 200);

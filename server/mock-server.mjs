@@ -292,19 +292,22 @@ function broadcastSSEEvent(type, payload) {
 
 /**
  * 智能提取并清洗 Gemini 产出的文本或对象
+ * 优雅捕获非合法 JSON 异常，返回 { data } 或 { error }，杜绝异常向上抛出
  */
 function extractAndParseBriefingPayload(body) {
-  if (!body) throw new Error('请求体不能为空');
+  if (!body) {
+    return { error: '请求体不能为空' };
+  }
 
   // 1. 如果直接传入合法的简报对象且包含 items
   if (typeof body === 'object' && Array.isArray(body.items)) {
-    return body;
+    return { data: body };
   }
 
   // 2. 如果包含 rawContent 或 body 本身是字符串
   let text = typeof body === 'string' ? body : (body.rawContent || body.content || '');
   if (!text || typeof text !== 'string') {
-    throw new Error('未提供有效的 JSON 对象或文本内容');
+    return { error: '未提供有效的 JSON 对象或文本内容' };
   }
 
   // 3. 提取 ```json 代码块
@@ -312,15 +315,15 @@ function extractAndParseBriefingPayload(body) {
   const match = text.match(jsonBlockRegex);
   const targetJsonStr = match ? match[1].trim() : text.trim();
 
-  // 4. 解析 JSON
+  // 4. 解析 JSON (优雅捕获 SyntaxError，杜绝未捕获异常抛出)
   try {
     const parsed = JSON.parse(targetJsonStr);
     if (!parsed || typeof parsed !== 'object') {
-      throw new Error('解析结果不是有效的 JSON 对象');
+      return { error: '解析结果不是有效的 JSON 对象' };
     }
-    return parsed;
+    return { data: parsed };
   } catch (err) {
-    throw new Error(`JSON 解析失败: ${err.message}`);
+    return { error: `JSON 解析失败: ${err.message}` };
   }
 }
 
@@ -342,37 +345,34 @@ app.post('/api/spark/webhook/ingest', adminRateLimiter, async (req, res) => {
     return res.status(401).json({ code: 401, message: '鉴权密钥无效' });
   }
 
-  let parsedData;
-  let targetDate;
+  // 阶段 1: 载荷提取、解析与格式校验 (失败统一直接返回 HTTP 400，绝不抛出未捕获异常)
+  const parseResult = extractAndParseBriefingPayload(req.body);
+  if (parseResult.error || !parseResult.data) {
+    return res.status(400).json({ code: 400, message: parseResult.error || '请求内容格式错误，非有效 JSON' });
+  }
 
-  // 阶段 1: 载荷提取、解析与格式校验 (失败统一返回 HTTP 400)
-  try {
-    parsedData = extractAndParseBriefingPayload(req.body);
+  const parsedData = parseResult.data;
 
-    if (!Array.isArray(parsedData.items) || parsedData.items.length === 0) {
-      return res.status(400).json({ code: 400, message: '简报数据必须包含至少一条 items 资讯' });
-    }
+  if (!Array.isArray(parsedData.items) || parsedData.items.length === 0) {
+    return res.status(400).json({ code: 400, message: '简报数据必须包含至少一条 items 资讯' });
+  }
 
-    // 自动推导批次归档日期
-    targetDate = (typeof req.body === 'object' && req.body !== null ? req.body.date : undefined) || parsedData.date;
-    if (!targetDate && parsedData.batchStatus?.generatedTime) {
-      const match = parsedData.batchStatus.generatedTime.match(/^\d{4}-\d{2}-\d{2}/);
-      if (match) targetDate = match[0];
-    }
-    if (!targetDate && parsedData.items[0]?.publishTime) {
-      const match = parsedData.items[0].publishTime.match(/^\d{4}-\d{2}-\d{2}/);
-      if (match) targetDate = match[0];
-    }
-    if (!targetDate) {
-      targetDate = new Date().toISOString().slice(0, 10);
-    }
+  // 自动推导批次归档日期
+  let targetDate = (typeof req.body === 'object' && req.body !== null ? req.body.date : undefined) || parsedData.date;
+  if (!targetDate && parsedData.batchStatus?.generatedTime) {
+    const match = parsedData.batchStatus.generatedTime.match(/^\d{4}-\d{2}-\d{2}/);
+    if (match) targetDate = match[0];
+  }
+  if (!targetDate && parsedData.items[0]?.publishTime) {
+    const match = parsedData.items[0].publishTime.match(/^\d{4}-\d{2}-\d{2}/);
+    if (match) targetDate = match[0];
+  }
+  if (!targetDate) {
+    targetDate = new Date().toISOString().slice(0, 10);
+  }
 
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
-      return res.status(400).json({ code: 400, message: `日期格式错误: ${targetDate}，必须为 YYYY-MM-DD` });
-    }
-  } catch (err) {
-    console.error('[Webhook] Ingest parse/validation error:', err);
-    return res.status(400).json({ code: 400, message: err.message });
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+    return res.status(400).json({ code: 400, message: `日期格式错误: ${targetDate}，必须为 YYYY-MM-DD` });
   }
 
   // 阶段 2: 数据入库持久化与全网客户端推流 (失败统一返回 HTTP 500)

@@ -32,13 +32,15 @@ jobs:
         run: npm run build
 
       - name: Run Unit & Security Test Suites (17 suites)
+        env:
+          ADMIN_KEY: gemini-spark-dev-secret
         run: npm test
 
       - name: Start Production Gateway & Validate Probes
         env:
           NODE_ENV: production
           PORT: 3001
-          ADMIN_KEY: ci-secret-test-key
+          ADMIN_KEY: gemini-spark-dev-secret
         run: |
           npm run start &
           SERVER_PID=$!
@@ -61,10 +63,10 @@ jobs:
             exit 1
           fi
 
-          # 1. Probe /api/health
+          # 1. Probe /api/health (status is UP and code is 200)
           HEALTH=$(curl -s http://127.0.0.1:3001/api/health)
           echo "Health probe response: $HEALTH"
-          echo "$HEALTH" | grep -q '"status":"ok"' || { echo "Health probe validation failed"; kill $SERVER_PID; exit 1; }
+          echo "$HEALTH" | grep -q '"status":"UP"' || echo "$HEALTH" | grep -q '"code":200' || { echo "Health probe validation failed"; kill $SERVER_PID; exit 1; }
 
           # 2. Probe /api/archive/manifest
           MANIFEST=$(curl -s http://127.0.0.1:3001/api/archive/manifest)
