@@ -26,11 +26,11 @@ export interface IntelligenceHeaderProps {
 
 export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   statusInfo,
-  isSyncing,
+  isSyncing: _isSyncing,
   onOpenDevTools,
   nobelQuote,
   onShuffleQuote,
-  currentDate,
+  currentDate: _currentDate,
 }) => {
   const isRunning = statusInfo?.status === 'RUNNING';
   const { theme } = useTheme();

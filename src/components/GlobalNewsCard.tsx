@@ -10,8 +10,7 @@ import {
   ExternalLink,
   Calendar,
   Sparkles,
-  Bookmark,
-  ArrowRight
+  Bookmark
 } from 'lucide-react';
 import { GlobalNewsItem, CategoryType, ImpactLevel } from '../types/news';
 import { useTheme } from '../context/ThemeContext';
@@ -35,7 +34,6 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
   const { theme } = useTheme();
   const isIosGlass = theme === 'ios-glass' || theme === 'light';
   const isPopDopamine = theme === 'pop-dopamine' || theme === 'dopamine';
-  const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
 
   // 领域图标与色彩配置
   const getCategoryMeta = (cat: CategoryType) => {
@@ -86,12 +84,6 @@ export const GlobalNewsCard: React.FC<GlobalNewsCardProps> = ({
   const scoreFormatted = news.sentimentScore > 0 
     ? `+${Math.round(news.sentimentScore * 100)}%` 
     : `${Math.round(news.sentimentScore * 100)}%`;
-
-  const scoreColor = news.sentimentScore > 0.2 
-    ? 'text-emerald-400' 
-    : news.sentimentScore < -0.2 
-    ? 'text-rose-400' 
-    : 'text-slate-400';
 
   const formatPublishTime = (timeStr: string) => {
     try {

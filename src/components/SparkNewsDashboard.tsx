@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { 
   AlertTriangle, 
   RotateCw, 
-  Inbox, 
   WifiOff, 
-  Radio,
   Bookmark,
   Sparkles,
   Search
@@ -88,7 +86,6 @@ export const SparkNewsDashboard: React.FC = () => {
   // 跨期历史全文检索状态 (Zero-Dead-End 二级穿透)
   const [isCrossSearching, setIsCrossSearching] = useState<boolean>(false);
   const [crossSearchResults, setCrossSearchResults] = useState<GlobalNewsItem[] | null>(null);
-  const [crossSearchError, setCrossSearchError] = useState<string | null>(null);
 
   const rawBatchNewsRef = useRef(rawBatchNews);
   useEffect(() => {
@@ -108,7 +105,6 @@ export const SparkNewsDashboard: React.FC = () => {
 
   // 4. 引用持久化，防止竞态条件与内存泄漏
   const abortControllerRef = useRef<AbortController | null>(null);
-  const silentTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
@@ -626,7 +622,6 @@ export const SparkNewsDashboard: React.FC = () => {
   const handleCrossArchiveSearch = useCallback(async () => {
     if (!search || !search.trim()) return;
     setIsCrossSearching(true);
-    setCrossSearchError(null);
     try {
       const res = await fetch(`/api/news/search?q=${encodeURIComponent(search.trim())}&limit=20`);
       if (!res.ok) throw new Error(`跨期检索失败 (HTTP ${res.status})`);
@@ -641,8 +636,7 @@ export const SparkNewsDashboard: React.FC = () => {
       } else {
         throw new Error(body.message || '跨期检索响应异常');
       }
-    } catch (err: any) {
-      setCrossSearchError(err.message || '跨期检索网络超时');
+    } catch {
       showToast('跨期历史检索失败，请稍后重试');
     } finally {
       setIsCrossSearching(false);
@@ -656,7 +650,6 @@ export const SparkNewsDashboard: React.FC = () => {
     setSearch('');
     setPage(1);
     setCrossSearchResults(null);
-    setCrossSearchError(null);
   };
 
   const handleFinishTransition = useCallback(() => {

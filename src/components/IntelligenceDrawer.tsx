@@ -1,23 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { 
-  X, 
-  Cpu, 
-  Tag, 
-  ShieldCheck, 
   Share2, 
-  Calendar, 
   Globe2,
-  Bookmark,
   ExternalLink,
-  Flame,
-  AlertTriangle,
-  Sparkles,
   Bot,
   TrendingUp,
   Zap,
-  Layers,
-  Radio,
-  FileText
+  Layers
 } from 'lucide-react';
 import { GlobalNewsItem, CategoryType, ImpactLevel } from '../types/news';
 import { isNewsBookmarked, toggleBookmarkStorage } from '../services/bookmarkStorage';
@@ -55,7 +44,6 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
   onShowToast,
   onSelectNews
 }) => {
-  const [imgError, setImgError] = useState(false);
   const [internalBookmarked, setInternalBookmarked] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [timelineEvents, setTimelineEvents] = useState<TimelineRelatedEvent[]>([]);
@@ -164,7 +152,7 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
     const targetTitle = news.title;
     const scrambleInterval = setInterval(() => {
       setScrambledTitle(
-        targetTitle.split('').map((char, index) => {
+        targetTitle.split('').map((_, index) => {
           if (index < iter) return targetTitle[index];
           return chars[Math.floor(Math.random() * chars.length)];
         }).join('')
@@ -234,7 +222,6 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
 
   // 当 news 改变时启动全息动效
   useEffect(() => {
-    setImgError(false);
     if (news) {
       if (typeof externalIsBookmarked === 'boolean') {
         setInternalBookmarked(externalIsBookmarked);
@@ -293,7 +280,6 @@ export const IntelligenceDrawer: React.FC<IntelligenceDrawerProps> = ({
   };
 
   const catMeta = getCategoryMeta(news.category);
-  const CatIcon = catMeta.icon;
   const sections = getStructuredSections();
 
   const scoreFormatted = news.sentimentScore > 0 

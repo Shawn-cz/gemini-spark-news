@@ -59,6 +59,9 @@ export interface SparkBatchStatusInfo {
   batchNewsCount: number;
   globalSentimentIndex?: number; // 全球宏观情绪极性指标 -100 到 +100
   nobelQuote?: NobelQuote;
+  isFallback?: boolean;
+  fallbackNotice?: string;
+  effectiveDate?: string;
 }
 
 export interface NewsQueryParams {

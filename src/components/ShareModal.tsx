@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, QrCode, Copy, Check, MessageSquare, ExternalLink, Share2, Smartphone, CheckCircle2 } from 'lucide-react';
+import { X, Copy, Check, MessageSquare, ExternalLink, Share2, Smartphone, CheckCircle2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { GlobalNewsItem } from '../types/news';
 

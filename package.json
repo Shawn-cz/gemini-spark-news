@@ -8,9 +8,12 @@
     "dev": "concurrently -k -p \"[{name}]\" -n \"MOCK,VITE\" -c \"yellow.bold,cyan.bold\" \"npm run mock\" \"npm run vite\"",
     "vite": "vite --host 0.0.0.0",
     "mock": "node server/mock-server.mjs",
+    "start": "node server/mock-server.mjs",
     "db:seed": "node scripts/seed-mongo.mjs",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/adminAuth.test.mjs tests/apiEndpoints.test.mjs tests/archiveManifest.test.mjs tests/availableDates.test.mjs tests/bookmarkStorage.test.mjs tests/clientBatchFiltering.test.mjs tests/crossArchiveSearch.test.mjs tests/dateGrouping.test.mjs tests/eventTimeline.test.mjs tests/geminiSparkAgent.test.mjs tests/macroPulse.test.mjs tests/nobelQuotePersistence.test.mjs tests/rateLimiter.test.mjs tests/scheduler.test.mjs tests/serverSecurityIntegration.test.mjs tests/sseManager.test.mjs tests/webhookIngest.test.mjs",
+    "test:e2e": "node scripts/verify-mvp5-features.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

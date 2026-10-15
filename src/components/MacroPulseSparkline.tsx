@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { TrendingUp, TrendingDown, Activity, Sparkles } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export interface PulseTrendPoint {
@@ -186,9 +186,8 @@ export const MacroPulseSparkline: React.FC<MacroPulseSparklineProps> = ({ classN
               stroke={strokeColor}
               strokeWidth={1.5}
               className="transition-transform hover:scale-150 cursor-pointer"
-              onMouseEnter={(e) => {
+              onMouseEnter={() => {
                 setHoveredPoint(pt.data);
-                const rect = e.currentTarget.getBoundingClientRect();
                 setHoverPos({ x: pt.x, y: pt.y });
               }}
             />
