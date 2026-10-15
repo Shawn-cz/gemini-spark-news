@@ -6,7 +6,8 @@ import {
   WifiOff, 
   Radio,
   Bookmark,
-  Sparkles
+  Sparkles,
+  Search
 } from 'lucide-react';
 import { 
   GlobalNewsItem, 
@@ -83,6 +84,11 @@ export const SparkNewsDashboard: React.FC = () => {
   const [statusInfo, setStatusInfo] = useState<SparkBatchStatusInfo | null>(null);
   const [nobelQuote, setNobelQuote] = useState<NobelQuote>(() => getDailyNobelQuote(selectedDate));
   const [selectedNews, setSelectedNews] = useState<GlobalNewsItem | null>(null);
+
+  // 跨期历史全文检索状态 (Zero-Dead-End 二级穿透)
+  const [isCrossSearching, setIsCrossSearching] = useState<boolean>(false);
+  const [crossSearchResults, setCrossSearchResults] = useState<GlobalNewsItem[] | null>(null);
+  const [crossSearchError, setCrossSearchError] = useState<string | null>(null);
 
   const rawBatchNewsRef = useRef(rawBatchNews);
   useEffect(() => {
@@ -616,12 +622,41 @@ export const SparkNewsDashboard: React.FC = () => {
     showToast(`已无损切换至往期批次 [${prevDate}]`);
   };
 
+  // 跨期历史全文深度检索 (Zero-Dead-End 二级穿透)
+  const handleCrossArchiveSearch = useCallback(async () => {
+    if (!search || !search.trim()) return;
+    setIsCrossSearching(true);
+    setCrossSearchError(null);
+    try {
+      const res = await fetch(`/api/news/search?q=${encodeURIComponent(search.trim())}&limit=20`);
+      if (!res.ok) throw new Error(`跨期检索失败 (HTTP ${res.status})`);
+      const body = await res.json();
+      if (body.code === 200 && body.data) {
+        setCrossSearchResults(body.data.items || []);
+        if ((body.data.items || []).length === 0) {
+          showToast(`全部历史归档中暂无与「${search.trim()}」相关的研报`);
+        } else {
+          showToast(`跨时空命中 ${body.data.items.length} 篇历史智库研报`);
+        }
+      } else {
+        throw new Error(body.message || '跨期检索响应异常');
+      }
+    } catch (err: any) {
+      setCrossSearchError(err.message || '跨期检索网络超时');
+      showToast('跨期历史检索失败，请稍后重试');
+    } finally {
+      setIsCrossSearching(false);
+    }
+  }, [search, showToast]);
+
   // 重置筛选
   const handleResetFilter = () => {
     setCategory('all');
     setSentiment('all');
     setSearch('');
     setPage(1);
+    setCrossSearchResults(null);
+    setCrossSearchError(null);
   };
 
   const handleFinishTransition = useCallback(() => {
@@ -679,7 +714,7 @@ export const SparkNewsDashboard: React.FC = () => {
           availableDates={availableDates.length > 0 ? availableDates : (statusInfo?.availableDates || [selectedDate])}
           onSelectDate={handleDateChange}
           searchValue={search}
-          onSearchChange={(val) => { setSearch(val); setPage(1); }}
+          onSearchChange={(val) => { setSearch(val); setPage(1); setCrossSearchResults(null); }}
           stats={currentStats}
           bookmarkCount={bookmarks.length}
           isLoading={isSilentRefreshing || isInitialLoading}
@@ -815,7 +850,7 @@ export const SparkNewsDashboard: React.FC = () => {
           <div className="space-y-6">
             <div className={`glass-card rounded-2xl p-6 sm:p-8 border transition-all ${
               isPopDopamine
-                ? 'bg-white border-[3px] border-slate-900 shadow-[4px_4px_0px_#000]'
+                ? 'bg-white border border-slate-900 shadow-[0_0_0_2px_#0f172a,4px_4px_0px_#000]'
                 : isIosGlass
                 ? 'bg-white/95 border-slate-200 shadow-md'
                 : 'border-cyan-500/30 bg-slate-900/60 shadow-[0_0_20px_rgba(0,240,255,0.1)]'
@@ -835,33 +870,86 @@ export const SparkNewsDashboard: React.FC = () => {
                     <h3 className={`text-sm sm:text-base font-bold font-mono ${
                       isPopDopamine || isIosGlass ? 'text-slate-900' : 'text-white'
                     }`}>
-                      当前筛选暂无匹配项 · 为您推荐今日全领域核心头条
+                      {crossSearchResults !== null
+                        ? (crossSearchResults.length > 0 
+                            ? `🔎 跨期深度检索命中（共 ${crossSearchResults.length} 篇）· 跨时空历史穿透` 
+                            : `全历史归档未命中 · 为您推荐今日重磅头条`)
+                        : '当前筛选暂无匹配项 · 智能推荐与跨期穿透'}
                     </h3>
                     <p className={`text-xs mt-1 font-mono leading-relaxed ${
                       isPopDopamine || isIosGlass ? 'text-slate-600' : 'text-slate-400'
                     }`}>
-                      在当前条件「{category !== 'all' ? (category === 'bookmarks' ? '我的收藏' : category) : '全领域'}{search ? ` · 搜索: ${search}` : ''}{sentiment !== 'all' ? ` · 情绪: ${sentiment}` : ''}」下未检索到条目，已自动为您精选今日重磅前沿内参：
+                      在当前条件「{category !== 'all' ? (category === 'bookmarks' ? '我的收藏' : category) : '全领域'}{search ? ` · 搜索: ${search}` : ''}{sentiment !== 'all' ? ` · 情绪: ${sentiment}` : ''}」下未检索到条目。
+                      {search && crossSearchResults === null && ' 您可点击右侧按钮发起跨全部历史归档深度检索，或浏览今日核心头条：'}
                     </p>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleResetFilter}
-                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl whitespace-nowrap transition-all flex-shrink-0 cursor-pointer ${
-                    isPopDopamine
-                      ? 'bg-pink-500 text-white border-2 border-slate-900 shadow-[2px_2px_0px_#000] hover:translate-y-[-1px]'
-                      : isIosGlass
-                      ? 'text-white bg-blue-600 hover:bg-blue-700 shadow-sm'
-                      : 'text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800'
-                  }`}
-                >
-                  重置筛选 · 浏览全领域
-                </button>
+
+                <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                  {search && search.trim() && (
+                    <button
+                      type="button"
+                      disabled={isCrossSearching}
+                      onClick={handleCrossArchiveSearch}
+                      className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
+                        isCrossSearching ? 'opacity-60 cursor-not-allowed' : ''
+                      } ${
+                        isPopDopamine
+                          ? 'bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_#000] hover:bg-amber-400'
+                          : isIosGlass
+                          ? 'text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 shadow-sm'
+                          : 'text-cyan-300 bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/60 shadow-[0_0_15px_rgba(0,240,255,0.2)]'
+                      }`}
+                    >
+                      <Search className="w-3.5 h-3.5" />
+                      <span>{isCrossSearching ? '正在跨期穿透检索...' : `🔍 跨越全部 ${availableDates.length || '多'} 期历史深度检索「${search}」`}</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleResetFilter}
+                    className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl whitespace-nowrap transition-all flex-shrink-0 cursor-pointer ${
+                      isPopDopamine
+                        ? 'bg-pink-500 text-white border-2 border-slate-900 shadow-[2px_2px_0px_#000] hover:translate-y-[-1px]'
+                        : isIosGlass
+                        ? 'text-white bg-blue-600 hover:bg-blue-700 shadow-sm'
+                        : 'text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-800'
+                    }`}
+                  >
+                    重置筛选 · 浏览全领域
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* 直接呈现核心头条推荐流，杜绝任何形式的空白死胡同 */}
-            {recommendedHeadlineItems.length > 0 && (
+            {/* 若跨期检索成功且有结果，直接呈现跨期研报结果流 */}
+            {crossSearchResults !== null && crossSearchResults.length > 0 ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                    <span>跨时空命中研报档案（点击卡片即可查看或切换批次）：</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setCrossSearchResults(null)}
+                    className="text-cyan-400 hover:underline cursor-pointer"
+                  >
+                    返回今日推荐 ↩
+                  </button>
+                </div>
+                <BentoView
+                  items={crossSearchResults}
+                  loading={false}
+                  onSelectNews={(news) => setSelectedNews(news)}
+                  onResetFilter={handleResetFilter}
+                  bookmarkedIdSet={bookmarkedIdSet}
+                  onToggleBookmark={handleToggleBookmark}
+                />
+              </div>
+            ) : recommendedHeadlineItems.length > 0 ? (
+              /* 默认：直接呈现核心头条推荐流，杜绝任何形式的空白死胡同 */
               <BentoView
                 items={recommendedHeadlineItems}
                 loading={false}
@@ -870,7 +958,7 @@ export const SparkNewsDashboard: React.FC = () => {
                 bookmarkedIdSet={bookmarkedIdSet}
                 onToggleBookmark={handleToggleBookmark}
               />
-            )}
+            ) : null}
           </div>
         ) : (
           /* 正常呈现新闻卡片流 (支持 Bento / Matrix / Timeline 视图) */

@@ -738,6 +738,75 @@ export async function getNewsById(id) {
 }
 
 /**
+ * 跨越所有历史归档批次执行全文深度检索 (Zero-Dead-End 二级穿透)
+ */
+export async function searchCrossArchiveNews({ query = '', limit = 20 } = {}) {
+  const trimmed = (typeof query === 'string' ? query.trim() : '');
+  if (!trimmed) {
+    return { query: '', total: 0, items: [] };
+  }
+
+  const qLower = trimmed.toLowerCase();
+  const maxLimit = Math.min(Math.max(1, parseInt(limit, 10) || 20), 50);
+
+  // A. MongoDB Atlas 模式
+  if (isMongoConnected) {
+    try {
+      const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'i');
+      const docs = await NewsItemModel.find({
+        $or: [
+          { title: regex },
+          { englishTitle: regex },
+          { summary: regex },
+          { tags: regex },
+          { nlpKeyEntities: regex }
+        ]
+      })
+      .sort({ batchDate: -1, publishTime: -1 })
+      .limit(maxLimit)
+      .lean();
+
+      const items = docs.map(d => ({
+        ...d,
+        briefingDate: d.batchDate || d.publishTime?.slice(0, 10) || ''
+      }));
+
+      return { query: trimmed, total: items.length, items };
+    } catch (err) {
+      console.warn(`[Repository] 跨期搜索 MongoDB 失败 (${err.message})，降级为本地`);
+    }
+  }
+
+  // B. 本地文件/内存降级模式
+  const { dates } = await getAvailableBriefingDates();
+  const matched = [];
+
+  for (const d of dates) {
+    const local = readLocalBriefingFile(d);
+    const list = local ? local.items : (memoryNewsStore[d] || []);
+    for (const item of list) {
+      const matchTitle = typeof item.title === 'string' && item.title.toLowerCase().includes(qLower);
+      const matchEnTitle = typeof item.englishTitle === 'string' && item.englishTitle.toLowerCase().includes(qLower);
+      const matchSummary = typeof item.summary === 'string' && item.summary.toLowerCase().includes(qLower);
+      const matchTags = Array.isArray(item.tags) && item.tags.some(t => typeof t === 'string' && t.toLowerCase().includes(qLower));
+      const matchEntities = Array.isArray(item.nlpKeyEntities) && item.nlpKeyEntities.some(e => typeof e === 'string' && e.toLowerCase().includes(qLower));
+
+      if (matchTitle || matchEnTitle || matchSummary || matchTags || matchEntities) {
+        matched.push({
+          ...item,
+          briefingDate: item.batchDate || d
+        });
+        if (matched.length >= maxLimit) break;
+      }
+    }
+    if (matched.length >= maxLimit) break;
+  }
+
+  return { query: trimmed, total: matched.length, items: matched };
+}
+
+/**
  * 保存/导入 Gemini Spark 简报
  */
 export async function saveBriefing(date, rawData) {

@@ -17,7 +17,8 @@ import {
   toggleBatchStatus,
   getAvailableBriefingDates,
   getArchiveManifest,
-  invalidateArchiveManifestCache
+  invalidateArchiveManifestCache,
+  searchCrossArchiveNews
 } from './repository.mjs';
 import {
   getActiveModel,
@@ -163,6 +164,23 @@ app.get('/api/news', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] /api/news error:', err);
+    res.status(500).json({ code: 500, message: err.message });
+  }
+});
+
+// 接口 2.0: 跨越所有历史归档批次执行全文深度检索 (Zero-Dead-End 二级穿透)
+app.get('/api/news/search', async (req, res) => {
+  try {
+    const { q = '', query = '', limit = 20 } = req.query;
+    const searchParam = q || query;
+    const result = await searchCrossArchiveNews({ query: searchParam, limit });
+    res.json({
+      code: 200,
+      message: 'success',
+      data: result
+    });
+  } catch (err) {
+    console.error('[API] /api/news/search error:', err);
     res.status(500).json({ code: 500, message: err.message });
   }
 });

@@ -28,6 +28,7 @@ export interface GlobalNewsItem {
   nlpKeyEntities?: string[];
   batchDate: string;
   batchId?: string;
+  briefingDate?: string;
 }
 
 export interface NobelQuote {
