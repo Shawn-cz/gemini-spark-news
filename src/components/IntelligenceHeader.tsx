@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { 
   Activity, 
-  SlidersHorizontal,
-  Headphones
+  SlidersHorizontal
 } from 'lucide-react';
 import { SparkBatchStatusInfo, NobelQuote } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { useTheme } from '../context/ThemeContext';
 import { getDailyNobelQuote } from '../utils/nobelQuotes';
-import { AudioBriefingModal } from './AudioBriefingModal';
 
 export interface IntelligenceHeaderProps {
   statusInfo: SparkBatchStatusInfo | null;
@@ -42,7 +40,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
   const isCyberHud = theme === 'cyber-hud' || theme === 'dark' || (!isIosGlass && !isPopDopamine);
 
   const [isRadarFast, setIsRadarFast] = useState(false);
-  const [isAudioModalOpen, setIsAudioModalOpen] = useState(false);
 
   // 判定当前名言数据（优先使用外部传入，其次状态对象，最后离线保底）
   const activeQuote: NobelQuote = nobelQuote || statusInfo?.nobelQuote || getDailyNobelQuote();
@@ -263,29 +260,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
               )}
             </div>
 
-            {/* 3 分钟智库早茶播客微交互按键 */}
-            <button
-              type="button"
-              onClick={() => {
-                if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-                  window.speechSynthesis.resume();
-                }
-                setIsAudioModalOpen(true);
-              }}
-              className={`h-[42px] px-2.5 sm:px-3 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                isPopDopamine
-                  ? 'border-2 border-slate-900 bg-yellow-300 hover:bg-yellow-400 text-slate-900 shadow-[2px_2px_0px_#000]'
-                  : isCyberHud
-                  ? 'border border-cyan-500/50 bg-cyan-950/60 text-cyan-300 hover:bg-cyan-900/60 shadow-[0_0_12px_rgba(0,240,255,0.2)]'
-                  : 'border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-600 shadow-sm'
-              }`}
-              title="收听今日 3 分钟智库早茶音频简报"
-            >
-              <Headphones className="w-3.5 h-3.5" />
-              <span className="hidden xs:inline">智库早茶</span>
-              <span className="xs:hidden">早茶</span>
-            </button>
-
             {/* 2. 全球宏观情绪极性指标 (与名言胶囊严格统一度量衡 h-[42px]) */}
             <div 
               className={`header-sentiment-capsule h-[42px] inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 rounded-xl border text-xs font-mono flex-shrink-0 transition-all ${
@@ -322,13 +296,6 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
         </div>
 
       </div>
-
-      {/* 3 分钟智库早茶播客弹窗 */}
-      <AudioBriefingModal
-        isOpen={isAudioModalOpen}
-        onClose={() => setIsAudioModalOpen(false)}
-        date={currentDate || statusInfo?.queryDate || '2026-10-15'}
-      />
     </header>
   );
 };

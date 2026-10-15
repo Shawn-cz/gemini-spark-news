@@ -7,7 +7,6 @@
  * 2. 跨期历史全文深度检索 (Cross-Archive Deep Search with briefingDate)
  * 3. 深度研报抽屉历史演化脉络时间轴 (Event Threading Timeline with Entity/Tag Scoring & Chronological Sort)
  * 4. 宏观情绪与板块热度跨期心电图 (Macro Pulse Sparklines & Index Computation)
- * 5. 每日 3 分钟智库早茶播报稿合成与分句队列 (Daily Audio Briefing & Sentence Relay)
  */
 
 import assert from 'node:assert/strict';
@@ -105,24 +104,7 @@ async function runE2E() {
   console.log(`   ✅ 跨期心电图趋势统计通过：最新情绪指数 ${latestIndex} (波动 ${deltaFromPrevious > 0 ? '+' : ''}${deltaFromPrevious})，整体基调: ${overallMood}`);
   passedCount++;
 
-  // ==========================================
-  // 5. 每日 3 分钟智库早茶播报稿合成 (/api/briefing/:date/audio)
-  // ==========================================
-  console.log('\n[Test 5] 校验每日 3 分钟智库早茶文稿合成 (GET /api/briefing/:date/audio)...');
-  const targetDate = searchBody.data.items[0].briefingDate || '2026-10-15';
-  const audioRes = await fetch(`${BASE_URL}/api/briefing/${targetDate}/audio`);
-  assert.strictEqual(audioRes.status, 200, 'Audio 响应状态码应为 200');
-  const audioBody = await audioRes.json();
-  assert.strictEqual(audioBody.code, 200, 'Audio code 字段应为 200');
-  assert.ok(audioBody.data.fullScript, '早茶文稿必须包含完整播报稿 fullScript');
-  assert.ok(Array.isArray(audioBody.data.sentences), '早茶文稿必须拆分为用于 Web Speech 分句队列的 sentences 数组');
-  assert.ok(audioBody.data.sentences.length >= 3, '分句数量必须至少包含开场、正文与结语');
-  assert.ok(audioBody.data.nobelQuote, '早茶文稿必须包含诺奖金句哲思模块');
-  assert.ok(audioBody.data.estimatedDurationSeconds > 0, '预计播报时长必须为有效正数');
-  console.log(`   ✅ 智库早茶播报稿合成通过：字数 ${audioBody.data.fullScript.length} 字，分句队列 ${audioBody.data.sentences.length} 句，预计耗时 ${audioBody.data.estimatedDurationSeconds} 秒`);
-  passedCount++;
-
-  console.log(`\n🎉 全部 ${passedCount} 项 MVP 5 核心接口与业务逻辑端到端验证 100% 成功通过！`);
+  console.log(`\n🎉 全部 ${passedCount} 项 MVP 5 跨时空智库核心接口与业务逻辑端到端验证 100% 成功通过！`);
 }
 
 runE2E().catch(err => {
