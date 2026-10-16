@@ -5,6 +5,7 @@ import {
 import { SparkBatchStatusInfo, NobelQuote } from '../types/news';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { MacroPulseSparkline } from './MacroPulseSparkline';
+import { NobelQuoteBanner } from './NobelQuoteBanner';
 import { useTheme } from '../context/ThemeContext';
 import { getDailyNobelQuote } from '../utils/nobelQuotes';
 
@@ -185,69 +186,11 @@ export const IntelligenceHeader: React.FC<IntelligenceHeaderProps> = ({
           {/* Row 2 (h-[42px]): 左侧【诺贝尔文学奖名言灵感胶囊】，右侧【全球宏观情绪极性指标】 */}
           <div className="flex items-center justify-between gap-2 sm:gap-2.5 min-w-0 h-[42px]">
             
-            {/* 1. 诺贝尔文学奖名言灵感胶囊 (统一高度 h-[42px]，单行不折叠，字号平滑自适应，作者紧随彻底消除空白) */}
-            <div 
-              className={`h-[42px] flex-1 min-w-0 rounded-xl px-2.5 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden whitespace-nowrap transition-all ${
-                isPopDopamine
-                  ? 'border-2 border-slate-900 bg-yellow-50/90 shadow-[2px_2px_0px_#000] text-slate-900'
-                  : isCyberHud
-                  ? 'border border-cyan-500/40 bg-cyan-950/30 text-cyan-100 shadow-[inset_0_0_12px_rgba(0,240,255,0.1)]'
-                  : 'border border-slate-200/80 bg-white/80 text-slate-800 shadow-sm'
-              }`}
-              title={`${activeQuote.year} · ${activeQuote.author}《${activeQuote.work}》: ${activeQuote.zh}`}
-            >
-              {/* 诺奖专属徽章 */}
-              <div className={`flex-shrink-0 flex items-center gap-1 text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
-                isPopDopamine
-                  ? 'bg-pink-500 text-white border border-slate-900 shadow-[1px_1px_0px_#000]'
-                  : isCyberHud
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono'
-                  : 'bg-blue-600 text-white font-semibold'
-              }`}>
-                <span className="text-xs">🕊️</span>
-                <span className="hidden xs:inline">{activeQuote.year}</span>
-                <span className="xs:hidden font-mono">诺奖</span>
-              </div>
-
-              {/* 箴言正文与作者紧随行内排列 (彻底消除视觉割裂与大片空白) */}
-              <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden whitespace-nowrap">
-                <span 
-                  className={`font-serif font-bold whitespace-nowrap tracking-wide leading-none truncate min-w-0 ${
-                    activeQuote.zh.length > 38 ? 'text-[11.5px]' : activeQuote.zh.length > 25 ? 'text-xs' : 'text-xs sm:text-[13px]'
-                  } ${
-                    isPopDopamine ? 'text-slate-900' : isCyberHud ? 'text-cyan-100' : 'text-slate-900'
-                  }`}
-                >
-                  {activeQuote.zh}
-                </span>
-
-                <span className={`flex-shrink-0 text-[11px] font-bold whitespace-nowrap leading-none ${
-                  isPopDopamine ? 'text-slate-700' : isCyberHud ? 'text-cyan-400/80 font-mono' : 'text-slate-600'
-                }`}>
-                  <span className="hidden sm:inline">—— {activeQuote.author}《{activeQuote.work}》</span>
-                  <span className="sm:hidden">—— {activeQuote.author.split('·').pop() || activeQuote.author}</span>
-                </span>
-              </div>
-
-              {/* 换一句微交互按键 */}
-              {onShuffleQuote && (
-                <button
-                  type="button"
-                  onClick={onShuffleQuote}
-                  className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-xs transition-transform active:rotate-45 cursor-pointer ml-auto ${
-                    isPopDopamine
-                      ? 'bg-black/5 hover:bg-black/10 text-slate-800'
-                      : isCyberHud
-                      ? 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                  }`}
-                  title="点击换一句诺奖名言"
-                  aria-label="换一句诺贝尔文学奖名言"
-                >
-                  🎲
-                </button>
-              )}
-            </div>
+            {/* 1. 诺贝尔文学奖名言灵感胶囊 (统一高度 h-[42px]，进入时仅滚动一次，支持手指拖拽左右浏览) */}
+            <NobelQuoteBanner 
+              activeQuote={activeQuote} 
+              onShuffleQuote={onShuffleQuote} 
+            />
 
             {/* 2. 宏观情绪与板块热度跨期心电图 (统一严格度量衡 h-[42px]) */}
             <MacroPulseSparkline />

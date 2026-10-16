@@ -661,7 +661,7 @@ export const SparkNewsDashboard: React.FC = () => {
     (statusInfo && statusInfo.status !== 'COMPLETED') || isRunningTransitionActive;
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors relative ${
+    <div className={`min-h-screen flex flex-col font-sans transition-colors relative overflow-x-hidden max-w-full ${
       isIosGlass
         ? 'bg-[#f1f5f9] text-slate-900 selection:bg-blue-500 selection:text-white'
         : 'bg-obsidian-950 text-slate-100 selection:bg-cyan-500 selection:text-obsidian-950'
