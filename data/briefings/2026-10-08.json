@@ -1,17 +1,7 @@
 {
-  "date": "2026-10-08",
-  "batchStatus": {
-    "date": "2026-10-08",
-    "status": "COMPLETED",
-    "statusText": "已完成归档",
-    "generatedTime": "2026-10-08 08:30:00",
-    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
-    "progress": 100,
-    "currentStage": "Gemini Spark 智能体 24H 简报生成与交叉校验完成"
-  },
+  "batchDate": "2026-10-08",
   "items": [
     {
-      "_id": "6ac6e55284afdb456a271665",
       "id": "gemini-2026-10-08-001",
       "batchDate": "2026-10-08",
       "title": "全球首个通用人工通用智能基础模型实现千亿参数多模态实时推理突破",
@@ -37,12 +27,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T06:30:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.266Z",
       "updatedAt": "2026-10-08T00:35:30.266Z"
     },
     {
-      "_id": "6ac6e55284afdb456a271666",
       "id": "gemini-2026-10-08-002",
       "batchDate": "2026-10-08",
       "title": "台积电2纳米制程良率突破80%并正式启动大规模商业化量产",
@@ -69,12 +57,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T05:00:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.267Z",
       "updatedAt": "2026-10-08T00:35:30.267Z"
     },
     {
-      "_id": "6ac6e55284afdb456a271667",
       "id": "gemini-2026-10-08-003",
       "batchDate": "2026-10-08",
       "title": "英伟达发布新一代光子AI算力集群互联架构 彻底打破内存墙限制",
@@ -99,12 +85,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T04:15:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.267Z",
       "updatedAt": "2026-10-08T00:35:30.267Z"
     },
     {
-      "_id": "6ac6e55284afdb456a271668",
       "id": "gemini-2026-10-08-004",
       "batchDate": "2026-10-08",
       "title": "欧盟委员会出台《可信AI强制性法案》实施细则并开出首张巨额罚单",
@@ -129,12 +113,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T03:30:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.267Z",
       "updatedAt": "2026-10-08T00:35:30.267Z"
     },
     {
-      "_id": "6ac6e55284afdb456a271669",
       "id": "gemini-2026-10-08-005",
       "batchDate": "2026-10-08",
       "title": "美联储宣布意外降息50个基点引发全球主权货币市场剧烈震荡",
@@ -160,12 +142,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T02:00:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a27166a",
       "id": "gemini-2026-10-08-006",
       "batchDate": "2026-10-08",
       "title": "金砖国家央行联合发布去美元化跨境支付多边结算数字平台原型",
@@ -191,12 +171,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T01:30:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a27166b",
       "id": "gemini-2026-10-08-007",
       "batchDate": "2026-10-08",
       "title": "国际货币基金组织发布全球金融稳定报告警告新兴市场债务风暴隐患",
@@ -222,12 +200,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T00:45:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a27166c",
       "id": "gemini-2026-10-08-008",
       "batchDate": "2026-10-08",
       "title": "中欧高级别战略对话就绿色贸易壁垒与关键原材料供应链达成新共识",
@@ -253,12 +229,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-08T00:15:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a27166d",
       "id": "gemini-2026-10-08-009",
       "batchDate": "2026-10-08",
       "title": "印太海上安全峰会闭幕签署多国情报共享与联合巡航新条约",
@@ -285,12 +259,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1508873696983-2df5c920c3c3?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-07T23:30:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a27166e",
       "id": "gemini-2026-10-08-010",
       "batchDate": "2026-10-08",
       "title": "中东产油国与国际能源署达成长期石油定价与清洁能源过渡新契约",
@@ -317,12 +289,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-07T22:00:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a27166f",
       "id": "gemini-2026-10-08-011",
       "batchDate": "2026-10-08",
       "title": "全球首座商业化运行的第四代熔盐核反应堆实现满功率稳定发电",
@@ -348,12 +318,10 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-07T21:00:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     },
     {
-      "_id": "6ac6e55284afdb456a271670",
       "id": "gemini-2026-10-08-012",
       "batchDate": "2026-10-08",
       "title": "联合国气候变化大会筹备委员会发布北极冰川加速融化应急干预科学白皮书",
@@ -380,9 +348,17 @@
       ],
       "coverUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
       "publishTime": "2026-10-07T20:30:00.000Z",
-      "__v": 0,
       "createdAt": "2026-10-08T00:35:30.268Z",
       "updatedAt": "2026-10-08T00:35:30.268Z"
     }
-  ]
+  ],
+  "batchStatus": {
+    "date": "2026-10-08",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-08 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
 }

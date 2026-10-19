@@ -1,0 +1,373 @@
+{
+  "batchDate": "2026-10-10",
+  "items": [
+    {
+      "id": "gemini-2026-10-10-001",
+      "batchDate": "2026-10-10",
+      "title": "OpenAI与台积电联手发布首款1.6纳米光子AI专用芯片",
+      "englishTitle": "OpenAI and TSMC Jointly Announce First 1.6nm Photonic AI ASIC",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月9日，人工智能领军企业OpenAI联合全球半导体制造龙头台积电（TSMC）及美国硅光子技术联盟，于加州圣何塞举行的全球前沿算力峰会上正式发布。【事件核心细节】双方共同推出全球首款基于1.6纳米（A16）先进制程与硅光子集成技术的AI专用加速芯片（ASIC），代号“Orion-P”。该芯片通过片上光学互连（Optical Interconnect）技术，彻底打破了传统电子互连的带宽瓶颈与功耗墙，单芯片算力较上一代提升超过350%，而能效比跃升5倍，标志着AI硬件正式迈入“光电融合”的新纪元。【战略与深远影响】这一重大技术突破将深刻重塑全球半导体与算力产业链。它不仅巩固了台积电在先进制程与封装领域的绝对统治地位，也标志着OpenAI由纯粹的软件大模型向软硬一体生态闭环的跨越式演进，对全球大模型训练成本的断崖式下降及未来数年内算力竞争格局产生决定性影响。",
+      "tags": [
+        "AI",
+        "Semiconductor",
+        "TSMC",
+        "OpenAI"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "OpenAI",
+        "TSMC",
+        "Orion-P",
+        "Silicon Photonics"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-10T06:30:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.931Z",
+      "updatedAt": "2026-10-10T00:35:30.931Z"
+    },
+    {
+      "id": "gemini-2026-10-10-002",
+      "batchDate": "2026-10-10",
+      "title": "美欧达成跨大西洋量子计算与通用AI安全联合监管框架",
+      "englishTitle": "US and EU Reach Transatlantic Joint Regulatory Framework for Quantum Computing and GenAI Safety",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月9日，美国商务部、欧盟委员会科技总司以及美欧数字贸易与技术委员会（TTC）核心官员在布鲁塞尔达成历史性协议。【事件核心细节】双方正式签署《跨大西洋量子计算与通用人工智能安全联合监管框架》，协议强制规定跨国科技公司在部署超过10^27 FLOPs训练算力的前沿模型及1000物理量子比特以上的系统时，必须通过美欧互认的安全红队测试与后量子密码学（PQC）标准合规审查，并建立共享的漏洞早期预警机制。【战略与深远影响】该协议是西方阵营应对下一代颠覆性技术安全风险的最高级别立法协调，意在通过标准同盟固化技术壁垒，对全球非美欧阵营的开源大模型和量子技术商业化形成强烈的合围与出口管制压力。",
+      "tags": [
+        "AI",
+        "Quantum Computing",
+        "Regulation",
+        "EU",
+        "US"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "European Commission",
+        "US Department of Commerce",
+        "TTC",
+        "PQC"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-10T05:15:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-003",
+      "batchDate": "2026-10-10",
+      "title": "谷歌深度思维发布首个自主长周期科学推理具身大模型",
+      "englishTitle": "Google DeepMind Releases First Autonomous Long-Horizon Scientific Reasoning Embodied Foundation Model",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月8日，谷歌旗下AI巨头DeepMind在伦敦总部向全球科技界发布了代号为“Project Galileo”的新一代具身科学推理大模型。【事件核心细节】该模型首次将长短期记忆架构与自动化实验室机器人硬件深度融合，能够独立设计并执行长达数周的材料科学与靶向药物合成实验。在盲测中，“Project Galileo”在催化剂效率提升和抗体结构优化领域，自主发现了3项人类科学界此前未曾注意到的化学反应路径，创造了AI直接驱动基础科学原始创新的里程碑记录。【战略与深远影响】这一突破标志着AI角色从“辅助工具”向“独立科研主体”的根本性转变，将极大赋能全球制药、新材料及尖端制造产业的研发效率，引发全球科技巨头在具身智能科学基础设施领域的新一轮军备竞赛。",
+      "tags": [
+        "AI",
+        "Google DeepMind",
+        "Embodied AI",
+        "Scientific Research"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Google DeepMind",
+        "Project Galileo",
+        "London"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-10T04:00:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-004",
+      "batchDate": "2026-10-10",
+      "title": "中国智算联盟发布超大规模异构算力无损调度核心网",
+      "englishTitle": "China Intelligent Computing Alliance Launches Ultra-Large-Scale Heterogeneous Computing Lossless Scheduling Core Network",
+      "source": "Xinhua",
+      "sourceCountry": "CN",
+      "category": "ai",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月9日，中国智算产业技术创新战略联盟在北京正式向全球发布“伏羲-X”（Fuxi-X）超大规模异构算力无损调度核心网系统。【事件核心细节】该系统攻克了跨地域、跨架构（兼容主流国产加速芯片与国际主流架构）万卡集群间的超低延迟与无损传输技术瓶颈。测试数据显示，“伏羲-X”在跨省市超大型智算集群联动训练中，通信损耗降低至1%以下，资源利用率较传统架构提升68%，实现了对全国范围内异构算力资源的“像用电一样”即取即用。【战略与深远影响】该核心网的成功商用标志着中国在应对算力硬件封锁、构建自主可控国家级算力网方面取得决定性战果，为支撑万亿参数超大规模大模型的常态化训练提供了坚实的国产数字底座。",
+      "tags": [
+        "AI",
+        "Computing Power",
+        "China",
+        "Infrastructure"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "Fuxi-X",
+        "Beijing",
+        "China Intelligent Computing Alliance"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-10T02:30:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-005",
+      "batchDate": "2026-10-10",
+      "title": "美联储突发紧急闭门会议：全球流动性收紧与主权债务风险激增",
+      "englishTitle": "Fed Holds Emergency Closed-Door Meeting Amid Global Liquidity Tightening and Rising Sovereign Debt Risks",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月9日傍晚，美国联邦储备委员会（FRB）主席与联邦公开市场委员会（FOMC）核心成员召开长达数小时的紧急闭门会议。【事件核心细节】受全球多国主权债券收益率曲线持续陡峭化、新兴市场资本外流加速以及美国商业地产贷款违约率超预期攀升的影响，美联储评估了当前全球金融系统的流动性压力。会议纪要虽未立即宣布降息或扩表，但暗示将重新评估常备回购便利（SRF）工具的使用效率，以防范跨国金融机构因保证金危机引发的系统性流动性枯竭。【战略与深远影响】此举引发全球金融市场强烈震动，美元指数短线大幅震荡，非美货币与黄金资产价格剧烈波动。这反映出在高利率长期化背景下，全球宏观资本正加速向避险资产集中，加剧了发展中国家的偿债危机与全球金融体系脆弱性。",
+      "tags": [
+        "Finance",
+        "Federal Reserve",
+        "Liquidity",
+        "Global Economy"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.65,
+      "nlpKeyEntities": [
+        "Federal Reserve",
+        "FOMC",
+        "SRF"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-10T01:00:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-006",
+      "batchDate": "2026-10-10",
+      "title": "国际清算银行（BIS）发布多边央行数字货币桥（mBridge）商业化量产时间表",
+      "englishTitle": "BIS Announces Commercial Mass-Production Timeline for Multi-CBDC Bridge (mBridge)",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月9日，国际清算银行（BIS）创新枢纽携手中国人民银行、阿联酋央行、泰国央行及香港金融管理局在瑞士巴塞尔联合举行新闻发布会。【事件核心细节】BIS正式发布了多边央行数字货币桥（mBridge）项目进入全球商业化量产阶段的路线图。根据该计划，mBridge将于2027年第一季度起正式向全球几十家商业银行开放跨境即时结算与外汇DvP（券款对付）服务，预计将覆盖全球近30%的双边贸易结算流，单笔交易结算时间缩短至秒级，成本降低80%以上。【战略与深远影响】该项目的全方位推进标志着传统以SWIFT为主导的美元跨境支付清算体系正面临实质性的分布式账本技术（DLT）分流与重构，深刻改变全球大宗商品贸易与地缘政治经济结算的安全网格局。",
+      "tags": [
+        "Finance",
+        "BIS",
+        "CBDC",
+        "mBridge",
+        "Cross-Border Settlement"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.7,
+      "nlpKeyEntities": [
+        "Bank for International Settlements",
+        "mBridge",
+        "Basel",
+        "PBOC"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-10T00:30:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-007",
+      "batchDate": "2026-10-10",
+      "title": "全球私募巨头组建500亿美元“地缘风险对冲与关键矿产并购基金”",
+      "englishTitle": "Global PE Giants Form $50B 'Geopolitical Risk Hedging & Critical Minerals M&A Fund'",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月9日，由黑石（Blackstone）、桥水（Bridgewater）及阿布扎比投资局（ADIA）等全球顶尖主权财富基金与私募巨头牵头，在纽约达成一项规模高达500亿美元的战略合作。【事件核心细节】各方正式宣告成立“全球地缘风险对冲与关键矿产专项并购基金”。该基金将重点在全球范围内收购、整合并控股涵盖锂、钴、稀土、铜等清洁能源与半导体刚需原材料的矿山及精炼资产，通过私有化运营和供应链冗余设计来规避日益加剧的地缘政治断链风险。【战略与深远影响】这一人类资本史上罕见的巨额产业基金组建，折射出全球金融资本正从过去的纯粹追求效率优先（Efficiency-first）全面转向国家安全与供应链韧性优先（Security-first），彻底改变全球大宗商品定价权与跨国资本流向。",
+      "tags": [
+        "Finance",
+        "Private Equity",
+        "Critical Minerals",
+        "Supply Chain"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "nlpKeyEntities": [
+        "Blackstone",
+        "Bridgewater",
+        "ADIA",
+        "New York"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-09T23:00:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-008",
+      "batchDate": "2026-10-10",
+      "title": "中东产油国与亚太主要买家达成人民币与本地货币原油长协结算新机制",
+      "englishTitle": "Middle East Producers and Major Asian Buyers Reach New RMB and Local Currency Oil Long-Term Settlement Mechanism",
+      "source": "Reuters",
+      "sourceCountry": "UK",
+      "category": "geopolitics",
+      "region": "Middle East",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月9日，海湾阿拉伯国家合作委员会（GCC）主要能源出口国与中国、印度等亚太核心原油买家在利雅得举行能源安全闭门峰会。【事件核心细节】各方正式签署《面向未来的多边能源金融稳定与本币结算协议》。根据协议，未来五年内双边原油及液化天然气（LNG）贸易中，使用人民币及本币直接结算的份额将跃升至45%。同时，双方同意在上海和阿布扎比两地建立跨境本币结算清算绿色通道，并配套建立原油期货价格互换机制。【战略与深远影响】该协议是全球能源地缘政治格局的一次历史性调整，进一步削弱了“石油美元”作为全球大宗商品唯一硬通货的垄断地位，加速了全球多极化货币体系与区域贸易集团的深度成型。",
+      "tags": [
+        "Geopolitics",
+        "Energy",
+        "RMB",
+        "Middle East",
+        "Asia"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.6,
+      "nlpKeyEntities": [
+        "GCC",
+        "Riyadh",
+        "Shanghai",
+        "Abu Dhabi"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-09T21:30:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-009",
+      "batchDate": "2026-10-10",
+      "title": "欧盟正式通过“全球反勒索与经济胁迫防御工具法案”",
+      "englishTitle": "EU Officially Adopts 'Anti-Coercion Instrument' to Counter Global Economic Coercion",
+      "source": "Politico",
+      "sourceCountry": "EU",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月9日，欧洲议会以压倒性多数在斯特拉斯堡正式批准并颁布了备受瞩目的《反经济胁迫工具法案》（ACI）实施细则。【事件核心细节】该法案赋予欧洲委员会在遭遇外部非关税贸易壁垒、针对欧盟成员国的定向经济制裁或供应链断供时，无需经成员国全票通过即可启动强力反制措施的权力。反制手段包括直接对相关国家实施精准关税加征、限制服务贸易准入、冻结跨国资产以及禁止参与欧盟内部政府采购投标等。【战略与深远影响】欧盟此举旨在强化其作为独立地缘战略力量的“防长牙齿”能力。在当前大国博弈日趋白热化的背景下，该法案将直接改变全球多边贸易争端解决的博弈规则，迫使跨国企业在供应链布局上进行更为复杂的合规对冲。",
+      "tags": [
+        "Geopolitics",
+        "EU",
+        "Trade War",
+        "ACI",
+        "Sanctions"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.45,
+      "nlpKeyEntities": [
+        "European Parliament",
+        "Strasbourg",
+        "Anti-Coercion Instrument"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-09T20:00:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-010",
+      "batchDate": "2026-10-10",
+      "title": "印太海上安全对话闭幕：多国海军宣布常态化巡航与海底关键基础设施联防",
+      "englishTitle": "Indo-Pacific Maritime Security Dialogue Closes: Navies Announce Routine Patrols and Joint Defense of Subsea Critical Infrastructure",
+      "source": "The Asahi Shimbun",
+      "sourceCountry": "JP",
+      "category": "geopolitics",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月9日，为期三天的印太海上安全高级别防务对话在日本东京闭幕，来自美、日、印、澳及东南亚多国国防高层出席。【事件核心细节】会议发表联合公报，宣布将建立“印太海底光缆与能源管线联防司令部”，并在南海与西太平洋关键海峡实施常态化多国联合巡航。各方还同意共享海底声纳传感器实时数据，以防范针对跨国通信海底光缆与海上能源输送动脉的“灰色地带”破坏行动。【战略与深远影响】该机制的常态化运行标志着印太地缘安全架构从单一的防务演习向实质性的关键基础设施“共同防御同盟”演变，进一步收紧了区域内战略通道的军事化管控，对全球数字经济数据安全与能源运输航线产生长期深远的影响。",
+      "tags": [
+        "Geopolitics",
+        "Indo-Pacific",
+        "Security",
+        "Subsea Cables",
+        "Japan"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.2,
+      "nlpKeyEntities": [
+        "Tokyo",
+        "Indo-Pacific Command",
+        "Subsea Infrastructure"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1508873696983-2df5c920ac3c?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-09T18:30:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-011",
+      "batchDate": "2026-10-10",
+      "title": "全球首座兆瓦级商业化深远海浮式核动力平台在北海成功并网发电",
+      "englishTitle": "World's First Megawatt-Scale Commercial Deep-Sea Floating Nuclear Power Platform Successfully Connected to Grid in North Sea",
+      "source": "Bloomberg",
+      "sourceCountry": "UK",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月9日，由挪威与英国能源巨头联合组建的“北海清洁能源联盟”在奥斯陆宣布，全球首座兆瓦级商业化深远海浮式核动力平台“SeaBore-1”在北海海域成功实现满负荷并网发电。【事件核心细节】该平台搭载了第四代一体化小型模块化铅冷快堆（SFR），额定发电功率达300兆瓦。平台采用抗极端海洋风暴的半潜式浮体结构，设计寿命为40年且无需中途更换燃料，通过海底高压输电电缆直接向北海周边的大型海上风电制氢基地及油气平台群提供全天候零碳稳定基荷电力。【战略与深远影响】这一重大工程突破彻底打破了海上风电与光伏间歇性发电的固有瓶颈，开辟了人类利用核能走向深海、赋能远海重工业脱碳的全新赛道，对全球清洁能源转型与海洋经济可持续发展具有划时代的示范效应。",
+      "tags": [
+        "Climate",
+        "Nuclear Energy",
+        "Floating Power Plant",
+        "North Sea"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.9,
+      "nlpKeyEntities": [
+        "SeaBore-1",
+        "Oslo",
+        "North Sea Clean Energy Alliance"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-09T17:00:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    },
+    {
+      "id": "gemini-2026-10-10-012",
+      "batchDate": "2026-10-10",
+      "title": "国际能源署（IEA）发布2026全球绿氢成本拐点报告：平价时代提前到来",
+      "englishTitle": "IEA Releases 2026 Global Green Hydrogen Cost Tipping Point Report: Parity Era Arrives Ahead of Schedule",
+      "source": "Reuters",
+      "sourceCountry": "FR",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月9日，国际能源署（IEA）在巴黎总部发布题为《2026年全球氢能经济：跨越平价临界点》的年度重磅行业报告。【事件核心细节】报告指出，得益于质子交换膜（PEM）电解槽制造成本的大幅下降以及中国与中东超大型光伏绿氢基站的规模化投产，全球绿氢平均生产成本已首次跌破每公斤1.5美元，正式实现了与化石燃料制氢（灰氢）的成本平价。IEA预测，到2030年全球绿氢贸易量将较2025年激增400%，成为重工业、航运业和航空业深度脱碳的核心支柱。【战略与深远影响】绿氢平价时代的提前到来，标志着全球气候治理中最难攻坚的“重工业减排”领域取得了决定性的经济可行性支撑，将彻底重塑全球化工、钢铁及远洋运输供应链的投资地图与碳税博弈格局。",
+      "tags": [
+        "Climate",
+        "Green Hydrogen",
+        "IEA",
+        "Energy Transition",
+        "Carbon Neutral"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "International Energy Agency",
+        "Paris",
+        "PEM Electrolyzer"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-09T15:30:00.000Z",
+      "createdAt": "2026-10-10T00:35:30.932Z",
+      "updatedAt": "2026-10-10T00:35:30.932Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-10",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-10 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
+}

@@ -32,3 +32,38 @@ test('Event Timeline - 实体与标签重合度演化算法与时间排序', asy
   assert.equal(emptyRes.targetId, 'non-existent-id-9999');
   assert.deepEqual(emptyRes.relatedEvents, []);
 });
+
+test('Event Timeline - 严禁包含与目标自身同名或候选之间同名的重复新闻', async () => {
+  // 测试针对 2026-09-24 第一篇新闻（即使存在跨天种子克隆）
+  const timeline = await getNewsEventTimeline('global-2026-09-24-1');
+  assert.ok(timeline, 'Timeline 结果必须存在');
+
+  const normalizeTitle = (t) => (t || '')
+    .replace(/^\[往期智库\]\s*/, '')
+    .replace(/[\s\p{P}\p{S}]/gu, '')
+    .toLowerCase();
+
+  const targetNormTitle = normalizeTitle(timeline.targetTitle || 'OpenAI 与 Anthropic 新一代前沿模型评测曝光');
+
+  const seenNormTitles = new Set();
+
+  for (const event of timeline.relatedEvents) {
+    const norm = normalizeTitle(event.title);
+    
+    // 1. 绝不能出现与目标自身完全相同（或仅差 [往期智库] 前缀）的假演化条目
+    assert.notEqual(
+      norm, 
+      targetNormTitle, 
+      `演化脉络绝不能出现与自身同名的条目: \"${event.title}\"`
+    );
+
+    // 2. 候选事件列表内部也绝不能出现相互重复的条目
+    assert.equal(
+      seenNormTitles.has(norm), 
+      false, 
+      `演化脉络候选列表中不能存在相互重复的条目: \"${event.title}\"`
+    );
+
+    seenNormTitles.add(norm);
+  }
+});

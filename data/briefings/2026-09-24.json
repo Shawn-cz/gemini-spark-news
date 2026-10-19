@@ -1,351 +1,364 @@
 {
+  "batchDate": "2026-09-24",
   "items": [
     {
-      "title": "OpenAI 与 Anthropic 新一代前沿模型评测曝光：自主智能体推理跃迁与安全红线对决，多国跨部门监管机构联合下发高风险算法披露问询函以防范系统性代码自主失控与越权漏洞隐患",
-      "englishTitle": "Next-Gen Frontier Models Benchmarks Leaked: Autonomous Agent Reasoning vs Safety Guardrails",
+      "id": "gemini-2026-09-24-001",
+      "batchDate": "2026-09-24",
+      "title": "英特尔与微软联合发布量子经典混合架构加速引擎，标志着实用化量子计算迈出商业部署关键一步",
+      "englishTitle": "Intel and Microsoft Unveil Quantum-Classical Hybrid Acceleration Engine for Commercial Deployment",
       "source": "Reuters",
       "sourceCountry": "US",
       "category": "ai",
       "region": "North America",
       "impactLevel": "critical",
-      "summary": "据路透社援引硅谷独家测试备忘录，新一代前沿架构在多步复杂软件工程与科研假设推演任务中达成 82% 自主解决率，但多国政府监管机构对其可能外溢的代码利用能力提出更严格的披露要求。",
+      "summary": "【时间与主体】2026年9月24日晨间，美国芯片巨头英特尔联合软件巨头微软在西雅图总部正式向全球发布“Q-Accelerator 1.0”量子经典混合架构加速引擎。该系统整合了英特尔最新的硅自旋量子比特处理器与微软Azure Quantum云端纠错算法。【事件核心细节】该引擎首次在标准数据中心机架内实现了量子纠错逻辑与传统GPU超算集群的纳秒级低延迟协同，将原本需要数周计算的特定复杂分子动力学模拟缩短至11分钟以内，并实现了99.9%的逻辑门保真度。双方宣布首批将向全球排名前十的顶尖AI实验室及制药巨头开放。【战略与深远影响】这一重大突破标志着量子计算正式从实验室孤立验证阶段迈向与AI深度融合的产业化落地周期。它将颠覆传统高性能计算（HPC）的瓶颈，加速新材料研发和下一代大模型底层数学建模的演进，对全球科技霸权竞争与前沿算力赛道产生深远影响。",
       "tags": [
-        "OpenAI",
-        "Anthropic",
-        "自主智能体",
-        "模型安全"
+        "Quantum Computing",
+        "AI Acceleration",
+        "Intel",
+        "Microsoft"
       ],
       "sentiment": "positive",
-      "sentimentScore": 0.76,
+      "sentimentScore": 0.85,
       "nlpKeyEntities": [
-        "OpenAI",
-        "Anthropic",
-        "Autonomous Agents",
-        "Safety Audit"
+        "Intel",
+        "Microsoft",
+        "Q-Accelerator 1.0",
+        "Seattle"
       ],
-      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-1",
-      "publishTime": "2026-09-24T00:00:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
+      "coverUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T05:00:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.816Z",
+      "updatedAt": "2026-10-19T06:14:50.816Z"
     },
     {
-      "title": "台积电 2nm 试产良率超预期，英伟达 Blackwell Ultra 获优先晶圆配额",
-      "englishTitle": "TSMC N2 Trial Yield Surpasses Target, Securing First Wafer Allocations for NVIDIA Blackwell Ultra",
+      "id": "gemini-2026-09-24-002",
+      "batchDate": "2026-09-24",
+      "title": "苹果公司宣布全面转向神经拟态传感器阵列，下一代移动终端芯片将内置独立类脑计算核心",
+      "englishTitle": "Apple Announces Transition to Neuromorphic Sensor Arrays with Integrated Brain-Inspired Computing Cores",
       "source": "Bloomberg",
       "sourceCountry": "US",
       "category": "ai",
-      "region": "Asia-Pacific",
+      "region": "North America",
       "impactLevel": "high",
-      "summary": "彭博供应链智库获悉，台积电新竹与高雄研发中心的 2nm GAA (全环绕栅极) 节点良品率突破 65% 拐点，超微半导体与英伟达已锁定 2026 年下半年首批先进制程产能，全球算力争夺进入物理尺度极限战。",
+      "summary": "【时间与主体】2026年9月24日，苹果公司（Apple Inc.）在库比蒂诺总部举行的秋季前沿技术闭门会议上，向全球核心供应链及开发者网络宣布其硬件架构的颠覆性升级：全面引入神经拟态传感器阵列（Neuromorphic Sensor Arrays），并在其下一代移动终端芯片中内置独立的类脑计算核心。【事件核心细节】该神经拟态架构彻底摆脱了传统冯·诺依曼架构在边缘端进行实时多模态感知时的功耗痛点。通过模仿人类视网膜与大脑皮层的事件驱动处理机制，新芯片在保持毫秒级端侧视觉和语音推断能力的同时，将能耗骤降92%。苹果已与多家欧洲微电子代工厂签署长期产能锁定协议。【战略与深远影响】此举标志着消费电子巨头正式开启从“图形/通用AI加速”向“原生生物级智能”的硬件迭代。这将全面重塑全球智能手机与穿戴设备的能效标准，并对高通、联发科等传统移动芯片厂商的路线图构成强力压制与倒逼效应。",
       "tags": [
-        "TSMC",
-        "NVIDIA",
-        "2nm晶圆",
-        "AI芯片"
+        "Apple",
+        "Neuromorphic Computing",
+        "Consumer Electronics",
+        "Edge AI"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "Apple",
+        "Cupertino",
+        "Neuromorphic Sensor Arrays"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T04:30:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-003",
+      "batchDate": "2026-09-24",
+      "title": "欧洲空间局与法国国家科学研究中心联合发布“AeroAI-Sat”星座计划，利用边缘AI重塑全球气象与空域安全监测",
+      "englishTitle": "ESA and CNRS Launch 'AeroAI-Sat' Constellation to Revolutionize Global Weather and Airspace Security",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，欧洲空间局（ESA）与法国国家科学研究中心（CNRS）在巴黎联合对外披露“AeroAI-Sat”低轨微纳卫星星座建设计划。该项目由法国泰雷兹阿莱尼亚宇航公司承建核心载荷。【事件核心细节】该星座计划部署120颗搭载边缘AI推理芯片的低轨卫星，能够在轨直接处理高分辨率多光谱成像与超高频雷达数据，实现对全球极端天气演变、温室气体跨境扩散以及海洋关键航道动态的分钟级实时闭环监测，无需将巨量原始遥感数据传回地面基站。【战略与深远影响】该计划大幅提升了欧洲独立获取全球战略地理与环境情报的能力，标志着空间科学正式进入“AI原生卫星”时代。它不仅削弱了传统地面站数据链路的带宽垄断，也为全球气候预测和空域安全防护提供了前所未有的高精度实时工具。",
+      "tags": [
+        "ESA",
+        "Edge AI",
+        "Satellite Constellation",
+        "Space Tech"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.35,
+      "nlpKeyEntities": [
+        "European Space Agency",
+        "CNRS",
+        "Paris",
+        "Thales Alenia Space"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T03:15:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-004",
+      "batchDate": "2026-09-24",
+      "title": "日本理化学研究所（RIKEN）联合富士通成功点亮“Fugaku-Next”前沿AI超算，实现百亿亿次级混合工作负载突破",
+      "englishTitle": "RIKEN and Fujitsu Ignite 'Fugaku-Next' AI Supercomputer for Exascale Mixed Workloads",
+      "source": "Nikkei Asia",
+      "sourceCountry": "Japan",
+      "category": "ai",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，日本理化学研究所（RIKEN）与富士通公司（Fujitsu）在日本神户联合宣布，新一代国家级旗舰超级计算机“Fugaku-Next”（富岳续代系统）正式完成系统组装并成功点亮运行。【事件核心细节】“Fugaku-Next”采用创新的光电共封装（CPO）三维堆叠处理器架构，将超大规模标量计算单元与高密度张量AI核心紧密融合，其半精度（FP16）AI推理算力较前代富岳提升达8.5倍，同时单位功耗效率创下全球超算绿色榜单的新纪录。【战略与深远影响】该系统的成功上线标志着日本在失去传统消费电子主导权后，重新在顶尖国家算力基础设施和科学计算领域构筑起坚固的战略护城河。它将直接服务于日本尖端生物医药、地震灾害实时仿真以及下一代大模型的自主研发，深刻影响全球超算地缘版图。",
+      "tags": [
+        "RIKEN",
+        "Fujitsu",
+        "Supercomputer",
+        "Optics"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.8,
+      "nlpKeyEntities": [
+        "RIKEN",
+        "Fujitsu",
+        "Kobe",
+        "Fugaku-Next"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T02:00:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-005",
+      "batchDate": "2026-09-24",
+      "title": "伦敦证券交易所集团（LSEG）与全球主要清算所联合推出“实时主权信用动态对冲清算系统”，应对地缘波动带来的资本外逃",
+      "englishTitle": "LSEG and Global Clearinghouses Launch Real-Time Sovereign Credit Dynamic Hedging System",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月24日，伦敦证券交易所集团（LSEG）联手欧洲清算银行（Euroclear）及纽约梅隆银行，正式在全球金融市场推出代号为“Sovereign-Shield”的实时主权信用动态对冲清算系统。【事件核心细节】该系统利用人工智能风险预测模型，将全球主权债务违约概率、地缘政治摩擦指数与外汇流动性敞口进行毫秒级关联计算。一旦检测到特定新兴市场或边缘欧洲国家的资本非正常外逃迹象，系统可自动触发跨国银行间资产负债表的智能保证金调节机制，将跨国托管资金的违约风险敞口压缩65%以上。【战略与深远影响】面对高利率常态化与日趋复杂的地缘裂痕，该系统的上线标志着西方核心金融基础设施正加速向自动化、高防御性的“战争经济防范模式”转型。它将重塑全球资本在动荡地缘环境中的避险路径，并对发展中经济体的国际融资成本产生直接抑制作用。",
+      "tags": [
+        "LSEG",
+        "Sovereign Debt",
+        "Financial Stability",
+        "Clearinghouse"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "LSEG",
+        "Euroclear",
+        "Bank of New York Mellon",
+        "London"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T06:00:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-006",
+      "batchDate": "2026-09-24",
+      "title": "国际货币基金组织（IMF）与世界银行联合发布特别警告：全球高杠杆主权债务正引发“隐性流动性抽水效应”",
+      "englishTitle": "IMF and World Bank Issue Joint Warning Over Global High-Leverage Sovereign Debt Liquidty Drainage",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，国际货币基金组织（IMF）与世界银行在华盛顿联合发布题为《全球主权债务结构脆弱性与流动性抽水危机》的最新宏观经济报告。【事件核心细节】报告指出，受长期高企的实际利率及主要经济体财政赤字规模居高不下影响，全球主权债券市场的深度与广度正在发生裂变。发展中经济体及部分次级欧洲国家的国债流动性枯竭指数已攀升至2008年金融危机以来的最高点。资本持续向美欧超大型主权信用池回流，导致全球非美资产出现严重的“隐性流动性抽水”。【战略与深远影响】该警示直接戳中了当前全球资本市场的神经。随着全球金融流动性分化加剧，中小经济体面临的本币贬值和外债偿付压力呈几何级数上升，迫使多国央行不得不进一步收紧资本管制，全球资本自由流动体制面临前所未有的碎片化威胁。",
+      "tags": [
+        "IMF",
+        "World Bank",
+        "Sovereign Debt",
+        "Liquidity Crisis"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.65,
+      "nlpKeyEntities": [
+        "IMF",
+        "World Bank",
+        "Washington",
+        "Wall Street"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T05:30:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-007",
+      "batchDate": "2026-09-24",
+      "title": "新加坡金融管理局（MAS）联合中东主权财富基金启动首个“跨境代币化绿色资产回购（Repo）试点”",
+      "englishTitle": "Monetary Authority of Singapore and Middle East Sovereign Funds Launch Cross-Border Tokenized Green Repo Pilot",
+      "source": "Bloomberg",
+      "sourceCountry": "Singapore",
+      "category": "finance",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，新加坡金融管理局（MAS）携手阿布扎比投资局（ADIA）与淡马锡控股，在新加坡国际金融科技节前夕共同宣布正式启动全球首个“跨境代币化绿色资产回购（Repo）试点”项目。【事件核心细节】该试点利用许可制区块链技术，将东南亚与中东地区的优质绿色基础设施资产（如大型光伏电站与绿氢输送管道收益权）进行数字代币化封装。全球机构投资者可直接利用智能合约，在几秒钟内完成以代币化绿色资产为抵押的多币种短期流动性拆借，首批测试资金规模达50亿美元。【战略与深远影响】该项目打破了传统绿色金融产品流动性较差的沉疴，为亚洲与中东之间的资本循环开辟了高效率、高透明度的数字金融新通道。它巩固了新加坡作为全球数字资产与绿色金融枢纽的战略地位，并对传统离岸金融中心构成了差异化竞争优势。",
+      "tags": [
+        "MAS",
+        "Temasek",
+        "Tokenized Assets",
+        "Green Finance"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "Monetary Authority of Singapore",
+        "ADIA",
+        "Temasek",
+        "Singapore"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T01:30:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-008",
+      "batchDate": "2026-09-24",
+      "title": "拉美四国在巴西利亚签署《南锥体能源与关键矿产共同防御协定》，构建跨国资源主权保护同盟",
+      "englishTitle": "Four Latin American Nations Sign 'Southern Cone Energy and Critical Minerals Mutual Defense Pact' in Brasilia",
+      "source": "Reuters",
+      "sourceCountry": "Brazil",
+      "category": "geopolitics",
+      "region": "Latin America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月24日，巴西、智利、阿根廷和玻利维亚四国元首及能源部长在巴西利亚举行紧急峰会，正式签署历史性的《南锥体能源与关键矿产共同防御协定》。【事件核心细节】该协定确立了“锂、铜、稀土及跨国清洁能源输送网”的最高战略保护级别。四国宣布将建立统一的战略矿产出口底价协调机制，并组建联合执法网络，严厉打击跨国走私与未经授权的离岸垄断收割。同时，协定明确拒绝任何外部势力单方面对拉美关键矿产供应链实施的次级制裁与长臂管辖。【战略与深远影响】这是拉美国家面对大国地缘博弈加剧所做出的集体战略抱团举措。该同盟实质性改变了全球电动车及清洁能源产业链上游原料的定价权格局，对美欧等西方工业国确保关键矿产安全稳定供应构成了严峻的新地缘政治变量。",
+      "tags": [
+        "Latin America",
+        "Critical Minerals",
+        "Lithium",
+        "Geopolitics"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.2,
+      "nlpKeyEntities": [
+        "Brasilia",
+        "Brazil",
+        "Chile",
+        "Argentina",
+        "Bolivia"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T06:15:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-009",
+      "batchDate": "2026-09-24",
+      "title": "欧盟委员会与土耳其就黑海海底光缆与跨欧亚天然气走廊安全升级达成“地缘互联互通特别伙伴协议”",
+      "englishTitle": "European Commission and Turkey Reach 'Geopolitical Connectivity Partnership' for Black Sea Subsea Cables and Gas Corridors",
+      "source": "Financial Times",
+      "sourceCountry": "Belgium",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，欧盟委员会与土耳其政府在布鲁塞尔完成闭门密集磋商，正式达成并签署了《黑海及跨欧亚战略互联互通特别伙伴协议》。【事件核心细节】该协议的核心内容包括：欧盟将向土耳其提供总额达120亿欧元的专项基建补贴与安全贷款，用于共同铺设绕开传统高危地缘冲突区的黑海海底量子加密光缆，并对贯通中亚至欧洲的天然气及绿氢输送大动脉实施全天候军事与网络安全联合防护。【战略与深远影响】在欧亚地缘断层线持续绷紧的背景下，此协议标志着欧盟与土耳其暂时搁置了部分政治分歧，转而通过巩固欧亚大陆桥的关键咽喉要道来确保自身的数字通信与能源大动脉安全。这将进一步重塑黑海及地中海东部的地缘政治势力平衡。",
+      "tags": [
+        "European Union",
+        "Turkey",
+        "Subsea Cables",
+        "Energy Security"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.4,
+      "nlpKeyEntities": [
+        "European Commission",
+        "Turkey",
+        "Brussels",
+        "Black Sea"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T03:45:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-010",
+      "batchDate": "2026-09-24",
+      "title": "东盟十国与海湾阿拉伯国家合作委员会（GCC）在利雅得峰会上宣布正式启动“跨洲自由贸易与数字走廊一体化谈判”",
+      "englishTitle": "ASEAN and GCC Launch Cross-Continental Free Trade and Digital Corridor Integration Negotiations at Riyadh Summit",
+      "source": "Reuters",
+      "sourceCountry": "Saudi Arabia",
+      "category": "geopolitics",
+      "region": "Middle East",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，东盟十国经济高官代表团与海湾阿拉伯国家合作委员会（GCC）成员国代表在沙特首都利雅得举行特别联席会议，宣布正式启动全面、高标准的“跨洲自由贸易与数字走廊一体化”实质性谈判。【事件核心细节】根据峰会披露的路线图，双方旨在打通东南亚与海湾地区之间的货物零关税大通道，并在数字经济、跨境电子商务、人工智能算力共享及清真数字供应链认证等领域实现法规全面互认。预计该协定全面落地后，双边年度贸易额将在五年内翻一番。【战略与深远影响】这一跨区域战略对接是“全球南方”国家深化南南合作、构建多元化贸易伙伴关系的标志性事件。它有效对冲了美欧不断加码的贸易保护主义和供应链脱钩冲击，推动全球经贸规则向更加多极化方向演进。",
+      "tags": [
+        "ASEAN",
+        "GCC",
+        "Free Trade",
+        "Riyadh Summit"
       ],
       "sentiment": "positive",
       "sentimentScore": 0.82,
       "nlpKeyEntities": [
-        "TSMC",
-        "NVIDIA",
-        "Blackwell Ultra",
-        "GAA Transistors"
+        "ASEAN",
+        "GCC",
+        "Riyadh",
+        "Saudi Arabia"
       ],
-      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-2",
-      "publishTime": "2026-09-24T01:17:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
+      "coverUrl": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T01:00:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
     },
     {
-      "title": "DeepMind 与多国实验室联合发布通用材料生成模型，攻克室温超导候选物筛选",
-      "englishTitle": "DeepMind and International Labs Unveil Universal Materials Model for Superconductor Candidates",
-      "source": "Nature",
-      "sourceCountry": "UK",
-      "category": "ai",
-      "region": "Global",
-      "impactLevel": "high",
-      "summary": "《自然》杂志刊登重磅成果，研究团队利用晶体对称性扩散变换器，对超过 220 万种高压结晶态结构进行高通量虚拟合成，将新型低能耗储能材料的筛选效率提升四个数量级。",
-      "tags": [
-        "DeepMind",
-        "AI4Science",
-        "超导材料",
-        "Nature"
-      ],
-      "sentiment": "positive",
-      "sentimentScore": 0.88,
-      "nlpKeyEntities": [
-        "DeepMind",
-        "Nature",
-        "Materials Genome",
-        "Quantum Crystals"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-3",
-      "publishTime": "2026-09-24T03:34:00Z",
+      "id": "gemini-2026-09-24-011",
       "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "欧盟《人工智能法案》进入全面落地审查期，跨国科技巨头合规成本或翻倍",
-      "englishTitle": "EU AI Act Enforcement Audits Begin with High-Risk Foundation Models Facing Scrutiny",
-      "source": "Financial Times",
-      "sourceCountry": "EU",
-      "category": "ai",
-      "region": "Europe",
-      "impactLevel": "medium",
-      "summary": "英国《金融时报》报道，布鲁塞尔监管办公室正式向在欧运营的 8 家全球大模型供应商发出高风险算法技术档案问询函，要求详细说明训练语料来源、碳足迹及系统性风险应急熔断机制。",
-      "tags": [
-        "欧盟法案",
-        "AI合规",
-        "系统性风险",
-        "科技反垄断"
-      ],
-      "sentiment": "neutral",
-      "sentimentScore": -0.12,
-      "nlpKeyEntities": [
-        "European Commission",
-        "EU AI Act",
-        "Algorithmic Transparency"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-4",
-      "publishTime": "2026-09-24T05:51:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "美联储 FOMC 点阵图偏向渐进降息，华尔街重新评估美元流动性拐点",
-      "englishTitle": "Fed Dot Plot Signals Cautious Easing Path as Wall Street Reprices Global Liquidity",
-      "source": "The Wall Street Journal",
-      "sourceCountry": "US",
-      "category": "finance",
-      "region": "North America",
-      "impactLevel": "high",
-      "summary": "华尔街日报指出，鉴于美国劳动力市场韧性与核心服务业通胀黏性，美联储决策层在年内降息节奏上分歧显现，全球主权债券收益率曲线倒挂程度进一步收窄，跨境套息资金加速再平衡。",
-      "tags": [
-        "美联储",
-        "FOMC点阵图",
-        "美元流动性",
-        "美债收益率"
-      ],
-      "sentiment": "neutral",
-      "sentimentScore": 0.15,
-      "nlpKeyEntities": [
-        "Federal Reserve",
-        "FOMC",
-        "Jerome Powell",
-        "Treasury Yields"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-5",
-      "publishTime": "2026-09-24T06:08:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "日本央行加息预期引发全球套利交易平仓隐忧，亚太主权基金增持实物黄金",
-      "englishTitle": "BOJ Rate Hike Prospects Trigger Carry Trade Unwinding Fears; Sovereign Funds Turn to Gold",
+      "title": "国际可再生能源署（IRENA）发布全球电网现代化紧急报告：2.5太瓦新能源并网瓶颈迫切需要跨国超级电网投资",
+      "englishTitle": "IRENA Releases Emergency Grid Modernization Report Urging Supergrid Investments for 2.5 Terawatts of Clean Energy",
       "source": "Bloomberg",
-      "sourceCountry": "US",
-      "category": "finance",
-      "region": "Asia-Pacific",
+      "sourceCountry": "UAE",
+      "category": "climate",
+      "region": "Middle East",
       "impactLevel": "high",
-      "summary": "日元汇率波动率走阔，市场对零利率时代终结的外溢反应愈发敏感。彭博统计显示，中东与东南亚主权财富基金连续第四周增持黄金现货及短期国债以对冲汇率敞口。",
+      "summary": "【时间与主体】2026年9月24日，国际可再生能源署（IRENA）在阿布扎比总部发布题为《打通清洁电力大动脉：全球电网现代化的2.5太瓦危机》的重磅行业报告。【事件核心细节】报告指出，全球范围内由于陈旧电网无法承受波动性负荷，目前已有超过2.5太瓦（Terawatt）已建成的风电和光伏发电能力被迫长期弃电或延期并网。IRENA呼吁全球各国必须在2030年前将跨国超高压直流输电（UHVDC）与分布式智能微电网的年度资本开支提升至8000亿美元以上，否则全球净零碳排目标将彻底失效。【战略与深远影响】该报告精准揭示了当前全球绿色能源转型的最大隐形桎梏——“电网建设严重滞后于电源建设”。这引发了全球能源投资风向的根本性转变，资本开始从单纯的光伏组件制造转向高压输变电设备、特种变压器及智能电网软件领域，深刻改变清洁能源产业链的利润分配格局。",
       "tags": [
-        "日本央行",
-        "日元套利",
-        "黄金储备",
-        "主权基金"
+        "IRENA",
+        "Smart Grid",
+        "Renewable Energy",
+        "UHVDC"
       ],
       "sentiment": "negative",
       "sentimentScore": -0.45,
       "nlpKeyEntities": [
-        "Bank of Japan",
-        "Yen Carry Trade",
-        "Gold Reserves",
-        "FX Hedging"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-6",
-      "publishTime": "2026-09-24T08:25:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "全球主权与私人信贷机构竞购 AI 基础设施资产，专项算力债券发行规模破千亿",
-      "englishTitle": "Private Credit Funds Flock to AI Infrastructure with $100B in Data Center Debt Pipelines",
-      "source": "Financial Times",
-      "sourceCountry": "UK",
-      "category": "finance",
-      "region": "Global",
-      "impactLevel": "medium",
-      "summary": "在超大规模云厂商加速资本开支背景下，黑石与博枫等另类资产管理巨头正将数据中心电网配套与液冷机房打包为高评级资产支持证券，基础设施私募信贷年化溢价创三年新高。",
-      "tags": [
-        "私市信贷",
-        "AI基建",
-        "资产证券化",
-        "算力资本"
-      ],
-      "sentiment": "positive",
-      "sentimentScore": 0.62,
-      "nlpKeyEntities": [
-        "Blackstone",
-        "Brookfield",
-        "Data Center Debt",
-        "Alternative Assets"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-7",
-      "publishTime": "2026-09-24T10:42:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "红海与苏伊士航道安全溢价推升全球集装箱综合运价 18%，欧洲供应链面临再调度",
-      "englishTitle": "Red Sea Transit Disruptions Drive Global Freight Rates Up 18% Forcing Route Diversions",
-      "source": "Reuters",
-      "sourceCountry": "UK",
-      "category": "geopolitics",
-      "region": "Middle East",
-      "impactLevel": "high",
-      "summary": "路透社海事追踪数据显示，好望角绕航使得远东至欧洲往返航行周期平均增加 12~14 天，航运公司额外燃油附加费及战争险保费上调，给欧洲制造业核心零部件的准时化生产（JIT）带来严峻挑战。",
-      "tags": [
-        "红海局势",
-        "海运运价",
-        "供应链安全",
-        "好望角绕航"
-      ],
-      "sentiment": "negative",
-      "sentimentScore": -0.78,
-      "nlpKeyEntities": [
-        "Suez Canal",
-        "Red Sea",
-        "Freight Rates",
-        "Maritime Security"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-8",
-      "publishTime": "2026-09-24T11:59:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "七国集团就关键矿产安全伙伴机制达成新备忘录，锂镍精炼供应链本地化加速",
-      "englishTitle": "G7 Deepens Critical Minerals Security Pact to Accelerate Lithium and Nickel Reshoring",
-      "source": "Foreign Affairs",
-      "sourceCountry": "US",
-      "category": "geopolitics",
-      "region": "North America",
-      "impactLevel": "high",
-      "summary": "《外交事务》专栏分析，为降低对单一产区的锂、镍、稀土精炼依赖，美日欧正通过提供主权担保信贷，加速在西澳与拉美设立符合 ESG 标准的选矿加工走廊，重塑全球能源金属流向。",
-      "tags": [
-        "关键矿产",
-        "G7合作",
-        "供应链脱钩",
-        "稀土地缘"
-      ],
-      "sentiment": "neutral",
-      "sentimentScore": 0.05,
-      "nlpKeyEntities": [
-        "G7 Coalition",
-        "Critical Minerals",
-        "Lithium Supply",
-        "Reshoring Policy"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-9",
-      "publishTime": "2026-09-24T13:16:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "东盟深化本币结算框架并扩容跨国跨境快速支付网络，去美元化区域试点扩围",
-      "englishTitle": "ASEAN Expands Local Currency Settlement Framework with Cross-Border QR Payment Links",
-      "source": "Bloomberg",
-      "sourceCountry": "Singapore",
-      "category": "geopolitics",
-      "region": "Asia-Pacific",
-      "impactLevel": "medium",
-      "summary": "新加坡金管局与印尼、马来西亚央行宣布升级跨国即时清算互联协议，双边贸易本币结算占比单季提升 4.2 个百分点，降低了区域内进出口企业对第三方外汇中介的兑换滑点损耗。",
-      "tags": [
-        "东盟本币结算",
-        "去美元化",
-        "跨境清算",
-        "数字货币互联"
-      ],
-      "sentiment": "positive",
-      "sentimentScore": 0.58,
-      "nlpKeyEntities": [
-        "ASEAN",
-        "MAS Singapore",
-        "Local Currency Settlement",
-        "Cross-Border FX"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-10",
-      "publishTime": "2026-09-24T15:33:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "COP 气候谈判前夕全球碳边境调节机制 (CBAM) 过渡期申报审查趋严，高耗能出口商加速碳核算",
-      "englishTitle": "EU CBAM Transition Audits Tighten Ahead of COP; Heavy Industry Scrambles for Carbon Accounting",
-      "source": "Financial Times",
-      "sourceCountry": "EU",
-      "category": "climate",
-      "region": "Europe",
-      "impactLevel": "high",
-      "summary": "欧盟委员会开始对钢铁、铝业及水泥进口商提交的隐含碳排放数据展开随机技术核查，申报不合规可能面临高额罚金，倒逼亚洲与美洲重工企业建立全生命周期碳足迹追溯体系。",
-      "tags": [
-        "碳关税",
-        "CBAM",
-        "碳边境机制",
-        "绿色能源转型"
-      ],
-      "sentiment": "neutral",
-      "sentimentScore": -0.22,
-      "nlpKeyEntities": [
-        "European Commission",
-        "CBAM",
-        "Carbon Border Tax",
-        "Heavy Industry ESG"
-      ],
-      "coverUrl": "https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-11",
-      "publishTime": "2026-09-24T17:50:00Z",
-      "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
-    },
-    {
-      "title": "国际能源署 (IEA) 发布新能源并网瓶颈预警：全球超 1500 吉瓦清洁电力等待电网扩容",
-      "englishTitle": "IEA Warns of Severe Clean Energy Grid Congestion with 1,500 GW Capacity Queuing for Access",
-      "source": "Reuters",
-      "sourceCountry": "France",
-      "category": "climate",
-      "region": "Europe",
-      "impactLevel": "high",
-      "summary": "IEA 指出，尽管太阳能与风电装机复合增速超 25%，但传统输电网接入排队时间长达 4~6 年。跨区域特高压直流与固态长时储能项目的投资复合增速正在迎来政策拐点。",
-      "tags": [
-        "国际能源署",
-        "电网改造",
-        "特高压直流",
-        "长时储能"
-      ],
-      "sentiment": "positive",
-      "sentimentScore": 0.65,
-      "nlpKeyEntities": [
-        "IEA",
-        "Renewable Grids",
-        "HVDC Systems",
-        "Grid Bottleneck"
+        "IRENA",
+        "Abu Dhabi",
+        "UHVDC"
       ],
       "coverUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=60",
-      "id": "global-2026-09-24-12",
-      "publishTime": "2026-09-24T18:07:00Z",
+      "publishTime": "2026-09-24T04:00:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
+    },
+    {
+      "id": "gemini-2026-09-24-012",
       "batchDate": "2026-09-24",
-      "batchId": "spark_global_24h_20260925"
+      "title": "全球首个商业化超临界二氧化碳（sCO2）发电闭环系统在德国鲁尔区正式投运，开启化石能源向零碳热循环替代新纪元",
+      "englishTitle": "World's First Commercial Supercritical CO2 Power Closed-Loop System Commissioned in Germany's Ruhr Valley",
+      "source": "Reuters",
+      "sourceCountry": "Germany",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月24日，由德国蒂森克虏伯与西门子能源联合主导的全球首个商业化超临界二氧化碳（sCO2）发电闭环系统在德国鲁尔工业区正式宣布投产运营。【事件核心细节】该系统以超临界状态的二氧化碳替代传统水蒸气作为工质，推动高效率透平机组运转。在相同热源输入下，其发电效率较传统蒸汽朗肯循环提升了整整10个百分点，且占地面积缩小达70%，同时实现了全系统二氧化碳的零外泄密闭循环利用。【战略与深远影响】该技术的商业化成功落地，为全球高耗能工业领域的深度脱碳提供了一条极具颠覆性的技术路径。它不仅大幅降低了未来工业余热回收与新一代核能、太阳能热发电系统的成本，也为全球应对气候变暖提供了关键的硬核工程技术支撑。",
+      "tags": [
+        "Supercritical CO2",
+        "Clean Energy",
+        "Siemens Energy",
+        "Germany"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "Siemens Energy",
+        "ThyssenKrupp",
+        "Ruhr Valley",
+        "Germany"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-24T02:30:00.000Z",
+      "createdAt": "2026-10-19T06:14:50.817Z",
+      "updatedAt": "2026-10-19T06:14:50.817Z"
     }
   ],
   "batchStatus": {
@@ -355,6 +368,16 @@
     "generatedTime": "2026-09-24 08:30:00",
     "nextScheduleTime": "明日 08:30:00 (每日晨报)",
     "progress": 100,
-    "currentStage": "Gemini Spark (gemini-3.1-pro) 24H 简报生成与交叉校验完成"
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1923 诺贝尔文学奖",
+    "author": "威廉·巴特勒·叶芝",
+    "work": "当你老了",
+    "enAuthor": "William Butler Yeats",
+    "enWork": "When You Are Old",
+    "zh": "“多少人爱过你昙花一现的身影，唯独一人爱过你朝圣者的灵魂。”",
+    "en": "“How many loved your moments of glad grace, but one man loved the pilgrim soul in you.”",
+    "batchDate": "2026-09-24"
   }
 }

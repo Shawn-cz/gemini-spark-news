@@ -1,0 +1,360 @@
+{
+  "batchDate": "2026-10-06",
+  "items": [
+    {
+      "id": "gemini-2026-10-06-001",
+      "batchDate": "2026-10-06",
+      "title": "OpenAI与台积电联合发布全球首款自主光子AI超级处理器",
+      "englishTitle": "OpenAI and TSMC Announce World's First Photonic AI Super Processor",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】：2026年10月5日，人工智能领军企业OpenAI与全球晶圆代工巨头台积电（TSMC）在美国旧金山联合召开发布会，双方历时三年联合研发的下一代光子AI超级处理器正式流片成功。【事件核心细节】：该处理器采用突破性的硅光集成技术，将光学计算单元与电子逻辑电路在2纳米节点上进行异质集成，算力密度较传统电子芯片提升超过40倍，同时能耗降低85%。首批投产的晶圆良率已突破78%，彻底解决了长期困扰光子芯片的温度敏感与热噪点难题。【战略与深远影响】：这一颠覆性技术突破将彻底打破当前冯·诺依曼架构下由于电子传输延迟带来的“存储墙”与“功耗墙”瓶颈，极大加速通用人工智能（AGI）向物理实体与端侧实时决策的演进。它不仅进一步巩固了台积电在全球先进制程与封装领域的绝对垄断地位，也标志着中美及全球算力军备竞赛正式进入“光电融合”的全新纪元，对全球半导体产业链供应链重塑具有里程碑意义。",
+      "tags": [
+        "AI",
+        "Semiconductor",
+        "TSMC",
+        "OpenAI"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.92,
+      "nlpKeyEntities": [
+        "OpenAI",
+        "TSMC",
+        "San Francisco"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T06:30:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.685Z",
+      "updatedAt": "2026-10-06T00:34:39.685Z"
+    },
+    {
+      "id": "gemini-2026-10-06-005",
+      "batchDate": "2026-10-06",
+      "title": "美联储意外宣布降息50个基点并扩大资产负债表干预",
+      "englishTitle": "Federal Reserve Unexpectedly Cuts Rates by 50bps and Expands Balance Sheet Intervention",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年10月5日，美国联邦储备委员会（Fed）在华盛顿召开紧急货币政策会议，主席及公开市场委员会成员以压倒性多数投票通过了将联邦基金利率目标区间下调50个基点至3.75%-4.00%的决定，并宣布重启针对中长期国债的结构性购买计划。【事件核心细节】：此次超预期降息主要由于最新公布的非农就业数据大幅逊于预期，且商业房地产市场债务违约风险在三季度末呈现蔓延迹象。美联储同时宣布将每月量化紧缩（QT）规模削减一半，向金融体系注入流动性以平抑国债收益率的异常飙升。【战略与深远影响】：这一宏观货币政策的急转弯引发全球金融市场的剧烈震荡，美元指数应声跌破100关口，非美货币与黄金价格大幅飙升。此举标志着美联储货币政策正式从长达数年的“抗通胀高压期”转向“防范系统性衰退期”，对全球资本流向、新兴市场汇率稳定及大宗商品定价权构成了深远的外溢冲击。",
+      "tags": [
+        "Finance",
+        "Federal Reserve",
+        "Interest Rates",
+        "Macroeconomics"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.25,
+      "nlpKeyEntities": [
+        "Federal Reserve",
+        "Washington",
+        "US Treasury"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T02:30:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.686Z",
+      "updatedAt": "2026-10-06T00:34:39.686Z"
+    },
+    {
+      "id": "gemini-2026-10-06-007",
+      "batchDate": "2026-10-06",
+      "title": "日本央行正式宣布结束长达十年的超宽松货币政策周期",
+      "englishTitle": "Bank of Japan Officially Announces End of Decade-Long Ultra-Loose Monetary Policy Cycle",
+      "source": "Nikkei Asia",
+      "sourceCountry": "JP",
+      "category": "finance",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年10月5日，日本央行（BOJ）行长在东京总部召开货币政策例会，正式宣布将基准利率上调至0.75%，并彻底取消长期国债收益率曲线控制（YCC）政策，标志着日本彻底告别负利率及超宽松货币时代。【事件核心细节】：此次加息基于日本国内连续八个季度实现的稳定温和通胀以及今年春斗中创下30年新高的实质性工资涨幅。日本央行同时宣布缩减商业地产信托投资基金（J-REITs）的购买规模，逐步实现资产负债表正常化。【战略与深远影响】：日本货币政策的彻底转向对全球金融资本市场产生了显著的涟漪效应。长期以来依赖廉价日元进行全球套利交易（Yen Carry Trade）的国际投机资本遭遇大规模平仓回流日本，直接引发了国际股市与非美资产的阶段性剧烈调整，同时也提升了日本国债收益率与政府债务偿还成本。",
+      "tags": [
+        "Finance",
+        "Bank of Japan",
+        "Interest Rates",
+        "Yen"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.05,
+      "nlpKeyEntities": [
+        "Bank of Japan",
+        "Tokyo",
+        "BOJ"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T01:00:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.686Z",
+      "updatedAt": "2026-10-06T00:34:39.686Z"
+    },
+    {
+      "id": "gemini-2026-10-06-011",
+      "batchDate": "2026-10-06",
+      "title": "全球首座商业化兆瓦级空间太阳能电站地面接收试验获得重大突破",
+      "englishTitle": "World's First Commercial Megawatt-Scale Space Solar Power Station Ground Reception Test Achieves Major Breakthrough",
+      "source": "Nature Energy",
+      "sourceCountry": "UK",
+      "category": "climate",
+      "region": "Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年10月5日，由国际清洁能源科研联合体在中国西北部某基地主持的“空间太阳能电站（SSPS）微波无线能量传输地面接收试验”取得圆满成功。【事件核心细节】：试验成功实现了从距地面3.6万公里地球同步轨道模拟卫星发射源到地面接收阵列的高效微波无线能量传输，单收发信道连续输出稳定功率达1.2兆瓦，微波转电能的综合转换效率历史性突破74.5%，且对周边电磁环境与生态未产生可测量的负面影响。【战略与深远影响】：空间太阳能发电作为彻底摆脱地面昼夜交替与天气条件限制终极清洁能源方案，历来被视为人类能源史上的“圣杯”。此次兆瓦级试验的成功验证了高频大功率微波远距离传输的可行性，为2035年前后发射首颗商业化兆瓦级空间太阳能电站奠定了坚实的工程技术基础，将对全球应对气候变暖及重塑能源地缘格局产生革命性影响。",
+      "tags": [
+        "Climate",
+        "Clean Energy",
+        "Space Solar",
+        "Technology"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.95,
+      "nlpKeyEntities": [
+        "Nature Energy",
+        "SSPS",
+        "China"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T00:00:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.687Z",
+      "updatedAt": "2026-10-06T00:34:39.687Z"
+    },
+    {
+      "id": "gemini-2026-10-06-003",
+      "batchDate": "2026-10-06",
+      "title": "欧盟委员会出台《通用人工智能安全合规法案》实施细则",
+      "englishTitle": "European Commission Releases Implementation Rules for General-Purpose AI Act",
+      "source": "Financial Times",
+      "sourceCountry": "GB",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年10月5日，欧盟委员会（European Commission）在布鲁塞尔正式公布《通用人工智能安全合规法案》（GPAI Act）的全面实施细则，直接管辖范围涵盖所有在欧洲境内运营的全球顶尖AI大模型厂商。【事件核心细节】：实施细则规定，所有算力规模超过10^26 FLOPs的基础模型必须在数据透明度、版权保护、版权数据审计及系统性安全漏洞防御方面接受欧盟AI办公室的强制性穿透式监管。违者将面临最高达全球年度营业额9%或3500万欧元的巨额罚款，并需在限定期内无条件公开核心模型对齐数据集的元数据。【战略与深远影响】：此举标志着全球首个具有法律约束力的全面AI监管框架进入实质性落地阶段。它不仅重塑了跨国科技企业在欧洲市场的合规成本结构，也可能导致部分非欧盟本土前沿大模型企业因隐私与合规顾虑选择暂时退出欧盟市场，从而在客观上加剧了全球数字经济的区域化割裂。",
+      "tags": [
+        "AI",
+        "Regulation",
+        "European Union"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.12,
+      "nlpKeyEntities": [
+        "European Commission",
+        "Brussels",
+        "GPAI Act"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T04:15:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.686Z",
+      "updatedAt": "2026-10-06T00:34:39.686Z"
+    },
+    {
+      "id": "gemini-2026-10-06-004",
+      "batchDate": "2026-10-06",
+      "title": "微软宣布全面启用新一代全液冷绿色数据中心集群",
+      "englishTitle": "Microsoft Announces Full Activation of Next-Gen All-Liquid Cooled Green Data Center Clusters",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年10月4日，微软公司（Microsoft）在美国华盛顿州雷德蒙德宣布，其历时两年构建的全球首批超大规模“全浸没式液冷”AI数据中心集群正式投入商业运营，核心芯片供应商包括英伟达与AMD。【事件核心细节】：该数据中心彻底摒弃了传统的风冷系统，采用新型绝缘氟化液浸没冷却技术，使超高功率密度AI集群的散热效率提升300%以上。PUE（电源使用效率）值被史无前例地压低至1.02，且废热回收系统可为周边数十万居民区提供冬季供暖。【战略与深远影响】：随着大模型参数量与推理需求的爆炸式增长，算力中心正面临前所未有的电网负荷与碳排放压力。微软此举为整个科技行业树立了高密度AI算力基础设施减排的全新工程范本，缓解了AI泡沫背后因能源短缺引发的社会舆论与监管压力。",
+      "tags": [
+        "AI",
+        "Data Center",
+        "Microsoft",
+        "Sustainability"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "Microsoft",
+        "Redmond",
+        "NVIDIA"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T03:00:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.686Z",
+      "updatedAt": "2026-10-06T00:34:39.686Z"
+    },
+    {
+      "id": "gemini-2026-10-06-010",
+      "batchDate": "2026-10-06",
+      "title": "美国国会通过新一轮跨大西洋及印太海权联合防御法案",
+      "englishTitle": "US Congress Passes New Transatlantic and Indo-Pacific Maritime Joint Defense Bill",
+      "source": "Associated Press",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Asia-Pacific",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年10月4日，美国国会参众两院以微弱多数通过了总额达1200亿美元的《2027财年印太与大西洋海权安全增强法案》，并由总统签署生效。【事件核心细节】：该法案大幅增加了美国海军在印太战略方向及北大西洋关键战略水道的前沿常态化部署预算，重点用于采购无人水面舰队、高超音速导弹防御系统及海底光缆保护监测网络。法案同时要求盟友日本、澳大利亚及部分北约国家分摊更多海外军事基地的维护与防务开支。【战略与深远影响】：此举凸显了美国在战略收缩与全球地缘竞争双重压力下的两难困境。通过绑定盟友构建多层级海上封锁与防卫同盟，美国企图维系其在关键地缘海峡与全球供应链生命线上的绝对军事威慑力，这势必将进一步推高印太及欧洲方向的地缘对抗烈度，加剧区域安全的不确定性。",
+      "tags": [
+        "Geopolitics",
+        "US Congress",
+        "Indo-Pacific",
+        "Defense"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.45,
+      "nlpKeyEntities": [
+        "US Congress",
+        "Pentagon",
+        "Indo-Pacific"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-05T22:15:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.687Z",
+      "updatedAt": "2026-10-06T00:34:39.687Z"
+    },
+    {
+      "id": "gemini-2026-10-06-012",
+      "batchDate": "2026-10-06",
+      "title": "国际能源署（IEA）发布《2026全球海上风电与固态储能加速转型报告》",
+      "englishTitle": "IEA Releases '2026 Global Offshore Wind and Solid-State Storage Accelerated Transition Report'",
+      "source": "BloombergNEF",
+      "sourceCountry": "FR",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年10月4日，国际能源署（IEA）在巴黎总部发布年度旗舰报告《2026全球海上风电与固态储能加速转型报告》，重点评估了全球主要经济体在兑现《巴黎协定》净零排放承诺方面的最新进展。【事件核心细节】：报告指出，得益于第三代半导体逆变器技术的普及以及高能量密度全固态电池成本在过去一年中下降了45%，全球海上风电与电网侧储能的平准化发电成本（LCOE）首次低于传统化石能源。2026年前三季度全球新增清洁能源装机容量已超过去年全年的总和，其中中国与欧洲市场的贡献率接近70%。【战略与深远影响】：该报告用详实的数据证实全球能源转型已跨越经济性临界点，进入由市场内生动力驱动的指数级增长阶段。它不仅进一步压缩了全球传统煤电与高碳油气产业的生存空间，也促使国际金融资本加速从化石能源资产向零碳基础设施进行历史性大转移。",
+      "tags": [
+        "Climate",
+        "IEA",
+        "Wind Power",
+        "Energy Transition"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "IEA",
+        "Paris",
+        "BloombergNEF"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-05T21:00:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.687Z",
+      "updatedAt": "2026-10-06T00:34:39.687Z"
+    },
+    {
+      "id": "gemini-2026-10-06-002",
+      "batchDate": "2026-10-06",
+      "title": "谷歌DeepMind发布多模态具身智能大模型Nexus-1",
+      "englishTitle": "Google DeepMind Releases Multimodal Embodied AI Model Nexus-1",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年10月4日，谷歌旗下人工智能核心研发机构DeepMind在伦敦总部正式发布全新多模态具身智能大模型Nexus-1，牵涉全球多家主流人形机器人制造商。【事件核心细节】：Nexus-1拥有超过100万亿参数，首次实现了通过自然语言指令直接控制物理世界中复杂、非结构化环境下的多关节机械臂与人形机器人。该模型通过大规模世界视频生成模型进行强化学习，其三维空间感知误差率降至历史最低的0.2毫米，动作规划响应时间缩短至10毫秒以内。【战略与深远影响】：该模型的发布标志着大模型从纯数字空间的“文本与图像对话”成功跃升至物理世界的“自主干预与劳动替代”，对全球工业制造、仓储物流及高端护理服务业的劳动力结构产生深远冲击，并进一步加剧了中美科技巨头在具身智能标准制定方面的主导权争夺。",
+      "tags": [
+        "AI",
+        "Robotics",
+        "Google DeepMind"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "Google DeepMind",
+        "Nexus-1",
+        "London"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T05:00:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.686Z",
+      "updatedAt": "2026-10-06T00:34:39.686Z"
+    },
+    {
+      "id": "gemini-2026-10-06-006",
+      "batchDate": "2026-10-06",
+      "title": "国际清算银行（BIS）与多国央行成功完成mBridge数字货币跨境结算系统商用压力测试",
+      "englishTitle": "BIS and Central Banks Successfully Complete Commercial Stress Test of mBridge Cross-Border CBDC System",
+      "source": "Financial Times",
+      "sourceCountry": "GB",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年10月4日，国际清算银行（BIS）创新枢纽联合中国人民银行、阿联酋中央银行、泰国银行及沙特阿拉伯中央银行共同发布《mBridge多边央行数字货币桥商用化转型最终压力测试报告》。【事件核心细节】：在历时三个月的全天候压力测试中，该系统处理了超过150亿美元等值的跨境贸易结算，平均单笔交易清算时间缩短至2秒以内，交易成本较传统环球同业银行金融电讯协会（SWIFT）通道降低了近70%。测试证明了基于分布式账本技术（DLT）的多边央行数字货币系统在高并发、跨时区、多法币互换场景下的绝对安全性与稳定性。【战略与深远影响】：mBridge系统的正式商用化落地标志着国际货币体系向多元化、去美元化方向迈出了实质性、不可逆的一大步。它为全球大宗商品贸易结算提供了一种绕过传统美元清算网络的高效替代方案，对长期以来的西方主导金融制裁与长臂管辖构成了结构性对冲。",
+      "tags": [
+        "Finance",
+        "BIS",
+        "CBDC",
+        "mBridge"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.81,
+      "nlpKeyEntities": [
+        "BIS",
+        "People's Bank of China",
+        "mBridge"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T01:45:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.686Z",
+      "updatedAt": "2026-10-06T00:34:39.686Z"
+    },
+    {
+      "id": "gemini-2026-10-06-008",
+      "batchDate": "2026-10-06",
+      "title": "中欧高级别战略对话达成关键共识并签署绿色数字供应链互认协议",
+      "englishTitle": "China-EU High-Level Strategic Dialogue Reaches Key Consensus and Signs Green Digital Supply Chain Mutual Recognition Agreement",
+      "source": "Xinhua",
+      "sourceCountry": "CN",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年10月5日，中国与欧洲联盟代表团在布鲁塞尔举行新一轮中欧高级别战略对话，双方在历经多轮艰难磋商后正式签署《中欧绿色与数字供应链互认框架协议》。【事件核心细节】：根据该协议，中欧双方将在碳足迹核算标准、电池护照数字化追溯系统及关键原材料供应链安全预警机制上实现数据互认与监管对接。欧盟同意在对等条件下放宽对华高新技术产品出口的非关税壁垒，而中方则承诺进一步优化新能源汽车及光伏产品的绿色全生命周期合规透明度。【战略与深远影响】：在当前逆全球化思潮沉渣泛起、单边主义与保护主义抬头的地缘政治背景下，中欧此次战略妥协与机制性合作具有极强的风向标意义。它有效对冲了美国持续推行的“脱钩断链”与“小院高墙”战略，为全球多边贸易体制注入了确定性，稳固了欧亚大陆两端在应对全球性挑战时的经济纽带。",
+      "tags": [
+        "Geopolitics",
+        "China-EU",
+        "Supply Chain",
+        "Trade"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "Brussels",
+        "China",
+        "European Union"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-06T00:30:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.687Z",
+      "updatedAt": "2026-10-06T00:34:39.687Z"
+    },
+    {
+      "id": "gemini-2026-10-06-009",
+      "batchDate": "2026-10-06",
+      "title": "金砖国家峰会在巴西利亚闭幕并宣布扩员及去美元化结算新机制",
+      "englishTitle": "BRICS Summit Concludes in Brasília, Announcing Expansion and New De-Dollarization Settlement Mechanism",
+      "source": "Reuters",
+      "sourceCountry": "BR",
+      "category": "geopolitics",
+      "region": "South America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年10月4日，金砖国家（BRICS）领导人第十八次峰会在巴西首都巴西利亚隆重闭幕，峰会正式吸纳五个新兴经济体为正式成员，并发布了《巴西利亚宣言》。【事件核心细节】：会议的核心成果是正式启动了“金砖支付网络”（BRICS Pay）的区域化多边试运行，该网络通过黄金及本币互换篮子作为底层资产锚定，绕过了西方主导的传统SWIFT结算体系。此外，峰会就深化关键矿产资源（如锂、稀土、钴）的联合定价与出口协调机制达成一致，成立了金砖国家矿产安全同盟。【战略与深远影响】：金砖机制的持续扩员与实质性金融基础设施的落地，标志着全球地缘政治格局正加速向“多极化”演进。南方国家（Global South）在国际治理体系中的话语权与议价能力显著提升，对以西方为核心的战后单边金融与地缘政治秩序构成了日益强劲的结构性制衡。",
+      "tags": [
+        "Geopolitics",
+        "BRICS",
+        "De-dollarization",
+        "Brasília"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.76,
+      "nlpKeyEntities": [
+        "BRICS",
+        "Brasília",
+        "BRICS Pay"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-05T23:00:00.000Z",
+      "createdAt": "2026-10-06T00:34:39.687Z",
+      "updatedAt": "2026-10-06T00:34:39.687Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-06",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-06 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
+}

@@ -44,12 +44,29 @@ export function setActiveModel(modelId) {
 }
 
 /**
- * 智库 Prompt 契约生成
+ * 智库 Prompt 契约生成（支持注入往期已采摘研报负样本排重清单，确保新闻绝对新鲜、零重复）
  */
-export function buildSparkPrompt(targetDate) {
+export function buildSparkPrompt(targetDate, recentExclusionTitles = []) {
+  let antiDuplicationSection = '';
+  if (Array.isArray(recentExclusionTitles) && recentExclusionTitles.length > 0) {
+    const formattedList = recentExclusionTitles
+      .filter(t => typeof t === 'string' && t.trim())
+      .slice(0, 30)
+      .map((t, idx) => `   [往期已发表 #${idx + 1}] ${t.trim()}`)
+      .join('\n');
+
+    antiDuplicationSection = `
+【时效性与严禁重复约束（最高优先级强硬契约）】：
+1. 采摘的新闻必须为针对日期 ${targetDate} 过去 24 小时内最新实时发生、或由官方权威机构最新披露的突发/前沿大事件，严禁使用陈旧历史信息充数！
+2. 系统已调取近期（过去 14 天）已归档的新闻排重清单。**绝对禁止**重复或变相复述下列任何事件的主体或核心情节：
+${formattedList}
+必须挖掘在 ${targetDate} 过去 24 小时内全新发生、首次公开、不与上述列表重合的重大战略情报！
+`;
+  }
+
   return `你是一个专注于全球前沿科技、地缘格局、全球金融以及全球气候变暖与清洁能源的高级自主情报智能体（Gemini Spark）。
 请检索并总结针对日期 ${targetDate} 的全球 24 小时最具战略影响力的核心大事件。
-
+${antiDuplicationSection}
 【输出规范与契约约定】：
 1. 严格输出合法的 JSON 格式，不要包含任何 markdown 说明之外的文字。
 2. 篇数契约（强硬约束）：新闻总条数必须且严格输出满配 12 篇（不多不少，严禁缺漏少于 12 篇）。
@@ -104,7 +121,11 @@ JSON 结构示例：
 /**
  * 核心生成函数（双模自适应：API 调用优先，失败/无 Key 平滑保底）
  */
-export async function generateDailyBriefing(targetDate = new Date().toISOString().slice(0, 10), onStageProgress) {
+export async function generateDailyBriefing(
+  targetDate = new Date().toISOString().slice(0, 10), 
+  onStageProgress,
+  recentExclusionTitles = []
+) {
   const apiKey = process.env.GEMINI_API_KEY;
   const currentModel = activeModelId;
 
@@ -138,7 +159,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
       ? ['gemini-pro-latest', 'gemini-flash-latest', 'gemini-flash-lite-latest']
       : ['gemini-flash-latest', 'gemini-flash-lite-latest'];
 
-    const prompt = buildSparkPrompt(targetDate);
+    const prompt = buildSparkPrompt(targetDate, recentExclusionTitles);
     let response;
     let chosenModel = candidateModels[0];
     let lastError = null;
@@ -146,7 +167,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
     for (const model of candidateModels) {
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s 超时保护
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120s 超时保护（适应国际大模型长文生成）
 
       try {
         response = await fetch(endpoint, {
@@ -159,7 +180,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.4,
-              maxOutputTokens: 8192,
+              maxOutputTokens: 16384,
               responseMimeType: 'application/json'
             }
           }),
@@ -204,7 +225,7 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
     }
 
     const items = Array.isArray(parsed) ? parsed : (parsed.items || []);
-    const validatedItems = ensureBriefingContract(items, targetDate);
+    const validatedItems = ensureBriefingContract(items, targetDate, recentExclusionTitles);
 
     await report('COMPLETED', 100, `Gemini Spark 简报生产完成，共收录 ${validatedItems.length} 篇全球前沿要闻`);
 
@@ -222,20 +243,45 @@ export async function generateDailyBriefing(targetDate = new Date().toISOString(
 }
 
 /**
- * 契约规范校准器（确保严格输出满配 12 篇、1 篇 critical、2 篇 climate）
+ * 契约规范校准器（确保严格输出满配 12 篇、1 篇 critical、2 篇 climate，并执行严格防重去重）
  */
-export function ensureBriefingContract(items, targetDate) {
-  let list = Array.isArray(items) ? [...items] : [];
-  
+export function ensureBriefingContract(items, targetDate, recentExclusionTitles = []) {
+  const normalize = (t) => (t || '')
+    .replace(/^\[往期智库\]\s*/, '')
+    .replace(/[\s\p{P}\p{S}]/gu, '')
+    .toLowerCase();
+
+  // 1. 批次内部严格去重
+  const rawList = Array.isArray(items) ? [...items] : [];
+  const seenBatchTitles = new Set();
+  let list = [];
+  for (const it of rawList) {
+    const norm = normalize(it.title);
+    if (!seenBatchTitles.has(norm)) {
+      seenBatchTitles.add(norm);
+      list.push(it);
+    }
+  }
+
+  // 2. 跨批次与近期排重清单比对过滤（仅当剩余条目足够时严格过滤）
+  if (Array.isArray(recentExclusionTitles) && recentExclusionTitles.length > 0) {
+    const exclusionNorms = new Set(recentExclusionTitles.map(normalize));
+    const uniqueFromHistory = list.filter(it => !exclusionNorms.has(normalize(it.title)));
+    if (uniqueFromHistory.length >= 8) {
+      list = uniqueFromHistory;
+    }
+  }
+
+  // 3. 补齐至满配 12 篇
   if (list.length < 12) {
     const fallbackList = createGlobalDailyBatch(targetDate, 0);
-    // 从保底高质量智库中按去重逻辑智能补齐至满配 12 篇
-    const existingTitles = new Set(list.map(i => i.title));
-    const uniqueFallbacks = fallbackList.filter(i => !existingTitles.has(i.title));
+    const existingNorms = new Set(list.map(i => normalize(i.title)));
+    const exclusionNorms = new Set((recentExclusionTitles || []).map(normalize));
+    const uniqueFallbacks = fallbackList.filter(i => !existingNorms.has(normalize(i.title)) && !exclusionNorms.has(normalize(i.title)));
     list = [...list, ...uniqueFallbacks.slice(0, 12 - list.length)];
-    // 若极端去重情况下仍不足 12 篇，循环切片强制补齐
     if (list.length < 12) {
-      list = [...list, ...fallbackList.slice(0, 12 - list.length)];
+      const remainingFallbacks = fallbackList.filter(i => !existingNorms.has(normalize(i.title)));
+      list = [...list, ...remainingFallbacks.slice(0, 12 - list.length)];
     }
   } else if (list.length > 12) {
     list = list.slice(0, 12);

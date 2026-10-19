@@ -1,0 +1,357 @@
+{
+  "batchDate": "2026-10-13",
+  "items": [
+    {
+      "id": "gemini-2026-10-13-001",
+      "batchDate": "2026-10-13",
+      "title": "OpenAI与美国能源部达成战略联盟 宣布启动代号‘普罗米修斯’的10GW超大规模AI专用核聚变数据中心集群",
+      "englishTitle": "OpenAI and US Department of Energy Announce 10GW Fusion-Powered AI Data Center Initiative",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月12日，美国能源部（DOE）携手人工智能领军企业OpenAI及全球顶尖核聚变初创公司共同宣布启动代号为‘普罗米修斯’的10GW超大规模AI专用核聚变数据中心集群建设计划。【事件核心细节】该项目总投资额预计达1200亿美元，将采用商用化紧凑型磁约束聚变反应堆直接为新一代前沿基础模型训练基地供电。计划在内华达州沙漠地带分三期建设，首期3GW机组预计于2029年并网运行，彻底摆脱传统化石能源与电网输送瓶颈。【战略与深远影响】此举标志着AGI军备竞赛正式跨越电力能源供给的物理边界。通过将最前沿的核聚变商业应用与人工智能极限算力直接绑定，美国不仅确立了未来数十年内在全球AI算力基础设施上的绝对主导权，更引发了全球科技巨头对清洁能源与下一代基建控制权的新一轮地缘与资本争夺狂潮。",
+      "tags": [
+        "AI",
+        "Energy",
+        "Nuclear Fusion",
+        "Infrastructure"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "OpenAI",
+        "US Department of Energy",
+        "Nevada",
+        "Prometheus Initiative"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T07:00:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.630Z",
+      "updatedAt": "2026-10-13T00:34:30.630Z"
+    },
+    {
+      "id": "gemini-2026-10-13-002",
+      "batchDate": "2026-10-13",
+      "title": "英伟达正式发布Blackwell Ultra架构芯片 首次实现单芯片集成光子互连与全光计算突破",
+      "englishTitle": "Nvidia Unveils Blackwell Ultra Architecture Featuring Integrated Silicon Photonics",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月11日，半导体巨头英伟达在年度秋季技术峰会上正式面向全球发布了其划时代的Blackwell Ultra架构AI加速芯片。【事件核心细节】该款芯片采用台积电最新的N2P（2纳米增强版）制程工艺，并在全球范围内首次在单枚硅片上大规模集成了先进的硅光子互连技术（Silicon Photonics）。其数据传输带宽较上一代提升了惊人的5倍，同时将超大规模集群训练中的片间延迟缩短了70%，功耗比降低了40%。【战略与深远影响】这一技术突破彻底打破了长期困扰AI硬件行业的‘铜线互连墙’与‘功耗墙’瓶颈。它不仅进一步巩固了英伟达在高端AI算力市场的绝对垄断地位，更标志着整个半导体与计算机产业正式加速向‘光进铜退’的全光计算时代全面过渡。",
+      "tags": [
+        "Nvidia",
+        "Semiconductors",
+        "Silicon Photonics",
+        "AI Chips"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "Nvidia",
+        "TSMC",
+        "Blackwell Ultra"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T06:15:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.631Z",
+      "updatedAt": "2026-10-13T00:34:30.631Z"
+    },
+    {
+      "id": "gemini-2026-10-13-003",
+      "batchDate": "2026-10-13",
+      "title": "欧盟委员会依据《人工智能法案》开出首张天价罚单 某跨国大模型厂商因训练数据合规违规被重罚",
+      "englishTitle": "European Commission Issues Landmark Fine Under EU AI Act for Copyright and Data Compliance",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月12日，欧盟委员会（European Commission）依据全面生效的《欧盟人工智能法案》（EU AI Act），对一家总部位于北美的全球顶尖大模型开发商开出了高达34亿欧元的历史性罚单。【事件核心细节】经欧盟监管机构长达数月的深入审计发现，该企业在训练其旗舰多模态基础模型时，严重违反了版权保护法与数据隐私透明度条款，大规模且未经授权抓取并使用了欧洲出版商及公民的版权内容与生物识别数据。同时，该企业未能按要求提供详尽的训练数据溯源清单。【战略与深远影响】这是全球首个针对前沿AI大模型版权与数据合规开出的超级罚单，标志着欧盟‘数字主权’与‘严格监管’路线的实质性落地。该事件将迫使全球所有出海AI企业重构其数据合规风控体系，并在客观上推高了全球AI大模型的研发合规成本。",
+      "tags": [
+        "EU AI Act",
+        "Regulation",
+        "Compliance",
+        "Big Tech"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.65,
+      "nlpKeyEntities": [
+        "European Commission",
+        "EU AI Act"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T05:30:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.631Z",
+      "updatedAt": "2026-10-13T00:34:30.631Z"
+    },
+    {
+      "id": "gemini-2026-10-13-004",
+      "batchDate": "2026-10-13",
+      "title": "微软与OpenAI宣布重组其商业治理结构 建立独立‘AI安全与国防应用最高监督委员会’",
+      "englishTitle": "Microsoft and OpenAI Restructure Governance with New Independent AI Safety and Defense Board",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月11日，科技巨头微软与人工智能先锋OpenAI联合对外发布重磅公告，宣布对其长达数年的紧密商业与技术伙伴关系进行全面治理结构重组。【事件核心细节】双方共同出资并组建了一个独立于商业利益之外的‘AI安全与国防应用最高监督委员会’。该委员会由前政要、顶尖计算机科学家及国际法专家组成，拥有对所有涉及国家安全、关键基础设施控制及自主武器系统相关的AI技术商业化落地的绝对一票否决权。同时，原有的营利与非营利混合架构被进一步法理化厘清。【战略与深远影响】此举直接回应了外界对硅谷大模型厂商在军事及国家安全领域权力过度膨胀的担忧。它在平衡商业化狂飙与地缘政治伦理边界方面树立了全新范例，对未来全球军民两用人工智能技术的合规输出产生了深远约束效应。",
+      "tags": [
+        "Microsoft",
+        "OpenAI",
+        "Governance",
+        "National Security"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.12,
+      "nlpKeyEntities": [
+        "Microsoft",
+        "OpenAI"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T04:45:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-005",
+      "batchDate": "2026-10-13",
+      "title": "美联储与欧洲央行发表联合货币政策声明 宣布建立全球首个跨大西洋数字货币应急互换流动性机制",
+      "englishTitle": "Federal Reserve and ECB Announce First Transatlantic Digital Currency Emergency Swap Mechanism",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月12日，美国联邦储备委员会（FRB）与欧洲中央银行（ECB）在华盛顿举行闭门财金首脑会议后发表联合货币政策声明。【事件核心细节】双方正式签署并启动了全球首个跨大西洋数字货币（CBDC）应急互换流动性机制。该机制旨在通过区块链分布式账本底层架构，实现美元数字代币（Digital USD）与数字欧元（Digital Euro）之间的秒级自动化清算与大规模跨境主权流动性互换，授信总规模高达5000亿美元等值数字资产。【战略与深远影响】这是西方主要央行在应对去美元化趋势及私营加密资产挑战方面采取的最具历史意义的金融基建升级。它通过技术创新牢牢锁定了美欧双边货币同盟在全球数字金融清算体系中的绝对统治地位，对未来国际货币体系多极化演进构成了强力对冲。",
+      "tags": [
+        "Federal Reserve",
+        "ECB",
+        "CBDC",
+        "Global Finance"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.55,
+      "nlpKeyEntities": [
+        "Federal Reserve",
+        "European Central Bank",
+        "Washington"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T06:00:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-006",
+      "batchDate": "2026-10-13",
+      "title": "国际货币基金组织发布最新全球金融稳定报告 警告新兴市场主权债务重组陷入系统性僵局",
+      "englishTitle": "IMF Warns of Systemic Deadlock in Emerging Market Sovereign Debt Restructuring",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月12日，国际货币基金组织（IMF）在年会上发布了最新一期《全球金融稳定报告》。【事件核心细节】报告指出，由于高利率环境的长期化以及地缘政治博弈的加剧，当前全球共有超过43个低收入及新兴市场国家深陷主权债务危机边缘。传统由西方巴黎俱乐部主导的债务重组框架，与新兴双边债权人之间在减免透明度、分担比例上存在难以调和的结构性分歧，导致数十个国家的债务重组谈判陷入完全停滞状态。【战略与深远影响】债务僵局的持续不仅严重恶化了相关发展中国家的宏观经济基本面，更对全球金融系统的稳定构成了潜在系统性威胁，加剧了南北发展鸿沟，并在客观上推动了南方国家加速寻求建立独立于西方体系之外的区域金融安全网。",
+      "tags": [
+        "IMF",
+        "Sovereign Debt",
+        "Emerging Markets",
+        "Global Economy"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.72,
+      "nlpKeyEntities": [
+        "International Monetary Fund",
+        "Paris Club"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T05:00:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-007",
+      "batchDate": "2026-10-13",
+      "title": "国际清算银行宣布成功试点基于智能合约的多边央行数字货币桥（mBridge 2.0）商业化落地",
+      "englishTitle": "Bank for International Settlements Successfully Pilots mBridge 2.0 Commercial Scale",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Asia-Pacific",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月11日，国际清算银行（BIS）创新枢纽与多国央行共同宣布，多边央行数字货币桥项目（mBridge 2.0）已成功完成首批真实贸易背景下的商业化规模试运行。【事件核心细节】该系统通过引入可编程智能合约和分布式账本多边共识机制，实现了来自不同大洲的商业银行在几秒钟内直接完成跨国、跨币种的即时结算，将传统代理行模式下的清算成本降低了85%以上，且全过程实现端到端加密与合规自动化审查。【战略与深远影响】mBridge 2.0的成功商业化落地标志着国际跨境支付体系正在发生根本性变革。它有效绕过了传统以SWIFT为核心的美元霸权清算路径，为全球贸易结算提供了一条高效、低成本且地缘政治中立的全新替代通道。",
+      "tags": [
+        "BIS",
+        "mBridge",
+        "Cross-Border Payments",
+        "Digital Currency"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.68,
+      "nlpKeyEntities": [
+        "Bank for International Settlements",
+        "mBridge"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T04:00:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-008",
+      "batchDate": "2026-10-13",
+      "title": "中欧高级别战略对话在布鲁塞尔举行 双方就应对全球供应链重构与绿色贸易壁垒达成重要政治共识",
+      "englishTitle": "China-EU High-Level Strategic Dialogue Concludes in Brussels on Supply Chain Resilience",
+      "source": "Reuters",
+      "sourceCountry": "Belgium",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月12日，中国与欧盟高级别战略对话在比利时布鲁塞尔欧盟总部顺利举行，双方外事与经贸高级官员出席会议。【事件核心细节】经过密集磋商，双方重点围绕当前全球供应链产业链安全重构、欧盟碳边境调节机制（CBAM）引发的贸易摩擦、以及关键原材料出口管制等核心敏感议题进行了坦诚对话。双方最终同意建立‘中欧绿色贸易与供应链快速预警协商机制’，以减少单边保护主义政策对正常双边经贸往来的直接冲击。【战略与深远影响】在当前全球地缘政治高度碎片化、单边主义抬头的宏观背景下，此次中欧战略对话达成的重要共识为动荡的国际经贸关系注入了关键稳定性。它彰显了中欧在维护多边贸易体制、避免全球经济陷入阵营化对抗方面具有广泛的共同战略利益。",
+      "tags": [
+        "China-EU",
+        "Geopolitics",
+        "Supply Chain",
+        "Trade"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.25,
+      "nlpKeyEntities": [
+        "Brussels",
+        "European Union",
+        "China"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T06:30:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-009",
+      "batchDate": "2026-10-13",
+      "title": "印太经济框架（IPEF）第4次部长级会议闭幕 成员国就构建关键矿产供应链安全同盟达成实质性条约",
+      "englishTitle": "Indo-Pacific Economic Framework Concludes 4th Ministerial with Critical Minerals Treaty",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Asia-Pacific",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月11日，印太经济框架（IPEF）第四次部长级会议在新加坡闭幕，由美国主导的14个成员国代表出席。【事件核心细节】会议期间，各方正式签署了《印太关键矿产供应链安全与应急互助条约》。根据条约规定，成员国将在稀土、锂、钴、镍等清洁能源与半导体不可或缺的核心矿产资源开采、精炼及战略储备方面建立联合同盟。当任何成员国面临外部供应链断供危机时，其他成员国必须在30天内启动应急产能调拨与库存共享机制。【战略与深远影响】该条约是美西方在印太地缘战略中围剿和重塑关键原材料供应链布局的关键落子。它通过法律化同盟形式试图打破特定国家在关键矿产领域的绝对主导地位，进一步加剧了全球资源民族主义与关键产业链的阵营化博弈。",
+      "tags": [
+        "IPEF",
+        "Critical Minerals",
+        "Supply Chain",
+        "Indo-Pacific"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "Singapore",
+        "Indo-Pacific Economic Framework"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T03:30:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-010",
+      "batchDate": "2026-10-13",
+      "title": "中东产油国与亚洲主要买家签署长期本币结算能源购销协议 标志着‘石油美元’体系迎来结构性重塑",
+      "englishTitle": "Middle East Producers and Asian Buyers Sign Long-Term Local Currency Energy Contracts",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "geopolitics",
+      "region": "Middle East",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月12日，海湾阿拉伯国家合作委员会（GCC）核心成员国与亚洲主要原油进口国共同宣布，双方已成功签署多项总额超千亿美元的多边长期能源购销协议。【事件核心细节】这批覆盖未来十年的原油与液化天然气（LNG）大单首次实现了全面采用人民币、迪拉姆等多边本币进行直接计价与结算，彻底跳过了美元作为唯一中间媒介的传统结算通道。同时，双方在利雅得设立了联合本币结算清算中心。【战略与深远影响】这是地缘政治格局演进中‘石油美元’向多元化货币体系过渡的又一具有里程碑意义的重大事件。它深刻反映了中东地缘战略自主性的显著增强以及全球能源贸易版图向多极化方向的不可逆转趋势。",
+      "tags": [
+        "OPEC",
+        "Energy",
+        "Local Currency",
+        "Middle East"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.45,
+      "nlpKeyEntities": [
+        "GCC",
+        "Riyadh"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T02:00:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-011",
+      "batchDate": "2026-10-13",
+      "title": "联合国气候变化大会筹备委员会发布全球碳预算紧急预警 2026年全球碳排放总量逼近历史拐点",
+      "englishTitle": "UN Climate Panel Issues Emergency Carbon Budget Warning Ahead of COP31",
+      "source": "Reuters",
+      "sourceCountry": "Switzerland",
+      "category": "climate",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月12日，联合国气候变化框架公约（UNFCCC）筹备委员会在瑞士日内瓦发布了《2026年度全球碳预算追踪与紧急预警报告》。【事件核心细节】报告通过高精度卫星遥感与地面大数据监测指出，尽管全球清洁能源装机容量实现了爆发式增长，但在极端高温天气激发的空前制冷需求以及部分发展中经济体化石能源复苏的夹击下，2026年全球二氧化碳排放总量仍逼近历史最高峰值。剩余的1.5°C温控碳预算空间正在以超出预期30%的速度被迅速耗尽。【战略与深远影响】该预警给即将召开的COP31气候峰会敲响了振聋发聩的警钟。它直接暴露出当前全球能源转型速度与极端气候恶化速度之间的严重赛跑失衡，并极有可能在国际气候谈判中引发关于‘历史责任’与‘立即强制削减排放’更加激烈的新一轮南北博弈。",
+      "tags": [
+        "UNFCCC",
+        "Climate Change",
+        "Carbon Budget",
+        "Global Warming"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.82,
+      "nlpKeyEntities": [
+        "United Nations",
+        "Geneva",
+        "COP31"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T06:45:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    },
+    {
+      "id": "gemini-2026-10-13-012",
+      "batchDate": "2026-10-13",
+      "title": "全球最大海上漂浮式风电与深远海绿氢联合合成基地在北海正式投产 开启商业化零碳新纪元",
+      "englishTitle": "World's Largest Offshore Floating Wind and Green Hydrogen Plant Commences Operations in North Sea",
+      "source": "Bloomberg",
+      "sourceCountry": "Norway",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月11日，由挪威、英国及多国跨国能源巨头联合投资的北海‘海神’超大型漂浮式海上风电与深远海绿氢合成基地在北海海域宣告正式全面投产。【事件核心细节】该项目总装机容量达5GW，配备了全球首创的海上原位海水淡化与大功率PEM电解水制氢装置。它首次实现了在狂风巨浪的深远海环境中，将不稳定的海上风电直接就地转化为便于长距离输送的绿色液氨与绿氢，年产零碳绿色燃料可达200万吨。【战略与深远影响】这一重大工程技术的成功商业化投产，标志着人类对海洋清洁能源的开发正式从浅海固定式走向深远海独立能源岛时代。它为全球重工业与航运业的大规模深度脱碳提供了一条切实可行的技术路径，对重塑欧洲未来能源自给自足格局具有决定性意义。",
+      "tags": [
+        "Green Hydrogen",
+        "Offshore Wind",
+        "North Sea",
+        "Clean Energy"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "North Sea",
+        "Norway",
+        "UK"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-13T01:30:00.000Z",
+      "createdAt": "2026-10-13T00:34:30.632Z",
+      "updatedAt": "2026-10-13T00:34:30.632Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-13",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-13 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
+}

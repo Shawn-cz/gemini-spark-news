@@ -1,0 +1,49 @@
+{
+  "batchDate": "2026-09-28",
+  "items": [
+    {
+      "id": "webhook-2026-09-28-01",
+      "batchDate": "2026-09-28",
+      "title": "全球前沿 AI 算力与智能体架构新突破 (E2E 自动验证)",
+      "source": "Gemini Spark Intelligence",
+      "sourceCountry": "全球",
+      "category": "ai",
+      "region": "全球",
+      "impactLevel": "critical",
+      "summary": "E2E 流水线自动摄取测试简报内容。",
+      "tags": [
+        "AI",
+        "Pipeline"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.95,
+      "nlpKeyEntities": [
+        "Gemini",
+        "E2E"
+      ],
+      "coverUrl": "",
+      "publishTime": "2026-09-28 08:30:00",
+      "createdAt": "2026-10-19T06:45:58.879Z",
+      "updatedAt": "2026-10-19T06:45:58.879Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-09-28",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-28 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1907 诺贝尔文学奖",
+    "author": "约瑟夫·鲁德亚德·吉卜林",
+    "work": "如果",
+    "enAuthor": "Rudyard Kipling",
+    "enWork": "If—",
+    "zh": "“如果在众人六神无主之时，你能镇定自若而不是人云亦云。”",
+    "en": "“If you can keep your head when all about you are losing theirs and blaming it on you.”",
+    "batchDate": "2026-09-28"
+  }
+}

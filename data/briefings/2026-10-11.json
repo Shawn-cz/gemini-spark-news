@@ -1,0 +1,365 @@
+{
+  "batchDate": "2026-10-11",
+  "items": [
+    {
+      "id": "gemini-2026-10-11-001",
+      "batchDate": "2026-10-11",
+      "title": "全球首个通用量子人工智能基座模型在硅谷发布：算力能效实现颠覆性跃升",
+      "englishTitle": "World's First Universal Quantum AI Base Model Unveiled in Silicon Valley: Revolutionary Leap in Compute Efficiency",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月10日，美国硅谷前沿科技联盟与IBM、Google Quantum AI联合发布了全球首个通用量子人工智能基座模型“QuantumMind-X”。【事件核心细节】该模型成功将超导量子处理器与传统类脑神经网络架构深度融合，在处理万亿参数级复杂模拟任务时，能耗较传统超级计算机降低98.5%，运算速度实现数万倍的指数级爆发。同时，研发团队攻克了量子退相干控制的世界级难题，使常温稳定运行时间突破72小时大关，标志着量子计算正式从实验室走向产业化落地阶段。【战略与深远影响】这一技术奇点的到来彻底打破了现有基于半导体硅基芯片的算力天花板，对全球人工智能算力供应链、国家级密码安全体系以及新药研发、材料科学等前沿领域的底层逻辑构成了颠覆性冲击，引发新一轮全球科技战略竞争的高潮。",
+      "tags": [
+        "Quantum AI",
+        "Supercomputing",
+        "Silicon Valley",
+        "Tech Breakthrough"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.92,
+      "nlpKeyEntities": [
+        "QuantumMind-X",
+        "IBM",
+        "Google Quantum AI",
+        "Silicon Valley"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T01:15:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.068Z",
+      "updatedAt": "2026-10-11T00:34:32.068Z"
+    },
+    {
+      "id": "gemini-2026-10-11-002",
+      "batchDate": "2026-10-11",
+      "title": "OpenAI与台积电达成2nm全环绕栅极晶体管（GAA）独家AI芯片代工长协",
+      "englishTitle": "OpenAI and TSMC Secure Exclusive 2nm GAA AI Chip Foundry Long-Term Agreement",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "East Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月10日，人工智能巨头OpenAI与全球半导体代工霸主台积电（TSMC）在台北正式签署长期战略代工协议。【事件核心细节】根据协议，台积电将利用其位于新竹科学园区的最先进2纳米全环绕栅极（GAA）晶体管工艺，为OpenAI量身定制下一代万亿参数通用大模型推理与训练芯片。该项目总投资规模超350亿美元，预计于2027年下半年实现大规模商业化量产，首批晶圆产能已被全部锁定。【战略与深远影响】此举标志着AI头部企业正加速向底层硬件自主化转型。通过深度绑定核心晶圆制造产能，OpenAI进一步构筑了其在AGI（通用人工智能）演进过程中的算力护城河，同时也对全球半导体资本开支与高端芯片供应链格局产生深远外溢效应。",
+      "tags": [
+        "OpenAI",
+        "TSMC",
+        "2nm",
+        "Semiconductor Foundry"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "OpenAI",
+        "TSMC",
+        "Hsinchu Science Park"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T02:30:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-003",
+      "batchDate": "2026-10-11",
+      "title": "欧盟委员会正式发布《欧洲AI算力主权法案》：严控跨境算力流出与数据主权",
+      "englishTitle": "European Commission Officially Releases 'European AI Compute Sovereignty Act'",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，欧盟委员会在布鲁塞尔正式通过并公布了备受瞩目的《欧洲AI算力主权法案》。【事件核心细节】该法案强制要求所有在欧盟境内运营的大模型企业，其核心算力基础设施与敏感训练数据必须至少有70%物理存储并运行于欧盟成员国境内。法案设立了总额高达200亿欧元的“欧洲主权算力基金”，用于补贴本土算力中心建设，并对未经授权向域外传输高价值AI模型的行为处以高达全球营业额8%的巨额罚款。【战略与深远影响】该法案是欧盟继《人工智能法案》后在数字地缘政治领域的又一核心防线，旨在彻底扭转欧洲在底层算力上对美中科技巨头的重度依赖，重塑欧洲在全球数字经济与人工智能治理体系中的独立话语权。",
+      "tags": [
+        "European Commission",
+        "AI Sovereignty",
+        "Regulation",
+        "Data Security"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.1,
+      "nlpKeyEntities": [
+        "European Commission",
+        "Brussels",
+        "EU AI Act"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T03:00:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-004",
+      "batchDate": "2026-10-11",
+      "title": "微软Azure与光子芯片先锋Lightmatter达成百亿级商业化部署合作",
+      "englishTitle": "Microsoft Azure and Photonics Pioneer Lightmatter Reach Billion-Dollar Commercial Deployment Deal",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，微软云服务（Azure）与光子计算技术领军企业Lightmatter共同宣布达成一项总额达120亿美元的多年期战略采购与联合研发协议。【事件核心细节】根据协议，微软将在其全球超大规模数据中心全面部署Lightmatter的光子互连芯片（Passage）与光电融合AI加速器。该技术彻底抛弃了传统的电子铜缆传输瓶颈，利用光信号直接在服务器集群间进行极速、超低延迟的数据交换，使大模型分布式训练的通信效率提升了惊人的5倍以上，同时将数据中心整体散热能耗削减了40%。【战略与深远影响】这一商业化大单标志着光子计算（Silicon Photonics）正式步入主流算力基础设施舞台，极大地缓解了AI爆发带来的电力危机与传输带宽瓶颈，加速了传统电子芯片向光电混合时代的演进步伐。",
+      "tags": [
+        "Microsoft Azure",
+        "Lightmatter",
+        "Photonics",
+        "Data Center"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "Microsoft Azure",
+        "Lightmatter",
+        "Passage"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T04:10:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-005",
+      "batchDate": "2026-10-11",
+      "title": "美联储与国际清算银行（BIS）成功完成多边央行数字货币（mCBDC）跨境结算网关压力测试",
+      "englishTitle": "Federal Reserve and BIS Successfully Complete Multi-CBDC Cross-Border Settlement Gateway Stress Test",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月10日，美联储携手国际清算银行（BIS）创新枢纽及欧洲央行、日本银行等全球主要央行，共同发布了跨国央行数字货币（mCBDC）桥项目的第四阶段压力测试结果。【事件核心细节】在长达三个月的模拟高强度国际金融危机冲击测试中，“mCBDC-Bridge”平台成功在零秒结算时间内完成了超过1.2万亿美元等值的多币种跨境即时清算。系统采用分布式账本技术（DLT）与隐私计算隔离网关，成功实现了在完全去中心化信任机制下的反洗钱（AML）与合规自动化审查，彻底打破了传统SWIFT系统多层代理行清算的高昂成本与时间延误。【战略与深远影响】这项重大金融基础设施的落地标志着全球货币体系正加速向主权数字货币时代过渡，对长期由美元主导的全球跨境支付结算网络产生了深远的结构性变革压力，深刻改变未来国际资本流动格局。",
+      "tags": [
+        "Federal Reserve",
+        "BIS",
+        "mCBDC",
+        "Global Finance"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "Federal Reserve",
+        "Bank for International Settlements",
+        "mCBDC-Bridge"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T01:45:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-006",
+      "batchDate": "2026-10-11",
+      "title": "国际金价盘中突破3000美元大关：全球宏观避险情绪与去美元化浪潮交织",
+      "englishTitle": "Global Gold Spot Price Breaches $3,000 Milestone Amid Macro Hedging and De-Dollarization Wave",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，伦敦黄金现货价格在亚欧交易时段历史上首次突破每盎司3000美元整数关口，创下全球金融史上的全新里程碑。【事件核心细节】本轮金价飙升的直接催化剂是全球地缘冲突频发、美国主权债务危机持续恶化以及新兴市场央行长达数月的持续“淘金热”。根据世界黄金协会最新数据，全球主权买家在过去三个季度中累计增持黄金储备超过850吨。与此同时，对全球通胀粘性不退和主要经济体财政赤字失控的忧虑，推动全球大量机构资本迅速撤出高风险权益资产，涌入实物黄金与黄金ETF避险。【战略与深远影响】金价站稳3000美元大关不仅是一个单一商品价格事件，更是全球信用货币体系信任赤字不断加剧的晴雨表，昭示着国际货币体系正朝着多极化与硬资产锚定方向加速裂变。",
+      "tags": [
+        "Gold Price",
+        "De-dollarization",
+        "Central Banks",
+        "Macro Economy"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.65,
+      "nlpKeyEntities": [
+        "London Bullion Market",
+        "World Gold Council",
+        "US Treasury"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T05:20:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-007",
+      "batchDate": "2026-10-11",
+      "title": "国际货币基金组织（IMF）与世界银行联合发布全球主权债务重组新框架协议",
+      "englishTitle": "IMF and World Bank Jointly Release New Global Sovereign Debt Restructuring Framework",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，国际货币基金组织（IMF）与世界银行在华盛顿年会上联合颁布了代号为“共同框架2.0”的全球低收入与中等收入国家主权债务重组新机制。【事件核心细节】该框架针对近年来因高利率环境和气候灾害陷入债务绝境的发展中国家，首次引入了“气候灾难自动债务暂停偿还条款（DRC）”与多边债权人（含西方商业银行、主权国家及庞大新兴债权人）强制定向减记机制。新协议规定，当受援国遭遇重大气候灾难或外汇储备跌破3个月安全线时，可自动触发为期2年的债务本息暂缓支付，且无需逐案进行漫长而艰难的多方博弈。【战略与深远影响】这一新框架的实施有效缓解了数十个发展中国家的迫在眉睫的债务违约风险，对稳定全球金融系统性风险、改善南北发展失衡以及重塑国际金融治理的多边主义合作具有里程碑意义。",
+      "tags": [
+        "IMF",
+        "World Bank",
+        "Sovereign Debt",
+        "Global Economy"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.15,
+      "nlpKeyEntities": [
+        "IMF",
+        "World Bank",
+        "Washington DC"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T06:00:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-008",
+      "batchDate": "2026-10-11",
+      "title": "印太经济走廊（IMEC）铁路与海底光缆大动脉进入实质性全线施工阶段",
+      "englishTitle": "India-Middle East-Europe Economic Corridor (IMEC) Enters Substantive Full-Scale Construction Phase",
+      "source": "Associated Press",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Middle East",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月10日，由印度、中东主要产油国及欧盟多国共同力推的“印度-中东-欧洲经济走廊（IMEC）”项目迎来关键进展，跨越阿拉伯半岛的铁路大动脉与红海海底超高速光缆项目在阿联酋阿布扎比正式宣布全线破土动工。【事件核心细节】该宏大战略走廊总投资预计达600亿美元，旨在通过现代化铁路网与港口群将印度洋与地中海无缝直连，使南亚至欧洲的货物运输时效较传统海运（经苏伊士运河）缩短40%，物流成本降低30%以上。同时，配套铺设的多纤对海底与陆地大容量光缆将构筑连接东西方的不受传统地缘掐断威胁的数字高速公路。【战略与深远影响】IMEC被视为西方大国试图在欧亚大陆地缘经济格局中争夺战略主导权的核心抓手，深刻重塑了印太与中东地区的政治同盟关系，对全球供应链多元化与大国战略竞合产生了长远影响。",
+      "tags": [
+        "IMEC",
+        "Middle East",
+        "Geopolitics",
+        "Supply Chain"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.6,
+      "nlpKeyEntities": [
+        "IMEC",
+        "Abu Dhabi",
+        "Red Sea",
+        "European Union"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T02:00:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-009",
+      "batchDate": "2026-10-11",
+      "title": "东盟十国与中国正式签署《区域全面经济伙伴关系协定（RCEP）升级版3.0》",
+      "englishTitle": "ASEAN and China Officially Sign RCEP Version 3.0 Upgraded Free Trade Agreement",
+      "source": "Xinhua",
+      "sourceCountry": "CN",
+      "category": "geopolitics",
+      "region": "Asia-Pacific",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，东盟十国与中国商务部高级代表在吉隆坡举行的经贸部长会议上，正式签署并生效了《区域全面经济伙伴关系协定（RCEP）升级版3.0》协议。【事件核心细节】新版升级协议在原有货物贸易零关税基础上，实现了数字经济、绿色低碳产业链供应链、人工智能跨境合规以及跨境电子商务规则的全面突破。协议明确规定取消98.5%的中间品与高科技零部件关税，并在区域内部构建起统一的数据跨境流动安全白名单与绿色原产地规则互认体系，大幅度降低了区域内跨国企业的合规运营摩擦成本。【战略与深远影响】在逆全球化暗流涌动和贸易保护主义抬头的国际大背景下，RCEP 3.0的成功签署彰显了亚洲区域经济一体化的强大韧性，巩固了中国与东盟作为全球最大自由贸易区的核心枢纽地位，对维护全球多边贸易体制具有示范效应。",
+      "tags": [
+        "RCEP",
+        "ASEAN",
+        "China",
+        "Free Trade"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "ASEAN",
+        "Kuala Lumpur",
+        "RCEP 3.0"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1529400971008-f566de0e6dfc?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T04:30:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-010",
+      "batchDate": "2026-10-11",
+      "title": "北约在北极圈启动代号“极地盾牌-2026”大规模战略演习：应对高纬度地缘博弈",
+      "englishTitle": "NATO Launches Major Strategic Exercise 'Polar Shield 2026' in Arctic Circle",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，北大西洋公约组织（NATO）宣布在挪威北部及斯瓦尔巴群岛周边海域正式启动代号为“极地盾牌-2026”的年度最大规模北极高纬度联合军事演习。【事件核心细节】来自14个成员国的超过3.5万名士兵、120架先进战机及40艘水面与水下核潜艇参与了本次演习。演习重点模拟了极端严寒气象条件下的北极海底关键通信光缆保卫战、北极航道（NSR）控制权争夺、以及针对高纬度弹道导弹防御体系的实战化联合作战测试。北约官方明确表示，此举旨在应对日益激烈的北极航道商业化及大国在该地区的军事存在竞争。【战略与深远影响】随着全球气候变暖导致北极冰层加速融化，北极地缘战略价值急剧飙升。北约此举标志着其防卫前沿正加速向北极圈全面延伸，加剧了高纬度地区的军事对峙风险，对全球地缘政治安全格局产生了深远波澜。",
+      "tags": [
+        "NATO",
+        "Arctic",
+        "Geopolitics",
+        "Military Exercise"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.65,
+      "nlpKeyEntities": [
+        "NATO",
+        "Norway",
+        "Svalbard",
+        "Arctic Circle"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T05:00:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-011",
+      "batchDate": "2026-10-11",
+      "title": "全球首座兆瓦级商业化空间太阳能电站地面接收基地在内蒙古开工建设",
+      "englishTitle": "World's First Megawatt-Scale Commercial Space Solar Power Ground Reception Base Construction Begins",
+      "source": "Xinhua",
+      "sourceCountry": "CN",
+      "category": "climate",
+      "region": "Asia-Pacific",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月10日，中国国家航天局与国家能源集团联合宣布，全球首座兆瓦级商业化空间太阳能电站地面无线能量传输接收与转化基地在内蒙古鄂尔多斯正式开工建设。【事件核心细节】该项目依托国家“逐日工程”空间太阳能电站试验星的成功技术验证，旨在通过微波无线能量传输技术，将太空中捕获并转化为微波的源源不断太阳能安全高效地投射至地面接收天线阵列。该地面基地占地近5平方公里，采用高效率相控阵整流天线网与超导储能系统，建成后每年可向地方电网稳定输送清洁电能超亿千瓦时，且不受昼夜交替与天气阴晴影响。【战略与深远影响】这是人类清洁能源利用史上的颠覆性革命，彻底突破了地面太阳能发电的物理局限，标志着中国在太空能源开发与未来全球新能源主导权争夺中占据了绝对先机。",
+      "tags": [
+        "Space Solar",
+        "Clean Energy",
+        "Wireless Power",
+        "China"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.95,
+      "nlpKeyEntities": [
+        "China National Space Administration",
+        "Ordos",
+        "Space Solar Power"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T03:30:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    },
+    {
+      "id": "gemini-2026-10-11-012",
+      "batchDate": "2026-10-11",
+      "title": "国际能源署（IEA）发布重磅报告：全球海上风电与固态电池储能装机容量实现历史性超越",
+      "englishTitle": "IEA Major Report: Global Offshore Wind and Solid-State Battery Storage Capacity Achieve Historic Milestone",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "climate",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月10日，国际能源署（IEA）在巴黎总部发布了《2026年全球清洁能源转型中期进展评估报告》。【事件核心细节】报告指出，得益于新一代超大单机容量（25MW级）海上风力发电机组的大规模商业化投产，以及全固态锂金属电池在电网级储能领域的成本骤降（较上年同期下降42%），全球清洁能源装机占比在2026年第三季度历史性地突破了化石能源总和。全球固态电池电网储能总容量已跨越1太瓦时（1 TWh）大关，彻底解决了过去风电光伏带来的“并网消纳难与弃风弃光”顽疾。【战略与深远影响】这标志着全球能源结构转型已跨越政策补贴驱动的初始阶段，正式进入由市场化内生技术降本驱动的自持续爆发轨道，对全球实现《巴黎协定》温控目标构成了坚实的物质与技术支撑。",
+      "tags": [
+        "IEA",
+        "Offshore Wind",
+        "Solid-State Battery",
+        "Clean Energy"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "International Energy Agency",
+        "Paris",
+        "Solid-State Battery"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-11T05:45:00.000Z",
+      "createdAt": "2026-10-11T00:34:32.069Z",
+      "updatedAt": "2026-10-11T00:34:32.069Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-11",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-11 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
+}

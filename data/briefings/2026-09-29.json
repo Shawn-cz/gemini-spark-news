@@ -1,0 +1,47 @@
+{
+  "batchDate": "2026-09-29",
+  "items": [
+    {
+      "id": "item-2026-09-29-01",
+      "batchDate": "2026-09-29",
+      "title": "全球宏观金融与地缘避险流动性分析 (Markdown 提取验证)",
+      "source": "Gemini Spark Intelligence",
+      "sourceCountry": "全球",
+      "category": "finance",
+      "region": "全球",
+      "impactLevel": "high",
+      "summary": "金融流动性研报摘要。",
+      "tags": [
+        "Finance"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "nlpKeyEntities": [
+        "Fed"
+      ],
+      "coverUrl": "",
+      "publishTime": "2026-09-29 08:30:00",
+      "createdAt": "2026-10-19T06:46:02.476Z",
+      "updatedAt": "2026-10-19T06:46:02.476Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-09-29",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-29 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1957 诺贝尔文学奖",
+    "author": "阿尔贝·加缪",
+    "work": "夏天集",
+    "enAuthor": "Albert Camus",
+    "enWork": "Summer",
+    "zh": "“在隆冬，我终于知道，我身上有一个不可战胜的夏天。”",
+    "en": "“In the depth of winter, I finally learned that within me there lay an invincible summer.”",
+    "batchDate": "2026-09-29"
+  }
+}

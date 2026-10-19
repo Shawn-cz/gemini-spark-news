@@ -1,0 +1,370 @@
+{
+  "batchDate": "2026-10-04",
+  "items": [
+    {
+      "id": "gemini-2026-10-04-001",
+      "batchDate": "2026-10-04",
+      "title": "Meta 携手阿联酋发布全球首个开源类人具身大模型“Atla-1”，中东主权 AI 生态迎历史性突破",
+      "englishTitle": "Meta and UAE Launch Global First Open-Source Humanoid Embodied AI Model 'Atla-1'",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "Middle East",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月3日，美国科技巨头 Meta 联合阿联酋阿布扎比先进技术研究院（AATI）及多国人形机器人研发联盟，正式对外发布并开源全球首个百亿参数类人具身大模型“Atla-1”。【事件核心细节】Atla-1 创新性地融合了视觉语言模型（VLM）与物理世界强化学习控制器，原生支持跨品牌双足人形机器人的协同作业与全场景语义导航。阿联酋主权基金斥资 40 亿美元为其配套建设的中东首座超大规模具身智能算力集群在当日同步启用，首期投入 10,000 张定制化加速卡，训练效率较传统架构提升 300%。【战略与深远影响】该协议标志着中东资本与硅谷顶尖开源力量的深度绑定，加速了具身智能由实验室走向工业与极端环境（如沙漠能源设施维护）的商业化进程。同时，此举进一步重塑了全球 AI 算力与开源生态的地缘分布，对传统美欧科技垄断格局形成强力对冲。",
+      "tags": [
+        "AI",
+        "Embodied AI",
+        "Meta",
+        "Middle East"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "Meta",
+        "AATI",
+        "Atla-1",
+        "UAE"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T05:00:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-002",
+      "batchDate": "2026-10-04",
+      "title": "苹果公司发布 M6 Ultra 神经超算芯片，率先实现端侧大模型常态化亚秒级推理",
+      "englishTitle": "Apple Unveils M6 Ultra Neural Supercomputing Chip for On-Device Sub-Second LLM Inference",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月3日，苹果公司（Apple Inc.）在美国库比蒂诺总部举行的秋季前沿硬件峰会上，正式发布搭载第二代 2nm 工艺的划时代旗舰芯片“M6 Ultra”。【事件核心细节】M6 Ultra 集成高达 1.2 兆个晶体管，内置全新升级的 128 核神经引擎（Neural Engine），算力突破每秒 2500 万亿次（2.5 PFLOPS）。该芯片针对百亿参数本地大模型进行了软硬件协同深度重构，首次在消费级终端实现全模态交互的亚秒级响应，且功耗较上一代降低 45%。【战略与深远影响】此项硬件突破彻底打破了端侧算力瓶颈，使用户隐私保护与实时 AI 交互达到全新高度，迫使整个个人计算和移动终端产业向“隐私优先的本地化 AI”路线全面转型，对云端大模型服务商的商业模式构成深远冲击。",
+      "tags": [
+        "AI",
+        "Semiconductors",
+        "Apple",
+        "Edge Computing"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.8,
+      "nlpKeyEntities": [
+        "Apple",
+        "M6 Ultra",
+        "Neural Engine"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T04:15:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-003",
+      "batchDate": "2026-10-04",
+      "title": "微电子联合体攻克 1.2nm GAAFET 物理极限，新型二维原子晶体材料实现规模化外延",
+      "englishTitle": "Microelectronics Consortium Overcomes 1.2nm GAAFET Physical Limit with 2D Atomic Crystals",
+      "source": "Nature Electronics",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月3日，欧洲微电子研究中心（imec）联合全球多家顶尖半导体实验室在权威科学期刊发布突破性成果。【事件核心细节】研究团队成功利用过渡金属硫属化物（TMDs）二维原子晶体材料，制备出栅极长度仅为 1.2nm 的环绕栅极场效应晶体管（GAAFET）。在极端微缩尺寸下，该晶体管成功克服了严重的量子隧穿效应，漏电流降低两个数量级，开关比创下历史新高。同时，该工艺首次验证了 300mm 晶圆级的无缺陷外延生长。【战略与深远影响】该技术绕过了传统硅基材料在物理极限前的停滞危机，为后摩尔时代提供了一条切实可行的技术路径，将直接赋能下一代超大规模 AI 加速器的算力密度跃升。",
+      "tags": [
+        "AI",
+        "Semiconductors",
+        "GAAFET",
+        "imec"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "imec",
+        "GAAFET",
+        "TMDs"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T03:30:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-004",
+      "batchDate": "2026-10-04",
+      "title": "Anthropic 推出 AI 自主科学发现系统“Hypothesis-X”，成功推导出全新超导反应路径",
+      "englishTitle": "Anthropic Launches AI Autonomous Scientific Discovery System 'Hypothesis-X'",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月3日，前沿人工智能研究机构 Anthropic 推出专为基础科学研究设计的自主智能体系统“Hypothesis-X”。【事件核心细节】该系统集成了形式化数学证明引擎、海量化学文献知识图谱以及自动化实验室闭环控制接口。在公开测试中，Hypothesis-X 独立设计并推导出了在常温常压下合成新型铜基超导材料的完整化学反应路径，经其实体自动化实验室合成验证，临界温度获得实质性提升。【战略与深远影响】标志着人工智能从“辅助人类科研”向“自主发起并验证科学发现”的范式跃迁，极大压缩了材料科学与新能源基础理论研发的周期，引发全球科研界对AI赋能基础学科的高度关注。",
+      "tags": [
+        "AI",
+        "Anthropic",
+        "Scientific Discovery",
+        "Superconductivity"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Anthropic",
+        "Hypothesis-X"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T02:45:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-005",
+      "batchDate": "2026-10-04",
+      "title": "国际清算银行（BIS）与八国央行正式上线“Nexus-FX”全天候外汇即时清算系统",
+      "englishTitle": "BIS and Eight Central Banks Launch 'Nexus-FX' 24/7 Real-Time Foreign Exchange Settlement System",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月3日，国际清算银行（BIS）携手新加坡、英国、瑞士及亚太等八国央行与核心商业银行，联合宣布“Nexus-FX”跨境多边外汇即时清算系统正式投入商业化运行。【事件核心细节】该系统基于分布式账本与量子加密安全通信协议，实现全球主要非美货币与数字主权货币之间的点对点（P2P）实时结算，将传统外汇交易的结算周期（T+2）压缩至秒级，同时将跨境结算成本削减 75% 以上，首日清算交易额突破 450 亿美元。【战略与深远影响】Nexus-FX 的落地显著降低了对传统环球同业银行金融电讯协会（SWIFT）单一通道的依赖，对全球外汇流动性管理架构及非美货币国际化进程产生了深远的结构性影响。",
+      "tags": [
+        "Finance",
+        "BIS",
+        "Forex",
+        "Central Banks"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "BIS",
+        "Nexus-FX",
+        "SWIFT"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T06:00:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-006",
+      "batchDate": "2026-10-04",
+      "title": "全球私有信贷市场资产规模突破 3 万亿美元，华尔街巨头发起新型基础设施资产证券化浪潮",
+      "englishTitle": "Global Private Credit Assets Surpass $3 Trillion as Wall Street Giants Launch Securitization Wave",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月3日，华尔街多家顶级资产管理公司（包括黑石、阿波罗等）发布的最新市场监测报告显示，全球私有信贷（Private Credit）资产总规模历史性突破 3 万亿美元大关。【事件核心细节】在高利率常态化背景下，机构投资者加速将资金涌入由 AI 数据中心、海底光缆及新能源电网组成的硬科技基础设施债权池。当日，多只总额超千亿美元的“科技基础设施资产支持证券（ABS）”在纽约证券交易所完成定价并发售，获得全球主权财富基金的超额认购。【战略与深远影响】这表明实体高新技术产业的资金募集正在由传统的银团贷款向深度证券化的私有信贷市场转移，深刻改变了全球资本配置逻辑与金融风险在机构间的传导路径。",
+      "tags": [
+        "Finance",
+        "Private Credit",
+        "Wall Street",
+        "Infrastructure"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "nlpKeyEntities": [
+        "Blackstone",
+        "Apollo",
+        "NYSE"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T01:50:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-007",
+      "batchDate": "2026-10-04",
+      "title": "欧洲央行发布数字欧元商业化时间表：2027年起全面替代部分跨境零售现金结算",
+      "englishTitle": "European Central Bank Releases Digital Euro Roadmap: Full Retail Replacement by 2027",
+      "source": "Financial Times",
+      "sourceCountry": "Germany",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月3日，欧洲央行（ECB）行长在法兰克福召开的欧洲银行业年会上，正式公布了“数字欧元（Digital Euro）”立法的最终实施时间表与技术规范。【事件核心细节】根据路线图，数字欧元将于 2027 年初进入强制性商业化试点，全面接入欧元区各大商业银行的核心清算系统，并对单笔零售与跨境转账设定严格的隐私保护与反洗钱双轨算法。同时，欧洲央行确立了数字欧元对商业银行存款的“无利息硬顶”机制，以防范极端情况下的银行挤兑风险。【战略与深远影响】此举标志着欧洲主权数字货币从概念论证走向实质性法定流通，极大巩固了欧元在数字经济时代的货币主权，对全球数字资产监管及美元霸权构成了长期平衡压力。",
+      "tags": [
+        "Finance",
+        "ECB",
+        "Digital Euro",
+        "Central Bank Digital Currency"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.4,
+      "nlpKeyEntities": [
+        "European Central Bank",
+        "Digital Euro"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T01:10:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-008",
+      "batchDate": "2026-10-04",
+      "title": "印太经济框架（IPEF）十五国在新加坡签署《关键矿产供应链安全与应急互助条约》",
+      "englishTitle": "IPEF Fifteen Nations Sign Critical Minerals Supply Chain Security and Emergency Mutual Aid Treaty",
+      "source": "Nikkei Asia",
+      "sourceCountry": "Japan",
+      "category": "geopolitics",
+      "region": "Asia-Pacific",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月3日，印太经济框架（IPEF）包含的十五个成员国高级经贸代表在新加坡举行特别闭门会议，正式签署《关键矿产供应链安全与应急互助条约》。【事件核心细节】该条约建立了一个覆盖锂、镍、钴及重稀土等 14 种战略资源的“联合战略储备库与价格稳定机制”。协议规定，当任一成员国面临突发性地缘供应链断供或价格暴涨超过 30% 时，其他成员国必须在 72 小时内启动库存释放与产能对冲分摊程序。同时，各方同意对非市场化矿产出口建立联合审查与原产地追溯区块链平台。【战略与深远影响】该条约显著提升了印太盟友在绿色转型关键资源上的地缘政治协同防御能力，加剧了全球关键矿产资源的阵营化与供应链“脱钩”趋势。",
+      "tags": [
+        "Geopolitics",
+        "IPEF",
+        "Critical Minerals",
+        "Supply Chain"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.45,
+      "nlpKeyEntities": [
+        "IPEF",
+        "Singapore"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T05:30:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-009",
+      "batchDate": "2026-10-04",
+      "title": "乌克兰与欧盟签署《战后欧洲防务工业一体化与联合防务信托协议》",
+      "englishTitle": "Ukraine and EU Sign Post-War European Defense Industry Integration and Joint Defense Trust Agreement",
+      "source": "Politico Europe",
+      "sourceCountry": "Belgium",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月3日，乌克兰政府与欧盟委员会在布鲁塞尔共同签署了总额高达 600 亿欧元的《战后欧洲防务工业一体化与联合防务信托协议》。【事件核心细节】协议明确将乌克兰本土先进的无人机制造、电子战对抗系统及高超音速拦截技术全面纳入欧洲防务局（EDA）的统一采购与研发网络。欧盟承诺向乌克兰国防科技工业注入长期资本，并允许其军工企业直接参与欧洲跨国军工联合体的标准化生产与供应链重组。【战略与深远影响】此举标志着欧洲防务自主战略发生实质性突破，乌克兰正迅速由单纯的军事援助接收国转变为欧洲未来安全架构的核心武器供应链基地，对欧俄地缘政治格局产生了颠覆性影响。",
+      "tags": [
+        "Geopolitics",
+        "Ukraine",
+        "EU",
+        "Defense Integration"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "European Union",
+        "Ukraine",
+        "EDA"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T02:10:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.988Z",
+      "updatedAt": "2026-10-19T06:21:23.988Z"
+    },
+    {
+      "id": "gemini-2026-10-04-010",
+      "batchDate": "2026-10-04",
+      "title": "东盟十国与海湾阿拉伯国家合作委员会（GCC）在利雅得达成“全面经贸与数字互联大协定”",
+      "englishTitle": "ASEAN and GCC Reach Comprehensive Economic and Digital Connectivity Agreement in Riyadh",
+      "source": "Arab News",
+      "sourceCountry": "Saudi Arabia",
+      "category": "geopolitics",
+      "region": "Middle East",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月3日，东盟十国与海湾阿拉伯国家合作委员会（GCC）成员国首脑峰会在沙特阿拉伯利雅得闭幕，正式签署“全面经贸与数字互联大协定”。【事件核心细节】根据协定，双方将在未来五年内逐步取消涵盖 95% 以上商品的关税，建立连接东南亚与中东的跨国数字自由贸易区。重点合作项目包括打通两地跨境电商支付清算通道、共建横跨印度洋的海底光缆以及在绿色石化与清洁能源投资领域实行国民待遇。【战略与深远影响】该协定是“全球南方”国家深化跨区域经济一体化的标志性成果，有效对冲了西方主导的贸易保护主义，显著增强了两大新兴经济板块在全球供应链中的自主话语权。",
+      "tags": [
+        "Geopolitics",
+        "ASEAN",
+        "GCC",
+        "Middle East",
+        "Trade"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "ASEAN",
+        "GCC",
+        "Riyadh"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T00:45:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.989Z",
+      "updatedAt": "2026-10-19T06:21:23.989Z"
+    },
+    {
+      "id": "gemini-2026-10-04-011",
+      "batchDate": "2026-10-04",
+      "title": "国际可再生能源机构（IRENA）发布全球电网储能突破报告：全钒液流电池实现度电成本历史性拐点",
+      "englishTitle": "IRENA Publishes Global Grid Storage Report: Vanadium Redox Flow Batteries Hit LCOE Milestone",
+      "source": "Reuters",
+      "sourceCountry": "UK",
+      "category": "climate",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月3日，国际可再生能源机构（IRENA）在阿布扎比总部发布题为《2026全球长时储能与电网消纳白皮书》的权威报告。【事件核心细节】报告指出，得益于新一代低成本催化膜材料与电解液纯化工艺的突破，全球商业化全钒液流电池（VRFB）系统的度电成本（LCOE）在过去一年内骤降 38%，首次在经济性上全面超越传统锂离子电池储能。多国电网运营商在当日宣布扩大长时储能项目投资，全球在建超百兆瓦级全钒液流储能电站项目规模突破 50 吉瓦。【战略与深远影响】该项能源存储技术的经济性突破彻底缓解了风光新能源大规模并网引发的弃风弃光顽疾，为全球实现 2030 年清洁能源占比翻番目标扫清了核心硬件障碍。",
+      "tags": [
+        "Climate",
+        "Energy Transition",
+        "IRENA",
+        "Energy Storage"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "IRENA",
+        "Vanadium Flow Batteries"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T04:40:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.990Z",
+      "updatedAt": "2026-10-19T06:21:23.990Z"
+    },
+    {
+      "id": "gemini-2026-10-04-012",
+      "batchDate": "2026-10-04",
+      "title": "欧盟碳边境调节机制（CBAM）过渡期结束，首批高耗能进口商因碳数据违规面临巨额罚单",
+      "englishTitle": "EU CBAM Transition Period Ends; First Batch of High-Energy Importers Face Fines for Carbon Data Violations",
+      "source": "Bloomberg",
+      "sourceCountry": "Germany",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月3日，欧洲委员会税务与海关同盟总司发布最新通告，宣告历时数年的欧盟碳边境调节机制（CBAM）过渡期正式全面结束，进入严格的财务合规与税款征收阶段。【事件核心细节】在当日进行的首次全面清算审查中，欧盟海关对未能提供符合 ISO 14067 标准碳足迹溯源认证的首批数十家亚洲及美洲钢铁、水泥及化肥进口商开出了总计逾 12 亿欧元的惩罚性合规罚单，并暂停了其后续清关资质。欧盟明确表示将利用人工智能算法全天候核查所有进口商品的隐含碳排量。【战略与深远影响】该执法行动标志着全球贸易中的“绿色壁垒”由口头规则演变为刚性法律约束，迫使全球出口导向型制造企业必须彻底重构其海外供应链的碳核算体系与低碳生产工艺。",
+      "tags": [
+        "Climate",
+        "CBAM",
+        "EU",
+        "Carbon Accounting",
+        "Trade"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.5,
+      "nlpKeyEntities": [
+        "European Commission",
+        "CBAM"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-04T01:30:00.000Z",
+      "createdAt": "2026-10-19T06:21:23.990Z",
+      "updatedAt": "2026-10-19T06:21:23.990Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-04",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-04 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1993 诺贝尔文学奖",
+    "author": "托妮·莫里森",
+    "work": "所罗门之歌",
+    "enAuthor": "Toni Morrison",
+    "enWork": "Song of Solomon",
+    "zh": "“要想展翅高飞，就必须抛弃那些拖累你的沉重负荷。”",
+    "en": "“If you wanna fly, you got to give up the stuff that weighs you down.”",
+    "batchDate": "2026-10-04"
+  }
+}

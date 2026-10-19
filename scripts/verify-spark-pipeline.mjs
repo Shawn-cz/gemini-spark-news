@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -98,7 +100,7 @@ async function main() {
   assert.strictEqual(unauthWebhookRes.status, 401, '未授权 Webhook 请求必须返回 401');
   
   // 0.7.2 携带 Header 鉴权与纯净 JSON 摄取
-  const webhookDate1 = '2026-09-28';
+  const webhookDate1 = '2099-01-01';
   const pureJsonPayload = {
     date: webhookDate1,
     batchStatus: {
@@ -135,7 +137,7 @@ async function main() {
   assert.strictEqual(headerWebhookBody.data.total, 1);
   
   // 0.7.3 携带 Query 鉴权与 Markdown ```json 包裹的容错清洗摄取
-  const webhookDate2 = '2026-09-29';
+  const webhookDate2 = '2099-01-02';
   const markdownPayload = `
 这里是来自外部 Gemini Spark 定时任务的分析简报：
 \`\`\`json
@@ -345,7 +347,7 @@ async function main() {
     }
 
     // 清理 Webhook 测试产生的临时归档文件
-    const testFiles = ['2026-09-28.json', '2026-09-29.json'];
+    const testFiles = ['2099-01-01.json', '2099-01-02.json'];
     for (const file of testFiles) {
       const filePath = path.resolve(process.cwd(), 'data', 'briefings', file);
       if (fs.existsSync(filePath)) {

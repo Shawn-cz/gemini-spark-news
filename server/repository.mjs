@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { NewsItemModel } from './models/NewsItem.mjs';
 import { BatchStatusModel } from './models/BatchStatus.mjs';
-import { GLOBAL_CORPUS, createGlobalDailyBatch } from './corpus.mjs';
 import { getDailyNobelQuote } from './services/nobelQuoteService.mjs';
 
 dotenv.config();
@@ -14,52 +13,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BRIEFINGS_DIR = path.resolve(__dirname, '../data/briefings');
 
-// 内存中的降级存储 (仅在本地模式且无物理文件时使用)
-const memoryNewsStore = {
-  '2026-09-24': createGlobalDailyBatch('2026-09-24', 0),
-  '2026-09-23': createGlobalDailyBatch('2026-09-23', 1),
-  '2026-09-22': createGlobalDailyBatch('2026-09-22', 2),
-  '2026-09-21': createGlobalDailyBatch('2026-09-21', 3),
-};
-
-const memoryBatchStatusMap = {
-  '2026-09-24': {
-    status: 'COMPLETED',
-    statusText: '已完成归档',
-    generatedTime: '2026-09-24 08:30:00',
-    nextScheduleTime: '明日 08:30:00 (每日晨报)',
-    estimatedRemainingMinutes: 0,
-    progress: 100,
-    currentStage: 'Gemini Spark 智能体 24H 简报生成与交叉校验完成'
-  },
-  '2026-09-23': {
-    status: 'COMPLETED',
-    statusText: '已归档',
-    generatedTime: '2026-09-23 08:30:00',
-    nextScheduleTime: '2026-09-24 08:30:00',
-    estimatedRemainingMinutes: 0,
-    progress: 100,
-    currentStage: 'Gemini 智能体历史简报归档'
-  },
-  '2026-09-22': {
-    status: 'COMPLETED',
-    statusText: '已归档',
-    generatedTime: '2026-09-22 08:30:00',
-    nextScheduleTime: '2026-09-23 08:30:00',
-    estimatedRemainingMinutes: 0,
-    progress: 100,
-    currentStage: 'Gemini 智能体历史简报归档'
-  },
-  '2026-09-21': {
-    status: 'COMPLETED',
-    statusText: '已归档',
-    generatedTime: '2026-09-21 08:30:00',
-    nextScheduleTime: '2026-09-22 08:30:00',
-    estimatedRemainingMinutes: 0,
-    progress: 100,
-    currentStage: 'Gemini 智能体历史简报归档'
-  }
-};
+// 内存中的动态存储与运行时缓存
+const memoryNewsStore = {};
+const memoryBatchStatusMap = {};
 
 // 状态标记
 let isMongoConnected = false;
@@ -807,6 +763,16 @@ export async function searchCrossArchiveNews({ query = '', limit = 20 } = {}) {
 }
 
 /**
+ * 规范化标题用于去重（去除 [往期智库]、标点符号、空白字符并转小写）
+ */
+export function normalizeNewsTitle(title) {
+  return (title || '')
+    .replace(/^\[往期智库\]\s*/, '')
+    .replace(/[\s\p{P}\p{S}]/gu, '')
+    .toLowerCase();
+}
+
+/**
  * 获取指定研报在全部历史批次中的“演化脉络”关联事件时间轴 (Event Threading)
  */
 export async function getNewsEventTimeline(newsId) {
@@ -836,6 +802,7 @@ export async function getNewsEventTimeline(newsId) {
   const targetEntities = new Set((targetItem.nlpKeyEntities || []).map(e => String(e).toLowerCase().trim()));
   const targetTags = new Set((targetItem.tags || []).map(t => String(t).toLowerCase().trim()));
   const targetCategory = targetItem.category;
+  const targetNormTitle = normalizeNewsTitle(targetItem.title);
 
   const candidateEvents = [];
 
@@ -844,6 +811,10 @@ export async function getNewsEventTimeline(newsId) {
     try {
       const allDocs = await NewsItemModel.find({ id: { $ne: cleanId } }).lean();
       for (const item of allDocs) {
+        // 核心去重 1：严禁与目标研报自身同名（即便存在历史跨天克隆或 [往期智库] 前缀）
+        const itemNormTitle = normalizeNewsTitle(item.title);
+        if (itemNormTitle === targetNormTitle) continue;
+
         let score = 0;
         const matchedEntities = [];
 
@@ -899,6 +870,10 @@ export async function getNewsEventTimeline(newsId) {
       for (const item of items) {
         if (item.id === cleanId) continue;
 
+        // 核心去重 1：严禁与目标自身同名
+        const itemNormTitle = normalizeNewsTitle(item.title);
+        if (itemNormTitle === targetNormTitle) continue;
+
         let score = 0;
         const matchedEntities = [];
 
@@ -940,19 +915,63 @@ export async function getNewsEventTimeline(newsId) {
     }
   }
 
-  // 3. 先按相关度得分选出最紧密的 Top 4 篇
+  // 3. 先按相关度得分排序
   candidateEvents.sort((a, b) => b.relevanceScore - a.relevanceScore);
-  const topEvents = candidateEvents.slice(0, 4);
+
+  // 核心去重 2：候选事件列表内部去重（相同标题仅保留相关度最高的一条，严禁在脉络中多条重复列出）
+  const deduplicatedEvents = [];
+  const seenCandidateTitles = new Set();
+
+  for (const event of candidateEvents) {
+    const norm = normalizeNewsTitle(event.title);
+    if (!seenCandidateTitles.has(norm)) {
+      seenCandidateTitles.add(norm);
+      deduplicatedEvents.push(event);
+      if (deduplicatedEvents.length >= 4) break;
+    }
+  }
 
   // 4. 用户指示加固：对 Top 4 结果进行二次时间排序 (按 briefingDate 降序排列)，确保时间轴连贯无跳跃
-  topEvents.sort((a, b) => b.briefingDate.localeCompare(a.briefingDate));
+  deduplicatedEvents.sort((a, b) => b.briefingDate.localeCompare(a.briefingDate));
 
   return {
     targetId: cleanId,
     targetTitle: targetItem.title,
     targetDate: targetItem.batchDate || targetItem.publishTime?.slice(0, 10) || '',
-    relatedEvents: topEvents
+    relatedEvents: deduplicatedEvents
   };
+}
+
+/**
+ * 获取过去指定天数内已归档发表的所有研报标题清单（用于 Gemini Spark 每日生成排重防撞）
+ */
+export async function getRecentNewsTitles(days = 14) {
+  const { dates } = await getAvailableBriefingDates();
+  const targetDates = dates.slice(0, days);
+  const titles = new Set();
+
+  if (isMongoConnected) {
+    try {
+      const items = await NewsItemModel.find({ batchDate: { $in: targetDates } }, 'title').lean();
+      for (const it of items) {
+        if (it && it.title) titles.add(it.title.trim());
+      }
+      return Array.from(titles);
+    } catch (e) {
+      console.warn(`[Repository] MongoDB 获取排重标题清单失败: ${e.message}`);
+    }
+  }
+
+  // 本地模式扫描
+  for (const d of targetDates) {
+    const briefing = readLocalBriefingFile(d);
+    const items = briefing ? briefing.items : (memoryNewsStore[d] || []);
+    for (const it of items) {
+      if (it && it.title) titles.add(it.title.trim());
+    }
+  }
+
+  return Array.from(titles);
 }
 
 /**

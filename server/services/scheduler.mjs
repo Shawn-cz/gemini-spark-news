@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { generateDailyBriefing, getActiveModel } from './geminiSparkAgent.mjs';
 import { broadcastSSEMessage } from './sseManager.mjs';
-import { saveBriefing } from '../repository.mjs';
+import { saveBriefing, getRecentNewsTitles } from '../repository.mjs';
 
 dotenv.config();
 
@@ -68,13 +68,14 @@ export async function triggerGenerationPipeline(targetDate = new Date().toISOStr
 
   try {
     console.log(`[Scheduler] 🚀 启动 [${targetDate}] Gemini Spark 生产流 (模型: ${getActiveModel()})`);
+    const recentTitles = await getRecentNewsTitles(14);
 
     const result = await generateDailyBriefing(targetDate, async (stageData) => {
       if (runIdCounter === currentRunId) {
         currentStageInfo = stageData;
         broadcastSSEMessage(stageData);
       }
-    });
+    }, recentTitles);
 
     if (runIdCounter !== currentRunId) {
       console.warn(`[Scheduler] ⚠️ 任务 [${targetDate}] 运行过期被放弃保存`);

@@ -1,0 +1,366 @@
+{
+  "batchDate": "2026-10-01",
+  "items": [
+    {
+      "id": "gemini-2026-10-01-001",
+      "batchDate": "2026-10-01",
+      "title": "OpenAI与微软正式公布代号'Stargate-X'的下一代超级计算架构与全球算力联盟",
+      "englishTitle": "OpenAI and Microsoft Officially Unveil Codename 'Stargate-X' Next-Gen Supercomputing Architecture and Global Compute Alliance",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年9月30日，人工智能领军企业OpenAI联合其核心战略盟友微软公司，在美国西雅图总部正式向全球发布代号为'Stargate-X'的下一代万亿级参数大模型超级计算架构，并宣布成立由全球多家顶尖云厂商与主权AI基金参与的算力同盟。【事件核心细节】该架构投资规模高达1500亿美元，首期工程计划在北美与欧洲部署采用最新光子芯片互联技术的10万张级GPU超级集群，单集群峰值算力较上一代提升近15倍，同时将单位算力能耗降低了42%，标志着大模型训练正式迈入太瓦级能效时代。【战略与深远影响】此举不仅进一步巩固了美西方科技巨头在前沿人工智能算力基础设施上的垄断地位，也加剧了全球范围内围绕核心算力供应链、半导体先进封装以及清洁能源消纳的地缘技术竞争，迫使其他主要经济体加速构建自主可控的算力生态网络以应对潜在的技术断供风险。",
+      "tags": [
+        "OpenAI",
+        "Microsoft",
+        "Supercomputing",
+        "AI Infrastructure"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "OpenAI",
+        "Microsoft",
+        "Stargate-X",
+        "Seattle"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T01:15:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.463Z",
+      "updatedAt": "2026-10-01T00:34:34.463Z"
+    },
+    {
+      "id": "gemini-2026-10-01-002",
+      "batchDate": "2026-10-01",
+      "title": "台积电宣布2nm制程良率突破85%并启动亚利桑那州二期工厂大规模商业化量产",
+      "englishTitle": "TSMC Announces 2nm Process Yield Exceeds 85% and Launches Large-Scale Commercial Production at Arizona Phase II Fab",
+      "source": "Bloomberg",
+      "sourceCountry": "Taiwan",
+      "category": "ai",
+      "region": "East Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月29日，全球晶圆代工龙头台积电（TSMC）在台湾新竹总部与其美国亚利桑那州分公司同步举行全球媒体吹风会，披露了其最先进的2纳米（N2）制程工艺的最新商业化进展。【事件核心细节】台积电官方宣布，得益于全环绕栅极（GAA）晶体管技术的持续优化，其2nm工艺试产良率已稳步突破85%大关，提前一个季度达到大规模量产标准；与此同时，位于美国亚利桑那州的二期工厂正式宣布进入商业化量产阶段，首批产能将全面优先供应苹果、英伟达及超威半导体等核心AI芯片设计客户。【战略与深远影响】这一里程碑式的技术突破彻底打破了业界此前对海外晶圆厂良率爬坡缓慢的质疑，极大地加速了全球AI终端设备的硬件迭代周期，同时也对全球半导体制造产业链的地理重构与地缘政治平衡产生了深远而复杂的重塑效应。",
+      "tags": [
+        "TSMC",
+        "Semiconductor",
+        "2nm",
+        "AI Chips"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "TSMC",
+        "Arizona",
+        "Nvidia",
+        "Apple"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T02:30:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.463Z",
+      "updatedAt": "2026-10-01T00:34:34.463Z"
+    },
+    {
+      "id": "gemini-2026-10-01-003",
+      "batchDate": "2026-10-01",
+      "title": "谷歌发布具身智能通用基础模型'Gemini-Robotics-OS'并打通物理世界交互闭环",
+      "englishTitle": "Google Releases Embodied AI General Foundation Model 'Gemini-Robotics-OS' Closing the Physical World Interaction Loop",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月30日，科技巨头谷歌旗下的Google DeepMind团队在美国加州山景城总部正式对外发布面向具身智能的全新通用基础操作系统——'Gemini-Robotics-OS'。【事件核心细节】该系统首次将多模态大模型的视觉、语言理解能力与机器人复杂的底层运动控制算法进行了原生级深度融合，实现了从抽象人类指令到高精度物理操作的端到端零样本泛化，在测试中展现出高达96%的复杂非结构化环境任务成功率。【战略与深远影响】该操作系统的问世标志着通用人工智能（AGI）正式从纯数字世界向实体物理世界跨越式延伸，不仅将彻底颠覆全球智能制造、仓储物流与现代服务业的劳动力供给结构，也引发了关于具身智能安全伦理与全球科技标准制定权的新一轮博弈。",
+      "tags": [
+        "Google DeepMind",
+        "Embodied AI",
+        "Robotics",
+        "AGI"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Google DeepMind",
+        "Mountain View",
+        "Gemini-Robotics-OS"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T03:00:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-004",
+      "batchDate": "2026-10-01",
+      "title": "欧盟委员会正式通过并通过《欧洲人工智能安全法案》实施细则及严厉惩罚机制",
+      "englishTitle": "European Commission Officially Adopts Implementation Rules and Strict Penalties for the 'European AI Safety Act'",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月30日，欧盟委员会在比利时布鲁塞尔总部召开全体闭门会议，以压倒性多数正式通过并颁布了长达数百页的《欧洲人工智能安全法案》（European AI Safety Act）最终实施细则与合规惩罚机制。【事件核心细节】根据新规要求，所有在欧盟境内运营通用人工智能模型的科技企业必须在未来180天内完成全面的算法透明度审计与版权合规备案，违者将面临高达全球年度营业额7%或3500万欧元的严厉罚金，同时对高风险生物识别与深度伪造技术的监管设定了零容忍红线。【战略与深远影响】此举标志着全球首个具有强法律约束力的跨国AI监管框架正式进入实质性落地执法阶段，不仅将深刻改变全球跨国科技巨头在欧洲市场的合规运营策略，也为世界其他主要经济体在平衡技术创新与社会治理风险方面提供了具有风向标意义的制度蓝本。",
+      "tags": [
+        "European Commission",
+        "AI Regulation",
+        "Compliance",
+        "EU Law"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "European Commission",
+        "Brussels",
+        "European AI Safety Act"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T04:10:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-012",
+      "batchDate": "2026-10-01",
+      "title": "国际能源署发布《2026全球绿氢与新型长时储能产业年度前瞻报告》",
+      "englishTitle": "IEA Releases '2026 Global Green Hydrogen and New Long-Duration Energy Storage Industry Annual Outlook Report'",
+      "source": "IEA",
+      "sourceCountry": "France",
+      "category": "climate",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月30日，国际能源署（IEA）在巴黎总部正式对外发布了权威的《2026全球绿氢与新型长时储能产业年度前瞻报告》。【事件核心细节】报告指出，得益于质子交换膜（PEM）电解水制氢成本在过去两年内暴跌近60%，加之新型压缩空气与液流电池储能技术的商业化爆发，全球绿氢产量在2026年实现了同比超过110%的指数级增长，其每公斤均价首次跌破1.5美元的化石能源平价拐点。【战略与深远影响】绿氢和长时储能跨越经济性奇点，彻底打通了风电、光伏等可再生能源大规模并网消纳的最后瓶颈，加速了全球重工业与远洋航运部门深度去碳化进程，对全球实现《巴黎协定》长期温控目标构成了最强有力的技术支撑。",
+      "tags": [
+        "IEA",
+        "Green Hydrogen",
+        "Energy Storage",
+        "Decarbonization"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.76,
+      "nlpKeyEntities": [
+        "IEA",
+        "Paris",
+        "Green Hydrogen"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T07:40:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-006",
+      "batchDate": "2026-10-01",
+      "title": "国际清算银行与多国央行成功完成基于分布式账本的CBDC跨境支付多边结算网桥测试",
+      "englishTitle": "BIS and Multiple Central Banks Successfully Complete Multi-Lateral CBDC Cross-Border Payment Bridge Test Based on DLT",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月30日，国际清算银行（BIS）创新枢纽联合中国人民银行、欧洲央行、新加坡金管局及阿联酋央行，在瑞士巴塞尔发布了关于多边央行数字货币桥（mBridge）进入全面商业化过渡阶段的最终技术评估报告。【事件核心细节】报告指出，经过长达数月的真实贸易场景压力测试，基于分布式账本技术（DLT）的mBridge系统成功实现了在秒级时间内完成多国主权数字货币（CBDC）的直接点对点兑换与结算，交易成本较传统代理行模式骤降92%，且全过程满足反洗钱与国际合规审查要求。【战略与深远影响】该成果标志着全球跨境支付清算体系正加速摆脱对传统SWIFT网络的极端依赖，对重塑国际金融货币新秩序、加速人民币等非美主权货币国际化进程具有极其深远的战略和地缘金融影响。",
+      "tags": [
+        "BIS",
+        "CBDC",
+        "Cross-border Payment",
+        "mBridge"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.7,
+      "nlpKeyEntities": [
+        "BIS",
+        "Basel",
+        "People's Bank of China",
+        "ECB"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T05:00:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-007",
+      "batchDate": "2026-10-01",
+      "title": "全球主权财富基金联合会宣布成立3000亿美元绿色战略产业专项并购母基金",
+      "englishTitle": "Global Sovereign Wealth Funds Association Announces 300B USD Green Strategic Industry Special M&A Mother Fund",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Middle East",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月29日，由中东、挪威及新加坡等全球十余家顶级主权财富基金组成的联合会在阿联酋阿布扎比举行的年度峰会上，正式签署并宣告成立总规模高达3000亿美元的绿色战略产业专项并购母基金。【事件核心细节】该母基金重点聚焦全球范围内新一代清洁能源储能技术、下一代核聚变商业化研发、深海矿产绿色采掘以及碳捕集与封存（CCSS）等四大前沿硬科技领域的战略资产收购与股权投资，首期1000亿美元资金已完成资金托管并开始向全球优质标的发出邀约。【战略与深远影响】海量主权资本的密集战略转向，标志着全球金融资本正从传统的化石能源与纯数字互联网泡沫中全面撤离，深度注入实体脱碳与绿色科技核心赛道，深刻改变着全球大宗商品定价权与未来二十年的全球产业资本流向版图。",
+      "tags": [
+        "Sovereign Wealth Fund",
+        "Green Energy",
+        "M&A",
+        "Capital Flow"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "Abu Dhabi",
+        "Global SWF",
+        "Middle East Sovereign Funds"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T05:30:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-010",
+      "batchDate": "2026-10-01",
+      "title": "东盟十国与东亚伙伴国在吉隆坡签署《印太数字经济与关键走廊互联互通协定》",
+      "englishTitle": "ASEAN and East Asian Partners Sign 'Indo-Pacific Digital Economy and Critical Corridors Connectivity Agreement' in Kuala Lumpur",
+      "source": "Channel News Asia",
+      "sourceCountry": "Singapore",
+      "category": "geopolitics",
+      "region": "Southeast Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月29日至30日，东南亚国家联盟（ASEAN）十国与中、日、韩等东亚核心经济体代表在马来西亚首都吉隆坡举行高级别经贸峰会，正式签署了《印太数字经济与关键走廊互联互通协定》。【事件核心细节】协定内容涵盖跨境数据安全流动自由化规则、区域内海底光缆与算力枢纽节点共建、数字身份互认标准以及关键电子元器件供应链快速通关绿色通道，旨在构建一个高标准的泛亚数字自由贸易圈。【战略与深远影响】该协定的落地有效对冲了域外大国在印太地区推行的小多边排他性经贸阵营对抗，极大促进了亚洲区域内产业链、供应链与数字经济的深度一体化融合，成为稳定全球区域经济增长的核心锚点。",
+      "tags": [
+        "ASEAN",
+        "Digital Economy",
+        "Connectivity",
+        "Kuala Lumpur"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.72,
+      "nlpKeyEntities": [
+        "Kuala Lumpur",
+        "ASEAN",
+        "East Asia"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1508873696983-2df5c920ac1c?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T06:50:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-008",
+      "batchDate": "2026-10-01",
+      "title": "中美高层在日内瓦举行新一轮战略经贸与关键矿产供应链安全闭门会谈",
+      "englishTitle": "US and China High-Level Officials Hold New Round of Strategic Economic and Critical Mineral Supply Chain Closed-Door Talks in Geneva",
+      "source": "Reuters",
+      "sourceCountry": "Switzerland",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月30日，中国政府高级经贸代表团与美国总统国家安全事务助理及商务部长率领的代表团，在瑞士日内瓦联合国欧洲总部举行了为期两天的封闭式高级别战略经贸会谈。【事件核心细节】双方围绕稀土等关键战略矿产出口管制、半导体产业链供应链双向解耦与安全防扩散、以及海外高技术企业投资审查等核心痛点议题进行了坦诚、深入的艰难磋商，并就建立常态化沟通热线与技术性摩擦快速预警机制达成三项重要的阶段性原则共识。【战略与深远影响】这次高级别会谈是在全球地缘政治极度紧张背景下两个超级大国寻求战略护栏、防止经贸摩擦失控的关键外交努力，对于缓解全球供应链恐慌情绪、稳定国际大宗商品市场预期以及重塑后全球化时代的大国竞合规则具有不可替代的重大风向标意义。",
+      "tags": [
+        "US-China Relations",
+        "Geneva",
+        "Supply Chain",
+        "Geopolitics"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "nlpKeyEntities": [
+        "Geneva",
+        "United States",
+        "China",
+        "WTO"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T06:00:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-011",
+      "batchDate": "2026-10-01",
+      "title": "国际热核聚变实验反应堆（ITER）组织宣布托卡马克装置首次实现持续1000秒高约束模运行",
+      "englishTitle": "ITER Organization Announces Tokamak Device Achieves Continuous 1000-Second High-Confinement Mode Operation for the First Time",
+      "source": "Nature News",
+      "sourceCountry": "France",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月30日，国际热核聚变实验反应堆（ITER）组织在法国卡达拉舍总部向全球科学界发布了一项震撼世界的重大物理实验突破。【事件核心细节】ITER核心托卡马克磁约束聚变装置在最新的等离子体物理实验中，成功克服了长期困扰学术界的磁ohydrodynamic（MHD）不稳定性和边界局域模（ELM）难题，首次实现了维持中心温度超过1.5亿摄氏度、持续时间长达1000秒的高约束模（H-mode）稳定运行，且输出能量增益因子Q值稳定超过12。【战略-深远影响】这一历史性突破标志着人类向实现近乎无限、清洁且安全的商业化核聚变发电迈出了具有决定性意义的一大步，将彻底改写未来全球长期能源战略版图与人类应对气候变暖的技术路径。",
+      "tags": [
+        "ITER",
+        "Nuclear Fusion",
+        "Clean Energy",
+        "Physics"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.92,
+      "nlpKeyEntities": [
+        "ITER",
+        "Cadarache",
+        "Tokamak"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T07:15:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-005",
+      "batchDate": "2026-10-01",
+      "title": "美联储在非例行货币政策会议上宣布意外降息50个基点并推出新型流动性注入工具",
+      "englishTitle": "Federal Reserve Announces Surprise 50 Basis Point Rate Cut and Unveils New Liquidity Injection Tool in Off-Cycle Meeting",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月30日深夜，美国联邦储备委员会（FRB）主席与联邦公开市场委员会（FOMC）成员在华盛顿特区召开了一场备受全球金融市场瞩目的非例行紧急货币政策会议。【事件核心细节】美联储在此次会议上出人意料地宣布将联邦基金利率目标区间大幅下调50个基点至3.75%-4.00%区间，同时宣布推出一项总规模达8000亿美元的新型常备流动性回购便利工具，旨在对冲近期全球商业地产债务风险暴露与主权债务收益率剧烈波动带来的系统性金融传染效应。【战略与深远影响】这一激进的货币宽松转向瞬间引发了全球外汇、大宗商品与权益市场的海啸级震荡，美元指数应声急剧下挫，黄金及加密资产价格创下历史新高，同时也彻底重塑了全球资本在美联储降息周期下的跨国资产配置逻辑与新兴市场资本流动格局。",
+      "tags": [
+        "Federal Reserve",
+        "Interest Rate Cut",
+        "Monetary Policy",
+        "Liquidity"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.25,
+      "nlpKeyEntities": [
+        "Federal Reserve",
+        "FOMC",
+        "Washington D.C."
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T04:45:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    },
+    {
+      "id": "gemini-2026-10-01-009",
+      "batchDate": "2026-10-01",
+      "title": "金砖国家扩员后首次外长特别会议在巴西利亚发表深化多边主义与去美元化联合公报",
+      "englishTitle": "BRICS Foreign Ministers Issue Joint Communique on Deepening Multilateralism and De-Dollarization at First Special Meeting After Expansion",
+      "source": "TASS",
+      "sourceCountry": "Russia",
+      "category": "geopolitics",
+      "region": "Latin America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月30日，金砖国家（BRICS）扩员后的成员国及新加入伙伴国的外交部长在巴西首都巴西利亚举行了历史性的特别闭门会议，并于会后正式发表了全面深化多边主义与推进结算体系多元化的联合公报。【事件核心细节】公报明确呼吁成员国加快构建独立于西方控制体系之外的跨境结算与本币直接清算网络，大幅提升双边本币贸易比重，同时强烈反对任何形式的单边关税制裁和科技封锁，宣布将在人工智能治理和卫星导航等关键领域建立联合创新走廊。【战略与深远影响】该联合公报的签署和发布，标志着‘全球南方’国家在挑战传统西方主导的单极地缘政治与国际金融秩序方面迈出了具有制度性约束力的坚实步伐，深刻动摇了战后布雷顿森林体系的宏观根基。",
+      "tags": [
+        "BRICS",
+        "Multilateralism",
+        "De-dollarization",
+        "Global South"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.5,
+      "nlpKeyEntities": [
+        "Brasilia",
+        "BRICS",
+        "Global South"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-01T06:20:00.000Z",
+      "createdAt": "2026-10-01T00:34:34.464Z",
+      "updatedAt": "2026-10-01T00:34:34.464Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-01",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-01 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
+}

@@ -1,0 +1,380 @@
+{
+  "batchDate": "2026-09-21",
+  "items": [
+    {
+      "id": "gemini-2026-09-21-001",
+      "batchDate": "2026-09-21",
+      "title": "Meta与美国五角大楼达成战略合作，开源大模型首度全面接入军事指挥神经网络",
+      "englishTitle": "Meta Partners with US Pentagon to Integrate Open-Source LLMs into Military Command Neural Networks",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年9月21日凌晨，美国国防部联合人工智能安全中心与科技巨头Meta正式对外披露，双方已达成一项具有里程碑意义的深度战略合作协议。【事件核心细节】根据解密的协议框架，Meta将向美军各军种指挥系统独家开放并定制化部署其新一代Llama系列开源大模型的离线安全版本，用于实时处理战场多源情报融合、自动化战术推演以及高机密防务网络的数据清洗。这是硅谷顶尖科技企业首次深度参与核心军事指挥中枢的底层大模型构建。【战略与深远影响】该事件彻底打破了商业AI与国防安全之间的传统防火墙，标志着开源AI技术在地缘军事博弈中的战略地位急剧上升。此举预计将引发全球各国对开源AI安全边界的新一轮审视，并迫使其他科技巨头重新评估其开源战略的政治与地缘红线。",
+      "tags": [
+        "AI",
+        "Geopolitics",
+        "Meta",
+        "Defense"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.35,
+      "nlpKeyEntities": [
+        "Meta",
+        "US Department of Defense",
+        "Llama",
+        "Pentagon"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T05:00:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.663Z",
+      "updatedAt": "2026-10-19T06:10:08.663Z"
+    },
+    {
+      "id": "gemini-2026-09-21-002",
+      "batchDate": "2026-09-21",
+      "title": "英特尔与阿斯麦联合攻克高数值孔径极紫外(High-NA EUV)商业化量产卡点",
+      "englishTitle": "Intel and ASML Breakthrough High-NA EUV Commercial Mass Production Bottlenecks",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月21日，半导体制造设备巨头阿斯麦（ASML）与美国芯片制造商英特尔联合发布重大技术公告。【事件核心细节】双方在位于爱尔兰的联合实验室成功完成了业界首个基于High-NA EUV光刻机的1.4纳米（14A）制程全套晶圆连续试产，光刻良率历史性地突破了82%的商业化临界点，彻底解决了此前困扰业界的光学畸变与光刻胶剥离难题。【战略与深远影响】这一突破标志着全球半导体制造正式跨入埃米级（Angstrom）时代，极大地提振了西方阵营在先进制程芯片自主制造领域的信心，并对全球高端AI芯片的长期供给格局产生深远影响。",
+      "tags": [
+        "Semiconductors",
+        "Intel",
+        "ASML",
+        "AI"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "Intel",
+        "ASML",
+        "High-NA EUV",
+        "Ireland"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T04:15:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-003",
+      "batchDate": "2026-09-21",
+      "title": "苹果公司发布首款基于神经形态架构的端侧AI芯片M6 Neural Matrix",
+      "englishTitle": "Apple Unveils First Neuromorphic Edge AI Chip M6 Neural Matrix",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月21日，苹果公司（Apple）在其秋季特别前沿技术沟通会上，正式向全球发布了划时代的端侧AI芯片M6 Neural Matrix。【事件核心细节】该芯片采用全新的类脑神经形态架构（Neuromorphic Architecture），彻底抛弃了传统的冯·诺依曼架构瓶颈，内置高达2000亿个突触模拟单元，在本地运行千亿参数大模型时的能耗比传统GPU降低了90%以上，且延迟缩至微秒级。【战略与深远影响】M6芯片的问世标志着终端消费电子进入了“真自主AI”时代，极大削弱了云端算力对个人隐私数据的垄断，引领全球消费电子产业链向低功耗、高智能的神经形态计算全面转型。",
+      "tags": [
+        "Apple",
+        "AI",
+        "Hardware",
+        "Neuromorphic"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Apple",
+        "M6 Neural Matrix",
+        "Silicon Valley"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T03:30:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-004",
+      "batchDate": "2026-09-21",
+      "title": "全球开源AI基金会联合欧洲多国启动‘无边界代码’分布式大模型训练同盟",
+      "englishTitle": "Global Open Source AI Foundation and European Nations Launch 'BorderlesCode' Distributed Training Alliance",
+      "source": "Wired",
+      "sourceCountry": "Germany",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月21日，由德国于利希研究中心联合欧洲多国科研机构及全球开源AI基金会共同宣布，正式启动跨国分布式大模型训练同盟项目“BorderlesCode”。【事件核心细节】该项目首次利用超高速量子加密光纤，将分布在法兰克福、巴黎、苏黎世等地的12个超级计算中心物理连接，成功在超低延迟下完成了跨国异构算力的池化与万亿参数基础大模型的联合分布式训练。【战略与深远影响】此举开创了主权国家与民间开源社区联合对抗算力寡头垄断的新范式，有效规避了单国算力集群受地缘政治或能源危机波及的系统性风险，促进了全球AI研发资源的去中心化配置。",
+      "tags": [
+        "Open Source",
+        "AI",
+        "Europe",
+        "Supercomputing"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.6,
+      "nlpKeyEntities": [
+        "BorderlesCode",
+        "Forschungszentrum Jülich",
+        "EU"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T02:00:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-005",
+      "batchDate": "2026-09-21",
+      "title": "国际货币基金组织（IMF）与瑞士国家银行联合发布全球首个量子加密主权支付结算安全协议",
+      "englishTitle": "IMF and Swiss National Bank Release World's First Quantum-Encrypted Sovereign Payment Settlement Security Protocol",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月21日，国际货币基金组织（IMF）携手瑞士国家银行及全球15家主要央行在苏黎世举行特别闭门会议，正式签署并发布全球首个《量子时代主权支付结算安全协议》。【事件核心细节】面对量子计算发展对现有RSA及椭圆曲线加密体系构成的迫切现实威胁，该协议确立了强制过渡至后量子密码学（PQC）的时间表。所有参与国自即日起必须在跨境清算及央行数字货币（CBDC）底层架构中全面引入抗量子加密算法，首期涉及超过30万亿美元的跨国主权资产保护。【战略与深远影响】此项金融防务协议的落地，标志着全球金融基础设施正式进入防范量子攻击的“战时状态”，对防止未来地缘黑客利用量子计算机窃取或篡改全球主权金融账本具有决定性战略意义。",
+      "tags": [
+        "Finance",
+        "IMF",
+        "Quantum Cryptography",
+        "CBDC"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "IMF",
+        "Swiss National Bank",
+        "Zurich",
+        "PQC"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T06:00:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-006",
+      "batchDate": "2026-09-21",
+      "title": "华尔街主要投行联合成立‘全球气候风险再保险池’以应对极端天气引发的次生金融危机",
+      "englishTitle": "Wall Street Major Banks Form 'Global Climate Risk Reinsurance Pool' to Counter Secondary Financial Crises from Extreme Weather",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月21日，由摩根大通、花旗集团、高盛等全球十家系统重要性银行（G-SIBs）牵头，联合瑞士再保险公司在纽约正式宣布成立总规模达500亿美元的“全球气候风险再保险池”。【事件核心细节】随着全球极端气象事件频率激增，沿海及高风险内陆地区的商业地产与工业供应链保险成本呈指数级飙升，已严重威胁到商业银行抵押资产的估值稳定性。该再保险池将通过创新的气象灾害衍生品和主权巨灾债券，对冲因气候变暖引发的区域性房地产与供应链信贷爆雷风险。【战略与深远影响】这一资本市场创新标志着全球金融体系开始实质性将气候变暖作为核心资产负债表风险进行定价，有助于缓释实体经济因气象灾难遭遇的流动性冻结危机。",
+      "tags": [
+        "Finance",
+        "Climate Risk",
+        "Banking",
+        "Insurance"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.1,
+      "nlpKeyEntities": [
+        "JPMorgan Chase",
+        "Goldman Sachs",
+        "Swiss Re",
+        "New York"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T05:30:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-007",
+      "batchDate": "2026-09-21",
+      "title": "东京证券交易所与新加坡交易所联手打造亚洲首个全天候跨境碳金融衍生品交易平台",
+      "englishTitle": "Tokyo Stock Exchange and Singapore Exchange Partner to Launch Asia's First 24/7 Cross-Border Carbon Derivatives Trading Platform",
+      "source": "Nikkei Asia",
+      "sourceCountry": "Japan",
+      "category": "finance",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月21日，东京证券交易所（TSE）与新加坡交易所（SGX）举行联合发布会，正式宣布开通亚洲首个全天候、多币种跨境碳金融衍生品交易平台“Asia-Carbon Link”。【事件核心细节】该平台打通了日本GX（绿色转型）碳信用额度与新加坡全球碳交易市场的底层清算系统，支持机构投资者以日元、新元及离岸人民币直接进行碳期货、碳期权以及绿色主权债券的无缝对冲交易，首日成交额突破42亿美元。【战略与深远影响】此举标志着亚洲正加速构建独立于欧美的区域性碳定价中心与绿色金融资本内循环体系，极大地提升了亚洲经济体在全球碳治理与绿色定价权方面的话语权。",
+      "tags": [
+        "Finance",
+        "Carbon Trading",
+        "Tokyo",
+        "Singapore"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.65,
+      "nlpKeyEntities": [
+        "Tokyo Stock Exchange",
+        "Singapore Exchange",
+        "Asia-Carbon Link"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T01:15:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-008",
+      "batchDate": "2026-09-21",
+      "title": "沙特与阿联酋宣布组建‘波斯湾-红海跨半岛联合地缘安全与能源防卫同盟’",
+      "englishTitle": "Saudi Arabia and UAE Announce Formation of 'Gulf-Red Sea Inter-Peninsula Joint Geopolitical Security and Energy Defense Alliance'",
+      "source": "Reuters",
+      "sourceCountry": "UK",
+      "category": "geopolitics",
+      "region": "Middle East",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月21日，沙特阿拉伯王国与阿拉伯联合酋长国最高领导人在利雅得举行非公开双边战略峰会后，联合签署并发表了组建“波斯湾-红海跨半岛联合地缘安全与能源防卫同盟”的声明。【事件核心细节】该同盟旨在整合两国海空军及战略导弹防御网络，建立常态化联合巡逻与快速反应机制，以彻底保障霍尔木兹海峡至曼德海峡的超级能源大动脉安全。同时，同盟将对跨国油气管道及海底关键电力设施实施统一的高规格军事防护。【战略与深远影响】在中东地缘政治持续复杂化、美军战略重心东移的背景下，海湾双雄选择深度抱团并构建独立防卫体系，标志着中东地缘格局正从“依赖域外大国安保”向“区域国家自主安全治理”发生历史性转变，对全球石油供应链稳定具有决定性压舱石作用。",
+      "tags": [
+        "Geopolitics",
+        "Middle East",
+        "Energy Security",
+        "Saudi Arabia"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "nlpKeyEntities": [
+        "Saudi Arabia",
+        "UAE",
+        "Riyadh",
+        "Red Sea"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T06:15:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-009",
+      "batchDate": "2026-09-21",
+      "title": "欧盟委员会正式批准针对亚太特定高科技产品的‘深度供应链溯源与原产地穿透法案’",
+      "englishTitle": "European Commission Officially Approves 'Deep Supply Chain Traceability and Origin Penetration Act' for Asia High-Tech Products",
+      "source": "Politico EU",
+      "sourceCountry": "Belgium",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月21日，欧洲委员会以压倒性多数通过了备受争议的《深度供应链溯源与原产地穿透法案》（简称DTPA）。【事件核心细节】根据该法案，所有出口至欧盟市场的智能汽车、半导体、工业机器人及医疗器械等高科技产品，其制造商必须向欧盟监管机构完整披露涵盖三级供应商在内的全产业链原产地数据、软件代码编写者国籍及关键原材料提炼地。任何无法通过区块链防篡改溯源审计的产品将面临高达全球营业额10%的惩罚性关税或直接禁入。【战略与深远影响】此举是欧盟进一步收紧贸易保护主义、构建所谓“战略自主”及防范技术溢出的核心地缘工具，预计将迫使亚太跨国制造企业大幅重组其对欧出口供应链，带来巨大的合规与物流重构成本。",
+      "tags": [
+        "Geopolitics",
+        "EU",
+        "Supply Chain",
+        "Trade Policy"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.45,
+      "nlpKeyEntities": [
+        "European Commission",
+        "Brussels",
+        "DTPA"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T04:45:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-010",
+      "batchDate": "2026-09-21",
+      "title": "拉美四国总统在圣地亚哥签署‘南美锂资源主权同盟与统一出口定价宪章’",
+      "englishTitle": "Four Latin American Presidents Sign 'South American Lithium Resource Sovereignty Alliance and Unified Export Pricing Charter' in Santiago",
+      "source": "El País",
+      "sourceCountry": "Spain",
+      "category": "geopolitics",
+      "region": "Latin America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月21日，智利、阿根廷、玻利维亚和秘鲁四国总统在智利首都圣地亚哥举行历史性首脑会晤，正式签署《南美锂资源主权同盟与统一出口定价宪章》（被外界称为“锂佩克”实质性落地）。【事件核心细节】宪章明确规定四国将设立联合锂资源管理局，对碳酸锂及氢氧化锂的出口设定统一定价基准和产量配额上限，并强制要求所有在当地开采的跨国矿业集团必须向本地转让核心提炼专利与固态电池前驱体加工技术。【战略与深远影响】这一重大地缘经济事件标志着全球南南合作在掌控关键能源矿产方面迈出实质性步伐，彻底打破了西方跨国车企长期以来对南美“锂三角”资源的掠夺性低价采购格局，深刻改变全球新能源汽车供应链的成本红利预期。",
+      "tags": [
+        "Geopolitics",
+        "Latin America",
+        "Lithium",
+        "Energy"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.05,
+      "nlpKeyEntities": [
+        "Santiago",
+        "Chile",
+        "Argentina",
+        "Lithium Triangle"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T03:00:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.665Z",
+      "updatedAt": "2026-10-19T06:10:08.665Z"
+    },
+    {
+      "id": "gemini-2026-09-21-011",
+      "batchDate": "2026-09-21",
+      "title": "国际能源署(IEA)发布突发报告：全球第四代高温气冷堆商业化并网规模首超传统核电",
+      "englishTitle": "IEA Emergency Report: Global 4th Generation High-Temperature Gas-Cooled Reactor Commercial Grid Integration First Surpasses Traditional Nuclear Power",
+      "source": "Reuters",
+      "sourceCountry": "UK",
+      "category": "climate",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年9月21日，国际能源署（IEA）在巴黎总部发布了一份题为《第四代核能革命：高温气冷堆与全球深度脱碳》的特别突发报告。【事件核心细节】报告披露，得益于模块化设计与绝对安全特性的突破，全球第四代高温气冷堆（HTGR）在过去12个月内的商业化并网总装机容量已突破50吉瓦，历史上首次超越传统压水堆核电的年度新增装机份额。这种新型核反应堆不仅能够持续发电，还能提供高达900摄氏度以上的工业高温蒸汽，完美契合绿氢制备、炼钢及石化等重工业脱碳需求。【战略与深远影响】该技术的爆发性普及彻底扭转了人类在应对气候变暖过程中对化石能源供热的严重路径依赖，为全球在2050年前实现净零排放目标打下了坚实的现实能源底座。",
+      "tags": [
+        "Climate",
+        "Energy Transition",
+        "Nuclear",
+        "IEA"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "IEA",
+        "Paris",
+        "HTGR",
+        "Global Clean Energy"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T06:45:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.666Z",
+      "updatedAt": "2026-10-19T06:10:08.666Z"
+    },
+    {
+      "id": "gemini-2026-09-21-012",
+      "batchDate": "2026-09-21",
+      "title": "中亚五国与中国、欧洲能源巨头正式签署‘欧亚跨洲超导特高压清洁能源大动脉’建设协议",
+      "englishTitle": "Central Asian Five Nations, China, and European Energy Giants Officially Sign 'Eurasian Trans-Continental Superconducting UHV Clean Energy Backbone' Construction Agreement",
+      "source": "Xinhua",
+      "sourceCountry": "China",
+      "category": "climate",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年9月21日，中亚五国政府首脑与中国、德国、法国的多家顶级能源基础设施建设集团在阿拉木图举行盛大签字仪式，正式启动“欧亚跨洲超导特高压清洁能源大动脉”项目。【事件核心细节】该项目总投资达1200亿美元，计划采用突破性的高温超导电缆技术，将中亚广袤荒漠地区规划建设的超大型光伏与风电基地产生的巨量清洁电力，以接近零损耗的方式直接输送至中国西北电网及东欧重工业核心区。项目全长超过6800公里，预计全部建成后每年可输送相当于1.5亿吨标准煤的清洁电能。【战略与深远影响】这是全球首个跨越欧亚大陆的高温超导能源输送网络，标志着全球清洁能源大范围跨洲配置进入“零损耗、超大容量”的全新历史阶段，极大地促进了欧亚大陆能源命运共同体的深度融合。",
+      "tags": [
+        "Climate",
+        "Clean Energy",
+        "Superconductor",
+        "Eurasia"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.8,
+      "nlpKeyEntities": [
+        "Almaty",
+        "Central Asia",
+        "UHV",
+        "China"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-21T01:00:00.000Z",
+      "createdAt": "2026-10-19T06:10:08.666Z",
+      "updatedAt": "2026-10-19T06:10:08.666Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-09-21",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-21 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "2016 诺贝尔文学奖",
+    "author": "鲍勃·迪伦",
+    "work": "答案在风中飘",
+    "enAuthor": "Bob Dylan",
+    "enWork": "Blowin' in the Wind",
+    "zh": "“不忙着求生的人，便忙着死去。”",
+    "en": "“He not busy being born is busy dying.”",
+    "batchDate": "2026-09-21"
+  }
+}

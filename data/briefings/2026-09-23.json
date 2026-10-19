@@ -1,0 +1,370 @@
+{
+  "batchDate": "2026-09-23",
+  "items": [
+    {
+      "id": "gemini-2026-09-23-001",
+      "batchDate": "2026-09-23",
+      "title": "英特尔宣布拆分晶代业务并引入主权基金联合注资，重构全球半导体地缘代工版图",
+      "englishTitle": "Intel Announces Foundry Business Spin-off with Sovereign Wealth Fund Investment, Reshaping Global Semiconductor Foundry Landscape",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】：2026年9月23日，美国英特尔公司（Intel）与由阿布扎比投资局（ADIA）、新加坡淡马锡控股及美国几大顶尖主权资本组成的财团联合对外宣布，正式达成将旗下晶圆代工业务（Intel Foundry）实施独立拆分的终极重组协议。【事件核心细节】：根据协议，该独立代工实体将获得总额高达220亿美元的战略注资，其中主权资本占股40%，英特尔保留控股权。此举旨在通过剥离沉重资本开支包袱，加速推进其18A及后续节点先进制程的商业化量产，以直接抗衡台积电与三星电子在全球高端AI芯片代工市场的垄断地位。【战略与深远影响】：该事件标志着全球半导体制造格局正从单一的“台积电集中化”向“多极区域化”剧烈演变，有效缓解了地缘政治紧张局势下北美及欧洲本土AI算力供应链的单点故障风险，对全球尖端人工智能芯片的产能分配与成本结构产生深远震荡。",
+      "tags": [
+        "Intel",
+        "Semiconductor",
+        "Sovereign Fund",
+        "Foundry"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.65,
+      "nlpKeyEntities": [
+        "Intel Foundry",
+        "ADIA",
+        "Temasek",
+        "TSMC"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T06:00:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-002",
+      "batchDate": "2026-09-23",
+      "title": "Meta 推出首款基于神经拟态架构的开源通用大模型“Aether-7”，引发端侧算力革命",
+      "englishTitle": "Meta Unveils First Neuromorphic-Architecture Open-Source General LLM 'Aether-7', Triggering Edge Computing Revolution",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年9月23日，美国 Meta 公司人工智能研究院（Meta AI）正式面向全球开发者社区开源发布其历时三年研发的神经拟态大模型“Aether-7”。【事件核心细节】：Aether-7 彻底打破了传统Transformer架构对巨型GPU集群的强依赖，创新性地采用脉冲神经网络（SNN）与传统注意力机制的混合架构。其实测数据显示，在保持百亿参数级语义理解能力的同时，其推理功耗暴降92%，可在普通移动端设备及物联网边缘节点上实现实时零延迟本地化全模态交互。【战略与深远影响】：该技术的突破打破了算力巨头对大模型训练与推理基础设施的绝对垄断，极大地加速了人工智能向工业物联网、智能汽车及消费级终端的下沉渗透，重构了全球AI硬件与软件生态的竞争逻辑。",
+      "tags": [
+        "Meta",
+        "Neuromorphic AI",
+        "Open Source",
+        "Edge Computing"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Meta AI",
+        "Aether-7",
+        "SNN"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T05:30:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-003",
+      "batchDate": "2026-09-23",
+      "title": "欧洲空间局与亚马逊云服务（AWS）联手构建“Orbital-Compute”近地轨道AI星座系统",
+      "englishTitle": "European Space Agency and AWS Partner to Build 'Orbital-Compute' Low-Earth Orbit AI Constellation",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，欧洲空间局（ESA）携手亚马逊云服务（AWS）在巴黎总部召开联合发布会，正式启动总投资达45亿欧元的“Orbital-Compute”太空边缘计算星座计划。【事件核心细节】：该计划首批将向低地球轨道发射12颗搭载抗辐射光子AI加速芯片的卫星，构建人类历史上首个太空间分布式超级计算机。系统绕过地面基站转发延迟，直接在太空中对海量气象遥感、地缘侦察及全球气候监测高光谱数据进行实时大模型推理与特征提取。【战略与深远影响】：此举标志着全球AI算力基础设施正式向太空延伸，不仅极大地提升了欧洲在自主空间信息处理与关键气象、国防安全领域的战略主动权，也开创了商业云巨头与政府航天机构深度融合的新范式。",
+      "tags": [
+        "ESA",
+        "AWS",
+        "Space AI",
+        "Edge Computing"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.58,
+      "nlpKeyEntities": [
+        "European Space Agency",
+        "AWS",
+        "Orbital-Compute"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T04:45:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-004",
+      "batchDate": "2026-09-23",
+      "title": "日本理化学研究所（Riken）成功实现 1000 逻辑量子比特超导量子计算机无错纠缠运行",
+      "englishTitle": "Japan's Riken Successfully Achieves Error-Free Entanglement Operation of 1,000 Logical Qubit Superconducting Quantum Computer",
+      "source": "Nikkei Asia",
+      "sourceCountry": "Japan",
+      "category": "ai",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，日本理化学研究所（Riken）与富士通（Fujitsu）联合研究团队在东京宣布，其新一代超导量子计算原型机“Gouhaku-MKII”成功实现了超过1000个逻辑量子比特的长时间稳定纠缠。【事件核心细节】：研究团队采用全新的拓扑表面码纠错算法和三维垂直集成微波布线技术，成功将量子退相干错误率降低了三个数量级。在同日的基准测试中，该系统在处理复杂分子动力学模拟和密码学哈希碰撞任务时，展现出超越当前最强超级计算机数百万倍的量子优越性。【战略与深远影响】：这一里程碑标志着量子计算从“物理比特展示”正式跨入“实用化容错量子计算”时代，对全球密码安全体系、新材料研发及人工智能底层优化算法构成了长远的颠覆性影响。",
+      "tags": [
+        "Riken",
+        "Quantum Computing",
+        "Superconducting",
+        "Japan"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "Riken",
+        "Fujitsu",
+        "Gouhaku-MKII"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T03:15:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-005",
+      "batchDate": "2026-09-23",
+      "title": "国际清算银行（BIS）与八国央行启动“Nexus-Global”跨境即时零售支付互联系统",
+      "englishTitle": "Bank for International Settlements and Eight Central Banks Launch 'Nexus-Global' Cross-Border Instant Retail Payment Interconnection System",
+      "source": "Reuters",
+      "sourceCountry": "Switzerland",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年9月23日，国际清算银行（BIS）创新枢纽携手新加坡、英国、欧元区、印度等八国（地区）中央银行，正式在全球范围内上线并运行“Nexus-Global”多边即时零售支付网络。【事件核心细节】：该系统通过标准化API接口与各国本土的即时支付系统（IPS）进行底层打通，实现了跨境零售交易在60秒内以本地货币完成清算与结算，并将中间代理行费用压缩了80%以上。运行首日，处理的跨国小微企业及个人转账金额即突破150亿美元。【战略与深远影响】：Nexus-Global 的全面商用对传统以环球同业银行金融电讯协会（SWIFT）和高额代理行为核心的跨境支付旧秩序构成了强力分流，显著降低了新兴市场与发达经济体之间的资金摩擦，推动了全球贸易结算体系的数字化与扁平化转型。",
+      "tags": [
+        "BIS",
+        "Cross-Border Payments",
+        "Central Banks",
+        "Fintech"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.62,
+      "nlpKeyEntities": [
+        "Bank for International Settlements",
+        "Nexus-Global",
+        "SWIFT"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T05:00:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-006",
+      "batchDate": "2026-09-23",
+      "title": "华尔街主要投行联合发布《2027全球主权债务与气候风险定价白皮书》，加速重估高风险国家主权债",
+      "englishTitle": "Major Wall Street Investment Banks Jointly Release '2027 Global Sovereign Debt and Climate Risk Pricing White Paper', Accelerating Revaluation of High-Risk Sovereign Bonds",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，摩根大通、高盛、花旗等全球十大资产管理与投资机构在纽约联合发布重磅宏观金融研究报告《2027全球主权债务与气候风险定价白皮书》。【事件核心细节】：该白皮书首次建立了一套将极端气候灾害频发率与国家长期财政赤字违约概率强关联的量化评级模型（Climate-Adjusted Sovereign Risk Index）。报告指出，因气候变暖导致沿海基础设施损毁及农业减产的数十个发展中国家，其主权债务违约风险被严重低估，呼吁全球资本市场对相关债券实施动态降级和风险溢价上浮。【战略与深远影响】：此举标志着全球金融资本正加速将气候物理风险内生化至主权信用评级体系中，可能引发部分脆弱经济体主权再融资成本的跳升，并迫使国际货币基金组织（IMF）重构其主权债务重组救助机制。",
+      "tags": [
+        "Wall Street",
+        "Sovereign Debt",
+        "Climate Risk",
+        "Credit Rating"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.45,
+      "nlpKeyEntities": [
+        "JPMorgan Chase",
+        "Goldman Sachs",
+        "IMF"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T02:30:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-007",
+      "batchDate": "2026-09-23",
+      "title": "伦敦金属交易所（LME）正式上线全球首个“AI绿色低碳工业金属动态期货合约”",
+      "englishTitle": "London Metal Exchange (LME) Officially Launches World's First 'AI Green Low-Carbon Industrial Metal Dynamic Futures Contract'",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，伦敦金属交易所（LME）宣布正式推出全球首个深度挂钩全生命周期碳足迹追踪的工业金属期货合约系列（包括铝、铜、锌）。【事件核心细节】：该合约引入了由区块链与物联网智能传感器组成的分布式溯源系统，能够对每吨金属在冶炼、精炼及运输过程中的碳排放进行毫秒级精准审计。根据碳足迹高低，市场自动实施价格分层溢价与贴水，高碳排冶炼厂的交割成本面临成倍增加，而零碳氢冶炼产品则享受高额绿色溢价。【战略与深远影响】：该机制彻底改变了大宗商品传统的单一价格形成机制，将绿色低碳转型压力直接传导至全球上游矿产冶炼巨头，加速推动有色金属行业的脱碳技术改造，成为资本引导实体经济绿色低碳转型的金融利器。",
+      "tags": [
+        "LME",
+        "Commodities",
+        "Green Finance",
+        "Carbon Tracking"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.12,
+      "nlpKeyEntities": [
+        "London Metal Exchange",
+        "LME"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T01:00:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-008",
+      "batchDate": "2026-09-23",
+      "title": "美欧日三方在华盛顿签署《新一代关键海地及海底基础设施安全防御条约》",
+      "englishTitle": "US, EU, and Japan Sign 'New Generation Critical Maritime and Subsea Infrastructure Security Defense Treaty' in Washington",
+      "source": "Associated Press",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年9月23日，美国、欧盟委员会及日本政府代表在华盛顿特区举行代号为“Trilateral Shield”的高级闭门会谈，并正式签署多边安全条约。【事件核心细节】：条约规定三方将投入120亿美元建立跨大西洋与印太地区的联合海上无人巡逻舰队及海底光缆、能源管道全天候声呐监控网，专门用于防范针对关键跨境海底物理资产的蓄意破坏、窃密及灰色地带袭击。同时，条约确立了针对涉嫌破坏关键基础设施实体实施跨国金融冻结与供应链禁运的快速响应机制。【战略与深远影响】：此举显著升级了西方盟友在海洋地缘战略与数字命脉保护方面的军事与情报一体化水平，深刻影响了全球跨洋通信和能源输送大动脉的安全治理架构，加剧了地缘政治阵营化对抗趋势。",
+      "tags": [
+        "Geopolitics",
+        "Subsea Cables",
+        "US-EU-Japan",
+        "Maritime Security"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.55,
+      "nlpKeyEntities": [
+        "White House",
+        "European Commission",
+        "Japanese Government"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T07:00:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-009",
+      "batchDate": "2026-09-23",
+      "title": "拉丁美洲太平洋联盟四国与中国在圣地亚哥签署《跨太平洋绿色矿产供应链与数字贸易一体化协定》",
+      "englishTitle": "Four Pacific Alliance Latin American Nations and China Sign 'Trans-Pacific Green Mineral Supply Chain and Digital Trade Integration Agreement' in Santiago",
+      "source": "Xinhua",
+      "sourceCountry": "China",
+      "category": "geopolitics",
+      "region": "Latin America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，拉美太平洋联盟成员国（智利、秘鲁、哥伦比亚、墨西哥）与中国政府代表在智利首都圣地亚哥举行经贸峰会，正式签署多边深度合作协定。【事件核心细节】：协定涵盖锂、铜、稀土等关键清洁能源矿产的联合勘探、绿色本地精炼技术转让及跨境人民币与拉美本地货币直接结算试点。各方同意建立“跨太平洋矿产绿色走廊”，在通关便利化、数字原产地证书互认及环保标准对接方面实现全面互通，总计合作项目规模超350亿美元。【战略与深远影响】：该协定成功巩固并深化了中国与拉美核心资源国的经贸纽带，优化了全球新能源产业链的资源配置效率，有效对冲了某些西方国家强推的矿产供应链脱钩断链企图。",
+      "tags": [
+        "Latin America",
+        "China",
+        "Green Minerals",
+        "Trade Agreement"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.7,
+      "nlpKeyEntities": [
+        "Pacific Alliance",
+        "Santiago",
+        "China Ministry of Commerce"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T04:00:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-010",
+      "batchDate": "2026-09-23",
+      "title": "非洲联盟（AU）发布《非洲大陆数字主权与网络安全战略框架》，规范跨国数据跨境流动",
+      "englishTitle": "African Union (AU) Releases 'African Continental Digital Sovereignty and Cybersecurity Strategic Framework', Regulating Cross-Border Data Flows",
+      "source": "Al Jazeera",
+      "sourceCountry": "Qatar",
+      "category": "geopolitics",
+      "region": "Africa",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，非洲联盟（AU）在亚的斯亚贝巴总部举行的首届数字主权峰会上，正式全票通过并发布了具有里程碑意义的《非洲大陆数字主权与网络安全战略框架》。【事件核心细节】：该框架强制要求所有在非洲大陆运营的外资跨国科技巨头必须将涉及非洲公民的生物识别、金融及关键地理空间数据存储于非洲本土新建的主权数据中心内。同时，框架设立了严格的数据出境安全评估和税收合规制度，打击跨国数字偷漏税及数据殖民主义。【战略与深远影响】：此举标志着非洲国家在集体维护数字经济主权和反抗外部科技霸权方面迈出了历史性步伐，深刻改变了全球互联网巨头在非洲大陆的商业运营模式与合规成本结构。",
+      "tags": [
+        "African Union",
+        "Digital Sovereignty",
+        "Data Security",
+        "Africa"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.05,
+      "nlpKeyEntities": [
+        "African Union",
+        "Addis Ababa"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1523821741446-edb2b68bb7a0?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T02:00:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-011",
+      "batchDate": "2026-09-23",
+      "title": "国际可再生能源署（IRENA）发布全球首个“固态电池与长时储能电网消纳能力”紧急评估报告",
+      "englishTitle": "International Renewable Energy Agency (IRENA) Releases World's First 'Solid-State Battery and Long-Duration Energy Storage Grid Integration' Emergency Assessment Report",
+      "source": "Reuters",
+      "sourceCountry": "Germany",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】：2026年9月23日，国际可再生能源署（IRENA）在柏林总部发布了一份题为《破除新能源最后一公里瓶颈：2027-2035全球储能与智能电网大跃进》的战略评估报告。【事件核心细节】：报告指出，当前全球风电光伏装机呈指数级增长，但因长时储能（LDES）及新一代硫化物固态电池产业链产能扩张滞后，导致全球每年有近18%的清洁电力因电网消纳瓶颈而被被迫弃风弃光。IRENA呼吁各国政府在未来三年内将储能基础设施补贴提高三倍，并加快推进兆瓦级固态电池电网侧储能电站的大规模商用示范。【战略与深远影响】：该报告精准揭示了全球能源转型从“发电端竞赛”向“储能与电网调度端决战”的核心矛盾转变，直接引发国际资本市场对固态电池材料、超级电容及智能输变电设备板块的强烈追捧。",
+      "tags": [
+        "IRENA",
+        "Solid-State Batteries",
+        "Energy Storage",
+        "Clean Energy"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "International Renewable Energy Agency",
+        "IRENA"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T05:45:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    },
+    {
+      "id": "gemini-2026-09-23-012",
+      "batchDate": "2026-09-23",
+      "title": "中国科学院与三峡集团联合宣布全球首个“深远海漂浮式风电与海水直接制氢一体化平台”投产试运行",
+      "englishTitle": "CAS and Three Gorges Corporation Jointly Announce Commissioning of World's First 'Deep-Sea Floating Wind Power and Direct Seawater Hydrogen Production' Integrated Platform",
+      "source": "Xinhua",
+      "sourceCountry": "China",
+      "category": "climate",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】：2026年9月23日，中国科学院工程热物理研究所与中国长江三峡集团联合宣布，我国自主研发的世界首个兆瓦级深远海漂浮式风力发电与海水直接电解制氢一体化平台“海氢一号”在福建海域成功完成72小时满负荷投产试运行。【事件核心细节】：该平台创新攻克了无淡化海水直接电解制氢的核心催化剂抗中毒难题与深远海极端海况下的漂浮式动态电力传输稳定技术。其实测数据显示，在没有淡水消耗和陆地电网接入的情况下，该平台可将深远海不稳定的海风资源直接高效转化为高纯度绿氢，并通过高压管道或专用绿色氨载体输送上岸。【战略与深远影响】：这一重大技术突破开辟了全球大规模开发深远海无限清洁能源的崭新路径，对解决陆上绿氢生产受淡水资源匮乏制约的瓶颈、重塑全球未来零碳氢能源贸易版图具有划时代的战略意义。",
+      "tags": [
+        "CAS",
+        "Three Gorges",
+        "Hydrogen Energy",
+        "Offshore Wind"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "Chinese Academy of Sciences",
+        "Three Gorges Corporation",
+        "Haiqing-1"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1509391365360-b0885e3d7494?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-09-23T01:30:00.000Z",
+      "createdAt": "2026-10-19T06:13:15.077Z",
+      "updatedAt": "2026-10-19T06:13:15.077Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-09-23",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-09-23 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1968 诺贝尔文学奖",
+    "author": "川端康成",
+    "work": "雪国",
+    "enAuthor": "Yasunari Kawabata",
+    "enWork": "Snow Country",
+    "zh": "“穿过县界长长的隧道，便是雪国。夜空下一片白茫茫。”",
+    "en": "“The train came out of the long tunnel into the snow country. The earth lay white under the night sky.”",
+    "batchDate": "2026-09-23"
+  }
+}

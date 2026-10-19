@@ -1,0 +1,360 @@
+{
+  "batchDate": "2026-10-03",
+  "items": [
+    {
+      "id": "gemini-2026-10-03-001",
+      "batchDate": "2026-10-03",
+      "title": "全球首个通用人工智能量子协同架构在美问世 算力功耗比实现颠覆性跨越",
+      "englishTitle": "World's First General AI-Quantum Synergy Architecture Unveiled in the US, Achieving Revolutionary Compute-to-Power Breakthrough",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月2日，美国能源部下属国家实验室联合IBM与OpenAI，正式向全球发布了首个将超导量子处理器与万亿参数硅基大模型深度融合的“通用人工智能量子协同架构”。【事件核心细节】该架构突破了长期制约量子计算与经典AI交互的超低延迟接口瓶颈，实现了在常温模拟及特定高维矩阵运算中，综合算力比传统纯GPU集群提升达320倍，而单位功耗则下降了近85%。项目首期获得了白宫高达120亿美元的专项科技预算支持，标志着算力底层技术正式从传统摩尔定律向“量子异构时代”全面跨越。【战略与深远影响】这一核心技术的突破将彻底颠覆全球半导体及算力产业链的竞争格局，加剧大国在未来颠覆性技术主导权上的争夺，并对传统硅基芯片巨头形成深远的战略挤压，重构全球AI算力经济版图。",
+      "tags": [
+        "AI",
+        "Quantum Computing",
+        "Semiconductor"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "IBM",
+        "OpenAI",
+        "US Department of Energy"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T04:30:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.823Z",
+      "updatedAt": "2026-10-03T00:34:39.823Z"
+    },
+    {
+      "id": "gemini-2026-10-03-002",
+      "batchDate": "2026-10-03",
+      "title": "欧盟正式通过《通用人工智能责任法案》 违规科技巨头将面临全球营收7%的严厉罚款",
+      "englishTitle": "EU Officially Adopts General AI Liability Act, Imposing Severe Fines up to 7% of Global Turnover for Non-Compliant Tech Giants",
+      "source": "Financial Times",
+      "sourceCountry": "EU",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月1日，欧洲议会与欧盟委员会以压倒性多数正式通过并签署了历时三年博弈的《通用人工智能责任法案》（General AI Liability Act），锁定的核心规制对象为微软、谷歌、OpenAI及Meta等全球顶尖大模型服务商。【事件核心细节】该法案确立了极度严格的算法溯源、训练数据透明化及版权追溯机制，并赋予欧盟监管机构对违反伦理安全红线的企业处以高达其全球年营业额7%或3500万欧元（取其高者）的罚款权限。法案还首次引入了“AI自主行为民事赔偿强制责任险”条款。【战略与深远影响】此举标志着欧盟在全球数字治理规则制定中继续占据道德与法律制高点，将深刻改变跨国科技巨头在欧洲乃至全球的合规成本结构与商业化路径，进一步拉开美欧数字主权与监管标准的分野。",
+      "tags": [
+        "AI",
+        "Regulation",
+        "European Union"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.65,
+      "nlpKeyEntities": [
+        "European Parliament",
+        "European Commission",
+        "Microsoft",
+        "OpenAI"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T03:00:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-003",
+      "batchDate": "2026-10-03",
+      "title": "全球首个具身智能机器人千亿级生态联盟在东京成立 聚焦跨场景泛化能力突破",
+      "englishTitle": "World's First 100-Billion Embodied AI Ecosystem Alliance Established in Tokyo, Focusing on Cross-Scenario Generalization Breakthroughs",
+      "source": "Nikkei Asia",
+      "sourceCountry": "Japan",
+      "category": "ai",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月2日，由日本软银集团携手丰田汽车、韩国三星以及美国波士顿动力共同发起的“全球具身智能机器人千亿级产业生态联盟”在日本东京正式宣布成立。【事件核心细节】联盟计划在未来五年内共同注资超1000亿美元，用于攻克具身智能机器人在复杂非结构化环境中的触觉反馈、多模态语义理解及跨场景泛化控制难题。首期发布的开源具身大模型“Atlas-Gen5”在多任务自主学习效率上较上一代实现了400%的跃升，吸引了全球近百家软硬件供应商加入。【战略与深远影响】该联盟的成立旨在打破北美及特定亚洲科技企业在人形机器人领域的绝对垄断，通过跨国资本与工业制造优势的深度融合，加速全球具身智能从实验室原型向万亿级工业及民用量产商用市场的全面过渡。",
+      "tags": [
+        "AI",
+        "Robotics",
+        "Ecosystem"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.72,
+      "nlpKeyEntities": [
+        "SoftBank",
+        "Toyota",
+        "Samsung",
+        "Boston Dynamics"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T02:15:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-006",
+      "batchDate": "2026-10-03",
+      "title": "国际清算银行（BIS）与八大央行启动跨国数字货币桥（mBridge）二阶段规模化商用",
+      "englishTitle": "Bank for International Settlements and Eight Central Banks Launch Phase II Commercial Scale-up of mBridge",
+      "source": "Financial Times",
+      "sourceCountry": "Switzerland",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月1日，国际清算银行（BIS）货币和经济部协同中国人民银行、阿联酋中央银行、泰国央行、沙特阿拉伯国家银行等八大主权货币当局，在瑞士巴塞尔总部共同宣布多边央行数字货币桥（mBridge）项目正式进入二阶段规模化商业应用。【事件核心细节】新上线的系统引入了基于零知识证明（ZKP）的隐私保护合规结算引擎，支持超过40种主流法定数字货币的秒级跨境结算与点对点交付付款（DvP），日均清算承载能力突破5000亿美元。系统成功绕过了传统的SWIFT高成本代理行清算网络，将跨国资金清算综合费率直接压缩了80%以上。【战略与深远影响】mBridge的大规模商用是全球国际货币体系多元化演进的重要里程碑，对弱化美元在全球跨境贸易结算中的绝对霸权、规避单边金融制裁风险以及构建新型多极化国际金融结算基础设施具有历史性意义。",
+      "tags": [
+        "Finance",
+        "CBDC",
+        "BIS",
+        "mBridge"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "Bank for International Settlements",
+        "People's Bank of China",
+        "SWIFT"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T05:15:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-011",
+      "batchDate": "2026-10-03",
+      "title": "全球最大商业化钙钛矿-硅叠层光伏电池量产基地在华投产 转换效率突破34.2%",
+      "englishTitle": "World's Largest Commercial Perovskite-Silicon Tandem Solar Cell Production Base Commences Operations in China, Efficiency Exceeds 34.2%",
+      "source": "Xinhua News",
+      "sourceCountry": "China",
+      "category": "climate",
+      "region": "Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月1日，由中国清洁能源龙头企业投资建设的全球首个吉瓦级（GW）钙钛矿-硅叠层太阳能电池超级量产基地在中国安徽正式宣告全面投产。【事件核心细节】该基地采用自主知识产权的大面积激光刻蚀与全自动真空蒸镀产线，其核心下线产品的实验室及量产化光电转换效率经国际权威机构TÜV南德认证稳定高达34.2%，刷新了全球商业化光伏组件效率的最高纪录。项目全面达产后，年产能将达10GW，单位度电成本较传统晶硅电池下降近30%。【战略与深远影响】该项世界级清洁能源制造技术的产业化落地，标志着全球光伏发电正式迈入“超高效率与极低成本”的全新发展阶段，将进一步巩固中国在全球绿色低碳能源装备产业链中的绝对主导地位，并加速全球碳中和目标的实现进程。",
+      "tags": [
+        "Climate",
+        "Solar Energy",
+        "Perovskite",
+        "Clean Tech"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.9,
+      "nlpKeyEntities": [
+        "TÜV Rheinland",
+        "National Energy Administration",
+        "Anhui Province"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1509391365360-8435166299b8?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T02:00:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-005",
+      "batchDate": "2026-10-03",
+      "title": "美联储突发紧急降息50个基点并宣布扩表 全球主要央行正式开启流动性宽松新周期",
+      "englishTitle": "Federal Reserve Surprises Markets with 50 bps Emergency Rate Cut and Balance Sheet Expansion, Kicking Off New Global Central Bank Easing Cycle",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月2日美东时间晚间，美国联邦储备委员会（FRB）在非例行货币政策会议上，以超预期的大幅动作宣布下调联邦基金利率50个基点至3.75%-4.00%区间，并同步宣布重启每月300亿美元的国债购买计划以修复短期流动性。【事件核心细节】此次决议是在最新公布的非农就业数据和商业地产坏账率全面恶化的宏观背景下做出。美联储主席在新闻发布会上坦言，通货膨胀已处于可控区间，而防范系统性信贷紧缩与债务违约链条断裂已成为当前货币政策的首要考量。决议公布后，全球资本市场剧烈震荡，美元指数急跌1.8%，黄金及加密资产价格瞬间飙升创下历史新高。【战略与深远影响】这一政策转向标志着历时数年的全球高利率压制周期正式宣告终结，将引发全球资本向新兴市场及大宗商品的深度回流，并对各国汇率稳定、外汇储备管理及全球宏观金融脆弱性带来深度重塑。",
+      "tags": [
+        "Finance",
+        "Federal Reserve",
+        "Macroeconomics"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.05,
+      "nlpKeyEntities": [
+        "Federal Reserve",
+        "US Treasury",
+        "Wall Street"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T06:00:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-012",
+      "batchDate": "2026-10-03",
+      "title": "联合国气候变化大会预备会议在阿布扎比达成历史性协议 全球化石燃料转型基金正式设立",
+      "englishTitle": "UN Climate Change Conference Prep Meeting in Abu Dhabi Reaches Historic Agreement, Launching Global Fossil Fuel Transition Fund",
+      "source": "Reuters",
+      "sourceCountry": "UAE",
+      "category": "climate",
+      "region": "Middle East",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月2日，在阿联酋阿布扎比举行的《联合国气候变化框架公约》缔约方大会（COP）高级别预备闭门会议上，近200个国家代表经过十天密集磋商，最终达成了一项具有里程碑意义的协议。【事件核心细节】协议宣布正式设立总额高达1500亿美元的“全球化石燃料公正转型与适应基金”（GFFT），由海湾产油国主权财富基金与西方发达经济体央行联合注资。该基金旨在向发展中国家及高碳依赖型经济体提供低息主权贷款与无偿技术援助，用于强制性加速淘汰传统燃煤电厂、关闭落后油气井并升级智能电网。【战略与深远影响】这是全球气候治理进程中首次在摆脱化石燃料依赖的具体融资机制上取得实质性突破，有效弥合了发达国家与全球南方在气候适应资金出资责任上的长期撕裂，为年底即将召开的正式峰会奠定了关键政治基础。",
+      "tags": [
+        "Climate",
+        "UNFCCC",
+        "Energy Transition",
+        "Fossil Fuels"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "UNFCCC",
+        "Abu Dhabi",
+        "OPEC"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T00:30:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-004",
+      "batchDate": "2026-10-03",
+      "title": "中美前沿大模型安全对抗测试白皮书发布 揭示多模态幻觉与对齐漏洞新风险",
+      "englishTitle": "Sino-US Frontier AI Model Security Red-Teaming White Paper Released, Revealing New Risks in Multimodal Hallucination and Alignment Vulnerabilities",
+      "source": "MIT Technology Review",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月1日，由中美两国的顶尖人工智能安全研究机构（包括清华大学AI安全实验室与斯坦福大学人本AI研究所）联合发布了首份跨国多模态大模型安全红蓝对抗白皮书。【事件核心细节】报告深入剖析了当前最前沿的十款闭源与开源大模型在面对跨模态对抗性攻击时的脆弱性，首次证实了“视觉-文本交叉诱导幻觉”可以绕过现有92%的RLHF（人类反馈强化学习）安全对齐防线。研究团队通过数百万次压力测试，量化了模型在关键基础设施控制、生物医药合成建议等高危领域的误判概率。【战略与深远影响】该白皮书不仅为全球人工智能安全治理提供了客观的数据支撑，也凸显了在全球技术博弈背景下，建立跨国AI安全透明沟通机制与防范非对称系统性风险的极度紧迫性。",
+      "tags": [
+        "AI",
+        "Security",
+        "Research"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "Tsinghua University",
+        "Stanford University",
+        "AI Safety Institute"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T01:00:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-007",
+      "batchDate": "2026-10-03",
+      "title": "华尔街三大评级机构联合下调欧洲主要商业银行信用评级 警示主权债务与房地产风险传染",
+      "englishTitle": "Wall Street Rating Agencies Jointly Downgrade Major European Commercial Banks, Warning of Sovereign Debt and Real Estate Contagion",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月2日，标普全球、穆迪与惠誉三大国际评级机构历史上罕见地发表联合声明，宣布将包括德意志银行、法国巴黎银行在内的12家欧洲系统重要性商业银行的长期信用评级下调一档至“负面观察”序列。【事件核心细节】评级机构指出，欧元区核心经济体近期持续低迷的商业地产估值泡沫破裂，叠加部分南欧国家主权债务收益率攀升，已导致商业银行资产负债表中的不良贷款拨备率激增。据评估，欧洲银行业在商业地产领域的潜在坏账敞口超过1.2万亿欧元，资本充足率面临严峻的穿透式压力。【战略与深远影响】此轮评级下调直接引发了欧洲资本市场的恐慌性抛售，欧债收益率全线走高，不仅加剧了欧洲跨国企业融资成本恶化，更对脆弱的全球银行间拆借市场流动性传导构成了不可忽视的潜在宏观系统性风险。",
+      "tags": [
+        "Finance",
+        "Banking",
+        "Credit Rating",
+        "Europe"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.75,
+      "nlpKeyEntities": [
+        "S&P Global",
+        "Moody's",
+        "Fitch",
+        "Deutsche Bank"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T02:45:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-008",
+      "batchDate": "2026-10-03",
+      "title": "中欧高级别经贸战略对话在布鲁塞尔闭幕 达成维护多边贸易体制与关键原材料供应链稳定共识",
+      "englishTitle": "China-EU High-Level Economic and Trade Dialogue Concludes in Brussels, Reaching Consensus on Multilateral Trading System and Critical Raw Material Supply Chain Stability",
+      "source": "Xinhua News",
+      "sourceCountry": "China",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月2日，中国国务院副总理与欧盟委员会执行副主席在比利时布鲁塞尔共同主持了新一轮中欧高级别经贸战略对话，双方核心经贸团队悉数出席。【事件核心细节】经过长达两天的封闭式艰难谈判，双方在平衡电动汽车反补贴争端、建立绿色转型供应链“绿色通道”以及关键矿产资源（如稀土、锂、石墨）出口透明化机制等方面取得了实质性突破。双方同意建立常态化产业链供应链风险预警联合工作组，以避免单边脱钩断链引发的全球供应链断裂。【战略与深远影响】在当前地缘政治极度紧张、单边主义抬头的全球宏观环境下，此次对话的成功举行有效遏制了中欧经贸关系进一步滑向全面对抗的危险边缘，为稳定全球供应链安全、维护以世贸组织为核心的多边贸易体制注入了强有力的确定性稳定剂。",
+      "tags": [
+        "Geopolitics",
+        "China-EU",
+        "Trade",
+        "Supply Chain"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.68,
+      "nlpKeyEntities": [
+        "European Commission",
+        "State Council of China",
+        "Brussels"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T05:00:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-009",
+      "batchDate": "2026-10-03",
+      "title": "美国国会通过新一轮《印太战略防务预算》 加码第一岛链前沿高超音速导弹与网电作战部署",
+      "englishTitle": "US Congress Passes New Indo-Pacific Defense Budget, Stepping Up Frontline Hypersonic Missile and Cyber-Electronic Warfare Deployments along First Island Chain",
+      "source": "Defense News",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Asia-Pacific",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月1日，美国国会参众两院以两党高度一致的高票通过了总额达9200亿美元的《2027财年印太战略防务与威慑授权法案》，总统随即签署生效。【事件核心细节】该法案明确将战略重心进一步向印太前沿倾斜，大幅追加了在第一岛链关键节点部署分布式中程高超音速打击武器、陆基反舰导弹系统以及太空间谍卫星星座的专项资金。同时，法案大幅扩充了美国印太司令部下属“网电战特遣队”的兵力编制与进攻性网络作战授权。【战略与深远影响】此举标志着美国对华战略遏制与军事围堵进入了更加具象化、常态化的“硬实力对峙期”，将直接推动西太平洋地区地缘政治军事化、阵营化趋势加剧，迫使域内国家在安全与经济博弈中面临更加艰难的战略平衡抉择。",
+      "tags": [
+        "Geopolitics",
+        "Defense",
+        "US-China",
+        "Indo-Pacific"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.8,
+      "nlpKeyEntities": [
+        "US Congress",
+        "Indo-Pacific Command",
+        "Pentagon"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T01:30:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    },
+    {
+      "id": "gemini-2026-10-03-010",
+      "batchDate": "2026-10-03",
+      "title": "金砖国家扩员后首脑非正式闭门峰会闭幕 宣布加速推进“去美元化”多边结算支付系统落地",
+      "englishTitle": "BRICS Post-Expansion Informal Leaders Summit Concludes, Announcing Accelerated Rollout of 'De-dollarized' Multilateral Settlement System",
+      "source": "TASS",
+      "sourceCountry": "Russia",
+      "category": "geopolitics",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月2日，扩员至10国后的金砖国家（BRICS+）轮值主席国召集各成员国元首及高级代表，举行了为期一天的非正式虚拟闭门峰会。【事件核心细节】峰会核心议题聚焦于构建独立于西方控制体系之外的“金砖跨境支付与区块链清算网络”（BRICS Pay）。各方就建立统一的黄金及大宗商品主权挂钩数字结算代币框架达成路线图共识，并决定在未来12个月内将成员国本币双边贸易结算比例提升至85%以上。峰会还吸纳了超过30个新兴国家作为正式的“金砖伙伴国”。【战略与深远影响】这是全球南方国家在面对西方日益泛滥的金融制裁武器化背景下，采取的规模最大、最具组织性的战略防御与金融自主反击行动，将对二战后由西方主导的布雷顿森林体系国际政治经济格局构成实质性的结构性冲击。",
+      "tags": [
+        "Geopolitics",
+        "BRICS",
+        "De-dollarization",
+        "Multilateralism"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.6,
+      "nlpKeyEntities": [
+        "BRICS",
+        "Kremlin",
+        "New Development Bank"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-03T04:00:00.000Z",
+      "createdAt": "2026-10-03T00:34:39.824Z",
+      "updatedAt": "2026-10-03T00:34:39.824Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-03",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-03 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  }
+}
