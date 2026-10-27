@@ -1,0 +1,372 @@
+{
+  "batchDate": "2026-10-25",
+  "items": [
+    {
+      "id": "gemini-2026-10-25-008",
+      "batchDate": "2026-10-25",
+      "title": "中国与欧盟在布鲁塞尔正式签署《中欧绿色数字贸易与关键供应链互信保障全面协定》",
+      "englishTitle": "China and the EU Formally Sign 'Comprehensive Agreement on Green Digital Trade and Critical Supply Chain Mutual Trust Assurance' in Brussels",
+      "source": "South China Morning Post",
+      "sourceCountry": "Hong Kong",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月24日，中国商务部高级代表团与欧洲委员会贸易委员在比利时布鲁塞尔举行中欧经贸高层会谈，双方历经多年艰苦谈判后正式签署《中欧绿色数字贸易与关键供应链互信保障全面协定》。【事件核心细节】该协定针对近年来欧美推行的绿色碳关税壁垒、数字服务税以及关键原材料出口管制进行了全方位的制度性对冲。双方同意建立“绿色数字产品快速通关白名单机制”，在确保数据跨境合规流动的前提下，大幅削减电动汽车、光伏储能及核心半导体设备的双边贸易关税壁垒，并建立针对第三方恶意供应链中断的联合应急响应与价格稳定机制。【战略与深远影响】该协定的签署是全球化遭遇单边主义逆风后多边主义的重大胜利。它成功稳定了中欧双边庞大的贸易基本盘，有效遏制了西方极端保护主义对全球产业链供应链的进一步撕裂，为全球经济复苏注入了强有力的确定性红利。",
+      "tags": [
+        "Geopolitics",
+        "China-EU",
+        "Supply Chain",
+        "Green Trade"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.8,
+      "nlpKeyEntities": [
+        "Brussels",
+        "European Commission",
+        "Ministry of Commerce of China"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T02:00:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-009",
+      "batchDate": "2026-10-25",
+      "title": "东盟十国与对话伙伴国在雅加达通过《印太地区海上关键战略通道安全与非军事化共同宣言》",
+      "englishTitle": "ASEAN and Dialogue Partners Adopt 'Joint Declaration on the Security and Demilitarization of Critical Strategic Maritime Corridors in the Indo-Pacific' in Jakarta",
+      "source": "Channel News Asia",
+      "sourceCountry": "Singapore",
+      "category": "geopolitics",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月24日，东盟十国外长会议及印太主要对话伙伴国代表在印度尼西亚雅加达举行闭门战略磋商，各方正式一致通过《印太地区海上关键战略通道安全与非军事化共同宣言》。【事件核心细节】面对近年来印太地缘局势持续紧张、马六甲海峡及南海关键航道面临的军事对峙风险，该宣言确立了“航行绝对自由、航道非军事化、争端和平仲裁、海上联合搜救与海底光缆保护”五项核心基本原则。宣言明确呼吁外部大国停止在关键地缘海峡部署进攻性战略武器，并建立区域海岸警卫队直接沟通热线，以防范偶发性战术摩擦升级为全面地缘冲突。【战略与深远影响】该宣言的通过体现了东盟在复杂大国地缘博弈中坚持“战略自主”与“中心地位”的核心外交智慧。它为维持印太地区这一全球经济大动脉的航运安全提供了制度性护栏，有效缓解了国际资本对区域供应链中断的极度焦虑。",
+      "tags": [
+        "Geopolitics",
+        "ASEAN",
+        "Indo-Pacific",
+        "Maritime Security"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.4,
+      "nlpKeyEntities": [
+        "Jakarta",
+        "ASEAN Secretariat",
+        "Malacca Strait"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T03:30:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-010",
+      "batchDate": "2026-10-25",
+      "title": "拉美四国总统在圣地亚哥签署《南美洲锂矿与战略能源矿产主权一体化联盟宪章》",
+      "englishTitle": "Four Latin American Presidents Sign 'South American Lithium and Strategic Energy Minerals Sovereignty Integration Alliance Charter' in Santiago",
+      "source": "El Mercurio",
+      "sourceCountry": "Chile",
+      "category": "geopolitics",
+      "region": "Latin America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月24日，由智利、阿根廷、玻利维亚和秘鲁四国元首组成的“南美锂三角与矿产核心国”峰会在智利首都圣地亚哥落下帷幕，各方正式签署并颁布《南美洲锂矿与战略能源矿产主权一体化联盟宪章》。【事件核心细节】该宪章被外界称为“矿产领域的欧佩克”。根据宪章条款，四国将建立统一的锂、铜、稀土等关键新能源矿产的官方定价参考机制、环保开采最低标准及跨国税务监管框架。同时，联盟明确拒绝任何域外超级大国对其实施单边资源掠夺或强制技术标准输出，要求所有跨国矿业巨头必须在当地建立深加工产业链并进行技术转让。【战略与深远影响】这一重大地缘经济事件标志着全球南南合作在掌控关键能源矿产产业链上迈出了历史性步伐。它从根本上重塑了全球清洁能源转型所需核心原材料的供给格局，迫使美欧等西方工业国必须重新审视其长期的全球资源供应链战略。",
+      "tags": [
+        "Geopolitics",
+        "Latin America",
+        "Lithium Triangle",
+        "Critical Minerals"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.15,
+      "nlpKeyEntities": [
+        "Santiago",
+        "Chile",
+        "Lithium Triangle"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T05:30:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-001",
+      "batchDate": "2026-10-25",
+      "title": "全球首个超大规模太赫兹硅光子AI基座芯片在加州成功点亮：算力能效实现单芯片百倍跃升",
+      "englishTitle": "World's First Ultra-Scale Terahertz Silicon Photonics AI Base Chip Successfully Lit Up in California",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月24日，美国硅谷前沿半导体巨头LightPulse联合斯坦福大学微电子实验室，正式向全球发布并成功点亮了全球首款超大规模太赫兹硅光子AI基座芯片“Aether-1”。【事件核心细节】该芯片彻底摒弃了传统的铜线电子互连架构，首次在单颗晶圆级芯片上实现了太赫兹频段的光电混合直连与大规模并行计算。测试数据显示，其在处理千亿参数级别大模型推理任务时的能效比较传统硅基GPU提升了惊人的120倍，且芯片运行时的热功耗降低了75%，彻底攻克了长期困扰业界的光电转换效率瓶颈与封装散热难题。【战略与深远影响】这一历史性技术突破标志着全球AI算力正式从微电子时代跨入光子计算时代，将彻底打破传统半导体先进制程的物理摩尔定律极限。它不仅将加速重塑全球超算中心与大模型训练的基础设施供应链，也将对未来数年的全球地缘半导体竞争格局产生深远且颠覆性的战略重击。",
+      "tags": [
+        "AI",
+        "Silicon Photonics",
+        "Terahertz",
+        "Semiconductor"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "LightPulse",
+        "Stanford University",
+        "Aether-1"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T01:15:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.492Z",
+      "updatedAt": "2026-10-25T00:34:44.492Z"
+    },
+    {
+      "id": "gemini-2026-10-25-002",
+      "batchDate": "2026-10-25",
+      "title": "谷歌深度思维发布全新‘生物分子大模型Omega-Fold 3’：实现全人类已知蛋白质三维结构实时动态解析",
+      "englishTitle": "Google DeepMind Releases New 'Omega-Fold 3': Real-Time Dynamic Resolution of All Known Protein 3D Structures",
+      "source": "Nature Tech",
+      "sourceCountry": "UK",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月24日，英国谷歌深度思维（Google DeepMind）与欧洲分子生物学实验室（EMBL）联合举行全球线上发布会，重磅推出前沿生物计算大模型“Omega-Fold 3”。【事件核心细节】该模型首次将量子多体化学计算与生成式AI深度融合，不仅能够静态预测蛋白质三维结构，更实现了对蛋白质在细胞微环境内进行毫秒级动态折叠与分子间相互作用的实时全景模拟。测试证明，其对未知复合靶点的靶向药物设计成功率较上一代提升了300%，并向全球科研界全面开放了包含2亿种生物大分子动态构象的开源数据库。【战略与深远影响】该成果被学术界誉为生命科学领域的“阿波罗登月时刻”，将极大加速全球创新靶向药物的研发周期，重塑跨国生物医药巨头的全球研发布局，并对未来全球生物经济与国家生物安全战略带来深刻变革。",
+      "tags": [
+        "AI",
+        "Bio-Computing",
+        "DeepMind",
+        "Life Sciences"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Google DeepMind",
+        "EMBL",
+        "Omega-Fold 3"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T02:30:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-003",
+      "batchDate": "2026-10-25",
+      "title": "中日韩三国顶尖人工智能实验室在首尔签署《东亚通用人工智能开源安全与对齐联合公约》",
+      "englishTitle": "Top AI Labs from China, Japan, and South Korea Sign 'East Asian AGI Open Source Security and Alignment Joint Convention' in Seoul",
+      "source": "Yonhap News",
+      "sourceCountry": "South Korea",
+      "category": "ai",
+      "region": "Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月24日，来自中国、日本和韩国的顶尖人工智能科研机构与头部大模型企业代表在韩国首尔举行闭门峰会，正式签署《东亚通用人工智能开源安全与对齐联合公约》。【事件核心细节】该公约确立了三国在开源基础大模型安全对齐、多语言价值观对齐、越狱攻击联合防御及算力资源动态协同方面的首个多边技术标准。各方同意建立跨国AI安全红蓝对抗联合实验室，并共享针对极端虚假信息与自主武器滥用的风险熔断算法。这是亚洲主要科技经济体首次绕过西方框架，构建区域性AI治理自主标准。【战略与深远影响】该公约的签署标志着全球AI治理体系正加速向多极化演进，有效对冲了美欧试图通过排他性联盟垄断全球AI游戏规则的企图，为东亚区域内的高科技产业链供应链深度融合构筑了稳固的数字安全防线。",
+      "tags": [
+        "AI Governance",
+        "East Asia",
+        "Open Source",
+        "Security"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.35,
+      "nlpKeyEntities": [
+        "Seoul",
+        "China AI Labs",
+        "South Korea AI Alliance"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T03:00:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-004",
+      "batchDate": "2026-10-25",
+      "title": "苹果公司发布革命性‘神经边缘大模型OS’：实现百亿参数大模型在移动终端的零延迟本地化推理",
+      "englishTitle": "Apple Releases Revolutionary 'Neural Edge LLM OS': Achieving Zero-Latency Local Inference for Billions of Parameters on Mobile Devices",
+      "source": "TechCrunch",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月24日，美国苹果公司（Apple Inc.）在其库比蒂诺总部举办的秋季开发者特别技术会议上，正式发布了专为下一代终端设计的“Neural Edge LLM OS”。【事件核心细节】该操作系统通过全新的动态模型量化算法与神经引擎芯片深度协同，成功将一个具备1200亿参数等效能力的MoE（混合专家模型）压缩并在消费级智能手机和AR眼镜上本地运行，其端到端推理延迟压缩至惊人的4毫秒以内，且全程无需上传任何用户隐私数据至云端服务器。【战略与深远影响】这一突破彻底颠覆了以往大模型严重依赖云端算力的传统商业模式，将全球终端消费电子行业推向了‘端侧AI主权’的新时代。它不仅极大地提升了用户隐私安全保障，也彻底重构了移动互联网应用的商业分发逻辑与芯片硬件设计规范。",
+      "tags": [
+        "AI",
+        "Edge Computing",
+        "Apple",
+        "Operating System"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.75,
+      "nlpKeyEntities": [
+        "Apple",
+        "Cupertino",
+        "Neural Edge OS"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T04:00:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-005",
+      "batchDate": "2026-10-25",
+      "title": "全球十一家主要央行联合宣布启动‘伏击者项目’：构建基于量子加密的跨境主权数字货币清算新网络",
+      "englishTitle": "Eleven Major Central Banks Jointly Announce Launch of 'Project Sentinel': Building a Quantum-Encrypted Cross-Border Sovereign CBDC Clearing Network",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间+与主体】2026年10月24日，由中国人民银行、欧洲央行、英国央行及新加坡金融管理局等全球十一家核心央行组成的联合工作组，在瑞士巴塞尔正式宣布启动代号为“伏击者（Sentinel）”的全新多边央行数字货币清算网络。【事件核心细节】该项目旨在应对未来量子计算机对现有金融密码体系构成的颠覆性安全威胁，首次在全网部署了基于抗量子密码学（PQC）的分布式账本结算底层。在为期一个月的封闭测试中，该系统成功处理了价值超过500亿美元的等值多边主权数字货币实时跨境兑换与结算，交易确认时间缩短至亚秒级，且交易隐私与防追踪能力达到军事级标准。【战略与深远影响】‘伏击者项目’的落地标志着全球核心金融基础设施正式向后量子密码时代转型。它不仅对防范未来系统性金融网络攻击具有决定性意义，也进一步加速了全球多极化货币结算体系的构建，对传统以SWIFT为核心的美元霸权清算网络构成了长远的结构性分流。",
+      "tags": [
+        "Finance",
+        "CBDC",
+        "Quantum Cryptography",
+        "Central Banks"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "Bank for International Settlements",
+        "People's Bank of China",
+        "European Central Bank"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T01:45:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-006",
+      "batchDate": "2026-10-25",
+      "title": "国际清算银行与主要新兴经济体央行达成共识：建立全球首个‘去美元化’大宗商品本币清算缓冲基金",
+      "englishTitle": "BIS and Major Emerging Market Central Banks Reach Consensus to Establish Global's First 'De-Dollarization' Commodity Local Currency Clearing Buffer Fund",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月24日，国际清算银行（BIS）协同金砖国家及部分新兴市场经济体央行行长在瑞士举行特别闭门会议，各方达成历史性政治与金融契约，正式批准设立总规模达3000亿美元的“大宗商品本币清算缓冲基金（CCBF）”。【事件核心细节】该基金旨在彻底缓解非美经济体在进行石油、天然气、关键矿产等大宗商品跨境贸易时面临的美元流动性紧缩与汇率巨幅波动风险。基金允许成员国通过本币互换额度直接完成大宗商品交割结算，并由BIS提供算法化自动做市与流动性兜底保障。消息公布后，国际外汇市场主要非美货币流动性指标出现显著波动。【战略与深远影响】这一重大制度性金融创新标志着全球大宗商品定价与结算机制正在发生不可逆的结构性裂变。它大大降低了新兴市场对美元支付系统的依赖，进一步巩固了全球金融治理的多极化趋势，对削弱美国长臂金融制裁效力具有里程碑意义。",
+      "tags": [
+        "Finance",
+        "De-dollarization",
+        "BIS",
+        "Commodities"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.65,
+      "nlpKeyEntities": [
+        "BIS",
+        "BRICS Central Banks",
+        "Basel"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T05:10:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-007",
+      "batchDate": "2026-10-25",
+      "title": "全球主权财富基金联盟在阿布扎比签署重磅决议：大规模战略抛售高风险美债并转投实体绿色资产",
+      "englishTitle": "Global Sovereign Wealth Fund Alliance Signs Major Resolution in Abu Dhabi: Massive Strategic Sell-Off of High-Risk US Treasuries and Pivot to Real Green Assets",
+      "source": "Reuters",
+      "sourceCountry": "UK",
+      "category": "finance",
+      "region": "Middle East",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月24日，由中东、亚洲及欧洲多个千亿级主权财富基金组成的“全球主权投资联盟”在阿拉伯联合酋长国阿布扎比召开年度峰会，并通过了一项震撼全球资本市场的战略决议。【事件核心细节】根据决议，联盟成员将在未来12个月内有序减持总额超过4000亿美元的美债资产，将其重新配置至全球清洁能源基础设施、稀缺关键矿产开采权及新一代人工智能算力实体资产中。各方一致认为，美国持续膨胀的主权债务规模与财政赤字已经对全球外汇储备资产的安全构成了不可忽视的长期系统性信用风险。【战略与深远影响】这一资本流向的根本性逆转，直接对全球长期国债收益率曲线构成了强烈冲击，加速了全球资本从虚拟金融资产向硬核实体及绿色能源资产回流的宏观历史进程，进一步凸显了地缘政治重塑下全球央行资产配置的多极化逻辑。",
+      "tags": [
+        "Sovereign Wealth Funds",
+        "US Treasuries",
+        "Green Assets",
+        "Global Finance"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.45,
+      "nlpKeyEntities": [
+        "Abu Dhabi",
+        "Sovereign Wealth Fund Alliance",
+        "US Department of Treasury"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T06:00:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.497Z",
+      "updatedAt": "2026-10-25T00:34:44.497Z"
+    },
+    {
+      "id": "gemini-2026-10-25-011",
+      "batchDate": "2026-10-25",
+      "title": "全球首座百兆瓦级‘超临界二氧化碳循环发电与高温太阳能热发电联合示范电站’在戈壁沙漠成功满负荷并网",
+      "englishTitle": "World's First 100MW Supercritical CO2 Brayton Cycle and High-Temperature Solar Thermal Power Joint Demonstration Plant Successfully Connected to Grid at Full Capacity in Gobi Desert",
+      "source": "Xinhua Net",
+      "sourceCountry": "China",
+      "category": "climate",
+      "region": "Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月24日，由中国国家电网与三峡集团联合主导的全球首座百兆瓦级“超临界二氧化碳循环发电与高温塔式太阳能热发电联合示范电站”在中国西北戈壁沙漠腹地实现全系统满负荷成功并网发电。【事件核心细节】该电站彻底抛弃了传统的水蒸汽朗肯循环发电模式，全球首次成功将超临界二氧化碳布雷顿循环技术规模化应用于商业级太阳能热发电。在设计工况下，其系统发电热效率突破55%，较传统火电及常规光热发电效率提升了近15个百分点，且单位千瓦时的耗水量几乎降为零，攻克了极端干旱地区大规模清洁能源高效转化的世界级工程难题。【战略与深远影响】该示范电站的成功投产标志着全球清洁能源发电技术迎来了一次革命性的迭代。它为全球荒漠化地区大规模开发利用高密度的太阳能热发电提供了完美的中国方案，对加速全球传统化石能源替代、应对全球气候变暖进程具有极高的示范与推广价值。",
+      "tags": [
+        "Climate Change",
+        "Solar Thermal",
+        "Supercritical CO2",
+        "Clean Energy"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.9,
+      "nlpKeyEntities": [
+        "State Grid of China",
+        "Three Gorges Corporation",
+        "Gobi Desert"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T02:45:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.498Z",
+      "updatedAt": "2026-10-25T00:34:44.498Z"
+    },
+    {
+      "id": "gemini-2026-10-25-012",
+      "batchDate": "2026-10-25",
+      "title": "国际能源署（IEA）发布2026年度全球清洁能源转型投资专项报告：全球可再生能源新增装机首次超越化石能源总和的两倍",
+      "englishTitle": "IEA Releases 2026 Global Clean Energy Transition Investment Special Report: Global Renewable Energy Additions Exceed Twice the Total of Fossil Fuels for First Time",
+      "source": "Financial Times",
+      "sourceCountry": "UK",
+      "category": "climate",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月24日，国际能源署（IEA）总部在法国巴黎正式对外发布《2026年度全球清洁能源转型投资与碳减排进展专项报告》。【事件核心细节】报告披露了一项具有历史转折意义的数据：在过去的一年中，全球清洁能源总投资额首次历史性突破3.2万亿美元大关，全球可再生能源（光伏、风电、固态电池储能及绿氢）新增装机容量正式超过同期新建化石能源发电总和的两倍。中国、欧盟及新兴经济体在分布式储能与特高压输电网建设上的超预期投入，是拉动此次全球能源结构加速向绿色低碳转型的核心绝对驱动力。【战略与深远影响】该报告宣告全球能源格局的“化石能源世纪”正在加速谢幕，“清洁能源主导世纪”已不可逆转地提前到来。它极大地提振了国际社会应对全球气候变暖、实现《巴黎协定》温控目标的政治信心，同时也对全球传统油气能源巨头的战略转型构成了极其紧迫的外部压力。",
+      "tags": [
+        "Climate Change",
+        "IEA",
+        "Renewable Energy",
+        "Energy Transition"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "International Energy Agency",
+        "Paris",
+        "Global Energy Transition"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-25T06:15:00.000Z",
+      "createdAt": "2026-10-25T00:34:44.498Z",
+      "updatedAt": "2026-10-25T00:34:44.498Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-25",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-25 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1968 诺贝尔文学奖",
+    "author": "川端康成",
+    "work": "雪国",
+    "enAuthor": "Yasunari Kawabata",
+    "enWork": "Snow Country",
+    "zh": "“穿过县界长长的隧道，便是雪国。夜空下一片白茫茫。”",
+    "en": "“The train came out of the long tunnel into the snow country. The earth lay white under the night sky.”",
+    "batchDate": "2026-10-25"
+  }
+}

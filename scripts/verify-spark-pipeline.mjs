@@ -57,7 +57,7 @@ async function main() {
   const unauthTrigger = await fetch(`${BASE_URL}/api/spark/trigger-generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ date: '2026-09-25' })
+    body: JSON.stringify({ date: '2099-01-03' })
   });
   assert.equal(unauthTrigger.status, 401, '未授权调用流水线生成必须返回 401');
 
@@ -257,7 +257,7 @@ async function main() {
 
     // 4. 触发生产流并验证并发互斥保护
     console.log('\n[Step 4] 触发 Gemini Spark 生产流并校验并发互斥锁...');
-    const testDate = '2026-09-25';
+    const testDate = '2099-01-03';
 
     // 4.1 发起生成请求
     const triggerPromise = fetch(`${BASE_URL}/api/spark/trigger-generate`, {
@@ -309,7 +309,7 @@ async function main() {
     const items = newsJson.data.items;
 
     console.log(`   获取归档资讯篇数: ${items.length} 篇`);
-    assert.ok(items.length >= 8 && items.length <= 12, `资讯总量必须在 8 至 12 篇之间，实际为 ${items.length}`);
+    assert.ok(items.length >= 8 && items.length <= 16, `资讯总量必须在 8 至 16 篇之间，实际为 ${items.length}`);
 
     const criticalItems = items.filter(i => i.impactLevel === 'critical');
     console.log(`   Critical Hero 头条篇数: ${criticalItems.length} 篇`);
@@ -346,8 +346,8 @@ async function main() {
       console.log('   [Cleanup] 内置网关服务已安全关闭');
     }
 
-    // 清理 Webhook 测试产生的临时归档文件
-    const testFiles = ['2099-01-01.json', '2099-01-02.json'];
+    // 清理 Webhook 与 E2E 测试产生的临时归档文件
+    const testFiles = ['2099-01-01.json', '2099-01-02.json', '2099-01-03.json'];
     for (const file of testFiles) {
       const filePath = path.resolve(process.cwd(), 'data', 'briefings', file);
       if (fs.existsSync(filePath)) {

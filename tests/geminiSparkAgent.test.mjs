@@ -38,38 +38,53 @@ test('GeminiSparkAgent - 拒绝切换不存在或未经验证的模型', () => {
   }, /不支持或非法的 Gemini 模型/);
 });
 
-test('GeminiSparkAgent - buildSparkPrompt 生成包含目标日期与契约规则的提示词', () => {
+test('GeminiSparkAgent - buildSparkPrompt 生成包含目标日期、16 篇满配与大型 AI 公司四维子配额契约的提示词', () => {
   const prompt = buildSparkPrompt('2026-09-25');
   assert.ok(prompt.includes('2026-09-25'));
-  assert.ok(prompt.includes('12 篇'));
+  assert.ok(prompt.includes('16 篇'));
+  assert.ok(prompt.includes('精确输出 8 篇'));
+  assert.ok(prompt.includes('OpenAI'));
+  assert.ok(prompt.includes('DeepMind'));
+  assert.ok(prompt.includes('Anthropic'));
+  assert.ok(prompt.includes('DeepSeek'));
+  assert.ok(prompt.includes('Agent'));
   assert.ok(prompt.includes('critical'));
   assert.ok(prompt.includes('climate'));
 });
 
-test('GeminiSparkAgent - 双模容灾生成合法智库简报 (满配 12 篇，包含 1 篇 critical，2 篇 climate)', async () => {
-  const stages = [];
-  const briefing = await generateDailyBriefing('2026-09-25', (stageData) => {
-    stages.push(stageData);
-  });
+test('GeminiSparkAgent - 双模容灾生成合法智库简报 (满配 16 篇，包含 8 篇 AI，1 篇 critical，2 篇 climate)', async () => {
+  const savedKey = process.env.GEMINI_API_KEY;
+  process.env.GEMINI_API_KEY = '';
+  try {
+    const stages = [];
+    const briefing = await generateDailyBriefing('2026-09-25', (stageData) => {
+      stages.push(stageData);
+    });
 
-  assert.ok(Array.isArray(briefing.items));
-  assert.equal(briefing.items.length, 12, `新闻总数必须严格为满配 12 篇，实际: ${briefing.items.length}`);
-  
-  const criticalItems = briefing.items.filter(i => i.impactLevel === 'critical');
-  assert.equal(criticalItems.length, 1, '必须且仅有 1 篇 critical 影响等级新闻');
+    assert.ok(Array.isArray(briefing.items));
+    assert.equal(briefing.items.length, 16, `新闻总数必须严格为满配 16 篇，实际: ${briefing.items.length}`);
+    
+    const aiItems = briefing.items.filter(i => i.category === 'ai');
+    assert.equal(aiItems.length, 8, `AI 类别必须为 8 篇，实际: ${aiItems.length}`);
 
-  const climateItems = briefing.items.filter(i => i.category === 'climate');
-  assert.ok(climateItems.length >= 1 && climateItems.length <= 2, `气候类别必须为 1~2 篇，实际: ${climateItems.length}`);
+    const criticalItems = briefing.items.filter(i => i.impactLevel === 'critical');
+    assert.equal(criticalItems.length, 1, '必须且仅有 1 篇 critical 影响等级新闻');
 
-  const item0 = briefing.items[0];
-  assert.ok(item0.id && item0.title && item0.summary && item0.source);
-  assert.ok(['positive', 'neutral', 'negative'].includes(item0.sentiment));
-  assert.ok(typeof item0.sentimentScore === 'number');
-  assert.ok(Array.isArray(item0.nlpKeyEntities) && item0.nlpKeyEntities.length >= 1);
+    const climateItems = briefing.items.filter(i => i.category === 'climate');
+    assert.ok(climateItems.length >= 1 && climateItems.length <= 2, `气候类别必须为 1~2 篇，实际: ${climateItems.length}`);
 
-  // 验证 5 阶段状态汇报流
-  assert.equal(stages.length, 5);
-  const stageNames = stages.map(s => s.stage);
-  assert.deepEqual(stageNames, ['AGENT_INIT', 'SEARCHING', 'DISTILLING', 'NLP_ANALYSIS', 'COMPLETED']);
-  assert.deepEqual(stages.map(s => s.progress), [15, 40, 70, 90, 100]);
+    const item0 = briefing.items[0];
+    assert.ok(item0.id && item0.title && item0.summary && item0.source);
+    assert.ok(['positive', 'neutral', 'negative'].includes(item0.sentiment));
+    assert.ok(typeof item0.sentimentScore === 'number');
+    assert.ok(Array.isArray(item0.nlpKeyEntities) && item0.nlpKeyEntities.length >= 1);
+
+    // 验证 4 阶段保底状态汇报流
+    assert.equal(stages.length, 5);
+    const stageNames = stages.map(s => s.stage);
+    assert.deepEqual(stageNames, ['AGENT_INIT', 'SEARCHING', 'DISTILLING', 'NLP_ANALYSIS', 'COMPLETED']);
+    assert.deepEqual(stages.map(s => s.progress), [15, 40, 70, 90, 100]);
+  } finally {
+    process.env.GEMINI_API_KEY = savedKey;
+  }
 });

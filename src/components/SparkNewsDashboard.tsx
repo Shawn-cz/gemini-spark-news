@@ -59,7 +59,7 @@ export const SparkNewsDashboard: React.FC = () => {
       const d = new URLSearchParams(window.location.search).get('date');
       if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
     }
-    return '2026-10-14';
+    return '2026-10-27';
   });
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [hasNewerBatchAvailable, setHasNewerBatchAvailable] = useState<boolean>(false);

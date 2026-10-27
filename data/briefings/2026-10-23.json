@@ -1,0 +1,373 @@
+{
+  "batchDate": "2026-10-23",
+  "items": [
+    {
+      "id": "gemini-2026-10-23-001",
+      "batchDate": "2026-10-23",
+      "title": "全球首个神经形态模拟大脑核心芯片在苏黎世发布：万亿突触连接功耗降至瓦级",
+      "englishTitle": "World's First Neuromorphic Analog Brain Core Chip Unveiled in Zurich",
+      "source": "Financial Times",
+      "sourceCountry": "GB",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月22日，苏黎世联邦理工学院联合IBM欧洲实验室在瑞士正式发布全球首个万亿级突触神经形态模拟大脑核心芯片“NeuroGrid-X”。【事件核心细节】该芯片采用突破性的亚阈值模拟电路设计与3D单片集成技术，在单枚晶圆级封装内实现了1.2万亿个可塑性突触模拟，其计算能效比传统数字AI架构提升近千倍，动态运行功耗首次被压降至12瓦以内，标志着类脑计算从理论模型迈入超大规模商业化实用阶段。【战略与深远影响】这一前沿突破绕过了冯·诺依曼架构的功耗墙与存储墙瓶颈，赋予了边缘端设备运行超大规模类人感知与自主决策的能力，将彻底颠覆全球半导体产业的技术路线图，并对未来军事侦察、深空探测以及分布式具身智能的算力底层供给产生深远战略冲击。",
+      "tags": [
+        "Neuromorphic Computing",
+        "Artificial Intelligence",
+        "Semiconductors"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "ETH Zurich",
+        "IBM",
+        "NeuroGrid-X"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T06:00:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.339Z",
+      "updatedAt": "2026-10-23T00:34:34.339Z"
+    },
+    {
+      "id": "gemini-2026-10-23-008",
+      "batchDate": "2026-10-23",
+      "title": "东盟十国与中日韩签署关键供应链应急防御条约：构筑泛亚区域经济安全网",
+      "englishTitle": "ASEAN Plus Three Sign Critical Supply Chain Emergency Defense Treaty",
+      "source": "Channel NewsAsia",
+      "sourceCountry": "SG",
+      "category": "geopolitics",
+      "region": "Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，东盟十国与中国、日本、韩国（10+3）经贸部长会议在吉隆坡闭幕，各方正式签署并通过《泛亚关键矿产与半导体供应链应急防御条约》。【事件核心细节】根据该条约，签约国承诺在遭遇单边经济制裁、海上关键航道封锁或突发自然灾害导致关键产业链断裂时，启动区域内战略物资库存共享与产能一键切换机制，并在半导体、稀土、电池原材料等领域建立非美美元结算的替代支付结算通道。【战略与深远影响】面对全球单边主义抬头与地缘政治碎片化风险，东亚与东南亚核心经济体通过制度化契约进一步深度绑定区域产业链，有效对冲了外部大国博弈带来的供应链震荡风险，显著提升了亚洲经济共同体的战略自主性。",
+      "tags": [
+        "ASEAN",
+        "Supply Chain",
+        "Geopolitics",
+        "Regional Security"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.6,
+      "nlpKeyEntities": [
+        "ASEAN",
+        "China",
+        "Japan",
+        "South Korea"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T02:00:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-010",
+      "batchDate": "2026-10-23",
+      "title": "南美四国矿业联盟正式通过锂资源出口统一基准定价机制：重塑全球新能源矿产版图",
+      "englishTitle": "South American Lithium Alliance Officially Adopts Unified Export Benchmark Pricing Mechanism",
+      "source": "Financial Times",
+      "sourceCountry": "GB",
+      "category": "geopolitics",
+      "region": "South America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月22日，“锂三角”国家（智利、阿根廷、玻利维亚）与秘鲁在圣地亚哥举行首脑闭门会议，正式签署《南美锂资源战略同盟及联合出口定价条约》。【事件核心细节】该条约宣布打破传统伦敦金属交易所（LME）的主导定价权，建立由南美四国主导的、与国际绿色能源需求挂钩的锂资源统一出口基准价格与产量配额调节机制，并对向未签署双边产能合作协议的国家加征资源主权溢价税。【战略与深远影响】作为全球电动汽车与储能电池产业的核心原材料基地，南美四国通过联合行动彻底改变了过去跨国矿业巨头垄断定价的历史。此举将直接推高全球下游新能源产业链的资源获取成本，深刻重塑全球清洁能源转型的地缘政治经济生态。",
+      "tags": [
+        "Lithium Triangle",
+        "South America",
+        "Critical Minerals",
+        "Energy Transition"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.2,
+      "nlpKeyEntities": [
+        "Chile",
+        "Argentina",
+        "Bolivia",
+        "Peru"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T01:00:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-004",
+      "batchDate": "2026-10-23",
+      "title": "英伟达推出面向超大规模数据中心的液冷光互连交换机：破解大模型万卡集群瓶颈",
+      "englishTitle": "NVIDIA Unveils Liquid-Cooled Optical Interconnect Switch for Hyperscale Clusters",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，英伟达（NVIDIA）在美国总部举行的技术预备会上正式发布针对十万卡级AI集群的“Quantum-X3000”液冷光互连交换机系统。【事件核心细节】该系统采用突破性的硅光子共封装光学（CPO）技术与全浸没式液冷架构，单端口双向带宽达到史无前例的102.4 Tbps，同时将万卡集群在训练超大参数稠密模型时的通信延迟缩减65%，集群整体能效比提升4倍以上。【战略与深远影响】当前全球生成式AI竞赛的核心瓶颈已从单纯的算力芯片数量转向集群间的数据吞吐带宽与散热极限。英伟达该款产品的量产交付，彻底清除了超大规模AI训练的物理天花板，进一步巩固了其在全球人工智能硬件基础设施领域的绝对垄断地位。",
+      "tags": [
+        "NVIDIA",
+        "Optical Interconnect",
+        "Data Center",
+        "Liquid Cooling"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.78,
+      "nlpKeyEntities": [
+        "NVIDIA",
+        "Quantum-X3000",
+        "Silicon Photonics"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T04:00:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-007",
+      "batchDate": "2026-10-23",
+      "title": "东京证券交易所推出亚洲首个全双币种加密资产与传统证券综合清算平台",
+      "englishTitle": "Tokyo Stock Exchange Launches Asia's First Dual-Currency Crypto and Securities Clearing Platform",
+      "source": "Nikkei Asia",
+      "sourceCountry": "JP",
+      "category": "finance",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月22日，日本东京证券交易所（TSE）与日本金融厅（FSA）联合宣布，正式启用亚洲首个支持日元法定货币与合规加密数字资产实时对冲结算的综合清算平台。【事件核心细节】该平台允许合格机构投资者在单一账户内直接进行传统主权债券、股票与代币化现实世界资产（RWA）的混合交割，并引入了基于区块链的智能合约原子结算机制，大幅缩短了跨资产类别的资金占用周期。【战略与深远影响】日本正借助宽松货币政策的渐进退出与强力监管创新，全力争夺全球数字资产合规定价中心与亚洲金融科技枢纽的地位，此举将吸引大量国际机构资本回流东京，加剧亚太地区金融中心的竞争格局。",
+      "tags": [
+        "Tokyo Stock Exchange",
+        "Crypto Clearing",
+        "RWA",
+        "Japan Finance"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.5,
+      "nlpKeyEntities": [
+        "Tokyo Stock Exchange",
+        "Financial Services Agency",
+        "Japan"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T02:30:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-012",
+      "batchDate": "2026-10-23",
+      "title": "国际海事组织（IMO）正式通过全球远洋航运碳税强制征收细则：航运业进入零碳强制淘汰期",
+      "englishTitle": "IMO Formally Adopts Global Deep-Sea Shipping Carbon Tax Mandatory Enforcement Rules",
+      "source": "Bloomberg",
+      "sourceCountry": "GB",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月22日，国际海事组织（IMO）在伦敦闭幕的特别委员会会议上，以压倒性多数正式通过了《全球远洋航运温室气体零排放强制税收与船队船型淘汰公约》细则。【事件核心细节】公约规定自2027年1月起，所有进出国际港口的5000总吨以上远洋货轮必须按其碳排放强度缴纳严格的阶梯式全球碳税，所筹集资金将专项用于发展中国家港口绿色岸电基础设施建设与绿色甲醇、绿氨等替代燃料的研发补贴。【战略与深远影响】这一全球首个跨主权行业的强制性碳税机制落地，彻底掐断了传统化石燃料远洋航运的生存空间。全球造船业与国际物流供应链面临新一轮血腥洗牌，航运成本的系统性上升将对全球大宗商品贸易格局与通胀走势产生深远影响。",
+      "tags": [
+        "IMO",
+        "Shipping Carbon Tax",
+        "Green Energy",
+        "Maritime Transport"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.1,
+      "nlpKeyEntities": [
+        "International Maritime Organization",
+        "London",
+        "Green Fuels"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T00:00:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-003",
+      "batchDate": "2026-10-23",
+      "title": "Anthropic发布Claude安全对齐实时自监测引擎：可自主拦截隐蔽式提示词越狱",
+      "englishTitle": "Anthropic Launches Claude Real-Time Safety Alignment Self-Monitoring Engine",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月22日，人工智能安全与研发公司Anthropic正式向全球企业客户推出全新一代“Constitutional Guard 4.0”实时自监测安全对齐引擎。【事件核心细节】该引擎内置于Claude系列大模型的核心推理循环中，利用轻量级参数化监督网络对模型内部激活状态进行微秒级监控，能够自主识别并动态拦截针对复杂逻辑漏洞、多轮对话隐藏诱导以及高级提示词注入（Prompt Injection）的攻击，误报率较上一代下降78%。【战略与深远影响】随着生成式AI深度嵌入金融交易、关键基础设施控制等核心领域，针对对齐机制的攻击日益隐蔽。Anthropic此举不仅确立了商业AI安全防护的新技术标杆，也为全球各国监管机构评估大模型商业化部署的安全性提供了可审计的技术事实标准。",
+      "tags": [
+        "Anthropic",
+        "AI Safety",
+        "Cybersecurity"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "Anthropic",
+        "Claude",
+        "Constitutional Guard"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T04:45:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-002",
+      "batchDate": "2026-10-23",
+      "title": "Meta与苹果达成跨平台具身操作系统底层授权：打通空间计算与消费级AI生态",
+      "englishTitle": "Meta and Apple Reach Cross-Platform Embodied OS Licensing Deal",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，美国科技巨头Meta与苹果公司（Apple）在加州硅谷联合宣布达成一项历史性的跨平台具身操作系统底层互操作授权协议。【事件核心细节】根据协议，双方将打通Horizon OS与visionOS的核心中间件接口，建立统一的神经交互与空间计算API标准，允许第三方开发者编写一次代码即可无缝部署于两家公司的混合现实及下一代具身智能穿戴设备中。【战略与深远影响】两大宿敌在反垄断压力与生成式AI生态极度内卷的背景下选择握手言和，实质性终结了消费级AR/VR及空间智能领域的碎片化标准战，对构筑西方主导的下一代人机交互操作系统垄断地位、挤压非美软硬件生态具有决定性战略意义。",
+      "tags": [
+        "Meta",
+        "Apple",
+        "Spatial Computing",
+        "Embodied AI"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.65,
+      "nlpKeyEntities": [
+        "Meta",
+        "Apple",
+        "Horizon OS",
+        "visionOS"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T05:30:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-005",
+      "batchDate": "2026-10-23",
+      "title": "欧洲央行意外宣布启动数字欧元批发端主网压力测试：加速主权数字货币跨国互联",
+      "englishTitle": "ECB Unexpectedly Announces Launch of Wholesale Digital Euro Mainnet Stress Test",
+      "source": "Reuters",
+      "sourceCountry": "EU",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，欧洲中央银行（ECB）协同欧元区19国央行及欧洲主要商业银行，突发宣布正式启动数字欧元批发端（Wholesale CBDC）主网全景压力测试。【事件核心细节】此次压力测试将模拟极端地缘政治冲突与金融市场流动性枯竭场景，验证分布式账本技术（DLT）在处理每秒十万级跨境大额结算时的系统韧性，并首次将代币化商业银行存款纳入统一清算通道。【战略与深远影响】面对全球去美元化浪潮以及私营稳定币对传统货币主权的侵蚀，欧洲央行正通过实质性技术落地加速构建欧洲独立的金融基础设施，此举将重塑欧元区在国际清算系统中的自主可控能力，并对全球外汇储备资产配置产生长期压力。",
+      "tags": [
+        "ECB",
+        "Digital Euro",
+        "CBDC",
+        "Financial Resilience"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.1,
+      "nlpKeyEntities": [
+        "European Central Bank",
+        "Eurozone",
+        "DLT"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T03:30:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-006",
+      "batchDate": "2026-10-23",
+      "title": "华尔街三大行联手成立跨国主权债务重组资产管理公司：应对新兴市场连环违约危机",
+      "englishTitle": "Wall Street Giants Form Cross-Border Sovereign Debt Restructuring Asset Firm",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月22日，摩根大通、花旗集团与贝莱德等华尔街顶级金融机构宣布联合出资150亿美元，成立名为“Global Sovereign Recovery Fund”的专案资产管理公司。【事件核心细节】该公司旨在运用市场化债转股、绿色债券置换和碳信用抵押等创新金融工具，系统性介入并收购拉丁美洲与撒哈拉以南非洲多个高风险发展中国家的外债敞口，以避免引发大面积主权债务硬着陆。【战略与深远影响】在全球高利率周期尾部叠加地缘政治分裂的宏观环境下，新兴市场债务链条面临严峻考验。华尔街金融寡头通过深度参与主权债务重组，不仅试图获取高额不良资产折价收益，更进一步巩固了西方私营资本对全球南方国家自然资源与绿色转型融资渠道的控制力。",
+      "tags": [
+        "Wall Street",
+        "Sovereign Debt",
+        "Emerging Markets",
+        "Asset Management"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "JPMorgan Chase",
+        "Citigroup",
+        "BlackRock"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T03:00:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-009",
+      "batchDate": "2026-10-23",
+      "title": "北约最高军事委员会发布北极航道联合防务白皮书：强化高纬度地缘战略争夺",
+      "englishTitle": "NATO Military Committee Releases Arctic Sea Route Joint Defense White Paper",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，北约（NATO）最高军事委员会在布鲁塞尔总部正式发布题为《北极与高纬度大西洋联合防务战略》的白皮书。【事件核心细节】白皮书宣布将北极圈及西北航道、东北航道关键节点纳入北约集体防御框架，计划在冰岛与挪威北部常态化部署新一代破冰护卫舰编队与海底光缆侦测网，以应对极地冰川融化后大国对北极能源与新航运通道的日益激烈的战略争夺。【战略与深远影响】随着全球气候变暖导致北极通航窗口期逐年延长，高纬度地区正迅速从传统的科研生态区演变为地缘政治与军事博弈的前沿阵地。北约此举标志着其防务边界全线向北极收紧，将进一步加剧西方与俄罗斯及其他北极利益相关国之间的战略摩擦。",
+      "tags": [
+        "NATO",
+        "Arctic",
+        "Geopolitics",
+        "Maritime Defense"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.65,
+      "nlpKeyEntities": [
+        "NATO",
+        "Arctic Circle",
+        "Brussels"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T01:30:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    },
+    {
+      "id": "gemini-2026-10-23-011",
+      "batchDate": "2026-10-23",
+      "title": "全球首座超临界二氧化碳循环发电商业化示范电站成功并网：火电与核电灵活性改造迎来革命",
+      "englishTitle": "World's First Commercial Supercritical CO2 Brayton Cycle Power Plant Grid-Connected",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "climate",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，美国能源部（DOE）与桑迪亚国家实验室联合宣布，全球首座300兆瓦级超临界二氧化碳（sCO2）布雷顿循环商业化示范电站在得克萨斯州顺利实现满负荷并网发电。【事件核心细节】该电站摒弃了传统的水蒸汽朗肯循环，采用超临界状态下的二氧化碳作为工质，在同等热源条件下将发电效率从传统化石或核能发电的42%大幅跃升至54%以上，同时将机组体积缩小至原来的十分之一，且启动响应速度达到分钟级。【战略与深远影响】sCO2循环技术被视为全球能源电力领域近半个世纪以来最具颠覆性的热力学革命。该技术的成功商业化，不仅为全球传统火电与先进核能系统的深度低碳灵活性改造提供了完美的终极技术路径，也为高能耗的AI数据中心就地匹配高效分布式清洁能源开辟了新天地。",
+      "tags": [
+        "Supercritical CO2",
+        "Clean Energy",
+        "Power Generation",
+        "Decarbonization"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "US Department of Energy",
+        "Sandia National Laboratories",
+        "Texas"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-23T00:30:00.000Z",
+      "createdAt": "2026-10-23T00:34:34.340Z",
+      "updatedAt": "2026-10-23T00:34:34.340Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-23",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-23 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "2016 诺贝尔文学奖",
+    "author": "鲍勃·迪伦",
+    "work": "答案在风中飘",
+    "enAuthor": "Bob Dylan",
+    "enWork": "Blowin' in the Wind",
+    "zh": "“不忙着求生的人，便忙着死去。”",
+    "en": "“He not busy being born is busy dying.”",
+    "batchDate": "2026-10-23"
+  }
+}

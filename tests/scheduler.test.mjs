@@ -30,6 +30,8 @@ test('Scheduler - 能够触发生成并在完成时释放互斥锁并持久化�
   const targetDate = '2026-09-25';
   const briefingFile = path.join(BRIEFINGS_DIR, `${targetDate}.json`);
   const originalContent = fs.existsSync(briefingFile) ? fs.readFileSync(briefingFile, 'utf-8') : null;
+  const savedKey = process.env.GEMINI_API_KEY;
+  process.env.GEMINI_API_KEY = '';
 
   try {
     // 监听 SSE 广播流，验证 stage 回调被调用
@@ -46,7 +48,7 @@ test('Scheduler - 能够触发生成并在完成时释放互斥锁并持久化�
 
     assert.equal(res.success, true);
     assert.equal(res.date, targetDate);
-    assert.ok(res.itemCount >= 8 && res.itemCount <= 12);
+    assert.ok(res.itemCount >= 12 && res.itemCount <= 16);
     assert.equal(isGenerationBusy(), false);
 
     // 验证调度器状态重置
@@ -72,6 +74,7 @@ test('Scheduler - 能够触发生成并在完成时释放互斥锁并持久化�
     assert.equal(content.batchStatus.status, 'COMPLETED');
     assert.equal(content.batchStatus.date, targetDate);
   } finally {
+    process.env.GEMINI_API_KEY = savedKey;
     if (originalContent !== null) {
       fs.writeFileSync(briefingFile, originalContent, 'utf-8');
     } else if (fs.existsSync(briefingFile)) {
@@ -84,6 +87,8 @@ test('Scheduler - 并发防重互斥锁：生成期间再次触发应返回 conf
   const testDate = '2026-09-26';
   const testFile = path.join(BRIEFINGS_DIR, `${testDate}.json`);
   const originalContent = fs.existsSync(testFile) ? fs.readFileSync(testFile, 'utf-8') : null;
+  const savedKey = process.env.GEMINI_API_KEY;
+  process.env.GEMINI_API_KEY = '';
 
   try {
     // 启动第一个长时间任务（不加 await）
@@ -107,6 +112,7 @@ test('Scheduler - 并发防重互斥锁：生成期间再次触发应返回 conf
     assert.equal(firstRes.success, true);
     assert.equal(isGenerationBusy(), false);
   } finally {
+    process.env.GEMINI_API_KEY = savedKey;
     if (originalContent !== null) {
       fs.writeFileSync(testFile, originalContent, 'utf-8');
     } else if (fs.existsSync(testFile)) {

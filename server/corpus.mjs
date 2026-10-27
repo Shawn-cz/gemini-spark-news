@@ -61,6 +61,66 @@ export const GLOBAL_CORPUS = [
     nlpKeyEntities: ["European Commission", "EU AI Act", "Algorithmic Transparency"],
     coverUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60"
   },
+  {
+    title: "Anthropic 发布新一代 Claude 自主研发智能体架构，长程软件工程与跨端工具调用准确率突破新高",
+    englishTitle: "Anthropic Unveils Next-Gen Claude Autonomous Coding Agent Architecture with Breakthrough Long-Horizon Execution",
+    source: "MIT Tech Review",
+    sourceCountry: "US",
+    category: "ai",
+    region: "North America",
+    impactLevel: "high",
+    summary: "【时间与主体】Anthropic 核心智能体团队于旧金山正式发布新一代 Claude Agent 协同工作流框架与桌面端原生沙盒环境。【事件核心细节】新架构引入强化学习自我验证闭环（RLVR）与持久化跨会话记忆树，在 SWE-bench Verified 与 OSWorld 真实系统操控基准中分别取得 79.4% 与 64.8% 的历史最高分，支持自动完成从架构重构、单元测试编写到生产环境蓝绿部署的数小时长程开发任务。【战略与深远影响】此举标志着大模型竞争焦点已从单纯对话生成全面转向企业级自主数字员工，硅谷软件工程研发范式迎来结构性重塑。",
+    tags: ["Anthropic", "Claude", "Coding Agent", "自主智能体"],
+    sentiment: "positive",
+    sentimentScore: 0.85,
+    nlpKeyEntities: ["Anthropic", "Claude Agent", "SWE-bench", "Autonomous Coding"],
+    coverUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=60"
+  },
+  {
+    title: "DeepSeek 与阿里通义 Qwen 相继开源新一代混合专家推理模型，单卡推理吞吐量提升 3 倍冲击全球开源榜单",
+    englishTitle: "DeepSeek and Alibaba Qwen Open-Source Next-Gen MoE Reasoning Models, Tripling Single-GPU Throughput",
+    source: "Reuters",
+    sourceCountry: "China",
+    category: "ai",
+    region: "Asia-Pacific",
+    impactLevel: "high",
+    summary: "【时间与主体】中国头部 AI 实验室 DeepSeek 与阿里云通义千问（Qwen）团队同日于 HuggingFace 社区开放新一代稀疏混合专家（MoE）深度推理模型完整权重。【事件核心细节】两款模型均采用原生多头潜在注意力（MLA）与动态无辅助损耗负载均衡架构，在数学竞赛 AIME 与代码生成 LiveCodeBench 评测中追平闭源旗舰模型，同时将 FP8 量化下的 KV Cache 显存占用压缩 72%，单张消费级显卡即可流畅运行百亿激活参数推理。【战略与深远影响】中国开源模型在极限工程优化与低成本高密度推理领域的持续突破，正加速重构全球开发者生态与企业私有化部署格局。",
+    tags: ["DeepSeek", "阿里Qwen", "开源大模型", "MoE架构"],
+    sentiment: "positive",
+    sentimentScore: 0.89,
+    nlpKeyEntities: ["DeepSeek", "Alibaba Qwen", "HuggingFace", "MoE Architecture"],
+    coverUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60"
+  },
+  {
+    title: "xAI 宣布孟菲斯超算中心扩容至 20 万张 Blackwell GPU，同步开启新一轮百亿美元级战略融资并购谈判",
+    englishTitle: "xAI Expands Memphis Supercluster to 200,000 Blackwell GPUs Amid Multi-Billion Strategic Funding Talks",
+    source: "The Wall Street Journal",
+    sourceCountry: "US",
+    category: "ai",
+    region: "North America",
+    impactLevel: "high",
+    summary: "【时间与主体】马斯克旗下人工智能公司 xAI 联合戴尔科技与超微电脑宣布，位于田纳西州孟菲斯的 Colossus 巨型超算集群完成二期液冷并网扩容。【事件核心细节】该集群目前已实现 20 万张英伟达全互联 GPU 的单一高速 RDMA 织网协同训练，用于冲刺下一代 Grok 原生多模态世界模型；与此同时，多家硅谷与中东主权基金正参与 xAI 新一轮百亿美元级增资及垂直 AI 视频生成初创企业的并购谈判。【战略与深远影响】头部 AI 巨头在十万卡级单一算力集群与资本并购上的军备竞赛，进一步拉高了通用人工智能（AGI）基座模型研发的准入门槛。",
+    tags: ["xAI", "Grok", "超算集群", "AI融资并购"],
+    sentiment: "positive",
+    sentimentScore: 0.74,
+    nlpKeyEntities: ["xAI", "Colossus Supercluster", "NVIDIA Blackwell", "Grok"],
+    coverUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=60"
+  },
+  {
+    title: "Meta AI 联合硅谷顶尖高校开源新一代原生多模态世界模型，赋能机器人具身智能零样本物理交互",
+    englishTitle: "Meta AI Open-Sources Native Multimodal World Model for Zero-Shot Embodied Robotics Interaction",
+    source: "Bloomberg",
+    sourceCountry: "US",
+    category: "ai",
+    region: "North America",
+    impactLevel: "medium",
+    summary: "【时间与主体】Meta 基础人工智能研究院（FAIR）联合斯坦福及伯克利实验室，正式发布并开源基于自监督视频预测架构的下一代世界模型（World Model）。【事件核心细节】该模型摆脱了传统文本 Token 的一维序列限制，直接在连续潜在时空空间对三维刚体碰撞、流体力学及复杂手部操作进行因果物理推演，在真实机械臂零样本抓取与家务长序列规划测试中将任务成功率提升 41%。【战略与深远影响】开源世界模型与具身智能底层权重的结合，为人形机器人及自动驾驶行业提供了通用物理常识底座，加速 AI 从数字比特世界迈向物理原子世界。",
+    tags: ["Meta AI", "世界模型", "具身智能", "开源突破"],
+    sentiment: "positive",
+    sentimentScore: 0.81,
+    nlpKeyEntities: ["Meta FAIR", "World Model", "Embodied AI", "Robotics"],
+    coverUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=60"
+  },
 
   // 2. 全球金融与宏观资本 (Global Finance & Macro)
   {

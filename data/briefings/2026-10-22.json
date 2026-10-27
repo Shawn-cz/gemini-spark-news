@@ -1,0 +1,372 @@
+{
+  "batchDate": "2026-10-22",
+  "items": [
+    {
+      "id": "gemini-2026-10-22-002",
+      "batchDate": "2026-10-22",
+      "title": "OpenAI与软银集团联合发布首款面向企业级的具身智能分布式操作系统",
+      "englishTitle": "OpenAI and SoftBank Jointly Release First Enterprise-Grade Embodied AI Distributed Operating System",
+      "source": "Bloomberg",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月21日，美国人工智能巨头OpenAI与日本软银集团（SoftBank）在全球开发者大会上联合发布了代号为“Anima-OS”的首款企业级具身智能分布式操作系统。【事件核心细节】该系统专为跨品牌人形机器人、自动化物流蜂群及重型工业机械臂设计，基于大语言与多模态模型底层，实现了多形态机器人在复杂异构物理环境中的毫秒级协同感知、任务自主拆解与动态路径规划，首批测试企业反馈其生产效率提升超320%。【战略与深远影响】该操作系统的推出标志着AI大模型与实体经济的深度结合进入标准化、规模化落地阶段，彻底打通了具身智能商业化的“最后一公里”，将对全球制造业供应链、仓储物流及未来劳动力市场结构产生颠覆性重构效应。",
+      "tags": [
+        "Embodied AI",
+        "OpenAI",
+        "SoftBank",
+        "Operating System"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.79,
+      "nlpKeyEntities": [
+        "OpenAI",
+        "SoftBank",
+        "Anima-OS"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T06:40:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.193Z",
+      "updatedAt": "2026-10-22T00:36:36.193Z"
+    },
+    {
+      "id": "gemini-2026-10-22-005",
+      "batchDate": "2026-10-22",
+      "title": "国际清算银行（BIS）联合六国央行启动代号“Project Nexus-II”的多边央行数字货币跨境外汇即时结算系统",
+      "englishTitle": "Bank for International Settlements (BIS) and Six Central Banks Launch 'Project Nexus-II' Multilateral CBDC Cross-Border FX Real-Time Settlement System",
+      "source": "Wall Street Journal",
+      "sourceCountry": "US",
+      "category": "finance",
+      "region": "Global",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月21日，国际清算银行（BIS）携手新加坡、澳大利亚、马来西亚及欧洲三大核心央行，正式宣布启动“Project Nexus-II”多边央行数字货币（CBDC）跨境外汇即时结算系统。【事件核心细节】该系统基于高吞吐量分布式账本技术（DLT），实现了不同主权数字货币之间在无传统代理行参与情况下的点对点（P2P）原子级兑换与即时结算，将跨境转账清算时间从平均3至5个工作日压缩至3秒以内，单笔交易手续费降低90%以上。【战略与深远影响】该项目的规模化落地标志着全球主权数字货币基础设施建设进入实质性重组阶段，对传统环球同业银行金融电讯协会（SWIFT）跨境支付清算体系构成了深刻变革，并显著提升了非美元货币在国际贸易结算中的韧性与份额。",
+      "tags": [
+        "BIS",
+        "CBDC",
+        "Cross-Border Settlement",
+        "FX"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": 0.2,
+      "nlpKeyEntities": [
+        "Bank for International Settlements",
+        "Project Nexus-II",
+        "SWIFT"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T06:00:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-001",
+      "batchDate": "2026-10-22",
+      "title": "全球首个神经形态类脑超级计算集群在苏黎世正式投运，实现万亿级脉冲神经元实时模拟",
+      "englishTitle": "Global's First Neuromorphic Supercomputing Cluster Goes Live in Zurich, Achieving Trillion-Scale Spiking Neuron Real-time Simulation",
+      "source": "Financial Times",
+      "sourceCountry": "GB",
+      "category": "ai",
+      "region": "Europe",
+      "impactLevel": "critical",
+      "summary": "【时间与主体】2026年10月21日，由瑞士联邦理工学院（ETH Zurich）联合欧洲顶尖AI科研联盟共同宣布，欧洲首个超大规模神经形态类脑超级计算集群在苏黎世正式投入商业化运行。【事件核心细节】该超级计算集群命名为“Synapse-X”，搭载了自主研发的第五代脉冲神经网络（SNN）芯片，成功实现了全球首次在单一系统内对超过10万亿个脉冲神经元进行毫秒级实时模拟，其能耗仅为传统冯·诺依曼架构超级计算机的1/500，标志着类脑计算在处理复杂认知和大规模模式识别上取得里程碑式跨越。【战略与深远影响】这一重大前沿算力突破彻底打破了当前大模型训练对巨型传统GPU集群的绝对路径依赖，为全球AI产业开辟了通往类脑低功耗通用人工智能（AGI）的全新技术范式，并在地缘科技竞争中极大地提升了欧洲在下一代底层计算架构方面的主导权与战略筹码。",
+      "tags": [
+        "Neuromorphic Computing",
+        "Supercomputer",
+        "AGI",
+        "ETH Zurich"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.88,
+      "nlpKeyEntities": [
+        "ETH Zurich",
+        "Synapse-X",
+        "European Union"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T07:15:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.192Z",
+      "updatedAt": "2026-10-22T00:36:36.192Z"
+    },
+    {
+      "id": "gemini-2026-10-22-006",
+      "batchDate": "2026-10-22",
+      "title": "欧洲央行正式颁布《加密资产审慎监管最终法案》，对跨境稳定币发行实行全额准备金动态审计",
+      "englishTitle": "European Central Bank Formally Issues 'Crypto-Asset Prudential Regulation Final Act', Enforcing Full Reserve Dynamic Audits on Cross-Border Stablecoin Issuers",
+      "source": "Financial Times",
+      "sourceCountry": "GB",
+      "category": "finance",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，欧洲央行（ECB）管委会全票通过并正式颁布了《加密资产审慎监管最终法案》（MiCA-II增强版），对所有在欧洲单一市场运营的跨国稳定币发行商施加最严苛的法律约束。【事件核心细节】法案规定，任何流通规模超过50亿欧元的稳定币发行主体，必须将其储备资产的100%存放于欧洲央行认可的主权托管账户中，并每日接受区块链链上实时储备证明（PoR）与传统审计机构的穿透式动态核查，严禁违规向非欧盟司法辖区出借流动性。【战略与深远影响】此举标志着欧洲在全球数字金融合规与反洗钱监管领域树立了最高标杆，有效封堵了离岸加密资产对欧洲传统金融稳定系统的潜在穿透风险，并迫使全球加密资本加速向持牌合规机构集中。",
+      "tags": [
+        "ECB",
+        "Stablecoin",
+        "Regulation",
+        "Crypto Assets"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.15,
+      "nlpKeyEntities": [
+        "European Central Bank",
+        "MiCA-II",
+        "Proof of Reserves"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T04:50:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-011",
+      "batchDate": "2026-10-22",
+      "title": "国际可再生能源署（IRENA）发布全球首个超大规模深远海漂浮式风电制氢示范项目商业化运行报告",
+      "englishTitle": "IRENA Releases Commercial Operation Report for World's First Ultra-Large-Scale Deep-Sea Floating Wind-to-Hydrogen Demonstration Project",
+      "source": "BloombergNEF",
+      "sourceCountry": "US",
+      "category": "climate",
+      "region": "Europe",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，国际可再生能源署（IRENA）联合挪威能源巨头发布了一份关于全球首个兆瓦级深远海漂浮式风电直接制氢示范项目的核心商业化运营报告。【事件核心细节】该项目位于北海极端海况区域，创新性地将半潜式浮动风力发电平台与模块化质子交换膜（PEM）电解水制氢装置进行一体化集成，成功实现了在狂风巨浪等恶劣海况下的离网、高效、连续绿色氢气合成与液化输送，其绿氢全周期生产成本较陆上制氢大幅下降41%，创下行业历史新低。【战略与深远影响】该报告的发布向全球能源市场证明了深远海风能-氢能耦合利用的技术可行性与经济爆发力，为全球重工业与远洋航运业彻底摆脱化石能源依赖开辟了一条崭阔且可大规模复制的清洁能源新路径。",
+      "tags": [
+        "IRENA",
+        "Floating Wind",
+        "Green Hydrogen",
+        "Energy Transition"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": [
+        "IRENA",
+        "North Sea",
+        "PEM Electrolysis"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T02:30:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-003",
+      "batchDate": "2026-10-22",
+      "title": "全球开源AI基金会正式成立并推出“Sovereign-LLM”多语种主权大模型安全底座",
+      "englishTitle": "Global Open-Source AI Foundation Formally Established and Launches 'Sovereign-LLM' Multilingual Sovereign Foundation Model",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "Global",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，由全球超过30个国家和地区的顶尖科研机构与开源科技企业共同发起，全球开源AI基金会在新加坡正式宣告成立，并同步推出首个面向全球南方国家的“Sovereign-LLM”主权大模型安全底座。【事件核心细节】该底座包含一套拥有1.2万亿参数的开源基础多模态大模型，支持72种发展中国家官方语言及地方方言，内嵌可自定义的文化价值观对齐引擎，允许各国在不依赖硅谷科技巨头云基础设施的前提下，构建自主可控的国家级垂直领域AI应用。【战略与深远影响】此举有力对冲了全球AI算力与大模型技术垄断加剧的趋势，在国际地缘政治博弈中为新兴市场国家提供了数字化自主权的坚实保障，重塑了全球AI开源生态的权力版图。",
+      "tags": [
+        "Open Source AI",
+        "Foundation",
+        "Sovereign LLM",
+        "Singapore"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.65,
+      "nlpKeyEntities": [
+        "Global Open-Source AI Foundation",
+        "Sovereign-LLM",
+        "Singapore"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T05:20:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.193Z",
+      "updatedAt": "2026-10-22T00:36:36.193Z"
+    },
+    {
+      "id": "gemini-2026-10-22-004",
+      "batchDate": "2026-10-22",
+      "title": "斯坦福大学研究团队成功开发出基于光学晶体的新型AI推理芯片，能效比提升两个数量级",
+      "englishTitle": "Stanford University Research Team Successfully Develops Novel AI Inference Chip Based on Optical Crystals, Boosting Energy Efficiency by Two Orders of Magnitude",
+      "source": "MIT Technology Review",
+      "sourceCountry": "US",
+      "category": "ai",
+      "region": "North America",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，美国斯坦福大学电气工程系研究团队在《自然·光子学》期刊发表最新成果，宣布成功研发出全球首款基于铌酸锂光学晶体的全光神经网络推理芯片。【事件核心细节】该芯片彻底摒弃了电子在硅基导体中的移动传导，改用光子在微纳光子晶体中进行矩阵乘法运算，推理延迟缩短至皮秒级别，同时其单位功耗下的算力密度（能效比）较现有顶级电子AI芯片实现了超过100倍的跃升，且在运行过程中几乎不产生热耗散。【战略与深远影响】这一革命性技术突破有望从根本上解决当前因生成式AI爆发而导致的全球电网负荷危机与数据中心过热瓶颈，并将对未来数码消费电子、边缘计算及车载自动驾驶芯片市场产生颠覆性重构。",
+      "tags": [
+        "Optical Computing",
+        "AI Chip",
+        "Stanford",
+        "Photonics"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.82,
+      "nlpKeyEntities": [
+        "Stanford University",
+        "Lithium Niobate",
+        "Nature Photonics"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T04:10:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.193Z",
+      "updatedAt": "2026-10-22T00:36:36.193Z"
+    },
+    {
+      "id": "gemini-2026-10-22-007",
+      "batchDate": "2026-10-22",
+      "title": "东京证券交易所与新加坡交易所达成跨国数字资产互联互通协议，共建泛亚绿色碳金融大市场",
+      "englishTitle": "Tokyo Stock Exchange and Singapore Exchange Reach Cross-Border Digital Asset Interoperability Agreement to Co-Build Pan-Asian Green Carbon Financial Market",
+      "source": "Nikkei Asia",
+      "sourceCountry": "JP",
+      "category": "finance",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，日本东京证券交易所（TSE）与新加坡交易所（SGX）在东京签署战略互联协议，宣布正式打通两地数字资产与绿色碳信用交易清算通道。【事件核心细节】根据协议，两所将基于统一的分布式账本技术构建“泛亚绿色金融互联网络”，允许国际机构投资者在东京或新加坡任一市场实时盘剥、抵押及交易跨国核证减排量（VCUs）与绿色主权债券代币化资产，首期启动资金池规模高达500亿美元。【战略与深远影响】该协议的落地显著加速了亚洲区域内绿色金融资产的流动性整合，确立了日新两地在亚太区碳金融定价权中的核心枢纽地位，对引导全球资本流向亚洲清洁能源转型基础设施具有深远引领作用。",
+      "tags": [
+        "Tokyo Stock Exchange",
+        "SGX",
+        "Carbon Finance",
+        "Digital Assets"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.72,
+      "nlpKeyEntities": [
+        "Tokyo Stock Exchange",
+        "Singapore Exchange",
+        "Pan-Asian Green Market"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T03:30:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-008",
+      "batchDate": "2026-10-22",
+      "title": "亚太经合组织（APEC）财长会议在马尼拉开幕，达成深化关键矿产供应链金融安全共同宣言",
+      "englishTitle": "APEC Finance Ministers Meeting Opens in Manila, Reaching Joint Declaration to Deepen Financial Security of Critical Mineral Supply Chains",
+      "source": "Reuters",
+      "sourceCountry": "US",
+      "category": "geopolitics",
+      "region": "Asia",
+      "impactLevel": "high",
+      "summary": "【时间与主体】2026年10月22日，亚太经合组织（APEC）第二十八届财长会议在菲律宾马尼拉正式拉开帷幕，来自21个成员经济体的财政部长与央行行长齐聚一堂。【事件核心细节】会议期间，各方重点围绕地缘博弈背景下的全球产业链韧性展开闭门磋商，并于今日通过了《关于建立亚太关键矿产供应链金融安全基金的马尼拉宣言》。宣言决定设立规模达300亿美元的多边风险补偿基金，专门用于对冲稀土、锂、钴、石墨等关键战略矿产在开采、冶炼及运输环节因地缘政治摩擦带来的价格剧烈波动与贸易断供风险。【战略与深远影响】该宣言的出台标志着亚太经贸合作正从单纯的自由贸易促进向“国家安全与供应链金融深度绑定”的战略防御阶段转变，深刻反映了各大经济体在逆全球化暗流下对保障产业链底线安全的极高焦虑与务实应对。",
+      "tags": [
+        "APEC",
+        "Supply Chain",
+        "Critical Minerals",
+        "Geopolitics"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.05,
+      "nlpKeyEntities": [
+        "APEC",
+        "Manila",
+        "Critical Minerals Fund"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T02:00:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-009",
+      "batchDate": "2026-10-22",
+      "title": "欧盟委员会与拉美南方共同市场（Mercosur）重启自由贸易协定关键技术谈判并增设“环境违约熔断机制”",
+      "englishTitle": "European Commission and Mercosur Restart Free Trade Agreement Technical Talks, Adding 'Environmental Default Circuit Breaker Mechanism'",
+      "source": "Euronews",
+      "sourceCountry": "BE",
+      "category": "geopolitics",
+      "region": "Europe",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，欧洲委员会贸易总司与南美南方共同市场（Mercosur）代表团在布鲁塞尔重启了历经多年波折的跨大西洋自由贸易协定高级别技术磋商。【事件核心细节】双方在本次闭门会谈中取得重大妥协，正式在协定框架内增设了一项具有法律约束力的“环境违约熔断机制”。该机制规定，若任一签约国在热带雨林保护、碳排放总量或劳工标准上出现严重倒退，欧盟或南方共同市场有权在48小时内单方面暂停关税减让优惠，无需经过漫长的国际仲裁程序。【战略与深远影响】这一突破性进展为横跨东西半球的最大自贸区扫清了最大的政治与法律障碍，不仅将极大重塑欧盟与拉美地区的经贸地缘格局，也确立了欧盟以绿色贸易壁垒主导全球多边经贸规则制定的强硬姿态。",
+      "tags": [
+        "EU",
+        "Mercosur",
+        "Free Trade",
+        "Geopolitics"
+      ],
+      "sentiment": "positive",
+      "sentimentScore": 0.45,
+      "nlpKeyEntities": [
+        "European Commission",
+        "Mercosur",
+        "Brussels"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T01:30:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-010",
+      "batchDate": "2026-10-22",
+      "title": "东盟十国与对话伙伴国在雅加达签署《印太海底关键基础设施联合防御与安全协定》",
+      "englishTitle": "ASEAN and Dialogue Partners Sign 'Indo-Pacific Subsea Critical Infrastructure Joint Defense and Security Agreement' in Jakarta",
+      "source": "Straits Times",
+      "sourceCountry": "SG",
+      "category": "geopolitics",
+      "region": "Asia",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，东南亚国家联盟（ASEAN）十国与美、日、澳等主要对话伙伴国在印度尼西亚雅加达举行闭门防务安全峰会，正式签署《印太海底关键基础设施联合防御与安全协定》。【事件核心细节】针对近年来频发的海底光缆遭恶意破坏及能源管道安全危机，该协定授权建立首个跨国印太海底联合巡航与情报实时共享中心，部署新一代深海声呐监测网与无人潜航器编队，对南海及周边海域的关键海底通信干线实施全天候安全立体防护。【战略与深远影响】该协定的签署标志着印太地缘政治博弈的焦点从水面舰艇对峙正式向深海数字生命线争夺延伸，对保障全球互联网数据安全、跨国金融通信畅通及区域地缘战略平衡具有里程碑意义。",
+      "tags": [
+        "ASEAN",
+        "Subsea Cables",
+        "Maritime Security",
+        "Geopolitics"
+      ],
+      "sentiment": "neutral",
+      "sentimentScore": -0.22,
+      "nlpKeyEntities": [
+        "ASEAN",
+        "Jakarta",
+        "Subsea Infrastructure"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T01:00:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    },
+    {
+      "id": "gemini-2026-10-22-012",
+      "batchDate": "2026-10-22",
+      "title": "全球气候适应委员会发布最新警示：南极西部“末日冰川”融化速度超预期，需紧急部署地球工程科学干预预案",
+      "englishTitle": "Global Commission on Adaptation Releases Urgent Warning: Antarctic West 'Doomsday Glacier' Melting Faster Than Expected, Calling for Emergency Geoengineering Intervention Plans",
+      "source": "The Guardian",
+      "sourceCountry": "GB",
+      "category": "climate",
+      "region": "Antarctica",
+      "impactLevel": "medium",
+      "summary": "【时间与主体】2026年10月21日，联合国环境规划署下属的全球气候适应委员会在日内瓦紧急发布了一份题为《南极冰盖临界点与全球海平面上升应急白皮书》的科学报告。【事件核心细节】最新卫星雷达与冰下原位探测数据显示，南极西部“思韦茨冰川”（俗称“末日冰川”）由于底层温水侵蚀，其崩塌速度较五年前预测值加快了近2倍。报告警告称，若不立即启动包括人工海洋云层增白与冰架基底保温帷幕在内的地球工程干预预案，全球海平面将在本世纪中叶前面临失控性飙升的巨大风险。【战略与深远影响】该警示将全球气候治理的讨论从传统的“被动减排”迅速推向“主动大规模地球工程干预”的极度敏感舆论风口，对未来国际气候政治谈判的议程设置与人类应对气候危机的策略选择构成了强烈震撼。",
+      "tags": [
+        "Climate Change",
+        "Antarctica",
+        "Doomsday Glacier",
+        "Geoengineering"
+      ],
+      "sentiment": "negative",
+      "sentimentScore": -0.68,
+      "nlpKeyEntities": [
+        "Global Commission on Adaptation",
+        "Thwaites Glacier",
+        "Geneva"
+      ],
+      "coverUrl": "https://images.unsplash.com/photo-1517783997759-b519f727409c?w=800&auto=format&fit=crop&q=60",
+      "publishTime": "2026-10-22T00:30:00.000Z",
+      "createdAt": "2026-10-22T00:36:36.194Z",
+      "updatedAt": "2026-10-22T00:36:36.194Z"
+    }
+  ],
+  "batchStatus": {
+    "date": "2026-10-22",
+    "status": "COMPLETED",
+    "statusText": "已完成归档",
+    "generatedTime": "2026-10-22 08:30:00",
+    "nextScheduleTime": "明日 08:30:00 (每日晨报)",
+    "progress": 100,
+    "currentStage": "Gemini Spark (gemini-3.8-flash) 24H 简报生成与交叉校验完成"
+  },
+  "nobelQuote": {
+    "year": "1993 诺贝尔文学奖",
+    "author": "托妮·莫里森",
+    "work": "所罗门之歌",
+    "enAuthor": "Toni Morrison",
+    "enWork": "Song of Solomon",
+    "zh": "“要想展翅高飞，就必须抛弃那些拖累你的沉重负荷。”",
+    "en": "“If you wanna fly, you got to give up the stuff that weighs you down.”",
+    "batchDate": "2026-10-22"
+  }
+}

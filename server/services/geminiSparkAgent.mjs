@@ -44,7 +44,7 @@ export function setActiveModel(modelId) {
 }
 
 /**
- * 智库 Prompt 契约生成（支持注入往期已采摘研报负样本排重清单，确保新闻绝对新鲜、零重复）
+ * 智库 Prompt 契约生成（支持注入往期已采摘研报负样本排重清单，确保新闻绝对新鲜、零重复，并强化大型 AI 公司新动态采集）
  */
 export function buildSparkPrompt(targetDate, recentExclusionTitles = []) {
   let antiDuplicationSection = '';
@@ -64,31 +64,38 @@ ${formattedList}
 `;
   }
 
-  return `你是一个专注于全球前沿科技、地缘格局、全球金融以及全球气候变暖与清洁能源的高级自主情报智能体（Gemini Spark）。
+  return `你是一个专注于全球前沿人工智能（AI）巨头动态、地缘格局、全球金融以及全球气候变暖与清洁能源的高级自主情报智能体（Gemini Spark）。
 请检索并总结针对日期 ${targetDate} 的全球 24 小时最具战略影响力的核心大事件。
 ${antiDuplicationSection}
 【输出规范与契约约定】：
 1. 严格输出合法的 JSON 格式，不要包含任何 markdown 说明之外的文字。
-2. 篇数契约（强硬约束）：新闻总条数必须且严格输出满配 12 篇（不多不少，严禁缺漏少于 12 篇）。
-3. 四大领域硬性配额分布（合计整整 12 篇）：
-   - "ai"（全球 AI 与前沿算力）：精确输出 4 篇；
+2. 篇数契约（强硬约束）：新闻总条数必须且严格输出满配 16 篇（不多不少，严禁缺漏少于 16 篇）。
+3. 四大领域硬性配额分布（合计整整 16 篇，其中 AI 领域占半壁江山）：
+   - "ai"（全球 AI 与大型 AI 公司新动态/新进展）：精确输出 8 篇；
    - "finance"（全球金融与宏观资本）：精确输出 3 篇；
    - "geopolitics"（地缘政治与国际经贸）：精确输出 3 篇；
    - "climate"（气候变化与能源转型）：精确输出 2 篇。
-4. 影响力契约：
-   - 必须挑选最重大的 1 篇标记为 "critical"（作为 Bento Hero 头条）；
-   - 其余根据重要程度分配为 "high"（约 4~5 篇）或 "medium"（约 6~7 篇）。
-5. 深度自包含研报摘要契约（极其重要！）：
+4. 【核心重中之重】AI 领域 8 篇情报的“2+2+2+2”细分子配额与大型 AI 公司追踪雷达：
+   - 重点锁定全球与中国头部 AI 领军企业：硅谷巨头（OpenAI、Google DeepMind、Anthropic、Meta AI、xAI、Microsoft、Apple、NVIDIA、AMD）及中国头部 AI 力量（DeepSeek、阿里通义 Qwen、字节跳动 Seed/豆包、月之暗面 Kimi、智谱 AI、百川智能、MiniMax）。
+   - 8 篇 AI 研报必须严格覆盖以下四大前沿进展维度（每个维度各 2 篇，严禁全部扎堆单一芯片或泛泛监管话题）：
+     (a) 【新模型与多模态基座发布（2 篇）】：大型 AI 公司最新旗舰基座大模型、深度推理模型、原生多模态（语音/视频/图像/世界模型）的正式发布、版本迭代或权威基准评测（SWE-bench、AIME、Arena 等）跑分跃迁；
+     (b) 【Agent 智能体产品演进（2 篇）】：Coding Agent（AI 编程智能体）、Computer Use / OS 级系统操控智能体、多智能体协同工作流、旗舰级消费与企业 AI 应用的重磅功能上线或内测披露；
+     (c) 【重大开源突破与架构创新（2 篇）】：HuggingFace / GitHub 社区重磅 SOTA 模型权重开源、新型注意力机制/稀疏 MoE 架构创新、强化学习后训练（RLVR/合成数据）算法突破及 AI4Science 科研里程碑；
+     (d) 【商业化落地、天价融资并购与算力集群（2 篇）】：大型 AI 公司 ARR 营收里程碑、独角兽巨额融资/战略并购、核心实验室领军人物变动，以及十万卡级超算集群/自研 AI 芯片投产进展。
+5. 影响力契约：
+   - 必须挑选最重大的 1 篇标记为 "critical"（作为 Bento Hero 头条，优先从最具轰动效应的大型 AI 公司突破或重大宏观事件中遴选）；
+   - 其余根据重要程度分配为 "high"（约 6~7 篇）或 "medium"（约 8~9 篇）。
+6. 深度自包含研报摘要契约（极其重要！）：
    - 读者位于中国境内，受网络环境限制无法查阅外媒原文链接，因此每篇摘要（summary）必须是一篇“信息完整、自包含且论述严密的微型研报”，字数在 280 至 450 字之间，严禁两句话空泛概括！
    - 摘要结构必须严格涵盖以下核心要素，并统一使用中文方括号明确标出板块：
-     【时间与主体】：精确指出事件发生的具体时间点，以及牵涉的关键国家、主权机构、核心科技巨头或跨国金融组织；
-     【事件核心细节】：深入还原事实来龙去脉、关键技术突破或制程良率、重大协议条款或资金规模等详实事实；
-     【战略与深远影响】：深度剖析对全球产业链供应链重塑、地缘博弈平衡、资本流动或技术竞争格局的深层冲击。
-6. NLP 契约：
+     【时间与主体】：精确指出事件发生的具体时间点，以及牵涉的关键大型 AI 公司、核心实验室、主权机构或跨国金融组织；
+     【事件核心细节】：深入还原事实来龙去脉、新模型/Agent 关键技术参数与评测对比、架构创新细节、重大协议条款或融资金额等详实事实；
+     【战略与深远影响】：深度剖析对全球 AI 竞争格局、开发者生态、产业链重塑、资本流动或地缘博弈平衡的深层冲击。
+7. NLP 契约：
    - 每篇新闻必须包含 "sentiment" ("positive" | "neutral" | "negative")；
    - "sentimentScore"（浮点数 -1.0 到 +1.0）；
-   - "nlpKeyEntities"（3~5 个关键地名、机构名或核心术语）。
-7. 配图与信源契约：包含权威信源名称（如 Reuters, Bloomberg, FT 等）和高质量无版权新闻图片 URL。
+   - "nlpKeyEntities"（3~5 个关键 AI 大厂名、模型名、机构名或核心技术术语）。
+8. 配图与信源契约：包含权威信源名称（如 Reuters, Bloomberg, FT, MIT Tech Review, The Information, Nature 等）和高质量无版权新闻图片 URL。
 
 JSON 结构示例：
 {
@@ -105,11 +112,11 @@ JSON 结构示例：
       "category": "ai",
       "region": "North America",
       "impactLevel": "critical",
-      "summary": "【时间与主体】2026年9月29日，某核心主体...【事件核心细节】在最新举行的全球峰会上，披露关键参数突破...【战略与深远影响】这一重大突破将深刻重塑全球产业链，导致...",
-      "tags": ["AI", "Semiconductor"],
-      "sentiment": "neutral",
-      "sentimentScore": 0.05,
-      "nlpKeyEntities": ["NVIDIA", "TSMC", "US Department of Commerce"],
+      "summary": "【时间与主体】${targetDate}，OpenAI 与 Google DeepMind...【事件核心细节】在最新发布的旗舰推理与 Agent 架构中，披露关键参数突破...【战略与深远影响】这一重大进展将深刻重塑全球大模型与智能体竞争格局，导致...",
+      "tags": ["OpenAI", "Agent", "大模型发布"],
+      "sentiment": "positive",
+      "sentimentScore": 0.85,
+      "nlpKeyEntities": ["OpenAI", "DeepMind", "Autonomous Agents"],
       "coverUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
       "publishTime": "${targetDate}T06:30:00.000Z",
       "batchDate": "${targetDate}"
@@ -207,7 +214,7 @@ export async function generateDailyBriefing(
       throw lastError || new Error('所有 Gemini 官方候选模型均无法提供服务');
     }
 
-    await report('DISTILLING', 70, `跨语种长文提炼中，执行 AI/金融/地缘/气候 四大领域配额平衡...`);
+    await report('DISTILLING', 70, `跨语种长文提炼中，执行 AI(8篇)/金融(3篇)/地缘(3篇)/气候(2篇) 配额平衡...`);
     const data = await response.json();
     const textOutput = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
@@ -243,9 +250,10 @@ export async function generateDailyBriefing(
 }
 
 /**
- * 契约规范校准器（确保严格输出满配 12 篇、1 篇 critical、2 篇 climate，并执行严格防重去重）
+ * 契约规范校准器（确保严格输出满配 16 篇、8 篇 AI、1 篇 critical、2 篇 climate，并执行严格防重去重）
  */
 export function ensureBriefingContract(items, targetDate, recentExclusionTitles = []) {
+  const TARGET_TOTAL = 16;
   const normalize = (t) => (t || '')
     .replace(/^\[往期智库\]\s*/, '')
     .replace(/[\s\p{P}\p{S}]/gu, '')
@@ -267,24 +275,24 @@ export function ensureBriefingContract(items, targetDate, recentExclusionTitles 
   if (Array.isArray(recentExclusionTitles) && recentExclusionTitles.length > 0) {
     const exclusionNorms = new Set(recentExclusionTitles.map(normalize));
     const uniqueFromHistory = list.filter(it => !exclusionNorms.has(normalize(it.title)));
-    if (uniqueFromHistory.length >= 8) {
+    if (uniqueFromHistory.length >= 12) {
       list = uniqueFromHistory;
     }
   }
 
-  // 3. 补齐至满配 12 篇
-  if (list.length < 12) {
+  // 3. 补齐至满配 16 篇
+  if (list.length < TARGET_TOTAL) {
     const fallbackList = createGlobalDailyBatch(targetDate, 0);
     const existingNorms = new Set(list.map(i => normalize(i.title)));
     const exclusionNorms = new Set((recentExclusionTitles || []).map(normalize));
     const uniqueFallbacks = fallbackList.filter(i => !existingNorms.has(normalize(i.title)) && !exclusionNorms.has(normalize(i.title)));
-    list = [...list, ...uniqueFallbacks.slice(0, 12 - list.length)];
-    if (list.length < 12) {
+    list = [...list, ...uniqueFallbacks.slice(0, TARGET_TOTAL - list.length)];
+    if (list.length < TARGET_TOTAL) {
       const remainingFallbacks = fallbackList.filter(i => !existingNorms.has(normalize(i.title)));
-      list = [...list, ...remainingFallbacks.slice(0, 12 - list.length)];
+      list = [...list, ...remainingFallbacks.slice(0, TARGET_TOTAL - list.length)];
     }
-  } else if (list.length > 12) {
-    list = list.slice(0, 12);
+  } else if (list.length > TARGET_TOTAL) {
+    list = list.slice(0, TARGET_TOTAL);
   }
 
   // 确保有且仅有 1 篇 critical (使用不可变更新)
@@ -349,7 +357,7 @@ async function generateFallbackBriefing(targetDate, currentModel, report, skipSe
     await new Promise(r => setTimeout(r, delay));
   }
 
-  await report('DISTILLING', 70, `跨语种长文提炼中，执行 AI/金融/地缘/气候 四大领域配额平衡...`);
+  await report('DISTILLING', 70, `跨语种长文提炼中，执行 AI(8篇)/金融(3篇)/地缘(3篇)/气候(2篇) 配额平衡...`);
   await new Promise(r => setTimeout(r, delay));
 
   await report('NLP_ANALYSIS', 90, `正在进行宏观极性指数评估与命名实体抽取...`);
